@@ -1,0 +1,80 @@
+﻿@model IEnumerable<student_test>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.Title = "Student Class Page";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+<form asp-controller="StudentsClass" asp-action="studentCreate">
+    <label for="name">name</label>
+    <input name="name" type="text" />
+    <label for="student_id">student_id</label>
+    <input name="student_id" type="text" />
+    <label for="city">city</label>
+    <input id="city" name="city" type="text" />
+    <label for="chinese">chinese</label>
+    <input id="chinese" name="chinese" type="number" />
+    <label for="math">math</label>
+    <input id="math" name="math" type="text" />
+    <button type="submit">Create student test Data</button>
+</form>
+
+
+<table class="table">
+   <thead>
+       <tr>
+            <th>
+              @Html.DisplayNameFor(model => model.id) 
+            </th>
+            <th>
+              @Html.DisplayNameFor(model => model.name) 
+            </th>
+            <th>
+              @Html.DisplayNameFor(model => model.student_id) 
+            </th>
+            <th>
+              @Html.DisplayNameFor(model => model.city) 
+            </th>
+            <th>
+              @Html.DisplayNameFor(model => model.chinese) 
+            </th>
+            <th>
+              @Html.DisplayNameFor(model => model.math) 
+            </th>
+       </tr>
+   </thead> 
+   <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelitem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelitem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelitem => item.student_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelitem => item.city)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelitem => item.chinese)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelitem => item.math)
+                    </td>
+                    <td>
+                        <a class="me-2" asp-controller="StudentsClass" asp-action="Edit"  asp-route-id="@item.id">Edit</a>
+                        <a asp-controller="StudentsClass" asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                    </td>
+                </tr>
+            }
+   </tbody>
+</table>
+

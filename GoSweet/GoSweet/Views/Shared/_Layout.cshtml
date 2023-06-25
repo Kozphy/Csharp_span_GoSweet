@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GoSweet</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/custom.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/GoSweet.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js" />
+
+</head>
+
+
+<body>
+    <header>
+        <div class="pt-3">
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4 d-flex justify-content-center">
+                    <div class="brand-section">
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                            <img class="GoSweetLogo " style="width:150px; height:70px; object-fit:cover" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version=true>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <div class="my-auto d-flex align-items-center">
+                        <div class="me-3 count-red-circle-parent">
+                            <i class="bi bi-bell-fill nav-icon  p-2"></i>
+                            <span class="count-red-circle">0</span>
+                        </div>
+                        <div class="me-3 count-red-circle-parent">
+                            <i class="bi bi-cart-fill nav-icon  p-2"></i>
+                            <span class="count-red-circle">0</span>
+                        </div>
+                        <div class="me-3">
+                            <i class="bi bi-person-fill nav-icon p-2"></i>
+                        </div>
+                        <div class="me-3">
+                            <button type="button" class="btn btn-outline-secondary LayoutSwitchBtn">顧客</button>
+                            @*<span class="me-4 p-0 nav-icon">顧客</span>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container search-bar-section">
+            <form class="search-bar" role="search">
+                <div class="row">
+                    <div class="col-12 col-md-10">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    </div>
+
+                    <div class="col-6 col-md-1 mt-2 mt-md-0 px-0 d-flex justify-content-center">
+                        <button class="btn btn-outline-mute-3" type="submit">搜尋商品</button>
+                    </div>
+                    <div class="col-6 col-md-1 mt-2 mt-md-0 px-0 d-flex justify-content-center">
+                        <button class="btn btn-outline-mute-4" type="submit">搜尋團購</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-mute-1 border-bottom box-shadow mb-3 mt-alert-mute-2 ">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 justify-content-around">
+                        <li class="nav-item">
+                            <a class="nav-link text-black " asp-controller="Home" asp-action="Index">首頁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">商品</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">團購</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">合作廠商</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">關於我們</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">F&Q</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <section class="side-btn-section">
+        <div>
+            <i class="bi bi-arrow-up-circle-fill"></i>
+        </div>
+        <div class="mt-3 count-red-circle-parent">
+            <i class="bi bi-chat-dots"></i>
+            <span class="count-red-circle" style="width:15px; height:15px">0</span>
+        </div>
+    </section>
+
+    <footer class="border-top footer text-muted py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-3 d-flex">
+                    <div class="my-auto">
+                        <img class="GoSweetLogo" style="width:150px; height:70px; object-fit:cover" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version=true>
+                    </div>
+                    <span class="d-block fw-bold my-auto ms-3 logoText">GO 菓</span>
+                </div>
+                <div class="col-3 d-flex flex-column ">
+                    <h2 class="py-2 text-center fw-bolder text-muted">Follow Us</h2>
+                    <div class="row  my-auto">
+                        <div class="col-3 text-center">
+                            <i class="bi bi-facebook footer-icon"></i>
+                        </div>
+                        <div class="col-3 text-center">
+                            <i class="bi bi-twitter footer-icon"></i>
+                        </div>
+                        <div class="col-3 text-center">
+                            <i class="bi bi-instagram footer-icon"></i>
+                        </div>
+                        <div class="col-3 text-center">
+                            <i class="bi bi-linkedin footer-icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 d-flex flex-column">
+                    <h2 class="text-muted fw-bolder text-center py-2">聯繫我們</h2>
+                    <div class="p-2 my-auto text-center">
+                        <p class="mb-2">電話:09-89564628</p>
+                        <p>信箱:GoSweet@gmail.com</p>
+                    </div>
+                </div>
+                <div class="col-3 d-flex flex-column">
+                    <h2 class="text-muted fw-bolder text-center py-2">營業資訊</h2>
+                    <div class="p-2 my-auto">
+                        <p class="mb-2">地址: 台中市南屯區公益路二段51號18樓</p>
+                        <p>
+                            營業時間:週一 ~ 週五 08:30 ~ 18:00
+                            週六 08:30 ~ 12:00
+                        </p>
+                    </div>
+                </div>
+            </div>
+            @*<a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
+        </div>
+        <div class="copyRight text-center bg-mute-3  py-3  text-white">
+            &copy; 2023 - GoSweet - All Rights Reserved.
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
