@@ -2,8 +2,57 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+<link rel="stylesheet" href="~/css/Home/productHotRank.css" />
+
+
+<div class="container home-section">
+    @*landing page*@
+    <section class="landpage">
+        <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
+    </section>
+
+    @*商品熱銷排行 *@
+    <section class="product-hot-rank bg-body-tertiary">
+        <div class="product-category">
+            <div class="display-6 text-center py-3">
+                <h2>商品熱銷排行</h2>
+                <p class="lead text-muted">Choose what category you want</p>
+            </div>
+
+            <div class="row">
+                <div class="col-3 text-center">
+                    <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+                </div>
+                <div class="col-3 text-center">
+                    <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+                </div>
+                <div class="col-3 text-center">
+                    <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+                </div>
+                <div class="col-3 text-center">
+                    <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-rank">
+            <h2 class="text-muted">XX種類熱銷排行</h2>
+            <p>1234</p>
+            @*splide js*@
+            <section class="splide" aria-label="Splide Basic HTML Example">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">Slide 01</li>
+                        <li class="splide__slide">Slide 02</li>
+                        <li class="splide__slide">Slide 03</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </section>
 </div>
 
+
+<script src="~/js/Home/Home.js" type="module"></script>

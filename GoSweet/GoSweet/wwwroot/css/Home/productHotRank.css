@@ -1,0 +1,12 @@
+﻿.home-section {
+    margin-top:175px;
+}
+
+.btn-hover-bg:hover {
+   background-color:rgba(0,0,0,0.2) ;
+}
+
+.product-rank img{
+    width:100%;
+    height:auto;
+}
