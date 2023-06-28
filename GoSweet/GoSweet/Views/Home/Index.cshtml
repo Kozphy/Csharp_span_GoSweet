@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="~/css/Home/productHotRank.css" />
 
 
-<div class="container home-section">
+<div class="container body-section">
     @*landing page*@
     <section class="landpage">
         <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
@@ -16,8 +16,8 @@
     @*商品熱銷排行 *@
     <section class="product-hot-rank bg-body-tertiary">
         <div class="product-category">
-            <div class="display-6 text-center py-3">
-                <h2>商品熱銷排行</h2>
+            <div class=" text-center py-3">
+                <h2 class="display-6">商品熱銷排行</h2>
                 <p class="lead text-muted">Choose what category you want</p>
             </div>
 
@@ -37,22 +37,123 @@
             </div>
         </div>
 
-        <div class="product-rank">
-            <h2 class="text-muted">XX種類熱銷排行</h2>
-            <p>1234</p>
+        <div class="product-rank px-3 ">
+            <h2 class="text-muted py-2">XX種類熱銷排行</h2>
             @*splide js*@
             <section class="splide" aria-label="Splide Basic HTML Example">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <li class="splide__slide">Slide 01</li>
-                        <li class="splide__slide">Slide 02</li>
-                        <li class="splide__slide">Slide 03</li>
-                    </ul>
+                <div class="splide__slider">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <li class="splide__slide">
+                                <div class="splide__slide__container">
+                                    <div class="product-rank-img-section card">
+                                        <img class="card-img-top" src="~/img/download (1).jpg" />
+                                    </div>
+                                    <div class="card-title py-2 text-center">
+                                        Title 01
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="text-center card-text">
+                                            Description 01
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        大約xxx人購買
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="splide__slide__container">
+                                    <div class="product-rank-img-section card">
+                                        <img class="card-img-top" src="~/img/190708-9267-0-YUH4l.jpg" />
+                                    </div>
+                                    <div class="card-title">
+                                        Title 02
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="text-center card-text">
+                                            Description 02
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        大約xxx人購買
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="splide__slide__container">
+                                    <div class="product-rank-img-section card">
+                                        <img class="card-img-top" src="~/img/bread-baguette-icon.jpg" />
+                                    </div>
+                                    <div class="card-title">
+                                        Title 03
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="text-center card-text">
+                                            Description 03
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        大約xxx人購買
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </section>
+        </div>
+    </section>
+
+    @*最新消息*@
+    <section class="news-section">
+        <div class=" text-center py-3">
+            <h2 class="display-6">最新消息</h2>
+            <p class="lead text-muted">Hey watch here...</p>
+        </div>
+        <div class="row gy-3">
+            <div class="col-md-4">
+                <div class="news-img-section img-thumbnail">
+                    <img src="~/img/Home/咕咕霍夫.jpg" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="text-center py-2">
+                    <h3 class="news-paragraph-title d-inline-block">
+                        咕咕霍夫
+                    </h3>
+                    <span class="badge rounded-pill bg-mute-2 ">新品</span>
+                </div>
+                <div class="news-paragraph-content  p-5">
+                    <p class="lh-base">咕咕霍夫就是一種法國阿爾薩斯地區特產的皇冠型甜點👑，看那具有花紋的外表以及中空特色的樣子，的確和皇冠有幾分相似呢</p>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class=" text-center py-2">
+                    <h3 class="news-paragraph-title d-inline-block">
+                        小熊泡芙
+                    </h3>
+                     <span class="badge rounded-pill bg-mute-2 ">新品</span>
+                </div>
+                <div class="news-paragraph-content p-5">
+                    <p class="lh-base">小熊泡芙的外觀可愛俏皮，形狀像一隻小熊，因此得名。它通常由蓬鬆的泡芙皮製成，外層金黃酥脆，內部鬆軟且濕潤。泡芙皮充滿了空氣，使得整個甜點輕盈可口</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="news-img-section img-thumbnail">
+                    <img src="~/img/Home/小熊泡芙.jfif" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @*熱門團購專區*@
+    <section class="popular-group-buy-section ">
+        <div class="py-3">
+            <h2 class="display-6 text-center">熱門團購專區</h2>
         </div>
     </section>
 </div>
 
 
-<script src="~/js/Home/Home.js" type="module"></script>

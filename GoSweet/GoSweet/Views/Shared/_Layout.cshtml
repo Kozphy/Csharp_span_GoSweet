@@ -169,15 +169,33 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+
    @*
        third party package
    *@ 
     <script src="~/lib/splidejs/js/splide.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
     <script>
-        new Splide('.splide').mount();
+        let splide = new Splide('.splide', {
+            type: 'loop',
+            autoplay: 'pause',
+            perPage: 3,
+            gap:'1rem',
+            pagination:false,
+            class:{
+                arrows: 'splide__arrows',
+                arrow : 'splide__arrow',
+                prev  : 'splide__arrow--prev',
+                next  : 'splide__arrow--next',
+            },
+            arrows:false,
+        },
+        )
+        splide.mount();
     </script>
+
 </body>
 </html>

@@ -53,3 +53,8 @@ body {
 	background-color: #F7F1F0;
     font-family: ‘Noto Sans TC’, sans-serif;
 }
+
+/* 內容顯示在 navbar 高度下*/
+.body-section {
+	margin-top:175px;
+}

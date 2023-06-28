@@ -1,12 +1,47 @@
-﻿.home-section {
-    margin-top:175px;
-}
+﻿
 
 .btn-hover-bg:hover {
    background-color:rgba(0,0,0,0.2) ;
 }
 
+/* product rank*/
+/*.splide__pagination {
+  counter-reset: pagination-num;
+}
+
+.splide__pagination__page:before {
+  counter-increment: pagination-num;
+  content: counter( pagination-num );
+}*/
+
+.product-rank-img-section {
+    height:250px
+}
+
+img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.news-paragraph-title{
+    font-size:2rem;
+}
+
+.news-paragraph-content > p {
+    text-indent:2rem;
+
+}
+
+/*
 .product-rank img{
     width:100%;
-    height:auto;
+    height:100%;
+    object-fit:cover;
 }
+*/
+
+/*.splide__arrow {
+    background-color:#ff6a00;
+    color:white;
+}*/
