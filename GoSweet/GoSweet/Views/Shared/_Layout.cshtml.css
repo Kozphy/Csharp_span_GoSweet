@@ -1,14 +1,5 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
-
-/*logo*/
-img.GoSweetLogo {
-    width: 150px;
-    height: 70px;
-    object-fit:cover;
-}
-
 .nav-icon {
     font-size:20px;
     cursor:pointer;
@@ -22,6 +13,7 @@ img.GoSweetLogo {
     font-size:14px;
 }
 
+
 /*
 li.nav-item {
     background-color:blue !important;
@@ -29,15 +21,6 @@ li.nav-item {
 */
 
 
-.nav-link {
-    cursor: pointer;
-    transition: background-color 0.5s;
-    padding: 0px 50px;
-}
-
-.nav-link:hover {
-    background-color: rgba(0,0,0,0.1);
-}
 
 .side-btn-section {
     position:fixed;

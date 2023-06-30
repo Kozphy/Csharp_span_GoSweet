@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string? currentPage = @ViewContext.RouteData.Values["controller"]!.ToString();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +11,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GoSweet.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
    @*
        third party package
    *@ 
@@ -18,6 +22,8 @@
 
 
 <body>
+    @if (!currentPage.Equals("Login") && !currentPage.Equals("SignUp"))
+    {
     <header class="bg-mute-1 w-100 fixed-top">
         <div class="pt-3">
             <div class="row">
@@ -25,7 +31,7 @@
                 <div class="col-4 d-flex justify-content-center">
                     <div class="brand-section">
                         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                            <img class="GoSweetLogo " style="width:150px; height:70px; object-fit:cover" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version=true>
+                            <img class="GoSweetLogo " src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version=true>
                         </a>
                     </div>
                 </div>
@@ -77,34 +83,52 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-around">
                         <li class="nav-item">
-                            <a class="nav-link text-black " asp-controller="Home" asp-action="Index">首頁</a>
+                            <a class="nav-link text-black px-5" asp-controller="Home" asp-action="Index">首頁</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">商品</a>
+                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">商品</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">團購</a>
+                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">團購</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">合作廠商</a>
+                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">合作廠商</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">關於我們</a>
+                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">關於我們</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Privacy">F&Q</a>
+                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">F&Q</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+        
+    }
+
+    @if (!currentPage.Equals("Login") && !currentPage.Equals("SignUp"))
+    {
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+
+    @*At login and signUp page *@
+    @if (currentPage.Equals("Login") || currentPage.Equals("SignUp"))
+    {
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>
+    }
 
+
+
+    @if (!currentPage.Equals("Login") && !currentPage.Equals("SignUp"))
+    {
     <section class="side-btn-section">
         <div>
             <i class="bi bi-arrow-up-circle-fill"></i>
@@ -166,6 +190,8 @@
         </div>
     </footer>
 
+        
+    }
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -179,22 +205,24 @@
    *@ 
     <script src="~/lib/splidejs/js/splide.js"></script>
     <script>
-        let splide = new Splide('.splide', {
-            type: 'loop',
-            autoplay: 'pause',
-            perPage: 3,
-            gap:'1rem',
-            pagination:false,
-            class:{
-                arrows: 'splide__arrows',
-                arrow : 'splide__arrow',
-                prev  : 'splide__arrow--prev',
-                next  : 'splide__arrow--next',
+        document.addEventListener( 'DOMContentLoaded', function() {
+            let splide = new Splide('.splide', {
+                type: 'loop',
+                autoplay: 'pause',
+                perPage: 3,
+                gap:'1rem',
+                pagination:false,
+                class:{
+                    arrows: 'splide__arrows',
+                    arrow : 'splide__arrow',
+                    prev  : 'splide__arrow--prev',
+                    next  : 'splide__arrow--next',
+                },
+                arrows:false,
             },
-            arrows:false,
-        },
-        )
-        splide.mount();
+            )
+            splide.mount();
+        });
     </script>
 
 </body>
