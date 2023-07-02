@@ -1,0 +1,10 @@
+@tailwind base; 
+@tailwind components; 
+@tailwind utilities;
+
+@screen md {
+
+    .class {
+        @apply w-[100px] h-[100px];
+    }
+}

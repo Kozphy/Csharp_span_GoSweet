@@ -1,0 +1,36 @@
+﻿/*customize*/
+.shopCart-dropdown-menu {
+    position:absolute;
+    top:20px;
+    right:10px;
+    transform:scaleY(0);
+}
+
+.shopCart-dropdown-menu  img{
+    width:50px;
+    height:50px;
+    object-fit:cover;
+}
+
+.info-icon {
+ font-size:30px
+}
+
+.shopCart-dropdown-menu-show {
+    animation: growDown 0.5s ease-in-out forwards;
+    transform-origin: top center;
+}
+
+@keyframes growDown {
+    0% {
+        transform: scaleY(0)
+    }
+    80% {
+        transform: scaleY(1.1)
+    }
+    100% {
+        transform: scaleY(1)
+    }
+}
+
+

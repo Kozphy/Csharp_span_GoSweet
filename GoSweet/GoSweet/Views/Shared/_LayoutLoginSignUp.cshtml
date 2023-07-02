@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <title>@ViewData["Title"] - GoSweet</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/custom.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/GoSweet.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Layout/HomeIcon.css" asp-append-version="true" />
+    @*
+    third party package
+    *@
+    <link rel="stylesheet" href="~/lib/splidejs/css/splide.min.css" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js" />*@
+
+</head>
+<body>
+    <main role="main" >
+        @RenderBody()
+    </main>
+</body>
+</html>

@@ -1,16 +1,17 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 .nav-icon {
-    font-size:20px;
-    cursor:pointer;
+    font-size: 20px;
+    cursor: pointer;
     transition: background-color 0.5s;
 }
+
 .nav-icon:hover {
     background-color: rgba(0,0,0,0.1);
 }
 
 .LayoutSwitchBtn {
-    font-size:14px;
+    font-size: 14px;
 }
 
 
@@ -23,47 +24,47 @@ li.nav-item {
 
 
 .side-btn-section {
-    position:fixed;
-    right:30px;
-    bottom:30px;
-    font-size:35px;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    font-size: 35px;
 }
 
 .chatBtn {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .count-red-circle-parent {
-    position:relative;
+    position: relative;
 }
 
 .count-red-circle {
-    position:absolute;
-    top:-5px;
-    right:0;
-    width:13px;
-    height:13px;
-    color:white;
-    background-color:red;
-    border-radius:50%;
-    font-size:10px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    position: absolute;
+    top: -5px;
+    right: 0;
+    width: 13px;
+    height: 13px;
+    color: white;
+    background-color: red;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* footer */
 footer {
-    color:white;
+    color: white;
     /*background-color:#262220;*/
 }
 
-footer .logoText {
-    font-size:20px
-}
+    footer .logoText {
+        font-size: 20px
+    }
 
 .footer-icon {
-    font-size:20px;
+    font-size: 20px;
 }
 
 
@@ -117,3 +118,4 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }*/
+

@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "test": "echo \"Error: no test spcified\" && exit 1",
+    "build": "tailwind -i public/css/tailwind.css -o ../Content/app.css --minify",
+    "jit": "tailwindcss -i public/css/tailwind.css -o ../Content/app.css -w"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "postcss-cli": "^10.1.0",
+    "tailwindcss": "^3.3.2"
+  }
+}

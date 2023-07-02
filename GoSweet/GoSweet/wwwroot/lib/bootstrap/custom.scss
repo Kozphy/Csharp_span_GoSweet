@@ -5,7 +5,8 @@ $custom-colors: (
    "mute-1": #F7F1F0,
    "mute-2": #C3A6A0,
    "mute-3": #A15C38,
-   "mute-4": #262220
+   "mute-4": #262220,
+   "mute-5": #B2A5AE,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);

@@ -1,3 +1,19 @@
-﻿.form-title-box {
-    padding:0 100px;
+﻿body {
+    overflow:hidden;
 }
+.login-form {
+}
+.form-title-box {
+    padding:0 150px;
+}
+
+.loginBtn:hover,
+.signUpBtn:hover{
+   background-color: rgba(0,0,0,0.1); 
+}
+
+/*.login-section {
+    position:relative;
+}*/
+
+
