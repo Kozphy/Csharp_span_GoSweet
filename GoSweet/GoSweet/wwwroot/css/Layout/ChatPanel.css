@@ -1,32 +1,42 @@
 ﻿/* customize */
 .chat-section {
     position:absolute;
-    bottom:80px;
-    right:25px;
+    bottom:25px;
+    right:30px;
     transform:scaleY(0);
+    transition-duration: 0.5s;
+    transform-origin:bottom center;
+    width:700px;
 }
-.search-list img {
-    object-fit:cover;
+
+
+.remote-user > img{
+   height:50px; 
+   width:50px;
+   object-fit:cover;
 }
 
 .chat-text {
     font-size:16px;
 }
-
+.chat-left {
+    height:300px;
+    overflow-y:scroll;
+}
 .chat-panel {
     height:300px;
     overflow-y: scroll;
 }
 
 .chat-section-show {
-    width:700px;
-    height:300px;
-    animation: chatPop;
+    transform:scaleY(1);
+/*    animation: chatPop;
     animation-duration:0.5s;
     animation-fill-mode:forwards;
-    transform-origin:right bottom;
+    transform-origin:right bottom;*/
 }
-@keyframes chatPop {
+
+/*@keyframes chatPop {
     0% {
         transform:scaleY(0);
     }
@@ -34,7 +44,7 @@
         transform:scaleY(1);
     }
 }
-
+*/
 /*.chat-close {
     background-color: rgba(0,0,0,0.2);
 }

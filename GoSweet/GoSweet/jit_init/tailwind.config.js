@@ -1,11 +1,10 @@
 module.exports = {
-  mode: 'jit',
-    purge: [
+    content: [
         '../Views/**/*.cshtml'
     ],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+    prefix: 'tw-'
 }

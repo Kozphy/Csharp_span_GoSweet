@@ -76,24 +76,28 @@
     top:20px;
     right:10px;
     transform:scaleY(0);
+    transition-duration:0.5s;
+    transform-origin:top center;
 }
 
 .info-icon {
- font-size:30px
+     font-size:30px
 }
 
 .bell-dropdown-menu-show {
-    animation: growDown 0.5s ease-in-out forwards;
-    transform-origin: top center;
+    transform: scaleY(1);
 }
+/*    animation: growDown 0.5s ease-in-out forwards;
+    transform-origin: top center;
+}*/
 
-.bell-dropdown-menu-close {
+/*.bell-dropdown-menu-close {
     animation: growUp 0.5s ease-in-out forwards;
     transform-origin: top center;
 }
+*/
 
-
-@keyframes growDown {
+/*@keyframes growDown {
     0% {
         transform: scaleY(0)
     }
@@ -112,5 +116,5 @@
     100% {
         transform: scaleY(0)
     }
-}
+}*/
 

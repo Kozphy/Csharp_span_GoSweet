@@ -2,9 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-
-
 <link rel="stylesheet" href="~/css/Home/productHotRank.css" />
+<link rel="stylesheet" href="~/css/Home/processArticle.css"/>
+<link rel="stylesheet" href="~/css/Home/popularGroupBuy.css"/>
 
 
 <div class="container body-section">
@@ -13,29 +13,37 @@
         <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
     </section>
 
+
+
     @*商品熱銷排行 *@
     <section class="product-hot-rank bg-body-tertiary">
-        <div class="product-category">
-            <div class=" text-center py-3">
-                <h2 class="display-6">商品熱銷排行</h2>
-                <p class="lead text-muted">Choose what category you want</p>
+        <div class="product-category row mx-0">
+            <div class="col-md-12">
+                <div class=" text-center py-3">
+                    <h2 class="display-6">商品熱銷排行</h2>
+                    <p class="lead text-muted">Choose what category you want</p>
+                </div>
             </div>
-
-            <div class="row">
-                <div class="col-3 text-center">
-                    <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+            <div class="col-md-12">
+                <hr />
+                <div class="row">
+                    <div class="col-3 text-center">
+                        <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+                    </div>
+                    <div class="col-3 text-center">
+                        <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+                    </div>
+                    <div class="col-3 text-center">
+                        <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+                    </div>
+                    <div class="col-3 text-center">
+                        <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
+                    </div>
                 </div>
-                <div class="col-3 text-center">
-                    <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
-                </div>
-                <div class="col-3 text-center">
-                    <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
-                </div>
-                <div class="col-3 text-center">
-                    <button type="button" class="px-5 btn btn-hover-bg">商品種類1</button>
-                </div>
+                <hr />
             </div>
         </div>
+
 
         <div class="product-rank px-3 ">
             <h2 class="text-muted py-2">XX種類熱銷排行</h2>
@@ -46,19 +54,19 @@
                         <ul class="splide__list">
                             <li class="splide__slide">
                                 <div class="splide__slide__container">
-                                    <div class="product-rank-img-section card">
+                                    <div class="product-rank-section card">
                                         <img class="card-img-top" src="~/img/download (1).jpg" />
-                                    </div>
-                                    <div class="card-title py-2 text-center">
-                                        Title 01
-                                    </div>
-                                    <div class="card-body ">
-                                        <div class="text-center card-text">
-                                            Description 01
+                                        <div class="card-title py-2 text-center">
+                                            Title 01
                                         </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        大約xxx人購買
+                                        <div class="card-body ">
+                                            <div class="text-center card-text">
+                                                Description 01
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            大約xxx人購買
+                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -66,17 +74,35 @@
                                 <div class="splide__slide__container">
                                     <div class="product-rank-img-section card">
                                         <img class="card-img-top" src="~/img/190708-9267-0-YUH4l.jpg" />
-                                    </div>
-                                    <div class="card-title">
-                                        Title 02
-                                    </div>
-                                    <div class="card-body ">
-                                        <div class="text-center card-text">
-                                            Description 02
+                                        <div class="card-title py-2 text-center">
+                                            Title 02
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="text-center card-text">
+                                                Description 02
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            大約xxx人購買
                                         </div>
                                     </div>
-                                    <div class="card-footer">
-                                        大約xxx人購買
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="splide__slide__container">
+                                    <div class="product-rank-img-section card">
+                                        <img class="card-img-top" src="~/img/Home/咕咕霍夫.jpg" />
+                                        <div class="card-title py-2 text-center">
+                                            Title 03
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="text-center card-text">
+                                                Description 03
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            大約xxx人購買
+                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -84,17 +110,53 @@
                                 <div class="splide__slide__container">
                                     <div class="product-rank-img-section card">
                                         <img class="card-img-top" src="~/img/bread-baguette-icon.jpg" />
-                                    </div>
-                                    <div class="card-title">
-                                        Title 03
-                                    </div>
-                                    <div class="card-body ">
-                                        <div class="text-center card-text">
-                                            Description 03
+                                        <div class="card-title py-2 text-center">
+                                            Title 04
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="text-center card-text">
+                                                Description 04
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            大約xxx人購買
                                         </div>
                                     </div>
-                                    <div class="card-footer">
-                                        大約xxx人購買
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="splide__slide__container">
+                                    <div class="product-rank-img-section card">
+                                        <img class="card-img-top" src="~/img/bread-baguette-icon.jpg" />
+                                        <div class="card-title py-2 text-center">
+                                            Title 05
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="text-center card-text">
+                                                Description 05
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            大約xxx人購買
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="splide__slide__container">
+                                    <div class="product-rank-img-section card">
+                                        <img class="card-img-top" src="~/img/bread-baguette-icon.jpg" />
+                                        <div class="card-title py-2 text-center">
+                                            Title 06
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="text-center card-text">
+                                                Description 06
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            大約xxx人購買
+                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -113,8 +175,8 @@
         </div>
         <div class="row gy-3">
             <div class="col-md-4">
-                <div class="news-img-section img-thumbnail">
-                    <img src="~/img/Home/咕咕霍夫.jpg" />
+                <div class="news-img-section">
+                    <img class="rounded" src="~/img/Home/咕咕霍夫.jpg" />
                 </div>
             </div>
             <div class="col-md-8">
@@ -134,15 +196,15 @@
                     <h3 class="news-paragraph-title d-inline-block">
                         小熊泡芙
                     </h3>
-                     <span class="badge rounded-pill bg-mute-2 ">新品</span>
+                    <span class="badge rounded-pill bg-mute-2 ">新品</span>
                 </div>
                 <div class="news-paragraph-content p-5">
                     <p class="lh-base">小熊泡芙的外觀可愛俏皮，形狀像一隻小熊，因此得名。它通常由蓬鬆的泡芙皮製成，外層金黃酥脆，內部鬆軟且濕潤。泡芙皮充滿了空氣，使得整個甜點輕盈可口</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="news-img-section img-thumbnail">
-                    <img src="~/img/Home/小熊泡芙.jfif" />
+                <div class="news-img-section ">
+                    <img class="rounded" src="~/img/Home/小熊泡芙.jfif" />
                 </div>
             </div>
         </div>
@@ -153,7 +215,63 @@
         <div class="py-3">
             <h2 class="display-6 text-center">熱門團購專區</h2>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3  groupbuy-segment">
+                    
+                    <img src="~/img/190708-9267-0-YUH4l.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0 groupbuy-title">團購名稱</h5>
+                            <span class="badge text-bg-primary">剩餘時間 1 天</span>
+                        </div>
+                        <div class="p-2">
+                            <p class="card-text multiline-ellipsis-3 lh-base indent-2 ">團購是一種基於網際網路的商業模式，
+                                透過團購網站集合足夠人數，便可以優惠價格購買或使用第三方公司的物品、
+                                優惠券或服務，賣家薄利多銷，買家得到優惠，節省金錢，
+                                而運行團購網站的公司則從賣方收取傭金。 這個概念曾在論壇出現過</p>
+                        </div>
+                        <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                        </div>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+
 </div>
 
 
