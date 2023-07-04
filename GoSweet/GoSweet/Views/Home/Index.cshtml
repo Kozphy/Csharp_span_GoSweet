@@ -46,7 +46,7 @@
 
 
         <div class="product-rank px-3 ">
-            <h2 class="text-muted py-2">XX種類熱銷排行</h2>
+            <h2 class="text-muted py-2 product-rank-small-title">XX種類熱銷排行</h2>
             @*splide js*@
             <section class="splide" aria-label="Splide Basic HTML Example">
                 <div class="splide__slider">
@@ -218,8 +218,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card mb-3  groupbuy-segment">
-                    
-                    <img src="~/img/190708-9267-0-YUH4l.jpg" class="card-img-top" alt="...">
+                   <div class="position-relative">
+                        <img src="~/img/190708-9267-0-YUH4l.jpg" class="card-img-top" alt="...">
+                       <div class="groupbuy-segment-hover-content">
+                           <div class="hover-content-inner">
+                               <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
+                           </div>
+                       </div> 
+                   </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0 groupbuy-title">團購名稱</h5>
@@ -258,7 +264,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6">
                 <div class="card mb-3">
                     <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
