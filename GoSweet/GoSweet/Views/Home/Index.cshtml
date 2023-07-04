@@ -3,11 +3,11 @@
 }
 
 <link rel="stylesheet" href="~/css/Home/productHotRank.css" />
-<link rel="stylesheet" href="~/css/Home/processArticle.css"/>
-<link rel="stylesheet" href="~/css/Home/popularGroupBuy.css"/>
+<link rel="stylesheet" href="~/css/Home/processArticle.css" />
+<link rel="stylesheet" href="~/css/Home/popularGroupBuy.css" />
 
 
-<div class="container body-section">
+<div >
     @*landing page*@
     <section class="landpage">
         <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
@@ -16,7 +16,7 @@
 
 
     @*商品熱銷排行 *@
-    <section class="product-hot-rank bg-body-tertiary">
+    <section class="product-hot-rank  py-3">
         <div class="product-category row mx-0">
             <div class="col-md-12">
                 <div class=" text-center py-3">
@@ -24,6 +24,8 @@
                     <p class="lead text-muted">Choose what category you want</p>
                 </div>
             </div>
+
+            @*商品排行種類*@
             <div class="col-md-12">
                 <hr />
                 <div class="row">
@@ -44,7 +46,7 @@
             </div>
         </div>
 
-
+        @*商品排行內容*@
         <div class="product-rank px-3 ">
             <h2 class="text-muted py-2 product-rank-small-title">XX種類熱銷排行</h2>
             @*splide js*@
@@ -60,7 +62,7 @@
                                             Title 01
                                         </div>
                                         <div class="card-body ">
-                                            <div class="text-center card-text">
+                                            <div class="text-center card-text multiline-ellipsis-3">
                                                 Description 01
                                             </div>
                                         </div>
@@ -78,7 +80,7 @@
                                             Title 02
                                         </div>
                                         <div class="card-body ">
-                                            <div class="text-center card-text">
+                                            <div class="text-center card-text multiline-ellipsis-3">
                                                 Description 02
                                             </div>
                                         </div>
@@ -96,7 +98,7 @@
                                             Title 03
                                         </div>
                                         <div class="card-body ">
-                                            <div class="text-center card-text">
+                                            <div class="text-center card-text multiline-ellipsis-3">
                                                 Description 03
                                             </div>
                                         </div>
@@ -114,7 +116,7 @@
                                             Title 04
                                         </div>
                                         <div class="card-body ">
-                                            <div class="text-center card-text">
+                                            <div class="text-center card-text multiline-ellipsis-3">
                                                 Description 04
                                             </div>
                                         </div>
@@ -132,7 +134,7 @@
                                             Title 05
                                         </div>
                                         <div class="card-body ">
-                                            <div class="text-center card-text">
+                                            <div class="text-center card-text multiline-ellipsis-3">
                                                 Description 05
                                             </div>
                                         </div>
@@ -150,7 +152,7 @@
                                             Title 06
                                         </div>
                                         <div class="card-body ">
-                                            <div class="text-center card-text">
+                                            <div class="text-center card-text multiline-ellipsis-3">
                                                 Description 06
                                             </div>
                                         </div>
@@ -169,42 +171,45 @@
 
     @*最新消息*@
     <section class="news-section">
-        <div class=" text-center py-3">
+        <div class=" text-center py-3 ">
             <h2 class="display-6">最新消息</h2>
-            <p class="lead text-muted">Hey watch here...</p>
+            <p class="lead text-muted">Watch news here...</p>
         </div>
-        <div class="row gy-3">
-            <div class="col-md-4">
-                <div class="news-img-section">
-                    <img class="rounded" src="~/img/Home/咕咕霍夫.jpg" />
+        <div class="news-body px-3">
+            <div class="row gy-3">
+                <div class="col-md-4">
+                    <div class="news-img-section">
+                        <img class="rounded" src="~/img/Home/咕咕霍夫.jpg" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-8">
-                <div class="text-center py-2">
-                    <h3 class="news-paragraph-title d-inline-block">
-                        咕咕霍夫
-                    </h3>
-                    <span class="badge rounded-pill bg-mute-2 ">新品</span>
-                </div>
-                <div class="news-paragraph-content  p-5">
-                    <p class="lh-base">咕咕霍夫就是一種法國阿爾薩斯地區特產的皇冠型甜點👑，看那具有花紋的外表以及中空特色的樣子，的確和皇冠有幾分相似呢</p>
-                </div>
-            </div>
 
-            <div class="col-md-8">
-                <div class=" text-center py-2">
-                    <h3 class="news-paragraph-title d-inline-block">
-                        小熊泡芙
-                    </h3>
-                    <span class="badge rounded-pill bg-mute-2 ">新品</span>
+                <div class="col-md-8">
+                    <div class="text-center py-2">
+                        <h3 class="news-paragraph-title d-inline-block">
+                            咕咕霍夫
+                        </h3>
+                        <span class="badge rounded-pill bg-mute-2 ">新品</span>
+                    </div>
+                    <div class="news-paragraph-content  p-5">
+                        <p class="lh-base">咕咕霍夫就是一種法國阿爾薩斯地區特產的皇冠型甜點👑，看那具有花紋的外表以及中空特色的樣子，的確和皇冠有幾分相似呢</p>
+                    </div>
                 </div>
-                <div class="news-paragraph-content p-5">
-                    <p class="lh-base">小熊泡芙的外觀可愛俏皮，形狀像一隻小熊，因此得名。它通常由蓬鬆的泡芙皮製成，外層金黃酥脆，內部鬆軟且濕潤。泡芙皮充滿了空氣，使得整個甜點輕盈可口</p>
+
+                <div class="col-md-8">
+                    <div class=" text-center py-2">
+                        <h3 class="news-paragraph-title d-inline-block">
+                            小熊泡芙
+                        </h3>
+                        <span class="badge rounded-pill bg-mute-2 ">新品</span>
+                    </div>
+                    <div class="news-paragraph-content p-5">
+                        <p class="lh-base">小熊泡芙的外觀可愛俏皮，形狀像一隻小熊，因此得名。它通常由蓬鬆的泡芙皮製成，外層金黃酥脆，內部鬆軟且濕潤。泡芙皮充滿了空氣，使得整個甜點輕盈可口</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="news-img-section ">
-                    <img class="rounded" src="~/img/Home/小熊泡芙.jfif" />
+                <div class="col-md-4">
+                    <div class="news-img-section ">
+                        <img class="rounded" src="~/img/Home/小熊泡芙.jfif" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -215,62 +220,118 @@
         <div class="py-3">
             <h2 class="display-6 text-center">熱門團購專區</h2>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card mb-3  groupbuy-segment">
-                   <div class="position-relative">
-                        <img src="~/img/190708-9267-0-YUH4l.jpg" class="card-img-top" alt="...">
-                       <div class="groupbuy-segment-hover-content">
-                           <div class="hover-content-inner">
-                               <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
-                           </div>
-                       </div> 
-                   </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0 groupbuy-title">團購名稱</h5>
-                            <span class="badge text-bg-primary">剩餘時間 1 天</span>
+        <div class="popular-buy-content px-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3  groupbuy-segment">
+                        <div class="position-relative">
+                            <img src="~/img/190708-9267-0-YUH4l.jpg" class="card-img-top" alt="...">
+                            <div class="groupbuy-segment-hover-content">
+                                <div class="hover-content-inner">
+                                    <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-2">
-                            <p class="card-text multiline-ellipsis-3 lh-base indent-2 ">團購是一種基於網際網路的商業模式，
-                                透過團購網站集合足夠人數，便可以優惠價格購買或使用第三方公司的物品、
-                                優惠券或服務，賣家薄利多銷，買家得到優惠，節省金錢，
-                                而運行團購網站的公司則從賣方收取傭金。 這個概念曾在論壇出現過</p>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0 groupbuy-title">團購名稱</h5>
+                                <span class="badge text-bg-primary">剩餘時間 1 天</span>
+                            </div>
+                            <div class="p-2">
+                                <p class="card-text multiline-ellipsis-3 lh-base indent-2 ">
+                                    團購是一種基於網際網路的商業模式，
+                                    透過團購網站集合足夠人數，便可以優惠價格購買或使用第三方公司的物品、
+                                    優惠券或服務，賣家薄利多銷，買家得到優惠，節省金錢，
+                                    而運行團購網站的公司則從賣方收取傭金。 這個概念曾在論壇出現過
+                                </p>
+                            </div>
+                            <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                            </div>
+                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                         </div>
-                        <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                         </div>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+
+
+        </div>
+    </section>
+
+    @*關於我們*@
+    <section class="about-us">
+        <div class="about-us-content p-3">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="left-content">
+                        <h2 class="display-6">Explore Our Products</h2>
+                        <span>You are allowed to use this HexaShop HTML CSS template. You can feel free to modify or edit this layout. You can convert this template as any kind of ecommerce CMS theme as you wish.</span>
+                        <div class="quote">
+                            <i class="fa fa-quote-left"></i><p>You are not allowed to redistribute this template ZIP file on any other website.</p>
+                        </div>
+                        <p>There are 5 pages included in this HexaShop Template and we are providing it to you for absolutely free of charge at our TemplateMo website. There are web development costs for us.</p>
+                        <p>If this template is beneficial for your website or business, please kindly <a rel="nofollow" href="https://paypal.me/templatemo" target="_blank">support us</a> a little via PayPal. Please also tell your friends about our great website. Thank you.</p>
+                        <div class="main-border-button">
+                            <a href="products.html">Discover More</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                <div class="col-lg-6">
+                    <div class="right-content">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="leather">
+                                    <h4>Leather Bags</h4>
+                                    <span>Latest Collection</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="first-image">
+                                    <img src="assets/images/explore-image-01.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="second-image">
+                                    <img src="assets/images/explore-image-02.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="types">
+                                    <h4>Different Types</h4>
+                                    <span>Over 304 Products</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

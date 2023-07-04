@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!-- bootstrap 日歷 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+</head>
+<script>
+
+</script>
+<body>
+    <!-- 最外端分割 -->
+    <div class="row" style="width: 99%;">
+        <div class="col-2"></div>
+        <div class="col-8" >
+            
+            <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-top: 50px;">
+                <h2 style="margin-left: 50px;" >訂單紀錄</h2>
+            </div>
+            <!-- 搜尋列開始 -->
+            <div style="margin-top: 50px; border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
+                <form action="" style="margin: 30px;">
+                    <div class="row">
+                        <div class="col-5">
+                            <label for="" style="font-size: 26px;">搜尋日期：</label>
+                            <input type = "date" name = "date">  
+                            <label for="" style="font-size: 26px;">到</label>
+                            <input type = "date" name = "date">
+                        </div>
+
+                        <div class="col-3">
+                            <label for="" style="font-size: 26px;">訂單狀態：</label>
+                            <select class="form-select form-select-lg mb-3" style="width: 50%; display: inline-block;"name="" id="">
+                                <option value="">全部</option>
+                                <option value="">已下單</option>
+                                <option value="">已結單</option>
+                                <option value="">待成團</option>
+                                <option value="">已成團</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="" style="font-size: 26px;">訂單類型：</label>
+                            <select class="form-select form-select-lg mb-3" style="width: 50%; display: inline-block;"name="" id="">
+                                <option value="">全部</option>
+                                <option value="">直購</option>
+                                <option value="">團購</option>
+                            </select>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                    <!-- 搜尋列分割 -->
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-4">
+                            <label for="" style="font-size: 26px;">訂單編號：</label>
+                            <input type="text">
+                        </div>
+
+                        <div class="col-4">
+                            <label for="" style="font-size: 26px;">廠商名稱：</label>
+                            <input type="text">
+                        </div>
+
+                        <div class="col-4">
+                            <label for="" style="font-size: 26px;">評分：</label>
+                            <select class="form-select form-select-lg mb-3" style="width: 50%; display: inline-block;" name="" id="">
+                                <option value="">全部</option>
+                                <option value="">高於4分</option>
+                                <option value="">高於3分</option>
+                                <option value="">低於3分</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row text-center"   >   
+                        <div class="col-3"></div>                    
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-primary btn-lg"  >搜尋訂單</button>
+                        </div>                    
+                        <div class="col-3"></div>                    
+                    </div>
+                </form>
+
+            </div>
+            <!-- 排序按鈕 -->
+            <div class="row" style="margin-top: 30px; margin-left: 0px;">
+                <div class="col-4" >
+                    
+                </div>
+                <div class="col-4" >
+                    
+                </div>
+                <div class="col-4">
+                    <label for="" style="font-size: 30px">排序：</label>
+                    <select class="form-select form-select-lg mb-3" style="width: 50%; display: inline-block;" aria-label=".form-select-lg example">
+                        <option selected>日期新到舊</option>
+                        <option value="1">價格高到低</option>
+                        <option value="2">價格低到高</option>
+                    </select>
+                </div>
+            </div>
+            <!-- 外框設定 -->
+            <div  style=" border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-bottom: 50px; height: 1800px;" >
+                <!-- 商品列表 -->
+                
+                <div class="row" style="margin: 20px;">
+                    <div class="col-3 mb-1">
+                        <a href=""><img src="/img/order/蛋糕.jpg" style="width: 100%;" alt=""></a>
+                    </div>
+                    <div class="col-3 mb-1">
+                        <table style="height: 100%;">
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">巴特里</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 24px; color: gray;">數量:3</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">已下單</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-3 mb-1">
+                        <table style="height: 100%;">
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">人氣爆漿餐包</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">種類：</label>
+                                    <label for="" style="font-size: 28px;">直購</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">未出貨</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-3 mb-1">
+                        <table style="height: 100%;">
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 24px;">下單日期：2023/06/23</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 66%;">
+                                <td>
+                                    <div class="row" style="height: 100%; ">
+                                        <div class="col-8 mb-1">
+                                            <table style="height: 100%; width: 100%; text-align: center">
+                                                <tr style="height: 66%;">
+                                                    <td>
+                                                        <label for="" style="font-size: 48px; color: red;">$999</label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 33%;">
+                                                    <td>
+                                                        <button type="submit" class="btn btn-primary btn-lg"  data-bs-toggle="modal" data-bs-target="#staticBackdrop"  >我要評分</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-4 mb-1">
+                                            <table style="height: 100%;">
+                                                
+                                                <tr style="height: 30%;">
+                                                    
+                                                </tr>
+                                                <tr style="height: 70%;">
+                                                    <td>
+                                                        <a href="/Talk_datatable/talk.html"><img src="/img/order/chat.png" style="width: 100%;" alt=""></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                       
+                    </div>
+                    
+                </div>
+
+                <!-- 二號商品 -->
+                <div class="row" style="margin: 20px;">
+                    <div class="col-3 mb-1">
+                        <a href=""><img src="/img/order/蛋糕2.jpg" style="width: 100%;" alt=""></a>
+                    </div>
+                    <div class="col-3 mb-1">
+                        <table style="height: 100%;">
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">麥之鄉</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 24px; color: gray;">數量:3</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">待成團</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-3 mb-1">
+                        <table style="height: 100%;">
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">法式楓糖烤布丁</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">種類：團購</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 28px;">未出貨</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-3 mb-1">
+                        <table style="height: 100%;">
+                            <tr style="height: 33%;">
+                                <td>
+                                    <label for="" style="font-size: 24px;">下單日期：2023/06/23</label>
+                                </td>
+                            </tr>
+                            <tr style="height: 66%;">
+                                <td>
+                                    <div class="row" style="height: 100%; ">
+                                        <div class="col-8 mb-1">
+                                            <table style="height: 100%; width: 100%; text-align: center">
+                                                <tr style="height: 66%;">
+                                                    <td>
+                                                        <label for="" style="font-size: 48px; color: red;">$999</label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 33%;">
+                                                    <td>
+                                                        <button type="submit" class="btn btn-primary btn-lg"  data-bs-toggle="modal" data-bs-target="#staticBackdrop"  >我要評分</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-4 mb-1">
+                                            <table style="height: 100%;">
+                                                
+                                                <tr style="height: 30%;">
+                                                    
+                                                </tr>
+                                                <tr style="height: 70%;">
+                                                    <td>
+                                                        <a href="/Talk_datatable/talk.html"><img src="/img/order/chat.png" style="width: 100%;" alt=""></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                       
+                    </div>
+                    
+                </div>
+                
+
+
+            </div>
+            <div >
+                <nav aria-label="Page navigation example" >
+                    <ul class="pagination pagination-lg justify-content-center"  >
+                      <li class="page-item"><a class="page-link" href="#">上一頁</a></li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
+                    </ul>
+                  </nav>
+            </div>
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" id="staticBackdropLabel">訂單詳細資料</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 互動表單內容 -->
+                <!-- 允許使用bootstrap row 排版 -->
+                <div class="container-fluid">
+                  <div class="mb-3">
+                    <h2>訂單編號：50010</h2>
+                  </div>
+                  <!-- 訂單資料顯示 -->
+                  <div class="row">
+                    <div class="col-4">
+                      <img src="/img/order/蛋糕.jpg" style="width: 100%;" alt="">
+                    </div>
+                    <div class="col-8">
+                      <table style="height: 100%;">
+                        <tr style="height: 33%;">
+                            <td>
+                                <label for="" style="font-size: 28px;">下單日期：2023/06/23</label>
+                            </td>
+                        </tr>
+                        <tr style="height: 33%;">
+                            <td>
+                                <label for="" style="font-size: 28px;">數量:3</label>
+                            </td>
+                        </tr>
+                        <tr style="height: 33%;">
+                            <td>
+                                <label for="" style="font-size: 48px; color: red;">$999</label>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                  </div>
+    
+                  <div>
+                    <div style="text-align: center; margin-top: 30px;">
+                      <label for="" style="font-size: 36px;">客戶評分：</label>
+                      <select  name="" id="myselect" class="form-select form-select-lg mb-3" style="width: 100px; display: inline-block;">
+                        <option value="">5</option>
+                        <option value="">4.5</option>
+                        <option value="">4</option>
+                        <option value="">3.5</option>
+                        <option value="">3</option>
+                        <option value="">2.5</option>
+                        <option value="">2</option>
+                        <option value="">1.5</option>
+                        <option value="">1</option>
+                      </select>
+                      <label for="" style="font-size: 36px;">分</label>
+                    </div>
+      
+                    <div style="text-align: center; margin-top: 30px; ">
+                      <label for="" style="font-size: 36px;">客戶評論：</label>
+                      <br>
+                      <textarea   rows="4" style="width: 450px; font-size: 28px; resize: none;" placeholder="請輸入評論"></textarea>
+                    </div>
+                  </div>
+    
+                  <div>
+                    <div style="text-align: center; margin-top: 30px;">
+                      <label for="" style="font-size: 36px;">廠商評分：</label>
+                      <label for="" style="font-size: 36px;">未評分</label>
+                    </div>
+      
+                    <div style="text-align: center; margin-top: 30px; ">
+                      <label for="" style="font-size: 36px;">廠商評論：</label>
+                      <br>
+                      <textarea   rows="4" style="width: 450px; font-size: 28px; resize: none;" disabled>無評論</textarea>
+                    </div>
+                  </div>
+                  
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-lg">儲存評分</button>
+              <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">離開</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+</body>
+</html>
