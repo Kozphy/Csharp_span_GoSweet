@@ -5,18 +5,19 @@
 <link rel="stylesheet" href="~/css/Home/productHotRank.css" />
 <link rel="stylesheet" href="~/css/Home/processArticle.css" />
 <link rel="stylesheet" href="~/css/Home/popularGroupBuy.css" />
+<link rel="stylesheet" href="~/css/Home/decoratorIcon.css" />
 
 
-<div>
+<div class="wrapper bg-white">
     @*landing page*@
-    <section class="landpage">
+    <section class="landpage container-fluid px-0">
         <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
     </section>
 
 
 
     @*商品熱銷排行 *@
-    <section class="product-hot-rank bg-body-tertiary pb-3">
+    <section class="container product-hot-rank pb-3">
         <div class="product-category row mx-0">
             <div class="col-md-12">
                 <div class=" text-center py-3">
@@ -47,7 +48,7 @@
         </div>
 
         @*商品排行內容*@
-        <div class="product-rank px-3 ">
+        <div class="container product-rank px-3 ">
             <h2 class="text-muted py-2 product-rank-small-title">XX種類熱銷排行</h2>
             @*splide js*@
             <section class="splide" aria-label="Splide Basic HTML Example">
@@ -169,54 +170,8 @@
         </div>
     </section>
 
-    @*最新消息*@
-    <section class="news-section">
-        <div class=" text-center py-3">
-            <h2 class="display-6">最新消息</h2>
-            <p class="lead text-muted">Watch news here...</p>
-        </div>
-        <div class="news-body px-3">
-            <div class="row gy-3">
-                <div class="col-md-4">
-                    <div class="news-img-section">
-                        <img class="rounded" src="~/img/Home/咕咕霍夫.jpg" />
-                    </div>
-                </div>
-
-                <div class="col-md-8">
-                    <div class="text-center py-2">
-                        <h3 class="news-paragraph-title d-inline-block">
-                            咕咕霍夫
-                        </h3>
-                        <span class="badge rounded-pill bg-mute-2 ">新品</span>
-                    </div>
-                    <div class="news-paragraph-content  p-5">
-                        <p class="lh-base">咕咕霍夫就是一種法國阿爾薩斯地區特產的皇冠型甜點👑，看那具有花紋的外表以及中空特色的樣子，的確和皇冠有幾分相似呢</p>
-                    </div>
-                </div>
-
-                <div class="col-md-8">
-                    <div class=" text-center py-2">
-                        <h3 class="news-paragraph-title d-inline-block">
-                            小熊泡芙
-                        </h3>
-                        <span class="badge rounded-pill bg-mute-2 ">新品</span>
-                    </div>
-                    <div class="news-paragraph-content p-5">
-                        <p class="lh-base">小熊泡芙的外觀可愛俏皮，形狀像一隻小熊，因此得名。它通常由蓬鬆的泡芙皮製成，外層金黃酥脆，內部鬆軟且濕潤。泡芙皮充滿了空氣，使得整個甜點輕盈可口</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="news-img-section ">
-                        <img class="rounded" src="~/img/Home/小熊泡芙.jfif" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     @*熱門團購專區*@
-    <section class="popular-group-buy-section ">
+    <section class="container popular-group-buy-section ">
         <div class="py-3">
             <h2 class="display-6 text-center">熱門團購專區</h2>
             <p class="leaded text-center text-muted">Popular groupbuy section..</p>
@@ -280,6 +235,114 @@
                             <h5 class="card-title">Card title</h5>
                             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    @*最新消息*@
+    <section class="container news-section">
+        <div class=" text-center py-3">
+            <h2 class="display-6">最新消息</h2>
+            <p class="lead text-muted">Watch news here...</p>
+        </div>
+        <div class="news-body px-3">
+            <div class="row gy-3">
+                <div class="col-md-4">
+                    <div class="news-img-section">
+                        <img class="rounded" src="~/img/Home/咕咕霍夫.jpg" />
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="text-center py-2">
+                        <h3 class="news-paragraph-title d-inline-block">
+                            咕咕霍夫
+                        </h3>
+                        <span class="badge rounded-pill bg-mute-2 ">新品</span>
+                    </div>
+                    <div class="news-paragraph-content  p-5">
+                        <p class="lh-base">咕咕霍夫就是一種法國阿爾薩斯地區特產的皇冠型甜點👑，看那具有花紋的外表以及中空特色的樣子，的確和皇冠有幾分相似呢</p>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class=" text-center py-2">
+                        <h3 class="news-paragraph-title d-inline-block">
+                            小熊泡芙
+                        </h3>
+                        <span class="badge rounded-pill bg-mute-2 ">新品</span>
+                    </div>
+                    <div class="news-paragraph-content p-5">
+                        <p class="lh-base">小熊泡芙的外觀可愛俏皮，形狀像一隻小熊，因此得名。它通常由蓬鬆的泡芙皮製成，外層金黃酥脆，內部鬆軟且濕潤。泡芙皮充滿了空氣，使得整個甜點輕盈可口</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="news-img-section ">
+                        <img class="rounded" src="~/img/Home/小熊泡芙.jfif" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @*propagate section*@
+    <section class="container propagate-section p-3">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="d-flex flex-column">
+                    <div class="card text-bg-light mb-3 bg-white border-0 shadow" >
+                        <div class="card-body border-0">
+                            <h2 class="card-title text-center ">
+                                <i class="bi bi-house-fill display-5 text-mute-3"></i>
+                            </h2>
+                            <h3 class="displa-6 text-center fw-fw-bolder">貨到付款</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex flex-column">
+                    <div class="card text-bg-light mb-3 bg-white border-0 shadow" >
+                        <div class="card-body border-0">
+                            <h2 class="card-title text-center ">
+                                <i class="bi bi-house-fill display-5 text-mute-3"></i>
+                            </h2>
+                            <h3 class="displa-6 text-center fw-fw-bolder">貨到付款</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="d-flex flex-column">
+                    <div class="card text-bg-light mb-3 bg-white border-0 shadow" >
+                        <div class="card-body border-0">
+                            <h2 class="card-title text-center ">
+                                <i class="bi bi-house-fill display-5 text-mute-3"></i>
+                            </h2>
+                            <h3 class="displa-6 text-center fw-fw-bolder">貨到付款</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="d-flex flex-column">
+                    <div class="card text-bg-light mb-3 bg-white border-0 shadow" >
+                        <div class="card-body border-0">
+                            <h2 class="card-title text-center ">
+                                <i class="bi bi-house-fill display-5 text-mute-3"></i>
+                            </h2>
+                            <h3 class="displa-6 text-center fw-fw-bolder">貨到付款</h3>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                     </div>
                 </div>
