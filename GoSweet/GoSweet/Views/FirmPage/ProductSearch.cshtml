@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/css/Firm/商品查詢.css">
+</head>
+<body>
+
+    <div class="container">
+        <p id="search">商品查詢</p>
+        <div id="block" style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
+            <label>商品名稱 &nbsp;&nbsp;</label>
+            <input type="search">
+            <br><br>
+            <label>商品類別 &nbsp;&nbsp;</label>
+            <select>
+                <option>蛋糕</option>
+                <option>餅乾</option>
+                <option>派</option>
+            </select>
+            <br><br>
+            <label>商品庫存數量 &nbsp;&nbsp;</label>
+            <input type="number" min="0"> - <input type="number" min="0">
+            <br><br>
+            <label>商品售出數量 &nbsp;&nbsp;</label>
+            <input type="number" min="0">
+            <br>
+            <br>
+            <label>團購商品 &nbsp;&nbsp;</label>
+            <input type="radio" id="yes"><label for="yes">是</label>
+            <input type="radio" id="no"><label for="no">否</label>
+            <br><br>
+            <label>商品編號 &nbsp;&nbsp;</label>
+            <input type="text">
+
+            <br>
+            </p>
+            <br>
+            <input type="button" value="搜尋" id="firmSearchButton">
+            <input type="reset" id="firmReset">
+        </div>
+        <br><br>
+
+        <div style="float:left;">
+            <button id="all">全部商品</button>
+        </div>
+        <div style="float:right;">
+            <button id="date">上架日期</button>
+            <button id="price">商品價格</button>
+            <button id="quantity">庫存數量</button>
+            <button id="sales">售出數量</button>
+        </div>
+
+        <table id=""
+               class="table_change">
+            <thead>
+                <tr>
+                    <th>商品圖片</th>
+                    <th>商品名稱</th>
+                    <th>商品規格</th>
+                    <th>商品類別</th>
+                    <th>商品編號</th>
+                    <th>上架日期</th>
+                    <th>商品價格</th>
+                    <th>庫存數量</th>
+                    <th>售出數量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="https://photo.yannick.com.tw/photo/0101196/1.jpg"
+                             style="height:100px;">
+                    </td>
+                    <td>皇家奶茶布丁生乳捲</td>
+                    <td>條</td>
+                    <td>蛋糕</td>
+                    <td>11112</td>
+                    <td>2023/7/4</td>
+                    <td>380元</td>
+                    <td>80</td>
+                    <td>150</td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <img src="https://photo.yannick.com.tw/photo/0101029/2.jpg"
+                             style="height:100px;">
+                    </td>
+                    <td>原味生乳捲</td>
+                    <td>條</td>
+                    <td>蛋糕</td>
+                    <td>11113</td>
+                    <td>2023/6/7</td>
+                    <td>380元</td>
+                    <td>80</td>
+                    <td>2000</td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <img src="https://photo.yannick.com.tw/photo/0103001/1.jpg"
+                             style="height:100px;">
+                    </td>
+                    <td>巴斯克生起司蛋糕</td>
+                    <td>600g</td>
+                    <td>蛋糕</td>
+                    <td>11111</td>
+                    <td>2023/6/30</td>
+                    <td>420元</td>
+                    <td>80</td>
+                    <td>600</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+
+        <div id="pagenumber">
+            <button>上一頁</button>
+            <label> 第1頁 / 共3頁</label>
+            <button>下一頁</button>
+        </div>
+
+        <br><br>
+
+        <!-- 團購商品 -->
+        <div style="float:left;">
+            <button id="all">全部商品</button>
+            <button id="all">團購商品</button>
+        </div>
+        <div style="float:right;">
+            <button id="date">開團日期</button>
+            <button id="price">商品價格</button>
+            <button id="quantity">庫存數量</button>
+            <button id="sales">售出數量</button>
+        </div>
+
+        <table id=""
+               class="table_change">
+            <thead>
+                <tr>
+                    <th>商品圖片</th>
+                    <th>商品名稱</th>
+                    <th>商品規格</th>
+                    <th>商品類別</th>
+                    <th>商品編號</th>
+                    <th>開團日期</th>
+                    <th>團購價格</th>
+                    <th>庫存數量</th>
+                    <th>售出數量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="https://photo.yannick.com.tw/photo/0101196/1.jpg"
+                             style="height:100px;">
+                    </td>
+                    <td>皇家奶茶布丁生乳捲</td>
+                    <td>條</td>
+                    <td>蛋糕</td>
+                    <td>11112</td>
+                    <td class="buydate">2023/7/1 - 2023/7/14</td>
+                    <td>320元</td>
+                    <td>80</td>
+                    <td>150</td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <img src="https://photo.yannick.com.tw/photo/0101029/2.jpg"
+                             style="height:100px;">
+                    </td>
+                    <td>原味生乳捲</td>
+                    <td>條</td>
+                    <td>蛋糕</td>
+                    <td>11113</td>
+                    <td class="buydate">2023/7/1 - 2023/7/14</td>
+                    <td>320元</td>
+                    <td>80</td>
+                    <td>2000</td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <img src="https://photo.yannick.com.tw/photo/0103001/1.jpg"
+                             style="height:100px;">
+                    </td>
+                    <td>巴斯克生起司蛋糕</td>
+                    <td>600g</td>
+                    <td>蛋糕</td>
+                    <td>11111</td>
+                    <td class="buydate">2023/7/1 - 2023/7/14</td>
+                    <td>380元</td>
+                    <td>80</td>
+                    <td>600</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <div id="pagenumber">
+            <button>上一頁</button>
+            <label> 第1頁 / 共3頁</label>
+            <button>下一頁</button>
+        </div>
+        <br>
+    </div>
+
+
+</body>
+</html>
