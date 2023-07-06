@@ -1,0 +1,80 @@
+body {
+    background-color: #ffff;
+    font-size: 28px;
+}
+
+.container {
+    background-color: #f7f1f0;
+    padding: 2%;
+}
+
+/*搜尋欄邊框*/
+#block {
+    padding: 2%;
+    padding-left: 9%;
+    background-color: #fff;
+}
+
+button {
+    border: none; /* 去除邊框 */
+    padding: 8px;
+    /* border-radius: 5%; */
+    /* background-color: #a15c38; */
+    background-color: #c3a6a0e1;
+}
+
+    button:hover {
+        background-color: #c3a6a09a;
+    }
+
+/* 標題文字 */
+#search {
+    font-size: 55px;
+}
+
+/*搜尋列表*/
+.table_change {
+    /*table格式*/
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+thead {
+    background-color: #c3a6a0;
+    th{
+    color: #fff;
+    font-weight: bold;
+        }
+}
+
+.buydate {
+    font-size: 18px;
+}
+
+/* 頁碼 */
+#pagenumber {
+    margin-left: 33%;
+}
+
+/*商品搜尋 重設按鈕設定*/
+#firmSearchButton {
+    background-color: #c3a6a0e1;
+    margin-left: 40%;
+    border-radius:5%;
+    padding:0.8%
+}
+#firmReset {
+    background-color: #c3a6a0e1;
+    margin-left: 1%;
+    border-radius: 5%;
+    padding: 0.8%
+}
+#firmSearchButton:hover {
+    background-color: #c3a6a09a;
+}
+
+#firmReset:hover {
+    background-color: #c3a6a09a;
+}

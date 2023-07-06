@@ -1,0 +1,74 @@
+body{
+    font-size: 28px;
+    background-color: #f7f1f0;
+}
+/* .container{
+    background-color: #f7f1f0;
+    padding: 3%;
+} */
+
+/* 大標題文字 */
+#shelves{
+    font-size: 55px;
+    padding: 1%;
+}
+
+/* 中標題文字設定 */
+#productdata{
+    font-size: 40px;
+}
+#productset{
+    font-size: 40px;
+}
+#deliver{
+    font-size: 40px;
+}
+#payment{
+    font-size: 40px;
+}
+
+/* sidebar設定 */
+.sidebar{
+    position: fixed;
+    top:207px;
+    bottom:419px;
+/*    float: left;*/
+/*    height: 100%;*/
+    background-color: #ffff;
+}
+.sidebar a {
+    display: flex;
+    color: black;
+}
+
+.sidebar a:hover {
+    color: #f3ba7e
+}
+/* sidebar設定 end */
+
+.datacontent {
+    padding-left: 8%;
+    padding-right: 8%;
+}
+
+/*上架 預覽按鈕設定*/
+#gosaleButton {
+    background-color: #c3a6a0e1;
+    border-radius: 5%;
+    padding: 0.8%;
+    margin-left:45%;
+}
+#viewButton {
+    background-color: #c3a6a0e1;
+    border-radius: 5%;
+    padding-left:1%;
+    padding: 0.8%;
+    margin-left:1%;
+}
+#gosaleButton:hover {
+    background-color: #c3a6a09a;
+}
+#viewButton:hover {
+    background-color: #c3a6a09a;
+}
+/*上架 預覽按鈕設定 end */
