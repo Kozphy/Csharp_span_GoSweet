@@ -1,4 +1,4 @@
-body{
+#productSaleContent {
     font-size: 28px;
     background-color: #f7f1f0;
 }
@@ -6,9 +6,8 @@ body{
     background-color: #f7f1f0;
     padding: 3%;
 } */
-
 /* 大標題文字 */
-#shelves{
+#shelves {
     font-size: 55px;
     padding: 1%;
 }
@@ -28,21 +27,28 @@ body{
 }
 
 /* sidebar設定 */
-.sidebar{
-    position: fixed;
+.sidebar {
+    position: sticky;
+    top: 20%;
     float: left;
-    height: 100%;
+    height: 100vh;
     background-color: #ffff;
+    overflow-y: auto;
+    z-index: 1;
+    /*    bottom: px;*/
 }
 .sidebar a {
     display: flex;
     color: black;
 }
 
-.sidebar a:hover {
-    color: #f3ba7e
-}
+/*改sidebar 內文字 id="sidebarContent"    */
+
+/*    .sidebar a:hover {
+        color: #c3a6a0e1
+    }*/
 /* sidebar設定 end */
+
 
 .datacontent {
     padding-left: 8%;
