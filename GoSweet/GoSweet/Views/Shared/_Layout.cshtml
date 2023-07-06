@@ -230,7 +230,7 @@
 
 
 
-    <div class="body-section ">
+    <div class="body-section">
         <main role="main" class="pb-3 bg-body-tertiary">
             @RenderBody()
         </main>
@@ -401,6 +401,7 @@
     @*
     third party package
     *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/splidejs/js/splide.js"></script>
     <script src="~/lib/splidejs/splide-extension-grid/dist/js/splide-extension-grid.js"></script>
     @if (!currentPage.Equals("Login") && !currentPage.Equals("SignUp"))
@@ -433,6 +434,9 @@
             });
         </script>
     }
+
+
+
 
 
 </body>
