@@ -1,0 +1,26 @@
+body{
+    font-size: 28px;
+    background-color: #f7f1f0;
+}
+
+#marketdata{
+    font-size: 55px;
+}
+
+.container {
+    padding: 2%;
+/*    scroll-padding-top: 3rem;*/
+}
+
+#content{
+    padding: 2%;
+    padding-left: 5%;
+    background-color: #ffff;
+
+}
+
+/* 廠商資料文字 設定 */
+#editdata {
+    background-color: #ffff;
+    border: none;
+}
