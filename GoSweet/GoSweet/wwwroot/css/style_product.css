@@ -1,0 +1,54 @@
+body {
+    display: flex;
+    background-color: #F7F1F0;
+    margin: 0;
+    padding: 0;
+}
+
+.row>* {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#imgMain {
+    /* margin-left: 150px; */
+    padding-left: 150px;
+}
+
+.d-flex a {
+    /* padding: 5px 20px; */
+    background-color: #A15C38;
+    color: #F7F1F0;
+    /* margin: auto; */
+    margin: 30px;
+}
+
+.introduce {
+    font-size: 28px;
+}
+
+#buyNum{
+    width: 100px;
+    text-align: center;
+}
+
+#img1{
+    margin-left: 150px;
+}
+
+.imgBox{
+    opacity: 50%;
+}
+
+.imgBox:hover{
+    opacity: 100%;
+    cursor: pointer;
+}
+
+.imgBox.openImg{
+    opacity: 100%;
+}
+
+.cakeData{
+    padding-right: 100px;
+}
