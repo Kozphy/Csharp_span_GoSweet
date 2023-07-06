@@ -2482,10 +2482,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\Home\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <TypeScriptCompile Include="jit_init\node_modules\%40alloc\quick-lru\index.d.ts" />
     <TypeScriptCompile Include="jit_init\node_modules\%40jridgewell\gen-mapping\dist\types\gen-mapping.d.ts" />
     <TypeScriptCompile Include="jit_init\node_modules\%40jridgewell\gen-mapping\dist\types\sourcemap-segment.d.ts" />
