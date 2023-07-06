@@ -33,7 +33,6 @@
     float: left;
     height: 100vh;
     background-color: #ffff;
-    overflow-y: auto;
     z-index: 1;
     /*    bottom: px;*/
 }
@@ -42,11 +41,6 @@
     color: black;
 }
 
-/*改sidebar 內文字 id="sidebarContent"    */
-
-/*    .sidebar a:hover {
-        color: #c3a6a0e1
-    }*/
 /* sidebar設定 end */
 
 
