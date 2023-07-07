@@ -2804,8 +2804,4 @@
     <TypeScriptCompile Include="jit_init\node_modules\yargs\browser.d.ts" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\SignUp\" />
-  </ItemGroup>
-
 </Project>
