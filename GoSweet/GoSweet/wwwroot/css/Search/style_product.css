@@ -1,4 +1,4 @@
-body {
+/*body {
     display: flex;
     background-color: #F7F1F0;
     margin: 0;
@@ -8,15 +8,15 @@ body {
 .row>* {
     padding-left: 0;
     padding-right: 0;
-}
+}*/
 
 #imgMain {
     /* margin-left: 150px; */
     padding-left: 150px;
 }
 
-.d-flex a {
-    /* padding: 5px 20px; */
+.d-flex a.buyBtn {
+    padding: 5px 20px; 
     background-color: #A15C38;
     color: #F7F1F0;
     /* margin: auto; */
@@ -36,19 +36,24 @@ body {
     margin-left: 150px;
 }
 
-.imgBox{
+img.imgBox {
     opacity: 50%;
 }
 
-.imgBox:hover{
+img.imgBox:hover {
     opacity: 100%;
     cursor: pointer;
 }
 
-.imgBox.openImg{
+
+img.imgBox.openImg {
     opacity: 100%;
 }
 
 .cakeData{
     padding-right: 100px;
+}
+
+.cakeData p{
+    font-size:30px;
 }

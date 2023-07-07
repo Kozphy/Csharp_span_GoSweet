@@ -1,0 +1,46 @@
+﻿body {
+    background-color: black;
+    padding: 20px;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 95%;
+    height: 100%;
+    text-align: center;
+}
+
+.dataview {
+    color: white;
+    display: flex;
+    align-items: center;
+    background-color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    height: 70px;
+    text-align: center;
+    height: 150px;
+}
+
+.databutton {
+    background-color: #FEDCBA;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
