@@ -1,0 +1,30 @@
+body{
+    background-color: #F7F1F0;
+}
+.salerinfo{
+    background-color: white;
+    border-radius: 10px;
+}
+.performance-number{
+    color: #A15C38
+}
+.update{
+    color:#C3A6A0;
+    cursor: pointer;
+}
+.Quicklogo{
+    border-radius: 10px;
+    text-decoration-color: white;
+    background-color: white;
+    transition: 0.5s ease-in-out;
+
+}
+.Quicklogo:hover{
+    transform: scale(1.2);
+    text-decoration: underline;
+    text-decoration-color: #C3A6A0
+}
+.Quickword{
+    color: #C3A6A0;
+    
+}

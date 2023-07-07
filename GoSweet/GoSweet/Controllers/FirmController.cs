@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace GoSweet.Controllers
+namespace Datafor0704.Controllers
 {
-    public class FirmController : Controller
+    public class FirmpageController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Homepage()
+        {
+            return View();
+        }
+
+        public IActionResult Revenue()
         {
             return View();
         }
