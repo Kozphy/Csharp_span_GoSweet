@@ -30,8 +30,10 @@ body{
 /* sidebar設定 */
 .sidebar{
     position: fixed;
-    float: left;
-    height: 100%;
+    top:207px;
+    bottom:419px;
+/*    float: left;*/
+/*    height: 100%;*/
     background-color: #ffff;
 }
 .sidebar a {

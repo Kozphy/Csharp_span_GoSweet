@@ -19,5 +19,21 @@
       "library": "@splidejs/splide-extension-grid@0.4.1",
       "destination": "wwwroot/lib/splidejs/splide-extension-grid/"
     },
+    {
+      "library": "plotly.js@2.24.2",
+      "destination": "wwwroot/lib/plotly.js/"
+    },
+    {
+      "library": "Chart.js@4.3.0",
+      "destination": "wwwroot/lib/Chart.js/"
+    },
+    {
+      "library": "d3.chart@0.3.0",
+      "destination": "wwwroot/lib/d3.chart/"
+    },
+    {
+      "library": "d3@7.8.5",
+      "destination": "wwwroot/lib/d3/"
+    }
   ]
 }
