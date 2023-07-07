@@ -23,6 +23,10 @@
     margin: 30px;
 }
 
+    .d-flex a.buyBtn:hover {
+        background-color: #C3A6A0;
+    }
+
 .introduce {
     font-size: 28px;
 }
@@ -37,23 +41,23 @@
 }
 
 img.imgBox {
-    opacity: 50%;
+    opacity: 50%!important;
 }
 
-img.imgBox:hover {
-    opacity: 100%;
-    cursor: pointer;
-}
+    img.imgBox:hover {
+        opacity: 100% !important;
+        cursor: pointer !important;
+    }
 
 
-img.imgBox.openImg {
-    opacity: 100%;
-}
+    img.imgBox.openImg {
+        opacity: 100% !important;
+    }
 
 .cakeData{
     padding-right: 100px;
 }
 
 .cakeData p{
-    font-size:30px;
+    font-size:25px;
 }
