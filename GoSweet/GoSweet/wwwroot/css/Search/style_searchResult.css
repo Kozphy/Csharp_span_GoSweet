@@ -1,11 +1,11 @@
-body {
+/*body {
     display: flex;
     background-color: #F7F1F0;
     margin: 0;
     padding: 0;
-}
+}*/
 
-.card {
+.card.proCard {
     /* margin-left: 80px; */
     /* background-color: #c3a6a0; */
     background-color: white;
@@ -14,37 +14,37 @@ body {
     margin-top: 20px;
 }
 
-h5 {
+.card.proCard h5 {
     margin-top: 10px;
 }
 
-.card-body {
+.card.proCard .card-body {
     margin: 0;
     padding: 0;
 }
 
-.card-body span{
-    margin-right: 50px;
+.card.proCard.card-body span {
+     margin-right: 50px;
 }
 
-.result_top{
+.result_top {
     /* background-color:aqua; */
     width: 100%;
     height: 100px;
 }
 
-.result_top h2{
-    line-height: 100px;
-    padding-left: 30px;
-    margin-right: auto;
-}
+    .result_top h2 {
+        line-height: 100px;
+        padding-left: 30px;
+        margin-right: auto;
+    }
 
 .btn.result {
     width: 100%;
     background-color: #A15C38;
 }
 
-.sort{
+.sort {
     text-align: center;
     line-height: 30px;
     height: 50px;
@@ -57,18 +57,17 @@ h5 {
     /* border-radius: 20%; */
 }
 
-.sort:hover{
-    cursor: pointer;
-    background-color: #c3a6a0;
-    
-}
+    .sort:hover {
+        cursor: pointer;
+        background-color: #c3a6a0;
+    }
 
-.row>* {
+/*.row > * {
     padding-left: 0;
     padding-right: 0;
-}
+}*/
 
-.card-body>.padd {
+.card-body > .padd {
     padding-left: 10px;
 }
 
@@ -76,17 +75,9 @@ a.btn.result {
     color: #F7F1F0;
 }
 
-a.btn.result:hover {
-
-    background-color: #c3a6a0;
-}
-
-
-.sideBar {
-    height: 1000px;
-    background-color: #c3a6a0;
-    text-align: center;
-}
+    a.btn.result:hover {
+        background-color: #c3a6a0;
+    }
 
 /* ------------------------------------------- */
 .productData img {
