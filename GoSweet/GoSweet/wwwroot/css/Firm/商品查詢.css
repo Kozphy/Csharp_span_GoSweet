@@ -1,17 +1,15 @@
-body {
-    background-color: #ffff;
+#ProductSearchContent {
+    background-color: #f7f1f0;
     font-size: 28px;
+    padding:2%;
 }
 
-.container {
-    background-color: #f7f1f0;
-    padding: 2%;
-}
 
 /*搜尋欄邊框*/
 #block {
     padding: 2%;
     padding-left: 9%;
+    padding-top: 6%;
     background-color: #fff;
 }
 
