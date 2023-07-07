@@ -1,9 +1,9 @@
-body {
+/*body {
     display: flex;
     background-color: #F7F1F0;
     margin: 0;
     padding: 0;
-}
+}*/
 
 .row,.buyCheck{
     margin-top: 30px;
@@ -19,7 +19,7 @@ body {
     font-size: 20px;
 }
 
-.row img{
+.row.productBox img {
     width: 300px;
     padding: 20px;
 }
@@ -39,4 +39,8 @@ body {
 .buyCheck span{
     text-align: center;
     font-size: 25px;
+}
+
+.sendWay{
+    font-size:28px;
 }
