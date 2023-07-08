@@ -1,3 +1,22 @@
-﻿@{
+﻿@using System.Collections;
+@{
+    string? currentController = ViewContext.RouteData.Values["controller"]!.ToString();
+    string? currentAction = ViewContext.RouteData.Values["action"]!.ToString();
+
     Layout = "_Layout";
+
+    
+    Dictionary<string, List<string>> BelongFirm = new Dictionary<string, List<string>>()
+    {
+        { "Order_datatable", new List<string>(){ "f_order" } },
+        { "Firmpage", new List<string>(){ "Homepage", "Revenue" } },
+        { "FirmPage", new List<string>(){ "FirmData", "ProductSale", "ProductSearch" } },
+    };
+
+    if (BelongFirm.ContainsKey(currentController!) && BelongFirm[currentController!].Contains(currentAction!))
+    {
+        Layout = "_LayoutFirm";
+    }
+
 }
+
