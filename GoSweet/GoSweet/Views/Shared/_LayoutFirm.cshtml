@@ -76,7 +76,7 @@
                                                 <a href="#" class="d-inline-block w-100 btn btn-hover-light rounded-2 py-2 px-3 lh-sm text-start">
                                                     <div class="row w-100 align-items-center">
                                                         <div class="col-3">
-                                                            <img class="d-inline-block" src="~/img/download (1).jpg" />
+                                                            <img class="d-inline-block" src="~/img/Home/download (1).jpg" />
                                                         </div>
                                                         <div class="col-md-7">
                                                             <div>
@@ -385,32 +385,32 @@
     third party package
     *@
     <script src="~/lib/splidejs/js/splide.js"></script>
-    @if (!currentPage.Equals("Login") && !currentPage.Equals("SignUp"))
+@*    @if (!currentPage.Equals("Login") && !currentPage.Equals("SignUp"))
     {
-        <script>
+*@        <script>
             document.addEventListener('DOMContentLoaded', function () {
                 let splide = new Splide('.splide', {
                     type: 'loop',
                     autoplay: 'pause',
                     perPage: 3,
                     gap: '1rem',
+                    drag:false,
                     pagination: false,
+                    arrows: true,
                     class: {
                         arrows: 'splide__arrows',
                         arrow: 'splide__arrow',
                         prev: 'splide__arrow--prev',
                         next: 'splide__arrow--next',
                     },
-                    arrows: false,
                 },
                 )
                 splide.mount();
             });
         </script>
-    }
+    @*}*@
 
     <script src="~/js/Layout/SideBar.js"></script>
-    <script src="~/js/Layout/toast.js"></script>
     <script src="~/js/Layout/bellDropDown.js"></script>
     <script src="~/js/Layout/ShopCart.js"></script>
     <script src="~/js/Layout/ChatPanel.js"></script>

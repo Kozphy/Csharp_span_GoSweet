@@ -21,7 +21,6 @@
     third party package
     *@
     <link rel="stylesheet" href="~/lib/splidejs/css/splide.min.css" />
-    <link rel="stylesheet" href="~/lib/Swiper/swiper-bundle.min.css" />
     @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js" />*@
 
 </head>
@@ -75,7 +74,7 @@
                                                 <a href="#" class="d-inline-block w-100 btn btn-hover-light rounded-2 py-2 px-3 lh-sm text-start">
                                                     <div class="row align-items-center">
                                                         <div class="col-md-3">
-                                                            <img class="d-inline-block" src="~/img/download (1).jpg" />
+                                                            <img class="d-inline-block" src="~/img/Home/download (1).jpg" />
                                                         </div>
                                                         <div class="col-md-7">
                                                             <div>
@@ -94,7 +93,7 @@
                                                 <a href="#" class="d-inline-block w-100 btn btn-hover-light rounded-2 py-2 px-3 lh-sm text-start">
                                                     <div class="row  align-items-center">
                                                         <div class="col-3">
-                                                            <img class="d-inline-block" src="~/img/download (1).jpg" />
+                                                            <img class="d-inline-block" src="~/img/Home/download (1).jpg" />
                                                         </div>
                                                         <div class="col-md-7">
                                                             <div>
@@ -399,11 +398,9 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script src="~/js/Layout/SideBar.js"></script>
-    <script src="~/js/Layout/toast.js"></script>
     <script src="~/js/Layout/bellDropDown.js"></script>
     <script src="~/js/Layout/ShopCart.js"></script>
     <script src="~/js/Layout/ChatPanel.js"></script>
-    <script src="~/js/Layout/LayoutCustomer.js"></script>
 
     @*
     third party package
@@ -411,38 +408,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/splidejs/js/splide.js"></script>
     <script src="~/lib/splidejs/splide-extension-grid/dist/js/splide-extension-grid.js"></script>
-    @if (!currentPage.Equals("Login") && !currentPage.Equals("SignUp"))
-    {
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                let splide = new Splide('.splide', {
-                    grid:{
-                        rows:2, 
-                        cols:3,
-                        gap:{
-                            row:'1rem',
-                            col:'1.5rem',
-                        },
-                    },
-                    type: 'loop',
-                    autoplay: 'pause',
-                    gap: '1rem',
-                    pagination: false,
-                    class: {
-                        arrows: 'splide__arrows',
-                        arrow: 'splide__arrow',
-                        prev: 'splide__arrow--prev',
-                        next: 'splide__arrow--next',
-                    },
-                    arrows: false,
-                },
-                )
-                splide.mount(window.splide.Extensions);
-            });
-        </script>
-    }
     <script src="~/lib/plotly.js/plotly.min.js" charset="utf-8"></script>
-    <script src="~/lib/d3/d3.js"></script>
 
 
 
