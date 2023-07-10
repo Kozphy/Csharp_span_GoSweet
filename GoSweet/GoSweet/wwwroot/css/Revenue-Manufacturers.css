@@ -1,0 +1,105 @@
+body{
+    background-color: #F7F1F0;
+}
+
+.performance-number{
+  color:#C15C38
+}
+
+/* 圖表用樣式 */
+
+canvas{
+    min-height: 300px;
+    max-height: 300px;
+}
+
+.nav-link{
+  color:#C15C38
+}
+
+
+/* 表格用樣式 */
+table {
+    border-collapse: collapse;
+    border: 1px solid #cdcdcd;
+    width: 100%;
+  }
+  td,
+  th {
+    border: 1px solid #cdcdcd;
+    padding: 8px;
+  }
+  
+  @media only screen and (max-width: 1200px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      display: block;
+    }
+  
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  
+    tr {
+      border-bottom: 2px solid #690461;
+    }
+  
+    td {
+      border: none;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      padding-left: 50% !important;
+      text-align: left !important;
+    }
+  
+    td:before {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+  
+    td:nth-of-type(1):before {
+      content: "日期";
+      color: #0e9893;
+    }
+    td:nth-of-type(2):before {
+      content: "事項";
+      color: #0e9893;
+    }
+    td:nth-of-type(3):before {
+      content: "訂單編號";
+      color: #0e9893;
+    }
+    td:nth-of-type(4):before {
+      content: "訂單狀態";
+      color: #0e9893;
+    }
+    td:nth-of-type(5):before {
+      content: "單價";
+      color: #0e9893;
+    }
+    td:nth-of-type(6):before {
+      content: "數量";
+      color: #0e9893;
+    }
+    td:nth-of-type(7):before {
+      content: "小計";
+      color: #0e9893;
+    }
+    td:nth-of-type(8):before {
+      content: "總額";
+      color: #0e9893;
+    }
+
+  }

@@ -1,11 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    string? currentPage = @ViewContext.RouteData.Values["controller"]!.ToString();
 }
 
-<link rel="stylesheet" href="~/css/Home/productHotRank.css" />
+<link rel="stylesheet" href="~/css/Home/productPopularRank.css" />
 <link rel="stylesheet" href="~/css/Home/processArticle.css" />
 <link rel="stylesheet" href="~/css/Home/popularGroupBuy.css" />
+<link rel="stylesheet" href="~/css/Home/news.css" />
 <link rel="stylesheet" href="~/css/Home/decoratorIcon.css" />
+<link rel="stylesheet" href="~/css/Home/feature.css" />
 
 
 <div class="wrapper bg-white">
@@ -57,108 +60,151 @@
                         <ul class="splide__list">
                             <li class="splide__slide">
                                 <div class="splide__slide__container">
-                                    <div class="product-rank-section card">
-                                        <img class="card-img-top" src="~/img/download (1).jpg" />
-                                        <div class="card-title py-2 text-center">
-                                            Title 01
+                                    <div class="product-rank-card card">
+                                        <div class="position-relative">
+                                            <div class="product-rank-hover-content d-flex">
+                                                <button class="btn btn-outline-light rounded-0 m-auto ">GO >></button>
+                                            </div>
+                                            <img class="card-img-top" src="~/img/Home/布列塔尼.jpg" />
+                                        </div>
+                                        <div class="card-title mb-0 py-2 text-center product-card-title">
+                                            布列塔尼
                                         </div>
                                         <div class="card-body ">
                                             <div class="text-center card-text multiline-ellipsis-3">
-                                                Description 01
+                                                布列塔尼圓酥餅 Galette Bretonne 始於19世紀後半，是法國的傳統小點心，發源地是法國西北邊的布列塔尼區，這即是此款甜點名字的由來，屬於地方甜點。
+                                                我們使用法國頂級手工Échiré艾許奶油，奶油含量豐富，充滿濃郁的奶香；
+                                                搭配法國頂級法芙娜巧克力，為麵糰帶來酥脆和入口即化的口感，並帶有芳香純美的風味；
+                                                最後加入少許法國頂級鹽之花點綴，除了有濃郁的巧克力香外，甜中帶點鹹，好吃又不膩口。
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            大約xxx人購買
+                                            大約 1000 人購買
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             <li class="splide__slide">
                                 <div class="splide__slide__container">
-                                    <div class="product-rank-img-section card">
-                                        <img class="card-img-top" src="~/img/190708-9267-0-YUH4l.jpg" />
-                                        <div class="card-title py-2 text-center">
-                                            Title 02
+                                    <div class="product-rank-card card">
+                                        <div class="position-relative">
+                                            <div class="product-rank-hover-content d-flex">
+                                                <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
+                                            </div>
+                                            <img class="card-img-top" src="~/img/Home/波士頓派.jpg" />
+                                        </div>
+                                        <div class="card-title mb-0 py-2 text-center product-card-title">
+                                            波士頓派
                                         </div>
                                         <div class="card-body ">
                                             <div class="text-center card-text multiline-ellipsis-3">
-                                                Description 02
+                                                蛋糕體比戚風蛋糕更加輕盈綿密，重點在於使用北海道奶霜和法國鮮奶油，
+                                                入口即能感受到鮮奶油濃濃的奶香和綿細的蛋糕體在嘴裡化開。
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            大約xxx人購買
+                                            大約 1000 人購買
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             <li class="splide__slide">
                                 <div class="splide__slide__container">
-                                    <div class="product-rank-img-section card">
-                                        <img class="card-img-top" src="~/img/Home/咕咕霍夫.jpg" />
-                                        <div class="card-title py-2 text-center">
-                                            Title 03
+                                    <div class="product-rank-card card">
+                                        <div class="position-relative">
+                                            <div class="product-rank-hover-content d-flex">
+                                                <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
+                                            </div>
+                                            <img class="card-img-top" src="~/img/Home/咕咕霍夫.jpg" />
+                                        </div>
+                                        <div class="card-title mb-0 py-2 text-center product-card-title">
+                                            咕咕霍夫
                                         </div>
                                         <div class="card-body ">
                                             <div class="text-center card-text multiline-ellipsis-3">
-                                                Description 03
+                                                自於奧地利、法國、德國、瑞士等中歐國家的節慶甜點，經典款式是做成「皇冠、僧侶帽」的造型。
+                                                據說法皇路易十六的皇妃喜歡吃，所以做成「皇冠」造型。另個傳言是神職人員的「僧侶帽」造型，是用來祈求世界和平；也有一說是古代巴勒斯坦國王遺失的皇冠被一位甜點師拾獲，後來他將麵包做成皇冠的造型。
+                                                不論起源如何，咕咕霍夫這款節慶甜點傳遞的訊息都是「分享與喜悅」
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            大約xxx人購買
+                                            大約 1000 人購買
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             <li class="splide__slide">
                                 <div class="splide__slide__container">
-                                    <div class="product-rank-img-section card">
-                                        <img class="card-img-top" src="~/img/bread-baguette-icon.jpg" />
-                                        <div class="card-title py-2 text-center">
-                                            Title 04
+                                    <div class="product-rank-card card">
+                                        <div class="position-relative">
+                                            <div class="product-rank-hover-content d-flex">
+                                                <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
+                                            </div>
+                                            <img class="card-img-top" src="~/img/Home/AngleCake.jpg" />
+                                        </div>
+                                        <div class="card-title mb-0 py-2 text-center product-card-title">
+                                            天使蛋糕
                                         </div>
                                         <div class="card-body ">
                                             <div class="text-center card-text multiline-ellipsis-3">
-                                                Description 04
+                                                天使蛋糕屬於乳沫類蛋糕，它有一個特色就是不能有一滴油，即使含有油脂的蛋黃也要捨去，同時因為無油脂，色澤呈現蛋糕少有的純白，如同天使般的純潔，故稱為天使。
+                                                天使蛋糕的口味與一般蛋糕的口味完全不同，喜歡他的人覺得毫不油膩且具彈性，不喜歡的人覺得乾澀又韌，一般蛋糕店比較少販賣，
+                                                主要因為口感比較特殊。天使蛋糕最適合推薦給怕胖或有心血管疾病的人，因為他不含油脂與膽固醇，可說是一種健康點心喔。
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            大約xxx人購買
+                                            大約 1000 人購買
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             <li class="splide__slide">
                                 <div class="splide__slide__container">
-                                    <div class="product-rank-img-section card">
-                                        <img class="card-img-top" src="~/img/bread-baguette-icon.jpg" />
-                                        <div class="card-title py-2 text-center">
-                                            Title 05
+                                    <div class="product-rank-card card">
+                                        <div class="position-relative">
+                                            <div class="product-rank-hover-content d-flex">
+                                                <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
+                                            </div>
+                                            <img class="card-img-top" src="~/img/Home/Classic_Mille_Feuille.jpg" />
+                                        </div>
+                                        <div class="card-title mb-0 py-2 text-center product-card-title">
+                                            千層蛋糕
                                         </div>
                                         <div class="card-body ">
                                             <div class="text-center card-text multiline-ellipsis-3">
-                                                Description 05
+                                                英文名稱中的「crêpe」是法文，不少人認為千層蛋糕源自法國：亦有傳說是源自拿破崙御廚 — 享有第一位美食外交官之美譽的馬利．安東尼．卡瑞蒙（Marie-Antonin Carême）。
+                                                亦有傳說千層形狀的蛋糕最早是源自匈牙利的Szeged城，那裏的人們常吃一種上層鋪有焦糖的千層蛋糕。也有流傳最早的千層蛋糕是以「千層可麗餅蛋糕」型態首度出現於東京，風靡日本後又席捲美國並陸續引進亞洲。
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            大約xxx人購買
+                                            大約 1000 人購買
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             <li class="splide__slide">
                                 <div class="splide__slide__container">
-                                    <div class="product-rank-img-section card">
-                                        <img class="card-img-top" src="~/img/bread-baguette-icon.jpg" />
-                                        <div class="card-title py-2 text-center">
-                                            Title 06
+                                    <div class="product-rank-card card">
+                                        <div class="position-relative">
+                                            <div class="product-rank-hover-content d-flex">
+                                                <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
+                                            </div>
+                                            <img class="card-img-top" src="~/img/Home/巧克力慕斯.jpg" alt="巧克力慕斯" />
+                                        </div>
+                                        <div class="card-title mb-0 py-2 text-center product-card-title">
+                                            巧克力慕斯
                                         </div>
                                         <div class="card-body ">
                                             <div class="text-center card-text multiline-ellipsis-3">
-                                                Description 06
+                                                巧克力慕斯起源於法國，可以追溯到18世紀晚期或19世紀早期。它被認為是法國廚師創造的一種甜點，源於法國對巧克力的熱愛和獨特的烹飪傳統。
+                                                慕斯最初是一種以蛋白和糖製成的輕盈甜點，但隨著時間的推移，人們開始將巧克力作為慕斯的主要成分之一。巧克力慕斯以其絲滑、濃郁的口感和巧克力的香味而受到人們的喜愛。
+                                                在製作巧克力慕斯時，通常使用優質的巧克力、雞蛋、糖和奶油等原料。這些成分會被精心混合在一起，然後通過冷藏來達到慕斯的質地和口感。
+                                                隨著時間的推移，巧克力慕斯逐漸成為一道備受歡迎的甜點，並在世界各地的餐廳和糕點店中廣泛供應。人們還會根據個人喜好和創意，加入其他食材和裝飾來製作各種口味和款式的巧克力慕斯。
+                                                儘管巧克力慕斯的具體起源有些模糊，但它無疑成為了世界上最受歡迎和標誌性的巧克力甜點之一。
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            大約xxx人購買
+                                            大約 1000 人購買
                                         </div>
                                     </div>
                                 </div>
@@ -179,18 +225,16 @@
         <div class="popular-buy-content px-3">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="card mb-3  groupbuy-segment">
+                    <div class="card mb-3 groupbuy-segment">
                         <div class="position-relative">
-                            <img src="~/img/190708-9267-0-YUH4l.jpg" class="card-img-top" alt="...">
+                            <img src="~/img/Home/咕咕霍夫.jpg" class="card-img-top" alt="咕咕霍夫">
                             <div class="groupbuy-segment-hover-content">
-                                <div class="hover-content-inner">
-                                    <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
-                                </div>
+                                <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0 groupbuy-title">團購名稱</h5>
+                                <h5 class="card-title mb-0 groupbuy-title">咕咕霍夫</h5>
                                 <span class="badge text-bg-primary">剩餘時間 1 天</span>
                             </div>
                             <div class="p-2">
@@ -209,31 +253,88 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card mb-3">
-                        <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                    <div class="card mb-3  groupbuy-segment">
+                        <div class="position-relative">
+                            <img src="~/img/Home/布列塔尼.jpg" class="card-img-top" alt="布列塔尼">
+                            <div class="groupbuy-segment-hover-content">
+                                <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0 groupbuy-title">布列塔尼</h5>
+                                <span class="badge text-bg-primary">剩餘時間 1 天</span>
+                            </div>
+                            <div class="p-2">
+                                <p class="card-text multiline-ellipsis-3 lh-base indent-2 ">
+                                    團購是一種基於網際網路的商業模式，
+                                    透過團購網站集合足夠人數，便可以優惠價格購買或使用第三方公司的物品、
+                                    優惠券或服務，賣家薄利多銷，買家得到優惠，節省金錢，
+                                    而運行團購網站的公司則從賣方收取傭金。 這個概念曾在論壇出現過
+                                </p>
+                            </div>
+                            <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                            </div>
                             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6">
-                    <div class="card mb-3">
-                        <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                    <div class="card mb-3  groupbuy-segment">
+                        <div class="position-relative">
+                            <img src="~/img/Home/手工泡芙-原味.jpg" class="card-img-top" alt="手工泡芙-原味">
+                            <div class="groupbuy-segment-hover-content">
+                                <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0 groupbuy-title">手工泡芙-原味</h5>
+                                <span class="badge text-bg-primary">剩餘時間 1 天</span>
+                            </div>
+                            <div class="p-2">
+                                <p class="card-text multiline-ellipsis-3 lh-base indent-2 ">
+                                    團購是一種基於網際網路的商業模式，
+                                    透過團購網站集合足夠人數，便可以優惠價格購買或使用第三方公司的物品、
+                                    優惠券或服務，賣家薄利多銷，買家得到優惠，節省金錢，
+                                    而運行團購網站的公司則從賣方收取傭金。 這個概念曾在論壇出現過
+                                </p>
+                            </div>
+                            <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                            </div>
                             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-md-6">
-                    <div class="card mb-3">
-                        <img src="~/img/download (1).jpg" class="card-img-top" alt="...">
+                    <div class="card mb-3  groupbuy-segment">
+                        <div class="position-relative">
+                            <img src="~/img/Home/波士頓派.jpg" class="card-img-top" alt="波士頓派">
+                            <div class="groupbuy-segment-hover-content">
+                                <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0 groupbuy-title">波士頓派</h5>
+                                <span class="badge text-bg-primary">剩餘時間 1 天</span>
+                            </div>
+                            <div class="p-2">
+                                <p class="card-text multiline-ellipsis-3 lh-base indent-2 ">
+                                    團購是一種基於網際網路的商業模式，
+                                    透過團購網站集合足夠人數，便可以優惠價格購買或使用第三方公司的物品、
+                                    優惠券或服務，賣家薄利多銷，買家得到優惠，節省金錢，
+                                    而運行團購網站的公司則從賣方收取傭金。 這個概念曾在論壇出現過
+                                </p>
+                            </div>
+                            <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                            </div>
                             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                         </div>
                     </div>
@@ -254,7 +355,7 @@
             <div class="row gy-3">
                 <div class="col-md-4">
                     <div class="news-img-section">
-                        <img class="rounded" src="~/img/Home/咕咕霍夫.jpg" />
+                        <img class="rounded news-img" src="~/img/Home/咕咕霍夫.jpg" />
                     </div>
                 </div>
 
@@ -266,7 +367,9 @@
                         <span class="badge rounded-pill bg-mute-2 ">新品</span>
                     </div>
                     <div class="news-paragraph-content  p-5">
-                        <p class="lh-base">咕咕霍夫就是一種法國阿爾薩斯地區特產的皇冠型甜點👑，看那具有花紋的外表以及中空特色的樣子，的確和皇冠有幾分相似呢</p>
+                        <p class="lh-base">
+                            咕咕霍夫就是一種法國阿爾薩斯地區特產的皇冠型甜點👑，看那具有花紋的外表以及中空特色的樣子，的確和皇冠有幾分相似呢
+                        </p>
                     </div>
                 </div>
 
@@ -283,136 +386,183 @@
                 </div>
                 <div class="col-md-4">
                     <div class="news-img-section ">
-                        <img class="rounded" src="~/img/Home/小熊泡芙.jfif" />
+                        <img class="rounded  news-img" src="~/img/Home/小熊泡芙.jfif" />
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    @*propagate section*@
-    <section class=" propagate-section px-3 bg-mute-5 ">
-        <div class="container">
-            <h2 class="display-6 py-2">經營理念</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-3">
-                    <div class="d-flex flex-column">
-                        <div class="card text-bg-light mb-3 bg-white border-0 shadow">
-                            <div class="card-body border-0">
-                                <h2 class="card-title text-center ">
-                                    <i class="bi bi-house-fill display-5 text-mute-3"></i>
-                                </h2>
-                                <h3 class="displa-6 text-center fw-fw-bolder">貨到付款</h3>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="d-flex flex-column">
-                        <div class="card text-bg-light mb-3 bg-white border-0 shadow">
-                            <div class="card-body border-0">
-                                <h2 class="card-title text-center ">
-                                    <i class="bi bi-house-fill display-5 text-mute-3"></i>
-                                </h2>
-                                <h3 class="displa-6 text-center fw-fw-bolder">貨到付款</h3>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    @*GoSweet Feature*@
+    @*    <section class="GoSweetFeature">
+    <div class="container">
+    <h2 class="display-6 text-center py-3">GoSweet 的特色</h2>
+    <div class="row gy-3">
+    <div class="col-md-6">
+    <div class="card mx-auto">
+    <div class="card-body shadow-sm">
+    <h2 class="feature-title text-center">產品多元</h2>
+    <p class="text-center feature-content">123</p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="card mx-auto">
+    <div class="card-body shadow-sm">
+    <h2 class="feature-title text-center">產品多元</h2>
+    <p class="text-center feature-content">123</p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="card mx-auto">
+    <div class="card-body shadow-sm">
+    <h2 class="feature-title text-center">產品多元</h2>
+    <p class="text-center feature-content">123</p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="card mx-auto">
+    <div class="card-body shadow-sm">
+    <h2 class="feature-title text-center">產品多元</h2>
+    <p class="text-center feature-content">123</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>*@
 
-                <div class="col-md-3">
-                    <div class="d-flex flex-column">
-                        <div class="card text-bg-light mb-3 bg-white border-0 shadow">
-                            <div class="card-body border-0">
-                                <h2 class="card-title text-center ">
-                                    <i class="bi bi-house-fill display-5 text-mute-3"></i>
-                                </h2>
-                                <h3 class="displa-6 text-center fw-fw-bolder">貨到付款</h3>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="d-flex flex-column">
-                        <div class="card text-bg-light mb-3 bg-white border-0 shadow">
-                            <div class="card-body border-0">
-                                <h2 class="card-title text-center ">
-                                    <i class="bi bi-house-fill display-5 text-mute-3"></i>
-                                </h2>
-                                <h3 class="displa-6 text-center fw-fw-bolder">貨到付款</h3>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    @*訂閱我們*@
+    @*    <section class="subscription-us p-3">
+    <div class="container">
+    <div class="row">
+    <div class="col-md-12 ">
+    <div class="p-3">
+    <h2 class="display-6">By Subscribing To Our Newsletter You can Get 30% Off</h2>
+    <p class="mb-2">Details to details is what makes GoSweet different from the other themes.</p>
+    <div class="row">
+    <div class="col-md-5">
+    <div class="input-group ">
+    <input type="text" class="form-control" placeholder="Your Name">
+    </div>
+    </div>
+    <div class="col-md-5">
+    <div class="input-group ">
+    <input type="text" class="form-control" placeholder="Your Email Address">
+    </div>
+    </div>
+    <div class="col-md-2">
+    <button type="button" class="btn  btn-outline-dark ms-2">
+    <i class="bi bi-send-fill"></i>
+    </button>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>*@
 
     @*關於我們*@
-@*    <section class="about-us bg-secondary">
-        <div class="container-fluid ">
-            <div class="about-us-content p-3  ">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="left-content text-muted px-2">
-                            <div class="p-3">
-                                <h2 class="display-6">關於我們</h2>
-                                <span class="lh-base py-2">You are allowed to use this HexaShop HTML CSS template. You can feel free to modify or edit this layout. You can convert this template as any kind of ecommerce CMS theme as you wish.</span>
-                                <div class="lh-base quote py-2">
-                                    <i class="fa fa-quote-left"></i><p>You are not allowed to redistribute this template ZIP file on any other website.</p>
-                                </div>
-                                <p class="lh-base py-2">There are 5 pages included in this HexaShop Template and we are providing it to you for absolutely free of charge at our TemplateMo website. There are web development costs for us.</p>
-                                <p class="lh-base py-2">If this template is beneficial for your website or business, please kindly <a rel="nofollow" href="https://paypal.me/templatemo" target="_blank">support us</a> a little via PayPal. Please also tell your friends about our great website. Thank you.</p>
-                            </div>
-                            <div class="main-border-button ps-3">
-                                <a class="btn btn-outline-light" href="products.html">Discover More</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="right-content">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="leather">
-                                        <h4>Leather Bags</h4>
-                                        <span>Latest Collection</span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="first-image">
-                                        <img src="https://picsum.photos/200/300" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="second-image">
-                                        <img src="https://picsum.photos/200/300" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="types">
-                                        <h4>Different Types</h4>
-                                        <span>Over 304 Products</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    @*    <section class="about-us bg-secondary">
+    <div class="container-fluid ">
+    <div class="about-us-content p-3  ">
+    <div class="row">
+    <div class="col-lg-6">
+    <div class="left-content text-muted px-2">
+    <div class="p-3">
+    <h2 class="display-6">關於我們</h2>
+    <span class="lh-base py-2">You are allowed to use this HexaShop HTML CSS template. You can feel free to modify or edit this layout. You can convert this template as any kind of ecommerce CMS theme as you wish.</span>
+    <div class="lh-base quote py-2">
+    <i class="fa fa-quote-left"></i><p>You are not allowed to redistribute this template ZIP file on any other website.</p>
+    </div>
+    <p class="lh-base py-2">There are 5 pages included in this HexaShop Template and we are providing it to you for absolutely free of charge at our TemplateMo website. There are web development costs for us.</p>
+    <p class="lh-base py-2">If this template is beneficial for your website or business, please kindly <a rel="nofollow" href="https://paypal.me/templatemo" target="_blank">support us</a> a little via PayPal. Please also tell your friends about our great website. Thank you.</p>
+    </div>
+    <div class="main-border-button ps-3">
+    <a class="btn btn-outline-light" href="products.html">Discover More</a>
+    </div>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="right-content">
+    <div class="row">
+    <div class="col-lg-6">
+    <div class="leather">
+    <h4>Leather Bags</h4>
+    <span>Latest Collection</span>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="first-image">
+    <img src="https://picsum.photos/200/300" alt="">
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="second-image">
+    <img src="https://picsum.photos/200/300" alt="">
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="types">
+    <h4>Different Types</h4>
+    <span>Over 304 Products</span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
     </section>*@
 
     @*折線圖顧客與廠商*@
-    <section class="line_chart_customer_firm_product_section">
-        <div id="lineChart_customer_firm_product"></div>
-    </section>
-    <div></div>
+    @*    <section class="line_chart_customer_firm_product_section">
+    <div id="lineChart_customer_firm_product"></div>
+    </section>*@
 </div>
 
 
+@if (!currentPage.Equals("Login") && !currentPage.Equals("SignUp"))
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let splide = new Splide('.splide', {
+                mediaQuery: 'min',
+                grid: false,
+                breakpoints: {
+                    800: {
+                        grid: {
+                            rows: 2,
+                            cols: 3,
+                            gap: {
+                                row: '2rem',
+                                col: '1.5rem',
+                            },
+                        },
+                    },
+                },
+                type: 'loop',
+                autoplay: 'pause',
+                gap: '1rem',
+                pagination: false,
+                class: {
+                    arrows: 'splide__arrows',
+                    arrow: 'splide__arrow',
+                    prev: 'splide__arrow--prev',
+                    next: 'splide__arrow--next',
+                },
+                arrows: false,
+            },
+            )
+            splide.mount(window.splide.Extensions);
+        });
+    </script>
+}
+
+
+<script src="~/lib/d3/d3.js"></script>
 <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>

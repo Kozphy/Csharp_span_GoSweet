@@ -6,15 +6,12 @@ img.GoSweetLogo {
 }
 
 /* link */
-.nav-link {
+.navbar-section .nav-link {
     cursor: pointer;
     transition: background-color 0.5s;
     display:inline-block;
 }
 
-.nav-link:hover {
+.navbar-section .nav-link:hover {
     background-color: rgba(0,0,0,0.1);
 }
-
-
-

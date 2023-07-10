@@ -19,11 +19,35 @@
 }
 */
 
-img {
+.product-rank img {
     width:100%;
     height:250px;
     object-fit:cover;
 }
+
+.product-rank-hover-content {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background-color: rgba(0,0,0,0.2);
+    opacity:0;
+    transition:all 1s;
+}
+
+.product-rank-card .product-card-title {
+    font-size:20px;
+}
+
+.product-rank-card:hover .product-rank-hover-content {
+    opacity:1;
+}
+
+.product-rank-hover-content > button {
+    padding:5px 30px;
+}
+
 
 .news-paragraph-title{
     font-size:2rem;
