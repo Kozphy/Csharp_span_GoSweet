@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - backend</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/backend.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="" asp-append-version="true" />
+</head>
+<style>
+    body {
+        background-color: black;
+        padding: 20px;
+        margin: 0;
+    }
+
+    .navbar {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-around;
+        max-width: 1200px;
+        /* 设置最大宽度 */
+        margin: 0 auto;
+        /* 居中对齐 */
+    }
+
+    .button {
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        border-radius: 5px;
+        height: 150px;
+    }
+
+        .button:hover,
+        .button:focus {
+            background-color: red; /* 设置按钮在鼠标悬停或聚焦时的背景颜色 */
+            color: white; /* 设置按钮在鼠标悬停或聚焦时的文字颜色 */
+            text-decoration: none;
+            border: none;
+        }
+
+        .button:visited {
+            color: white; /* 设置按钮在访问后的文字颜色 */
+            text-decoration: none;
+        }
+
+</style>
+<body>
+    <div class="navbar">
+        <header>
+            <a class="button" href="~/Backend/MainPage">後台管理首頁</a>
+            <a class="button" href="~/Backend/ItemPage">物品資訊設置頁</a>
+            <a class="button" href="~/Backend/FirmPage">廠商資訊頁面</a>
+            <a class="button" href="~/Backend/CustomPage">會員資訊頁面</a>
+            <a class="button" href="~/Backend/banned">停權名單設置</a>
+        </header>
+    </div>
+
+    <br />
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <hr />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

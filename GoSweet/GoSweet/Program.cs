@@ -1,3 +1,5 @@
+using GoSweet.Models;
+using Microsoft.EntityFrameworkCore;
 using Toolbelt.Extensions.DependencyInjection;
 namespace GoSweet
 {
@@ -9,6 +11,9 @@ namespace GoSweet
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<shopwebContext>(
+            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopweb")));
+
 
             var app = builder.Build();
 

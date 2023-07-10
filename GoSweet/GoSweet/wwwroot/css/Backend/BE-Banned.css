@@ -1,0 +1,55 @@
+﻿body {
+    background-color: black;
+    padding: 20px;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 95%;
+    height: 100%;
+    text-align: center;
+}
+
+.data-view {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 95%;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.data-view-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.recovery-button {
+    background-color: #FEDCBA;
+    color: black;
+    padding: 10px;
+    width: 100px;
+    border: 2px white solid;
+    border-radius: 10px;
+    transition: background-color 0.3s, color 0.3s;
+    /* 添加过渡效果 */
+}
+
+    .recovery-button:hover {
+        background-color: #DCAFE4;
+        color: white;
+    }

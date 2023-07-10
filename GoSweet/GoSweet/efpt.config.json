@@ -1,0 +1,101 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "shopwebContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "GoSweet",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Customer_accounttable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Customer_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Firm_accounttable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Firm_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Firm_pagetable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Firm_picturetable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Group_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Lock_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Member_membertable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Notify_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Order_assesstable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Order_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_picturetable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Talk_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Talk_persontable]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "desktop-ch3gmm4.shopweb.dbo",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
