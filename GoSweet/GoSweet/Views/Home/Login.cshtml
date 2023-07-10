@@ -34,16 +34,21 @@
                             <button type="submit" class="loginBtn w-100 btn btn-mute-2  text-dark">登入</button>
                         </div>
                         <div class="col-12 col-md-6">
-                            <button class="signUpBtn w-100 btn btn-mute-5  text-dark">註冊</button>
+                            <a asp-controller="Home" asp-action="SignUp" class="signUpBtn w-100 btn btn-mute-5  text-dark">
+                                註冊
+                            </a>
                         </div>
                     </div>
                 </form>
             </div>
+            <div class="home-icon-section">
+                <div class="d-flex justify-content-end">
+                    <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-house-door-fill"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="home-icon-section">
-        <a class="d-flex justify-content-center align-items-center  home-icon" asp-controller="Home" asp-action="Index">
-            <i class="bi bi-house-door-fill"></i>
-        </a>
-    </div>
+
 </div>

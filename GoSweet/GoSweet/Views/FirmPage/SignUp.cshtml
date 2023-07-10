@@ -15,7 +15,7 @@
         <div class="col-6  d-flex flex-column SignUp-section ">
             <div class="signUp-form m-auto">
                 <div class="form-title-box bg-mute-2 py-2 text-white rounded mb-2">
-                    <h2 class="display-6">SignUp</h2>
+                    <h2 class="display-6">Firm SignUp</h2>
                 </div>
                 <form method="post">
                     <div class="py-2">
@@ -39,14 +39,22 @@
                             <button type="submit" class="SignUpBtn w-100 btn btn-mute-2  text-dark">註冊</button>
                         </div>
                     </div>
+                    <p class="text-center mt-2">繼續進行代表您同意<a class="text-decoration-underline text-primary">服務條款</a>。</p>
                 </form>
             </div>
+            <div class="home-icon-section">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <a class="ms-3 mb-3" asp-controller="FirmPage" asp-action="Login">
+                        Back To Login >>
+                    </a>
+                    <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-house-door-fill"></i>
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="home-icon-section">
-        <a class="d-flex justify-content-center align-items-center  home-icon" asp-controller="FirmPage" asp-action="FirmData">
-            <i class="bi bi-house-door-fill"></i>
-        </a>
-    </div>
+
 </div>
 

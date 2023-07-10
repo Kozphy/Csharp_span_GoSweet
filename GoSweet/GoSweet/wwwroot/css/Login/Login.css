@@ -1,8 +1,6 @@
-﻿body {
+﻿/*body {
     overflow:hidden;
-}
-.login-form {
-}
+}*/
 .form-title-box {
     padding:0 150px;
 }
@@ -11,6 +9,7 @@
 .signUpBtn:hover{
    background-color: rgba(0,0,0,0.1); 
 }
+
 
 /*.login-section {
     position:relative;
