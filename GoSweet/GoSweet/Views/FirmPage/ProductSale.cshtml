@@ -1,9 +1,4 @@
-﻿@{
-}
-
-
-<link rel="stylesheet" type="text/css" href="~/css/Firm/商品上架.css">
-
+﻿<link rel="stylesheet" type="text/css" href="~/css/Firm/商品上架.css">
 
 <body>
     <link rel="stylesheet" type="text/css" href="~/css/Firm/商品上架.css">
@@ -50,6 +45,7 @@
                     <br />
                     <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; padding: 3%; background-color: #ffff;">
                         <p id="productdata">商品基本資料</p>
+                        <br />
                         <label>商品名稱 &nbsp;&nbsp;</label>
                         <input type="text" class="form-control">
                         <br>
@@ -70,6 +66,11 @@
                         <label>商品描述 &nbsp;&nbsp;</label>
                         <textarea style="resize:none;" cols="70" rows="5"></textarea>
                         <br><br>
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">商品描述圖片</label>
+                            <input class="form-control" type="file" id="formFileMultiple" multiple>
+                        </div>
+                        <br />
                         <label>保存期限</label>
                         <select>
                             <option>一周</option>
@@ -97,9 +98,9 @@
                         <br>
                     </div>
                         <br>
-
                         <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; padding: 3%; background-color: #ffff;">
                         <p id="productset">商品團購設定</p>
+                        <br />
                         <label>是否開放團購 &nbsp;&nbsp;</label>
                         <input type="radio" id="yes"><label for="yes">是</label>
                         <input type="radio" id="no"><label for="no">否</label>
@@ -113,39 +114,34 @@
                         <br><br>
                         <label>設定團購結束日期</label>
                         <input type="date">
-                        <br>
-                    
-                    <br>
+                        <br><br>
                     <label>團購數量</label>
                         <input type="number" min="0">
                         <br>
                     </div>
-                        <br>
-                     
+                        <br>                    
                         <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; padding: 3%; background-color: #ffff;">
                         <p id="deliver">配送方式</p>
+                        <br />
                         <label>超商 &nbsp;&nbsp;</label>
                         <input type="radio" id="sevenEleven" value=""><label for="sevenEleven">&nbsp;7-11 </label>
                         <input type="radio" id="FamilyMart" value=""><label for="FamilyMart">&nbsp;全家 </label>
                         <input type="radio" id="Hi-Life" value=""><label for="Hi-Life">&nbsp;萊爾富 </label>
                         <input type="radio" id="ok" value=""><label for="ok">&nbsp;OK </label>
-                        <br>
+						<br><br />
                         <label>宅配 &nbsp;&nbsp;</label>
-                        <input type="radio" id="cat" value=""><label for="cat">&nbsp;黑貓 </label>
-                        <input type="radio" id="post" value=""><label for="post">&nbsp;郵局 </label>
-                    
+                        <input type="radio" id="cat" value=""><label for="cat">&nbsp;黑貓 </label>                      
+                        <input type="radio" id="post" value=""><label for="post">&nbsp;郵局 </label>                   
                         <br>
                         <br>
                         <p id="payment">付款方式 &nbsp;&nbsp;</p>
+                        <br />
                         <input type="radio" id="creditcard" value=""><label for="creditcard">&nbsp;信用卡 </label>
                         <input type="radio" id="pay" value=""><label for="pay">&nbsp;貨到付款 </label>
                         <input type="radio" id="Line Pay" value=""><label for="Line Pay">&nbsp;Line Pay </label>
                     <br>
                 </div>
                     <br>
-                    
-                        <!-- https://jqueryui.com/tabs/ -->
-
                         <input type="submit" value="上架" id="gosaleButton">
                         <input type="submit" value="預覽" id="viewButton"> <!-- 連到商品資料頁-->
 
