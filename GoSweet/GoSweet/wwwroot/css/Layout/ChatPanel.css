@@ -30,22 +30,4 @@
 
 .chat-section-show {
     transform:scaleY(1);
-/*    animation: chatPop;
-    animation-duration:0.5s;
-    animation-fill-mode:forwards;
-    transform-origin:right bottom;*/
 }
-
-/*@keyframes chatPop {
-    0% {
-        transform:scaleY(0);
-    }
-    100% {
-        transform:scaleY(1);
-    }
-}
-*/
-/*.chat-close {
-    background-color: rgba(0,0,0,0.2);
-}
-*/

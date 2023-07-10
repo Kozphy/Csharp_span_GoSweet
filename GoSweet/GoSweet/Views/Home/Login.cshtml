@@ -25,7 +25,7 @@
                     </div>
                     <div class="py-2">
                         <label for="UserPassword" class="form-label">Password</label>
-                        <span class="text-mute-3 fw-bolder">Forget?</span>
+                        <span role="button" class="ms-2 text-mute-3 fw-bolder text-decoration-underline " data-bs-toggle="modal" data-bs-target="#ForgetPasswordModal">Forget?</span>
                         <input name="UserPassword" id="UserPassword" class="form-control" />
                     </div>
                     <div class="mb-2">驗證</div>
@@ -50,5 +50,7 @@
             </div>
         </div>
     </div>
-
 </div>
+
+@await Html.PartialAsync("~/Pages/Shared/ForgetPasswordModal.cshtml");
+
