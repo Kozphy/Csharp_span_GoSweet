@@ -49,19 +49,21 @@
     padding-right: 8%;
 }
 
-/*上架 預覽按鈕設定*/
+/*上架 預覽 按鈕設定*/
 #gosaleButton {
     background-color: #c3a6a0e1;
     border-radius: 5%;
+    border:0px;
     padding: 0.8%;
-    margin-left:45%;
+    margin-left:42%;
 }
 #viewButton {
     background-color: #c3a6a0e1;
     border-radius: 5%;
-    padding-left:1%;
+    border: 0px;
+    padding-left: 1%;
     padding: 0.8%;
-    margin-left:1%;
+    margin-left: 1%;
 }
 #gosaleButton:hover {
     background-color: #c3a6a09a;
