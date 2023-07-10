@@ -1,10 +1,4 @@
-﻿.home-icon-section {
-    position:absolute;
-    bottom:30px;
-    right:10px;
-}
-
-.home-icon {
+﻿.home-icon-section .home-icon {
     font-size:25px;
     color:black;
     width:40px;
@@ -12,6 +6,7 @@
     border-radius:50%;
     transition: background-color 0.5s;
 }
-.home-icon:hover {
+
+.home-icon-section .home-icon:hover {
     background-color:rgba(0,0,0,0.2);
 }
