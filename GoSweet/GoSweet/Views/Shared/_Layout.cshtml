@@ -47,19 +47,19 @@
                             <span class="count-red-circle">0</span>
                             @*bell dropdown*@
                             <div class="w-340px dropdown-menu bell-dropdown-menu  d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 rounded-3 shadow-lg " data-bs-theme="dark">
-                                    <ul class="list-unstyled d-flex flex-column gap-2 flex-grow-1">
-                                        <li>
-                                            <a href="#" class="btn btn-hover-light rounded-2 d-flex align-items-start gap-2 py-2 px-3 lh-sm text-start">
-                                                <div class=" h-100 flex-grow-1 d-flex justify-content-center align-items-center">
-                                                    <i class="bi bi-info-square info-icon"></i>
-                                                </div>
-                                                <div class="flex-grow-1">
-                                                    <strong class="d-block">Main product</strong>
-                                                    <small>Take a tour through the product</small>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                <ul class="list-unstyled d-flex flex-column gap-2 flex-grow-1">
+                                    <li>
+                                        <a href="#" class="btn btn-hover-light rounded-2 d-flex align-items-start gap-2 py-2 px-3 lh-sm text-start">
+                                            <div class=" h-100 flex-grow-1 d-flex justify-content-center align-items-center">
+                                                <i class="bi bi-info-square info-icon"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <strong class="d-block">Main product</strong>
+                                                <small>Take a tour through the product</small>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                             @*bell dropdown end*@
                         </div>
@@ -109,7 +109,6 @@
                                                     </div>
                                                 </a>
                                             </li>
-
                                         </ul>
                                     <div class="d-flex justify-content-end mt-3">
                                         <button class="btn btn-mute-3">結帳</button>
@@ -163,19 +162,19 @@
                             <a class="nav-link text-black px-5" asp-controller="Home" asp-action="Index">首頁</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">商品</a>
+                            <a class="nav-link text-dark px-5"  asp-controller="Home" asp-action="Privacy">商品</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">團購</a>
+                            <a class="nav-link text-dark px-5"  asp-controller="Home" asp-action="Privacy">團購</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">合作廠商</a>
+                            <a class="nav-link text-dark px-5"  asp-controller="Home" asp-action="Privacy">合作廠商</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">關於我們</a>
+                            <a class="nav-link text-dark px-5"  asp-controller="Home" asp-action="Privacy">關於我們</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-area="" asp-controller="Home" asp-action="Privacy">F&Q</a>
+                            <a class="nav-link text-dark px-5"  asp-controller="Home" asp-action="Privacy">F&Q</a>
                         </li>
                     </ul>
                 </div>
@@ -195,18 +194,23 @@
         <hr>
 
         <div class="text-center fw-bolder">
-            <a class="text-decoration-none py-3 w-100 userLoginBtn d-inline-block" asp-controller="Login" asp-action="Index">
+            <a class="text-decoration-none py-3 w-100 userLoginBtn d-inline-block" asp-controller="Home" asp-action="Login">
                 使用者登入
             </a>
         </div>
         <div class="text-center fw-bolder ">
-            <a class="text-decoration-none py-3 w-100 userSignUpBtn d-inline-block" asp-controller="SignUp" asp-action="Index">
+            <a class="text-decoration-none py-3 w-100 userSignUpBtn d-inline-block" asp-controller="Home" asp-action="SignUp">
                 註冊
             </a>
         </div>
         <div class="text-center fw-bolder ">
-            <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="SignUp" asp-action="Index">
+            <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Customer_datatable" asp-action="data">
                 個人資料
+            </a>
+        </div>
+        <div class="text-center fw-bolder ">
+            <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="SignUp" asp-action="Index">
+                訂單紀錄
             </a>
         </div>
 

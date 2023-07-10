@@ -1,0 +1,33 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+body {
+    background-color: black;
+    padding: 20px;
+    margin: 0;
+}
+
+.navbar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    /* 设置最大宽度 */
+    margin: 0 auto;
+    /* 居中对齐 */
+}
+
+.button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+    height: 75px;
+}
+
+    .button:active {
+        background-color: red;
+    }

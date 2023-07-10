@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "";
+}
+
+<link rel="stylesheet" href="~/css/Backend/BE-Login.css" asp-append-version="true" />
+
+<script>
+    function checkLogin() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        if (username === "admin" && password === "0000") {
+            // 登入成功，重定向到目標頁面
+            window.location.href = "MainPage";
+        } else {
+            alert("帳號或密碼錯誤");
+        }
+    }
+</script>
+
+<body>
+    <div class="container">
+        <table class="header-table">
+            <tr>
+                <td class="header-cell">管理後台</td>
+            </tr>
+        </table>
+        <br>
+        <div class="content">
+            <br>
+            <div class="input-wrapper">
+                <input id="username" type="text" class="input-field" placeholder="帳號">
+                <br>
+                <br>
+                <input id="password" type="password" class="input-field" placeholder="密碼">
+            </div>
+            <br>
+            <br>
+            <div class="button-wrapper">
+                <button class="login-button" onclick="checkLogin()">登入</button>
+            </div>
+        </div>
+    </div>
+    </body>

@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "_LayoutBE";
+}
+<link rel="stylesheet" href="~/css/Backend/BE-Firm.css" asp-append-version="true" />
+
+<script>
+    function displayOrders() {
+        var dateInput = document.getElementById('date-input').value;
+        // 在这里执行根据日期显示订单的逻辑，可以使用获取到的 dateInput 变量进行相关操作
+        console.log('选择的日期：', dateInput);
+    }
+</script>
+
+<body>
+    <div class="outer-container">
+        <div class="inner-container">
+            <input type="text">
+            <button class="viewbutton">搜尋</button>
+        </div>
+        <div class="dataview-container">
+            <div class="dataview">
+                <div class="dataview-text">廠商資訊列表</div>
+            </div>
+        </div>
+        <div class="inner-container">
+            <input type="date" id="date-input" onchange="displayOrders()">
+        </div>
+        <div class="dataview-container">
+            <div class="dataview">
+                展示廠商的訂單資訊 包括訂單編號日期金額
+                <div class="dataview-text"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
