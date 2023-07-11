@@ -4,7 +4,6 @@
 *@
 @{
     string? currentController = @ViewContext.RouteData.Values["controller"]!.ToString();
-    Console.WriteLine(currentController);
 }
 
 <div class="home-icon-section">
@@ -13,7 +12,7 @@
             Back To Login >>
         </a>
         @if (!currentController.Equals("Home")) { 
-            <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="FirmPage" asp-action="Index">
+            <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="FirmPage" asp-action="HomePage">
                 <i class="bi bi-house-door-fill"></i>
             </a>
         }
