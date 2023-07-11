@@ -9,18 +9,20 @@
     margin-top: 30px;
 }
 
-.productBox{
+.productBox {
     /* background-color: #c3a6a0; */
-    background-color: #c3a6a0;
-
+    /*background-color: #c3a6a0;*/
+    background-color: #F7F1F0;
+    border:solid 0.5px black;
 }
 
 .productBox p{
-    font-size: 20px;
+    font-size: 28px;
+    margin-top:15px;
 }
 
 .row.productBox img {
-    width: 300px;
+    width: 350px;
     padding: 20px;
 }
 
