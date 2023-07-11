@@ -13,17 +13,54 @@
     background-color: #fff;
 }
 
-button {
-    border: none; /* 去除邊框 */
+/*排序條件按鈕設定*/
+    #selectbutton button {
+    border: 0px; /* 去除邊框 */
     padding: 8px;
-    /* border-radius: 5%; */
-    /* background-color: #a15c38; */
     background-color: #c3a6a0e1;
 }
-
-    button:hover {
+    #selectbutton button:hover {
         background-color: #c3a6a09a;
     }
+    #all {
+    border: 0px; /* 去除邊框 */
+    padding: 8px;
+    background-color: #c3a6a0e1;
+}
+    #all:hover {
+        background-color: #c3a6a09a;
+    }
+/*排序條件按鈕設定 end */
+
+/*團購排序按鈕設定*/
+#buyall {
+    border: 0px; /* 去除邊框 */
+    padding: 8px;
+    background-color: #c3a6a0e1;
+}
+#buyall:hover {
+    background-color: #c3a6a09a;
+}
+/*團購排序按鈕設定 end */
+
+    /*上一頁 下一頁按鈕設定*/
+    #pre {
+    border: 0px; /* 去除邊框 */
+    padding: 8px;
+    background-color: #c3a6a0e1;
+}
+    #pre:hover {
+        background-color: #c3a6a09a;
+    }
+#next {
+    border: 0px; /* 去除邊框 */
+    padding: 8px;
+    background-color: #c3a6a0e1;
+}
+#next:hover {
+    background-color: #c3a6a09a;
+}
+/*上一頁 下一頁按鈕設定 end */
 
 /* 標題文字 */
 #search {
@@ -61,13 +98,15 @@ thead {
     background-color: #c3a6a0e1;
     margin-left: 40%;
     border-radius:5%;
-    padding:0.8%
+    padding:0.8%;
+    border:0px
 }
 #firmReset {
     background-color: #c3a6a0e1;
     margin-left: 1%;
     border-radius: 5%;
-    padding: 0.8%
+    padding: 0.8%;
+    border:0px
 }
 #firmSearchButton:hover {
     background-color: #c3a6a09a;

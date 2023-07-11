@@ -6,6 +6,7 @@
 }
 
 <link rel="stylesheet" href="~/css//SignUp/SignUp.css"/>
+<link rel="stylesheet" href="~/css/SignUp/GoToAnother.css" />
 
 <div class="container-fluid px-0 position-relative">
     <div class="row g-0">
@@ -41,12 +42,9 @@
                     </div>
                 </form>
             </div>
+            @await Html.PartialAsync("~/Pages/Shared/_SignUpNavigation.cshtml");
         </div>
     </div>
-    <div class="home-icon-section">
-        <a class="d-flex justify-content-center align-items-center  home-icon" asp-controller="Home" asp-action="Index">
-            <i class="bi bi-house-door-fill"></i>
-        </a>
-    </div>
+
 </div>
 

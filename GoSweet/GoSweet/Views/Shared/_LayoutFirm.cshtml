@@ -33,7 +33,7 @@
                 <div class="col-4"></div>
                 <div class="col-4 d-flex justify-content-center">
                     <div class="brand-section">
-                        <a class="navbar-brand" asp-controller="FirmPage" asp-action="FirmData">
+                        <a class="navbar-brand" asp-controller="FirmPage" asp-action="Homepage">
                             <img class="GoSweetLogo " src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version=true>
                         </a>
                     </div>
@@ -145,7 +145,7 @@
                 <div class="navbar-section navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-around">
                         <li class="nav-item">
-                            <a class="nav-link text-black px-5" asp-controller="FirmPage" asp-action="FirmData">首頁</a>
+                            <a class="nav-link text-black px-5" asp-controller="FirmPage" asp-action="Homepage">首頁</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark px-5"  asp-controller="FirmPage" asp-action="ProductSearch">商品搜尋</a>
@@ -154,7 +154,7 @@
                             <a class="nav-link text-dark px-5"  asp-controller="FirmPage" asp-action="ProductSale">商品上架</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark px-5"  asp-controller="Home" asp-action="Privacy">營收查詢</a>
+                            <a class="nav-link text-dark px-5"  asp-controller="FirmPage" asp-action="Revenue">營收查詢</a>
                         </li>
                     </ul>
                 </div>
@@ -184,7 +184,7 @@
             </a>
         </div>
         <div class="text-center fw-bolder ">
-            <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="SignUp" asp-action="Index">
+            <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="FirmPage" asp-action="FirmData">
                 個人資料
             </a>
         </div>
@@ -373,8 +373,6 @@
     </footer>
 
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
@@ -409,7 +407,11 @@
             });
         </script>
     @*}*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+
+    @*current page*@ 
     <script src="~/js/Layout/SideBar.js"></script>
     <script src="~/js/Layout/bellDropDown.js"></script>
     <script src="~/js/Layout/ShopCart.js"></script>
