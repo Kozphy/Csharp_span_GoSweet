@@ -1,10 +1,11 @@
 window.onload=function(){
+
     //評價估算
     var Rating = 3997;
     var NumberTotal = 996;
-    $(".star").children().eq(Math.round(Rating / NumberTotal) - 1).prop('checked', true)
+    $(".star").children().eq(Math.round(Rating/NumberTotal)-1).prop('checked',true)
     $("#NumberOrder").text(NumberTotal)
-
+    
     //更新日期設定
     Now = $(".update").text(NowTime())
 }
