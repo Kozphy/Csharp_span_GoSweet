@@ -3,7 +3,7 @@ body{
 }
 
 .performance-number{
-  color:#C15C38
+    color:#C15C38
 }
 
 /* 圖表用樣式 */
@@ -19,6 +19,10 @@ canvas{
 
 
 /* 表格用樣式 */
+.SearchList {
+    min-height = 910px;
+}
+
 table {
     border-collapse: collapse;
     border: 1px solid #cdcdcd;

@@ -1,39 +1,52 @@
-﻿<div class="container">
+﻿@model Officel.Models.HomepageModels
+<div class="container">
     <!-- 中心區塊劃分 -->
     <div class="row gx-3 d-flex justify-content-center">
         <!-- 廠商資訊 -->
-        <div class="salerinfo col-11 col-xl-2 m-1 d-flex justify-content-center align-items-center">
+        <div class="salerinfo col-11 col-xl-3 m-1 d-flex justify-content-center align-items-center">
             <figure class="figure m-1">
                 <!-- ★★★★★需要廠商圖片★★★★★ -->
-                <img src="~/img/shanni.jpg" class="figure-img img-fluid rounded" alt="ManufacturersLogo"
-                     id="ManufacturersLogo">
-                <figcaption class="figure-caption">歡迎回來!</figcaption>
+                <img src="~/img/shanni.jpg" class="figure-img img-fluid rounded" alt="ManufacturersLogo" id="ManufacturersLogo">
+                <figcaption class="figure-caption"><span class="h4">歡迎回來!</span></figcaption>
             </figure>
         </div>
-        <div class="salerinfo col-11 col-xl-9 m-1 p-3 d-flex flex-column justify-content-around">
+        <div class="salerinfo col-11 col-xl-8 m-1 p-3 d-flex flex-column justify-content-around">
             <!-- ★★★★★需要廠商評分★★★★★ -->
-            <div class="h4">商場評價: <span class="h5">★★★★★</span><span class="h5">(999)</span></div>
-            <div class="h4">當月表現<br /></div>
-            <div class="mb-3 h5">
+                    <div class="h3 fw-bold">商場評價: 
+                        <span class="h4">
+                            <div class="star star-lock">
+                                <input type="radio" name="rdStarLock" value="1" placeholder="星級評測"/>
+                                <input type="radio" name="rdStarLock" value="2" placeholder="星級評測"/>
+                                <input type="radio" name="rdStarLock" value="3" placeholder="星級評測"/>
+                                <input type="radio" name="rdStarLock" value="4" placeholder="星級評測" checked="checked"/>
+                                <input type="radio" name="rdStarLock" value="5" placeholder="星級評測"/>
+                            </div>
+                  </span>
+                 (<span class="h4" id="NumberOrder">
+                999
+               </span>)
+        </div>
+            <div class="h3 fw-bold">當月表現<br /></div>
+            <div class="mb-3 h4">
                 <div class="row d-flex justify-content-around">
                     <!-- ★★★★★需要廠商訂單數★★★★★ -->
-                    <div class="col-12 col-xl-3">總訂單數: <span class="performance-number">999</span></div>
+                    <div class="col-12 col-xl-3">總訂單數: <span class="performance-number">@Model.ThisMonthOrdersTotal</span></div>
                     <!-- ★★★★★需要廠商訂單數★★★★★ -->
-                    <div class="col-12 col-xl-3">總寄件數: <span class="performance-number">999</span></div>
+                    <div class="col-12 col-xl-3">總寄件數: <span class="performance-number">@Model.ThisMonthShippedTotal</span></div>
                     <!-- ★★★★★需要廠商訂單數★★★★★ -->
-                    <div class="col-12 col-xl-5">總銷售額: NT$<span class="performance-number">999,999</span></div>
+                    <div class="col-12 col-xl-5">總銷售額: <span class="performance-number">@Model.ThisMonthReveune</span></div>
 
                 </div>
             </div>
-            <div class="h4">前月表現<br /></div>
-            <div class="h5">
+            <div class="h3 fw-bold">前月表現<br /></div>
+            <div class="h4">
                 <div class="row d-flex justify-content-around align-items-center">
                     <!-- ★★★★★需要廠商訂單數★★★★★ -->
-                    <div class="col-12 col-xl-3">總訂單數: <span class="performance-number">999</span></div>
+                    <div class="col-12 col-xl-3">總訂單數: <span class="performance-number">@Model.LastMonthOrdersTotal</span></div>
                     <!-- ★★★★★需要廠商訂單數★★★★★ -->
-                    <div class="col-12 col-xl-3">總寄件數: <span class="performance-number">999</span></div>
+                    <div class="col-12 col-xl-3">總寄件數: <span class="performance-number">@Model.LastMonthShippedTotal</span></div>
                     <!-- ★★★★★需要廠商訂單數★★★★★ -->
-                    <div class="col-12 col-xl-5">總銷售額: NT$<span class="performance-number">999,999</span></div>
+                    <div class="col-12 col-xl-5">總銷售額: <span class="performance-number">@Model.LastMonthReveune</span></div>
                 </div>
             </div>
             <a class="col-12 pt-3 h6 text-end link-underline-light text-secondary">
@@ -45,10 +58,10 @@
         </div>
     </div>
     <!-- 快捷編輯 -->
-    <div class="row m-3 d-flex justify-content-around">
+    <div class="row mx-2 my-3 d-flex justify-content-around">
         <a class="Quicklogo col-5 col-lg-2 m-1 d-flex justify-content-center align-items-center flex-column" href="./"
            title="商品上架">
-            <svg width="142.50" height="109.50" viewBox="0.00 0.00 190.00 146.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg width="160" height="120" viewBox="0.00 0.00 190.00 146.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g stroke-linecap="round" id="圖層_1">
                     <path d="M43.75,72.39 C43.75,72.39 12.42,72.11 12.42,72.11 C10.30,71.89 7.30,71.32 6.49,70.70 C5.68,70.08 5.25,68.03 5.22,66.61 C5.22,66.61 5.64,55.32 5.64,55.32 C7.30,52.79 8.52,51.63 10.21,51.24 C10.85,51.10 11.50,50.95 12.14,50.80 C12.14,50.80 125.60,50.38 125.60,50.38 C128.24,51.33 129.44,52.82 129.69,55.46 C129.69,55.46 129.41,66.61 129.41,66.61 C128.93,69.71 128.18,71.15 126.51,71.66 C125.88,71.86 125.24,72.06 124.61,72.25 C124.61,72.25 93.42,72.11 93.42,72.11" fill="none" stroke="rgb(161, 92, 56)" stroke-width="8.00" stroke-opacity="1.00" stroke-linejoin="miter" />
                     <path d="M55.60,62.37 C55.60,62.37 55.74,83.68 55.74,83.68 C55.91,84.62 56.39,87.19 57.01,87.63 C57.42,87.92 58.55,88.35 60.40,88.90 C60.40,88.90 74.23,89.05 74.23,89.05 C76.98,88.62 79.10,86.93 80.58,83.97 C80.58,83.97 81.00,62.94 81.00,62.94" fill="none" stroke="rgb(161, 92, 56)" stroke-width="8.00" stroke-opacity="1.00" stroke-linejoin="miter" />
@@ -180,7 +193,7 @@
             </svg>
             <div class="Quickword h3">訂單查詢</div>
         </a>
-        <a class="Quicklogo col-5 col-lg-2 m-1 d-flex justify-content-center align-items-center flex-column" href="~/Firmpage/Revenue"
+        <a class="Quicklogo col-5 col-lg-2 m-1 d-flex justify-content-center align-items-center flex-column" href="~/Manufacturers/Revenue"
            title="營收查詢">
             <svg width="160.00" height="120.00" viewBox="0.00 0.00 800.00 600.00" xmlns="http://www.w3.org/2000/svg"
                  xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -239,57 +252,102 @@
     </div>
 
     <!-- 最近訂單 -->
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center" id="RecentlyOrder">
         <div class="col-11 m-1 salerinfo">
             <div class="m-1 h2">最近訂單</div>
             <hr>
             <form>
-                <table class="table table-hover">
+                <table class="Homepagetable table table-hover">
                     <thead>
                         <tr>
                             <!-- ★★★★★需要廠商訂單數★★★★★ -->
-                            <th scope="col">#</th>
-                            <th scope="col"><span class="h4">訂單成立日期</span></th>
-                            <th scope="col"><span class="h4">訂單編號</span></th>
-                            <th scope="col"><span class="h4">品項</span></th>
+                            <th class="HomepageTableNumber" scope="col">#</th>
+                            <th class="HomepageTalbeData" scope="col"><span class="h4">訂單成立日期</span></th>
+                            <th class="HomepageTalbeData" scope="col"><span class="h4">訂單編號</span></th>
+                            <th class="HomepageTalbeData" scope="col"><span class="h4">品項</span></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td><span class="h5">9999/12/31</span></td>
-                            <td><a class="h5" href="./">AA99999</a></td>
-                            <td><span class="h5">龍龍龍龍龍龍龍</span></td>
-                        </tr>
-                        <!-- <tr>
-                          <th scope="row">2</th>
-                          <td><span class="h5">9999/12/31</span></td>
-                          <td><a class="h5" href="./">AA99999</a></td>
-                          <td><span class="h5">龍龍龍龍龍龍龍</span></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td><span class="h5">9999/12/31</span></td>
-                          <td><a class="h5" href="./">AA99999</a></td>
-                          <td><span class="h5">龍龍龍龍龍龍龍</span></td>
-                        </tr> -->
+                    <tbody class="h5">
+                        @{
+                            int orderNumber = 1;
+                            foreach(var WL in Model.WaitingList)
+                            {
+                                <tr>
+                                    <th class="HomepageTableNumber" scope="row">@orderNumber .</th>
+                                    <td class="HomepageTalbeData"><span class="h5">@WL.OrderDate</span></td>
+                                    <td class="HomepageTalbeData"><a class="h5" href="./">@WL.OrderID</a></td>
+                                    <td class="HomepageTalbeData"><span class="h5">@WL.Products</span></td>
+                                </tr>
+                            orderNumber++;
+                            }
+                        }
                     </tbody>
                 </table>
             </form>
         </div>
     </div>
     <!-- 最近消息 -->
-    <div class="row gx-3 d-flex justify-content-center">
+    <div class="row gx-3 d-flex justify-content-center" id="RecentlyStatus">
         <div class="salerinfo col-6 m-1">
             <div class="h2">最近評論</div>
             <!-- ★★★★★需要廠商訂單數★★★★★ -->
+            <table class="Homepagetable table table-hover">
+                <thead>
+                         <tr>
+                            <!-- ★★★★★需要廠商訂單數★★★★★ -->
+                            <th class="HomepageTableNumber" scope="col">#</th>
+                            <th class="HomepageTalbeData" scope="col"><span class="h4">日期</th>
+                            <th class="HomepageTalbeData" scope="col"><span class="h4">內容</span></th>
+                        </tr>
+                </thead>
+                <tbody class="h5">
+                    @{
+                        int commentNumber = 1;
+                        foreach (var RC in Model.RecentlyComments)
+                        {
+                            <tr>
+                                <td class="HomepageTableNumber" th scope="row">@commentNumber .</td>
+                                <td class="HomepageTalbeData">@RC.CommentDate</td>
+                                <td class="HomepageTalbeData">@RC.Content</td>
+                            </tr>
+                            commentNumber++;
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
         <div class="salerinfo col-5 m-1">
             <div class="h2">最近熱賣</div>
             <!-- ★★★★★需要廠商訂單數★★★★★ -->
+                        <table class="Homepagetable table table-hover">
+                <thead>
+                         <tr>
+                            <!-- ★★★★★需要廠商訂單數★★★★★ -->
+                            <th class="HomepageTableNumber" scope="col">#</th>
+                            <th class="HomepageTalbeData" scope="col"><span class="h4">商品名</th>
+                            <th class="HomepageTalbeData" scope="col"><span class="h4">數量</span></th>
+                        </tr>
+                </thead>
+                <tbody class="h5">
+                    @{
+                        int hotNumber = 1;
+                        foreach (var HS in Model.HotSale)
+                        {
+                                    <tr>
+                                        <td class="HomepageTableNumber" scope="row">@hotNumber .</td>
+                                        <td class="HomepageTalbeData">@HS.ProductName</td>
+                                        <td class="HomepageTalbeData">@HS.Quentity</td>
+                                    </tr>
+                            hotNumber++;
+                        }
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-@*引用*@
-<link href="~/css/Homepage-Manufacturers.css" rel="stylesheet" asp-append-version="true">
+
+@* CSS功能的借放*@
+<link rel="stylesheet" href="~/css/Homepage-Manufacturers.css" asp-append-version="true" />
+@*JS功能的借放*@
 <script src="~/js/Homepage-Manufacturers.js" asp-append-version="true"></script>
