@@ -84,7 +84,7 @@ a.btn.result {
     padding-left: 50px;
 }
 
-.d-flex a {
+.d-flex a.result {
     padding: 5px 20px;
     background-color: #A15C38;
     color: #F7F1F0;
