@@ -1,6 +1,7 @@
 ﻿using GoSweet.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using GoSweet.ViewModels;
 
 namespace GoSweet.Controllers
 {
@@ -39,7 +40,7 @@ namespace GoSweet.Controllers
                                   select new
                                   {
                                         ProductName = product.p_name,
-                                        GroupBuyName = 
+                                        //GroupBuyName = 
                                   };
 
             ViewData["productGroupBuyData"] = productGroupBuyData;
