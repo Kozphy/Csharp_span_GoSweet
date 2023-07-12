@@ -1,6 +1,7 @@
 ﻿using GoSweet.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using GoSweet.ViewModels;
 
 namespace GoSweet.Controllers
 {
@@ -31,7 +32,7 @@ namespace GoSweet.Controllers
                                    ProductDescription = product.p_describe,
                                    ProductBuyNumber = order.o_buynumber,
                                };
-            ViewData["productRankData"] = productRankData.ToList();
+            ViewData["productRankData"] = productRankData.OrderByDescending((p) => p.ProductBuyNumber).ToList();
 
             var productGroupBuyData = from product in _shopwebContext.Product_datatables
                                   join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
@@ -39,7 +40,7 @@ namespace GoSweet.Controllers
                                   select new
                                   {
                                         ProductName = product.p_name,
-                                        GroupBuyName = 
+                                        //GroupBuyName = 
                                   };
 
             ViewData["productGroupBuyData"] = productGroupBuyData;
