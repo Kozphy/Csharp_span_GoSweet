@@ -7,12 +7,10 @@ namespace GoSweet.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly shopwebContext _shopwebContext;
 
-        public HomeController(ILogger<HomeController> logger, shopwebContext shopwebContext)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _shopwebContext = shopwebContext;
         }
 
         public IActionResult Index()
