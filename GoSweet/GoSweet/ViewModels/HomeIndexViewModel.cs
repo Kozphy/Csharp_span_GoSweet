@@ -16,7 +16,7 @@ namespace GoSweet.ViewModels
         //    public string? ProductName { get; set; }
         //    public string? GroupBuyName { get; set; }
         //}
-        public Product_datatable product_Datatable { get; set; };
+        //public Product_datatable product_Datatable { get; set; }
 
     }
 }
