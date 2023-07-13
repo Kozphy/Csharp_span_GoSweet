@@ -20,30 +20,32 @@ namespace GoSweet.Controllers
         {
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
-            // 
-            var productRankData = from product in _shopwebContext.Product_datatables
+            List<ProductRankDataViewModel> productRankData = (from product in _shopwebContext.Product_datatables
                                join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
                                join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number 
-                               select new
+                               select new ProductRankDataViewModel
                                {
-                                   ProductName = product.p_number,
+                                   ProductName = product.p_name,
                                    ProductCategory = product.p_category,
                                    ProductPrice = product.p_price,
                                    ProductDescription = product.p_describe,
                                    ProductBuyNumber = order.o_buynumber,
-                               };
-            ViewData["productRankData"] = productRankData.OrderByDescending((p) => p.ProductBuyNumber).ToList();
+                               }).OrderByDescending((p => p.ProductBuyNumber)).ToList();
 
-            var productGroupBuyData = from product in _shopwebContext.Product_datatables
+
+            List<ProductGroupBuyData> productGroupBuyData = (from product in _shopwebContext.Product_datatables
                                   join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
                                   join groupbuy in _shopwebContext.Group_datatables on product.p_number equals groupbuy.p_number
-                                  select new
+                                  select new ProductGroupBuyData
                                   {
                                         ProductName = product.p_name,
                                         //GroupBuyName = 
-                                  };
+                                  }).ToList();
 
-            ViewData["productGroupBuyData"] = productGroupBuyData;
+
+            HomeIndexViewModel indexViewModelData = new HomeIndexViewModel();
+            indexViewModelData.productRankDatas = productRankData;
+            indexViewModelData.productGroupBuyDatas = productGroupBuyData;
 
             //var order_data = from order in _shopwebContext.Order_datatables
             //                 join product in _shopwebContext.Product_datatables on order.p_number equals product.p_number
@@ -51,7 +53,7 @@ namespace GoSweet.Controllers
             //                 {
             //                     ProductBuyNumber = order.o_buynumber,
             //                 };
-            return View();
+            return View(indexViewModelData);
         }
 
         public IActionResult Login() 
