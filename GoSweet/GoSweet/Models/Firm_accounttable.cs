@@ -9,11 +9,11 @@ namespace GoSweet.Models
     {
         public Firm_accounttable()
         {
-            Firm_picturetables = new HashSet<Firm_picturetable>();
             Group_datatables = new HashSet<Group_datatable>();
             Notify_datatables = new HashSet<Notify_datatable>();
             Order_datatables = new HashSet<Order_datatable>();
             Product_datatables = new HashSet<Product_datatable>();
+            Talk_datatables = new HashSet<Talk_datatable>();
             Talk_persontables = new HashSet<Talk_persontable>();
         }
 
@@ -22,16 +22,13 @@ namespace GoSweet.Models
         public string f_account { get; set; }
         public string f_password { get; set; }
         public bool f_mailpass { get; set; }
-        public bool f_lock { get; set; }
 
-        public virtual Firm_datatable Firm_datatable { get; set; }
         public virtual Firm_pagetable Firm_pagetable { get; set; }
-        public virtual Lock_datatable Lock_datatable { get; set; }
-        public virtual ICollection<Firm_picturetable> Firm_picturetables { get; set; }
         public virtual ICollection<Group_datatable> Group_datatables { get; set; }
         public virtual ICollection<Notify_datatable> Notify_datatables { get; set; }
         public virtual ICollection<Order_datatable> Order_datatables { get; set; }
         public virtual ICollection<Product_datatable> Product_datatables { get; set; }
+        public virtual ICollection<Talk_datatable> Talk_datatables { get; set; }
         public virtual ICollection<Talk_persontable> Talk_persontables { get; set; }
     }
 }

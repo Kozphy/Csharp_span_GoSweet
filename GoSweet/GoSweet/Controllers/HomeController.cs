@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using GoSweet.ViewModels;
+using System.Reflection.Metadata.Ecma335;
 
 namespace GoSweet.Controllers
 {
@@ -20,6 +21,7 @@ namespace GoSweet.Controllers
         {
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
+<<<<<<< HEAD
             List<ProductRankDataViewModel> productRankData = (from product in _shopwebContext.Product_datatables
                                join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
                                join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number 
@@ -31,11 +33,31 @@ namespace GoSweet.Controllers
                                    ProductDescription = product.p_describe,
                                    ProductBuyNumber = order.o_buynumber,
                                }).OrderByDescending((p => p.ProductBuyNumber)).ToList();
+=======
+            // 
+            var productRankData = (from product in _shopwebContext.Product_datatables
+                                   join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
+                                   join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number 
+                                   select new
+                                   {
+                                       ProductName = product.p_number,
+                                       ProductCategory = product.p_category,
+                                       ProductPrice = product.p_price,
+                                       ProductDescription = product.p_describe,
+                                       ProductPicture = product_pic.p_url,
+                                       ProductBuyNumber = order.o_buynumber,
+                                   }).OrderByDescending(p => p.ProductBuyNumber).ToList();
+            ViewData["productRankData"] = productRankData;
+            foreach (var p in productRankData) {
+                Console.WriteLine(p);
+            }
+>>>>>>> e4f859fdb697f1df930f0c27199aa5cc4efc9c09
 
 
             List<ProductGroupBuyData> productGroupBuyData = (from product in _shopwebContext.Product_datatables
                                   join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
                                   join groupbuy in _shopwebContext.Group_datatables on product.p_number equals groupbuy.p_number
+<<<<<<< HEAD
                                   select new ProductGroupBuyData
                                   {
                                         ProductName = product.p_name,
@@ -46,6 +68,17 @@ namespace GoSweet.Controllers
             HomeIndexViewModel indexViewModelData = new HomeIndexViewModel();
             indexViewModelData.productRankDatas = productRankData;
             indexViewModelData.productGroupBuyDatas = productGroupBuyData;
+=======
+                                  join groupbuyMember in _shopwebContext.Member_membertables on groupbuy.g_number equals groupbuyMember.g_number
+                                  select new
+                                  {
+                                        ProductName = product.p_name,
+                                        groupMaxPeople = groupbuyMember.g_maxpeople,
+                                        groupNowPeople = groupbuyMember.m_nowpeople,
+                                  };
+
+            ViewData["productGroupBuyData"] = productGroupBuyData.ToList();
+>>>>>>> e4f859fdb697f1df930f0c27199aa5cc4efc9c09
 
             //var order_data = from order in _shopwebContext.Order_datatables
             //                 join product in _shopwebContext.Product_datatables on order.p_number equals product.p_number
@@ -53,7 +86,15 @@ namespace GoSweet.Controllers
             //                 {
             //                     ProductBuyNumber = order.o_buynumber,
             //                 };
+<<<<<<< HEAD
             return View(indexViewModelData);
+=======
+
+            Console.WriteLine("HomePage");
+            Console.WriteLine(HttpContext.Session.GetString("UserEmail"));
+            Console.WriteLine(HttpContext.Session.GetString("UserPassword"));
+            return View();
+>>>>>>> e4f859fdb697f1df930f0c27199aa5cc4efc9c09
         }
 
         public IActionResult Login() 
@@ -61,12 +102,37 @@ namespace GoSweet.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult Login(Customer_accounttable data) {
+            if (ModelState.IsValid) { 
+                Console.WriteLine(data.c_account);
+                Console.WriteLine(data.c_password);
+                HttpContext.Session.SetString("UserEmail",data.c_account);
+                HttpContext.Session.SetString("UserPassword", data.c_password);
+            }
+            return View();
+        }
+
         public IActionResult SignUp() {
             return View();
         }
 
-        public IActionResult Privacy()
+
+        // [Bind("AccountName", "UserEmail", "UserPassword")]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult SignUp(Customer_accounttable data) 
         {
+            if (ModelState.IsValid) {
+                Console.WriteLine(data.c_nickname);
+                //_shopwebContext.Customer_accounttables.Add(userData);
+                //Console.WriteLine(AccountName);
+                //Console.WriteLine(UserEmail);
+                //Console.WriteLine(UserPassword);
+                //Console.WriteLine(UserPasswordCheck);
+            }
+
             return View();
         }
 

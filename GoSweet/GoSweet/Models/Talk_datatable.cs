@@ -8,10 +8,14 @@ namespace GoSweet.Models
     public partial class Talk_datatable
     {
         public int t_number { get; set; }
-        public int t_post { get; set; }
-        public int t_get { get; set; }
+        public int c_number { get; set; }
+        public int f_number { get; set; }
         public DateTime t_time { get; set; }
         public string t_message { get; set; }
         public bool t_read { get; set; }
+        public int t_post { get; set; }
+
+        public virtual Customer_accounttable c_numberNavigation { get; set; }
+        public virtual Firm_accounttable f_numberNavigation { get; set; }
     }
 }
