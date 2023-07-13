@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using GoSweet.ViewModels;
+using System.Reflection.Metadata.Ecma335;
 
 namespace GoSweet.Controllers
 {
@@ -37,13 +38,15 @@ namespace GoSweet.Controllers
             var productGroupBuyData = from product in _shopwebContext.Product_datatables
                                   join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
                                   join groupbuy in _shopwebContext.Group_datatables on product.p_number equals groupbuy.p_number
+                                  join groupbuyMember in _shopwebContext.Member_membertables on groupbuy.g_number equals groupbuyMember.g_number
                                   select new
                                   {
                                         ProductName = product.p_name,
-                                        //GroupBuyName = 
+                                        groupMaxPeople = groupbuyMember.g_maxpeople,
+                                        groupNowPeople = groupbuyMember.m_nowpeople,
                                   };
 
-            ViewData["productGroupBuyData"] = productGroupBuyData;
+            ViewData["productGroupBuyData"] = productGroupBuyData.ToList();
 
             //var order_data = from order in _shopwebContext.Order_datatables
             //                 join product in _shopwebContext.Product_datatables on order.p_number equals product.p_number
@@ -51,6 +54,10 @@ namespace GoSweet.Controllers
             //                 {
             //                     ProductBuyNumber = order.o_buynumber,
             //                 };
+
+            Console.WriteLine("HomePage");
+            Console.WriteLine(HttpContext.Session.GetString("UserEmail"));
+            Console.WriteLine(HttpContext.Session.GetString("UserPassword"));
             return View();
         }
 
@@ -59,12 +66,32 @@ namespace GoSweet.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult Login(string UserEmail, string UserPassword) { 
+            Console.WriteLine(UserEmail);
+            Console.WriteLine(UserPassword);
+            HttpContext.Session.SetString("UserEmail",UserEmail);
+            HttpContext.Session.SetString("UserPassword", UserPassword);
+            return View();
+        }
+
         public IActionResult SignUp() {
             return View();
         }
 
-        public IActionResult Privacy()
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult SignUp([Bind("AccountName", "UserEmail", "UserPassword", "UserPasswordCheck")]  string AccountName, string UserEmail, string UserPassword, string UserPasswordCheck) 
         {
+            Customer_accounttable userData = new Customer_accounttable(AccountName, UserEmail, UserPassword, false);
+            
+
+            _shopwebContext.Customer_accounttables.Add(userData);
+            Console.WriteLine(AccountName);
+            Console.WriteLine(UserEmail);
+            Console.WriteLine(UserPassword);
+            Console.WriteLine(UserPasswordCheck);
             return View();
         }
 

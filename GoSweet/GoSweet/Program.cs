@@ -11,8 +11,20 @@ namespace GoSweet
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+
+            // setting database
             builder.Services.AddDbContext<shopwebContext>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopweb")));
+
+            // setting session
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
 
             var app = builder.Build();
@@ -27,6 +39,8 @@ namespace GoSweet
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

@@ -10,7 +10,6 @@ namespace GoSweet.Models
         public Product_datatable()
         {
             Group_datatables = new HashSet<Group_datatable>();
-            Member_membertables = new HashSet<Member_membertable>();
             Order_assesstables = new HashSet<Order_assesstable>();
             Order_datatables = new HashSet<Order_datatable>();
             Product_picturetables = new HashSet<Product_picturetable>();
@@ -28,11 +27,9 @@ namespace GoSweet.Models
         public int p_Inventory { get; set; }
         public int? p_ship { get; set; }
         public int? p_payment { get; set; }
-        public bool p_down { get; set; }
 
         public virtual Firm_accounttable f_numberNavigation { get; set; }
         public virtual ICollection<Group_datatable> Group_datatables { get; set; }
-        public virtual ICollection<Member_membertable> Member_membertables { get; set; }
         public virtual ICollection<Order_assesstable> Order_assesstables { get; set; }
         public virtual ICollection<Order_datatable> Order_datatables { get; set; }
         public virtual ICollection<Product_picturetable> Product_picturetables { get; set; }

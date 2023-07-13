@@ -19,15 +19,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Customer_datatable]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Firm_accounttable]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Firm_datatable]",
          "ObjectType": 0
       },
       {
@@ -35,15 +27,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Firm_picturetable]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Group_datatable]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Lock_datatable]",
          "ObjectType": 0
       },
       {

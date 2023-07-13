@@ -10,6 +10,7 @@ namespace GoSweet.Models
         public int f_numberr { get; set; }
         public string f_pagename { get; set; }
         public string f_message { get; set; }
+        public string f_picurl { get; set; }
 
         public virtual Firm_accounttable f_numberrNavigation { get; set; }
     }

@@ -18,26 +18,29 @@
                 <div class="form-title-box bg-mute-2 py-2 text-white rounded mb-2">
                     <h2 class="display-6">SignUp</h2>
                 </div>
-                <form method="post">
+                <form method="post" asp-action="SignUp">
                     <div class="py-2">
                         <label for="AccountName" class="form-label">帳戶名稱</label>
-                        <input type="text" id="AccountName" class="form-control" required />
+                        <input type="text" name="AccountName" id="AccountName" class="form-control" required />
                     </div>
                     <div class="py-2">
                         <label for="UserEmail" class="form-label" >Email</label>
-                        <input type="email" id="UserEmail" class="form-control" pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required />
+                        <input type="email" name="UserEmail" id="UserEmail" class="form-control" title="Email pattern Error" pattern="[a-z0-9]+@@[a-z]+\.[a-z]{2,3}" required />
                     </div>
                     <div class="py-2">
                         <label for="UserPassword" class="form-label">密碼</label>
-                        <input type="password" id="UserPassword" class="form-control"  required/>
+                        <input type="password" name="UserPassword" id="UserPassword" class="form-control"  required/>
                     </div>
                     <div class="py-2">
                         <label for="UserPasswordCheck" class="form-label">再次確認密碼</label>
-                        <input type="password" id="UserPasswordCheck" class="form-control"  required/>
+                        <input type="password" name="UserPasswordCheck" id="UserPasswordCheck" class="form-control"  required/>
                     </div>
-                    <div class="row">
-                        <div class="col-12 mb-2 mb-md-0 col-md-12">
-                            <button type="submit" class="SignUpBtn w-100 btn btn-mute-2  text-dark">註冊</button>
+                    <span class="passwordCheckResult text-danger"></span>
+                    <div class="mt-2">
+                        <div class="row">
+                            <div class="col-12 mb-2 mb-md-0 col-md-12">
+                                <button type="submit" class="SignUpBtn w-100 btn btn-mute-2  text-dark">註冊</button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -45,6 +48,6 @@
             @await Html.PartialAsync("~/Pages/Shared/_SignUpNavigation.cshtml");
         </div>
     </div>
-
 </div>
 
+<script src="~/js/Home/PasswordCheck.js"></script>

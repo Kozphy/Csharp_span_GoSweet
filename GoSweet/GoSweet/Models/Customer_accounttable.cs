@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GoSweet.Models
 {
@@ -11,20 +12,31 @@ namespace GoSweet.Models
         {
             Notify_datatables = new HashSet<Notify_datatable>();
             Order_datatables = new HashSet<Order_datatable>();
+            Talk_datatables = new HashSet<Talk_datatable>();
             Talk_persontables = new HashSet<Talk_persontable>();
         }
 
         public string c_nickname { get; set; }
         public int c_number { get; set; }
+        [EmailAddress]
         public string c_account { get; set; }
         public string c_password { get; set; }
         public bool c_mailpass { get; set; }
-        public bool c_lock { get; set; }
 
-        public virtual Customer_datatable Customer_datatable { get; set; }
-        public virtual Lock_datatable Lock_datatable { get; set; }
+        public Customer_accounttable(string nickname, string account, string password, bool mailpass) { 
+            Notify_datatables = new HashSet<Notify_datatable>();
+            Order_datatables = new HashSet<Order_datatable>();
+            Talk_datatables = new HashSet<Talk_datatable>();
+            Talk_persontables = new HashSet<Talk_persontable>();
+            c_nickname = nickname;
+            c_account = account;
+            c_password = password;
+            c_mailpass = mailpass;
+        }
+
         public virtual ICollection<Notify_datatable> Notify_datatables { get; set; }
         public virtual ICollection<Order_datatable> Order_datatables { get; set; }
+        public virtual ICollection<Talk_datatable> Talk_datatables { get; set; }
         public virtual ICollection<Talk_persontable> Talk_persontables { get; set; }
     }
 }
