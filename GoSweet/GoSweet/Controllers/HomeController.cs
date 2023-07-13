@@ -22,18 +22,22 @@ namespace GoSweet.Controllers
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
             // 
-            var productRankData = from product in _shopwebContext.Product_datatables
-                               join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
-                               join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number 
-                               select new
-                               {
-                                   ProductName = product.p_number,
-                                   ProductCategory = product.p_category,
-                                   ProductPrice = product.p_price,
-                                   ProductDescription = product.p_describe,
-                                   ProductBuyNumber = order.o_buynumber,
-                               };
-            ViewData["productRankData"] = productRankData.OrderByDescending((p) => p.ProductBuyNumber).ToList();
+            var productRankData = (from product in _shopwebContext.Product_datatables
+                                   join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
+                                   join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number 
+                                   select new
+                                   {
+                                       ProductName = product.p_number,
+                                       ProductCategory = product.p_category,
+                                       ProductPrice = product.p_price,
+                                       ProductDescription = product.p_describe,
+                                       ProductPicture = product_pic.p_url,
+                                       ProductBuyNumber = order.o_buynumber,
+                                   }).OrderByDescending(p => p.ProductBuyNumber).ToList();
+            ViewData["productRankData"] = productRankData;
+            foreach (var p in productRankData) {
+                Console.WriteLine(p);
+            }
 
             var productGroupBuyData = from product in _shopwebContext.Product_datatables
                                   join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
@@ -68,11 +72,13 @@ namespace GoSweet.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Login(string UserEmail, string UserPassword) { 
-            Console.WriteLine(UserEmail);
-            Console.WriteLine(UserPassword);
-            HttpContext.Session.SetString("UserEmail",UserEmail);
-            HttpContext.Session.SetString("UserPassword", UserPassword);
+        public IActionResult Login(Customer_accounttable data) {
+            if (ModelState.IsValid) { 
+                Console.WriteLine(data.c_account);
+                Console.WriteLine(data.c_password);
+                HttpContext.Session.SetString("UserEmail",data.c_account);
+                HttpContext.Session.SetString("UserPassword", data.c_password);
+            }
             return View();
         }
 
@@ -80,18 +86,21 @@ namespace GoSweet.Controllers
             return View();
         }
 
+
+        // [Bind("AccountName", "UserEmail", "UserPassword")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult SignUp([Bind("AccountName", "UserEmail", "UserPassword", "UserPasswordCheck")]  string AccountName, string UserEmail, string UserPassword, string UserPasswordCheck) 
+        public IActionResult SignUp(Customer_accounttable data) 
         {
-            Customer_accounttable userData = new Customer_accounttable(AccountName, UserEmail, UserPassword, false);
-            
+            if (ModelState.IsValid) {
+                Console.WriteLine(data.c_nickname);
+                //_shopwebContext.Customer_accounttables.Add(userData);
+                //Console.WriteLine(AccountName);
+                //Console.WriteLine(UserEmail);
+                //Console.WriteLine(UserPassword);
+                //Console.WriteLine(UserPasswordCheck);
+            }
 
-            _shopwebContext.Customer_accounttables.Add(userData);
-            Console.WriteLine(AccountName);
-            Console.WriteLine(UserEmail);
-            Console.WriteLine(UserPassword);
-            Console.WriteLine(UserPasswordCheck);
             return View();
         }
 

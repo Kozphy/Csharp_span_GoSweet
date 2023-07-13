@@ -24,7 +24,7 @@
                     </div>
                     <div class="py-2">
                         <label for="UserEmail" class="form-label" >Email</label>
-                        <input type="email" id="UserEmail" class="form-control" pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required />
+                        <input type="email" id="UserEmail" class="form-control" pattern="[a-z0-9]+@@[a-z]+\.[a-z]{2,3}" required />
                     </div>
                     <div class="py-2">
                         <label for="UserPassword" class="form-label">密碼</label>
@@ -34,6 +34,7 @@
                         <label for="UserPasswordCheck" class="form-label">再次確認密碼</label>
                         <input type="password" id="UserPasswordCheck" class="form-control"  required/>
                     </div>
+                    <span class="passwordCheckResult text-danger"></span>
                     <div class="row">
                         <div class="col-12 mb-2 mb-md-0 col-md-12">
                             <button type="submit" class="SignUpBtn w-100 btn btn-mute-2  text-dark">註冊</button>

@@ -21,12 +21,12 @@
                 <form method="post" asp-action="Login">
                     <div class="py-2">
                         <label for="UserEmail" class="form-label">Email</label>
-                        <input name="UserEmail" id="UserEmail" class="form-control" />
+                        <input type="email" name="UserEmail" id="UserEmail" class="form-control"  required/>
                     </div>
                     <div class="py-2">
                         <label for="UserPassword" class="form-label">Password</label>
                         <span role="button" class="ms-2 text-mute-3 fw-bolder text-decoration-underline " data-bs-toggle="modal" data-bs-target="#ForgetPasswordModal">Forget?</span>
-                        <input name="UserPassword" id="UserPassword" class="form-control" />
+                        <input type="password" name="UserPassword" id="UserPassword" class="form-control" required/>
                     </div>
                     <div class="mb-2">驗證</div>
                     <div class="row">
