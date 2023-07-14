@@ -2,6 +2,7 @@
 using GoSweet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace GoSweet.Controllers
 {
@@ -23,28 +24,48 @@ namespace GoSweet.Controllers
             List<ProductRankDataViewModel> productRankData = (from product in _shopwebContext.Product_datatables
                                                               join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
                                                               join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number
+                                                              where product_pic.p_picnumber == 1
                                                               select new ProductRankDataViewModel
                                                               {
                                                                   ProductName = product.p_name,
                                                                   ProductCategory = product.p_category,
+                                                                  ProductPicture = product_pic.p_url,
                                                                   ProductPrice = product.p_price,
                                                                   ProductDescription = product.p_describe,
-                                                                  ProductBuyNumber = order.o_buynumber,
-                                                              }).OrderByDescending((p => p.ProductBuyNumber)).ToList();
+                                                                  ProductTotalBuyNumber = order.o_buynumber,
+                                                              }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
+            Console.WriteLine("productRankData");
+            foreach (var group in productRankData) {
+                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+                    Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+                }
+            }
 
+            Console.WriteLine();
 
+            Console.WriteLine("productGroupBuyData");
             List<ProductGroupBuyData> productGroupBuyData = (from product in _shopwebContext.Product_datatables
                                                              join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
                                                              join groupbuy in _shopwebContext.Group_datatables on product.p_number equals groupbuy.p_number
+                                                             join member in _shopwebContext.Member_membertables on groupbuy.g_number equals member.g_number
                                                              select new ProductGroupBuyData
                                                              {
                                                                  ProductName = product.p_name,
-                                                                 //GroupBuyName = 
+                                                                 ProductPicture = product_pic.p_url,
+                                                                 GroupMaxPeople = groupbuy.g_maxpeople, 
+                                                                 GroupNowPeople = member.m_nowpeople, 
+                                                                 GroupEndDate = groupbuy.g_end,
                                                              }).ToList();
-
+            Console.WriteLine(productGroupBuyData);
             HomeIndexViewModel indexViewModelData = new HomeIndexViewModel();
             indexViewModelData.productRankDatas = productRankData;
             indexViewModelData.productGroupBuyDatas = productGroupBuyData;
+
+            foreach (var group in productGroupBuyData) {
+                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+                    Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+                }
+            }
             return View(indexViewModelData);
         }
 

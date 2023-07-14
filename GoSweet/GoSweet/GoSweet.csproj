@@ -2804,4 +2804,8 @@
     <TypeScriptCompile Include="jit_init\node_modules\yargs\browser.d.ts" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
+  </ItemGroup>
+
 </Project>

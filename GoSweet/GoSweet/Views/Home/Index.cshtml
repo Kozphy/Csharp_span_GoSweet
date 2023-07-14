@@ -1,4 +1,5 @@
-﻿@{
+﻿@model GoSweet.ViewModels.HomeIndexViewModel;
+@{
     ViewData["Title"] = "Home Page";
     string? currentPage = @ViewContext.RouteData.Values["controller"]!.ToString();
 }
@@ -34,16 +35,24 @@
                 <hr />
                 <div class="row">
                     <div class="col-3 text-center">
-                        <button type="button" class="px-5 btn btn-hover-bg "><span class="product-category-title">蛋糕</span></button>
+                        <form method="post">
+                            <button type="submit" name="cake" class="px-5 btn btn-hover-bg "><span class="product-category-title">蛋糕</span></button>
+                        </form>
                     </div>
                     <div class="col-3 text-center">
-                        <button type="button" class="px-5 btn btn-hover-bg"><span class="product-category-title">麵包</span></button>
+                        <form method="post">
+                            <button type="submit" class="px-5 btn btn-hover-bg"><span class="product-category-title">麵包</span></button>
+                        </form>
                     </div>
                     <div class="col-3 text-center">
-                        <button type="button" class="px-5 btn btn-hover-bg"><span class="product-category-title">糕點</span></button>
+                        <form method="post">
+                            <button type="submit" class="px-5 btn btn-hover-bg"><span class="product-category-title">糕點</span></button>
+                        </form>
                     </div>
                     <div class="col-3 text-center">
-                        <button type="button" class="px-5 btn btn-hover-bg"><span class="product-category-title">派</span></button>
+                        <form method="post">
+                            <button type="submit" class="px-5 btn btn-hover-bg"><span class="product-category-title">派</span></button>
+                        </form>
                     </div>
                 </div>
                 <hr />
@@ -58,33 +67,39 @@
                 <div class="splide__slider">
                     <div class="splide__track">
                         <ul class="splide__list">
-                            <li class="splide__slide">
-                                <div class="splide__slide__container">
-                                    <div class="product-rank-card card">
-                                        <div class="position-relative">
-                                            <div class="product-rank-hover-content d-flex">
-                                                <button class="btn btn-outline-light rounded-0 m-auto ">GO >></button>
+                            @foreach (var item in Model.productRankDatas)
+                            {
+                                <li class="splide__slide">
+                                    <div class="splide__slide__container">
+                                        <div class="product-rank-card card">
+                                            <div class="position-relative">
+                                                <div class="product-rank-hover-content d-flex">
+                                                    <button class="btn btn-outline-light rounded-0 m-auto ">GO >></button>
+                                                </div>
+                                                <img class="card-img-top" src="@item.ProductPicture" />
                                             </div>
-                                            <img class="card-img-top" src="~/img/Home/布列塔尼.jpg" />
-                                        </div>
-                                        <div class="card-title mb-0 py-2 text-center product-card-title">
-                                            布列塔尼
-                                        </div>
-                                        <div class="card-body ">
-                                            <div class="text-center card-text multiline-ellipsis-3">
-                                                布列塔尼圓酥餅 Galette Bretonne 始於19世紀後半，是法國的傳統小點心，發源地是法國西北邊的布列塔尼區，這即是此款甜點名字的由來，屬於地方甜點。
-                                                我們使用法國頂級手工Échiré艾許奶油，奶油含量豐富，充滿濃郁的奶香；
-                                                搭配法國頂級法芙娜巧克力，為麵糰帶來酥脆和入口即化的口感，並帶有芳香純美的風味；
-                                                最後加入少許法國頂級鹽之花點綴，除了有濃郁的巧克力香外，甜中帶點鹹，好吃又不膩口。
+                                            <div class="card-title mb-0 py-2 text-center product-card-title">
+                                                @item.ProductName
                                             </div>
-                                        </div>
-                                        <div class="card-footer">
-                                            大約 1000 人購買
+                                            <div class="card-body">
+                                                <div class="text-center card-text multiline-ellipsis-3">
+                                                    @item.ProductDescription
+                                                    @*                                                    
+                                                        布列塔尼圓酥餅 Galette Bretonne 始於19世紀後半，是法國的傳統小點心，發源地是法國西北邊的布列塔尼區，這即是此款甜點名字的由來，屬於地方甜點。
+                                                        我們使用法國頂級手工Échiré艾許奶油，奶油含量豐富，充滿濃郁的奶香；
+                                                        搭配法國頂級法芙娜巧克力，為麵糰帶來酥脆和入口即化的口感，並帶有芳香純美的風味；
+                                                        最後加入少許法國頂級鹽之花點綴，除了有濃郁的巧克力香外，甜中帶點鹹，好吃又不膩口。
+                                                    *@
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                大約 @item.ProductTotalBuyNumber 人購買
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="splide__slide">
+                                </li>
+                            }
+@*                            <li class="splide__slide">
                                 <div class="splide__slide__container">
                                     <div class="product-rank-card card">
                                         <div class="position-relative">
@@ -208,7 +223,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </li>
+                            </li>*@
                         </ul>
                     </div>
                 </div>
