@@ -7,6 +7,7 @@ namespace GoSweet.Models
 {
     public partial class Talk_persontable
     {
+        public int t_forPK { get; set; }
         public int? c_number { get; set; }
         public int? f_number { get; set; }
         public string t_id { get; set; }

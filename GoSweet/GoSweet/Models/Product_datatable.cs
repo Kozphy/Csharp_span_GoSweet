@@ -13,6 +13,8 @@ namespace GoSweet.Models
             Order_assesstables = new HashSet<Order_assesstable>();
             Order_datatables = new HashSet<Order_datatable>();
             Product_picturetables = new HashSet<Product_picturetable>();
+            Payment_numbers = new HashSet<Payment_datatable>();
+            ship_numbers = new HashSet<Ship_datatable>();
         }
 
         public int f_number { get; set; }
@@ -33,5 +35,8 @@ namespace GoSweet.Models
         public virtual ICollection<Order_assesstable> Order_assesstables { get; set; }
         public virtual ICollection<Order_datatable> Order_datatables { get; set; }
         public virtual ICollection<Product_picturetable> Product_picturetables { get; set; }
+
+        public virtual ICollection<Payment_datatable> Payment_numbers { get; set; }
+        public virtual ICollection<Ship_datatable> ship_numbers { get; set; }
     }
 }

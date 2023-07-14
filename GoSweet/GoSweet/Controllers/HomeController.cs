@@ -27,6 +27,7 @@ namespace GoSweet.Controllers
                                                               where product_pic.p_picnumber == 1
                                                               select new ProductRankDataViewModel
                                                               {
+                                                                  ProductNumber = product.p_number,
                                                                   ProductName = product.p_name,
                                                                   ProductCategory = product.p_category,
                                                                   ProductPicture = product_pic.p_url,

@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GoSweet.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Layout/LoginSignUp/homeIcon.css" asp-append-version="true" />
+    @if (IsSectionDefined("Head"))
+    {
+        @await RenderSectionAsync("Head", required:true);
+    }
+
 
     @*
     third party package
@@ -30,5 +35,10 @@
     </main>
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/js/PasswordCheck.js"></script>
+    @if (IsSectionDefined("Scripts"))
+    {
+        @await RenderSectionAsync("Scripts", required: false)
+    }
+
 </body>
 </html>

@@ -47,11 +47,27 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Payment_datatable]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Product_datatable]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[Product_picturetable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_to_Payment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_to_Ship]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Ship_datatable]",
          "ObjectType": 0
       },
       {

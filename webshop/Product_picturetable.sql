@@ -4,4 +4,9 @@ create table Product_picturetable(
 	p_url nvarchar(100) not null
 );
 
-insert into Product_picturetable (p_picnumber,¡@p_number,¡@p_url) values(3, 20003, '~/img/ProductPopularRank/ªi¤h¹y¬£.jpg');
+insert into Product_picturetable (p_picnumber,¡@p_number,¡@p_url) values(1, 20003, N'/img/Home/ProductPopularRank/ªi¤h¹y¬£.jpg');
+insert into Product_picturetable (p_picnumber,¡@p_number,¡@p_url) values(1, 20004, N'/img/Home/ProductPopularRank/AngleCake.jpg');
+insert into Product_picturetable (p_picnumber,¡@p_number,¡@p_url) values(1, 20005, N'/img/Home/ProductPopularRank/Classic_Mille_Feuille.jpg');
+insert into Product_picturetable (p_picnumber,¡@p_number,¡@p_url) values(1, 20006, N'/img/Home/ProductPopularRank/¥©§J¤O¼}´µ.jpg');
+insert into Product_picturetable (p_picnumber,¡@p_number,¡@p_url) values(1, 20007, N'/img/Home/ProductPopularRank/¥¬¦C¶ð¥§.jpg');
+insert into Product_picturetable (p_picnumber,¡@p_number,¡@p_url) values(1, 20008, N'/img/Home/ProductPopularRank/¤â¤uªwªÜ-­ì¨ý.jpg');

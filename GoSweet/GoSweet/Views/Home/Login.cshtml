@@ -4,8 +4,9 @@
 @{
     Layout = "_LayoutLoginSignUp";
 }
-
-<link rel="stylesheet" href="~/css/Login/Login.css" />
+@section Head{
+    <link rel="stylesheet" href="~/css/Login/Login.css" />
+}
 
 
 <div class="container-fluid px-0 position-relative ">
@@ -54,3 +55,6 @@
 
 @await Html.PartialAsync("~/Pages/Shared/_ForgetPasswordModal.cshtml");
 
+@section Scripts{
+
+};
