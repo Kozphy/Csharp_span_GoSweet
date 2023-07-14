@@ -11,8 +11,8 @@ namespace GoSweet
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<shopwebContext>(
-            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopweb")));
+            //builder.Services.AddDbContext<shopwebContext>(
+            //options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopweb")));
 
 
             var app = builder.Build();

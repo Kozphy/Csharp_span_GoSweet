@@ -1,29 +1,26 @@
 #productSaleContent {
-    font-size: 28px;
+    font-size: 26px;
     background-color: #f7f1f0;
 }
-/* .container{
-    background-color: #f7f1f0;
-    padding: 3%;
-} */
-/* 大標題文字 */
-#shelves {
-    font-size: 55px;
-    padding: 1%;
+
+.datacontent {
+    font-size: 22px;
+    padding-left: 6%;
+    padding-right: 6%;
 }
 
 /* 中標題文字設定 */
 #productdata{
-    font-size: 40px;
+    font-size: 2.5rem;
 }
-#productset{
-    font-size: 40px;
+#productset {
+    font-size: 2.5rem;
 }
-#deliver{
-    font-size: 40px;
+#deliver {
+    font-size: 2.5rem;
 }
-#payment{
-    font-size: 40px;
+#payment {
+    font-size: 2.5rem;
 }
 
 /* sidebar設定 */
@@ -43,11 +40,6 @@
 
 /* sidebar設定 end */
 
-
-.datacontent {
-    padding-left: 8%;
-    padding-right: 8%;
-}
 
 /*上架 預覽 按鈕設定*/
 #gosaleButton {
