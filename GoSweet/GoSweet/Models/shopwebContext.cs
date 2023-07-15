@@ -433,6 +433,16 @@ public partial class ShopwebContext : DbContext
             entity.Property(e => e.TalkMemberId).HasColumnName("Talk_member_id");
             entity.Property(e => e.CNumber).HasColumnName("c_number");
             entity.Property(e => e.FNumber).HasColumnName("f_number");
+
+            entity.HasOne(d => d.CNumberNavigation).WithMany(p => p.TalkMembertables)
+                .HasForeignKey(d => d.CNumber)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Talk_membertable_Customer_accounttable");
+
+            entity.HasOne(d => d.FNumberNavigation).WithMany(p => p.TalkMembertables)
+                .HasForeignKey(d => d.FNumber)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Talk_membertable_Firm_accounttable");
         });
 
         modelBuilder.Entity<TalkPersontable>(entity =>
