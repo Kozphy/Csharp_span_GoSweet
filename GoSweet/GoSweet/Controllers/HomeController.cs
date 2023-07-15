@@ -7,16 +7,24 @@ namespace GoSweet.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly shopwebContext _shopwebContext;
 
-        public HomeController(ILogger<HomeController> logger, shopwebContext shopwebContext)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _shopwebContext = shopwebContext;
         }
 
         public IActionResult Index()
         {
+            // Order_datatable, o_buynumber
+            // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
+            // 
+            
+            //var order_data = from order in _shopwebContext.Order_datatables
+            //                 join product in _shopwebContext.Product_datatables on order.p_number equals product.p_number
+            //                 select new
+            //                 {
+            //                     ProductBuyNumber = order.o_buynumber,
+            //                 };
             return View();
         }
 
