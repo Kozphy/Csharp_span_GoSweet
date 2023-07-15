@@ -11,26 +11,17 @@
         $('.getproduct').on('click', function () {
             console.log(parseInt($('#s_onumber').text()))
 
-            $('.o_status').eq(olistnumber).text('已結單')
-            $('.o_shipstatus').eq(olistnumber).text('已取貨')
-            $('.shipget').eq(olistnumber).prop('disabled', true)
-            $('.shipget').eq(olistnumber).html("已領取")
+            if (!($('.shipget').eq(olistnumber).html() == "確認寄出")) {
+                console.log('已寄出不寫入')
+                return;
+            }
+            $('.o_shipstatus').eq(olistnumber).text('已寄出')
+            $('.shipget').eq(olistnumber).html("已寄出")
+            console.log('寄出寫入')
 
-            //獲得現在時間並排序好
-            const date = new Date();
-
-            let seconds = date.getSeconds();
-            let minutes = date.getMinutes();
-            let hours = date.getHours();
-            let day = date.getDate();
-            let month = date.getMonth() + 1;
-            let year = date.getFullYear();
-
-            // This arrangement can be altered based on how we want the date's format to appear.
-            let currentDate = `${month}-${day}-${year}`;
 
             let onum = parseInt($('#s_onumber').text())
-            $.post('/Order_datatable/orderdone', { 'onumber': onum, "end": currentDate })
+            $.post('/Order_datatable/orderdone2', { 'onumber': onum })
                 .done(function (data) {
                     console.log($('#s_onumber').text() + " onumber is done" + data);
                 });
@@ -39,13 +30,13 @@
         //取得訂單評分資料傳給db
         $('.save_assess').on('click', function () {
 
-            let ocs = $('.ocs option').filter(':selected').val()
+            let ofs = $('.ofs option').filter(':selected').val()
 
             console.log(parseInt($('#o_number').text()))
-            $.post('/Order_datatable/setassess', {
+            $.post('/Order_datatable/setassess2', {
                 onumber: parseInt($('#o_number').text()),
-                ocs: parseFloat(ocs),
-                ocm: $('.ocm').val()
+                ofs: parseFloat(ofs),
+                ofm: $('.ofm').val()
             }).done(function (data) {
                 console.log(data);
             });
@@ -60,45 +51,45 @@
         $('#o_number').text(onumber)
         $('#p_pic').attr('src', $('.o_ppic').eq(listnumber).attr('src'))
         $('#a_time').text($('.o_starttime').eq(listnumber).text())
-        $('#f_name').text($('.o_fname').eq(listnumber).text())
+        $('#c_name').text($('.o_cname').eq(listnumber).text())
         $('#p_name').text($('.o_pname').eq(listnumber).text())
         $('#p_price').text($('.o_pprice').eq(listnumber).text())
         //取得評分資料
-        $.post('/Order_datatable/getassess', { 'onumber': onumber })
+        $.post('/Order_datatable/getassess2', { 'onumber': onumber })
             .done(function (data) {
                 if (!(data == "null")) {
                     let data2 = JSON.parse(data)
-                    if (data2[0].ocs) {
-                        $('.ocs option').each(function () {
-                            if ($(this).val() == data2[0].ocs) {
+                    if (data2[0].ofs) {
+                        $('.ofs option').each(function () {
+                            if ($(this).val() == data2[0].ofs) {
                                 console.log($(this).val())
                                 $(this).attr('selected', 'selected')
                             }
                         })
                     } else {
-                        $('.ocs option').filter(':selected').attr('selected', false)
-                    }
-                    if (data2[0].ocm) {
-                        $('.ocm').val(data2[0].ocm)
-                    } else {
-                        $('.ocm').val(null)
-                    }
-                    if (data2[0].ofs) {
-                        $('.ofs').text(data2[0].ofs)
-                    } else {
-                        $('.ofs').text('未評分')
+                        $('.ofs option').filter(':selected').attr('selected', false)
                     }
                     if (data2[0].ofm) {
                         $('.ofm').val(data2[0].ofm)
                     } else {
                         $('.ofm').val(null)
                     }
+                    if (data2[0].ocs) {
+                        $('.ocs').text(data2[0].ocs)
+                    } else {
+                        $('.ocs').text('未評分')
+                    }
+                    if (data2[0].ocm) {
+                        $('.ocm').val(data2[0].ocm)
+                    } else {
+                        $('.ocm').val(null)
+                    }
                 } else {
                     console.log('data is null')
-                    $('.ocs option').filter(':selected').attr('selected', false)
-                    $('.ocm').val(null)
-                    $('.ofs').text('未評分')
+                    $('.ofs option').filter(':selected').attr('selected', false)
                     $('.ofm').val(null)
+                    $('.ocs').text('未評分')
+                    $('.ocm').val(null)
                 }
 
 
@@ -108,17 +99,18 @@
     // 動態取貨結單
     function shipget(listnumber, onumber) {
         olistnumber = listnumber
-        $('#s_fname').text($('.o_fname').eq(listnumber).text())
+        $('#s_cname').text($('.o_cname').eq(listnumber).text())
         $('#s_pname').text($('.o_pname').eq(listnumber).text())
+        $('#s_buynumber').text($('.o_pbuynumber').eq(listnumber).text())
         $('#s_onumber').text(onumber)
         $('#s_ship').text($('.o_ship').eq(listnumber).text())
         $('#s_place').text($('.o_place').eq(listnumber).text())
 
     }
 
-    //廠商加入聊天室名單
+    //客戶加入聊天室名單
     function gotalk(onumber) {
-        $.post('/Order_datatable/gotalk', { onumber: onumber }).done(function (data) {
+        $.post('/Order_datatable/gotalk2', { onumber: onumber }).done(function (data) {
             console.log(data)
             //window.location.assign("/test3/index")
         })
@@ -138,11 +130,11 @@
 
             <div class="col-12">
 
-                <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-top: 50px;">
+                <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-top: 20px;">
                     <label style="font-size:40px ;margin-left: 40px;">訂單紀錄</label>
                 </div>
                 <!-- 搜尋列開始 -->
-                <div style="margin-top: 50px; border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
+                <div style="margin-top: 20px; border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
                     <form action="" style="margin: 30px;">
                         <div class="row">
                             <div class="col-5">
@@ -180,7 +172,7 @@
                             </div>
 
                             <div class="col-4">
-                                <label for="" style="font-size: 28px;">廠商名稱：</label>
+                                <label for="" style="font-size: 28px;">客戶名稱：</label>
                                 <input type="text">
                             </div>
 
@@ -206,7 +198,7 @@
 
                 </div>
                 <!-- 排序按鈕 -->
-                <div class="row" style="margin-top: 30px; margin-left: 0px;">
+                <div class="row" style="margin-top: 20px; margin-left: 0px;">
                     <div class="col-4">
                     </div>
                     <div class="col-4">
@@ -244,8 +236,8 @@
                                         <td style="vertical-align: middle;">
                                             <label for="" style="font-size: 28px;" class="o_pname">@item.pname</label>
                                             <br>
-                                            <label for="" style="font-size: 28px; margin-top: 10px;">客戶名稱：</label>
-                                            <label for="" style="font-size: 28px; margin-top: 10px;" class="o_cname">李銘翔</label>
+                                            <label for="" style="font-size: 28px; margin-top: 20px;">客戶名稱：</label>
+                                            <label for="" style="font-size: 28px; margin-top: 20px;" class="o_cname">李銘翔</label>
                                         </td>
                                     </tr>
                                     <tr style="height: 66%;">
@@ -325,19 +317,19 @@
 
                                                         <tr style="height: 50%;">
                                                             <td>
-                                                                <a href="/test3/index" onclick="gotalk(@item.onumber)"><img src="/img/order/chat.png" style="width: 50%;" alt=""></a>
+                                                                <a href="/Talk_datatable/talk" onclick="gotalk(@item.onumber)"><img src="/img/order/chat.png" style="width: 50%;" alt=""></a>
                                                             </td>
                                                         </tr>
                                                         <tr style="height: 50%;">
                                                             <td>
-                                                                @if (@item.oshipstatus == "已取貨")
+                                                                @if ((@item.oshipstatus == "未寄出"))
                                                                 {
 
-                                                                    <button disabled class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">已領取</button>
+                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">確認寄出</button>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">確認領貨</button>
+                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">@item.oshipstatus</button>
 
                                                                 }
                                                             </td>
@@ -410,8 +402,11 @@
                                         </tr>
                                         <tr style="height: 33%;">
                                             <td>
-                                                <label for="" style="font-size: 28px;" id="f_name">[巴]</label>
+                                                
                                                 <label for="" style="font-size: 28px;" id="p_name">人氣餐包</label>
+                                                <br />
+                                                <label for="" style="font-size: 28px;" >客戶名稱：</label>
+                                                <label for="" style="font-size: 28px;" id="c_name">[巴]</label>
                                             </td>
                                         </tr>
                                         <tr style="height: 33%;">
@@ -426,7 +421,7 @@
                             <div>
                                 <div style="text-align: center; margin-top: 30px;">
                                     <label for="" style="font-size: 36px;">廠商評分：</label>
-                                    <select name="" id="myselect" class="form-select form-select-lg mb-3 ocs" style="width: 100px; display: inline-block;">
+                                    <select name="" id="myselect" class="form-select form-select-lg mb-3 ofs" style="width: 100px; display: inline-block;">
                                         <option value="5">5</option>
                                         <option value="4.5">4.5</option>
                                         <option value="4">4</option>
@@ -443,20 +438,20 @@
                                 <div style="text-align: center; margin-top: 30px; ">
                                     <label for="" style="font-size: 36px;">廠商評論：</label>
                                     <br>
-                                    <textarea rows="4" style="width: 450px; font-size: 28px; resize: none;" class="ocm" placeholder="請輸入評論"></textarea>
+                                    <textarea rows="4" style="width: 450px; font-size: 28px; resize: none;" class="ofm" placeholder="請輸入評論"></textarea>
                                 </div>
                             </div>
 
                             <div>
                                 <div style="text-align: center; margin-top: 30px;">
                                     <label for="" style="font-size: 36px;">客戶評分：</label>
-                                    <label for="" style="font-size: 36px;" class="ofs">未評分</label>
+                                    <label for="" style="font-size: 36px;" class="ocs">未評分</label>
                                 </div>
 
                                 <div style="text-align: center; margin-top: 30px; ">
                                     <label for="" style="font-size: 36px;">客戶評論：</label>
                                     <br>
-                                    <textarea rows="4" style="width: 450px; font-size: 28px; resize: none;" class="ofm" disabled>無評論</textarea>
+                                    <textarea rows="4" style="width: 450px; font-size: 28px; resize: none;" class="ocm" disabled>無評論</textarea>
                                 </div>
                             </div>
 
@@ -483,7 +478,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title " id="exampleModalLabel" style="font-size: 40px;">確認出貨</h1>
+                    <h1 class="modal-title " id="exampleModalLabel" style="font-size: 40px;">確認寄出</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -492,9 +487,14 @@
                         <div>
                             <label for="" style="font-size: 30px;">訂單編號：</label>
                             <label for="" style="font-size: 30px;" id="s_onumber">99999</label>
+                        </div> 
+                        <div >
+                            <label for="" style="font-size: 28px;" id="s_pname">人氣</label>
                         </div>
-                        <label for="" style="font-size: 28px;" id="s_fname">[里]</label>
-                        <label for="" style="font-size: 28px;" id="s_pname">人氣</label>
+                        <div >
+                            <label for="" style="font-size: 28px;">數量：</label>
+                            <label for="" style="font-size: 28px;" id="s_buynumber">5</label>
+                        </div>
                     </div>
                     <br>
                     <div>
@@ -503,13 +503,13 @@
                     </div>
                     <div>
                         <label for="" style="font-size: 20px;" >客戶名稱：</label>
-                        <label for="" style="font-size: 20px;" id="s_cname">地址</label>
+                        <label for="" style="font-size: 20px;" id="s_cname">李銘翔</label>
                         <br />
                         <label for="" style="font-size: 20px;" id="s_place">地址</label>
                     </div>
                     <br>
                     <div>
-                        <label for="" style="font-size: 20px;">已成功領到貨物的情況，<br>請按確認進行結單。</label>
+                        <label for="" style="font-size: 20px;">已成功寄出貨物的情況，<br>請按確認繼續。</label>
                     </div>
 
                 </div>

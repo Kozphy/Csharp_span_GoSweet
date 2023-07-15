@@ -33,6 +33,7 @@ namespace GoSweet.Controllers
                             join pay in _context.PaymentDatatables
                             on o.OPayment equals pay.PaymentNumber
                             where pic.PPicnumber == 1 && o.CNumber == id
+                            orderby o.OStart descending
                             select new
                             {
                                 pic = pic.PUrl,
@@ -162,12 +163,12 @@ namespace GoSweet.Controllers
 
 
 
-
+        //取得廠商訂單資料  訂單網頁使用者為廠商
         public IActionResult f_order()
         {
             HttpContext.Session.SetInt32("myfnumber",60000);
 
-            var id = HttpContext.Session.GetInt32("mycnumber");
+            var id = HttpContext.Session.GetInt32("myfnumber");
 
             var orderdata = from o in _context.OrderDatatables
                             join pic in _context.ProductPicturetables
@@ -180,7 +181,8 @@ namespace GoSweet.Controllers
                             on o.OShip equals s.ShipNumber
                             join pay in _context.PaymentDatatables
                             on o.OPayment equals pay.PaymentNumber
-                            where pic.PPicnumber == 1 && o.FNumber == id
+                            where  o.FNumber == id && pic.PPicnumber == 1 && (o.OStatus == "已下單" || o.OStatus == "已結單")
+                            orderby o.OStart descending
                             select new
                             {
                                 pic = pic.PUrl,
@@ -201,21 +203,110 @@ namespace GoSweet.Controllers
 
 
             ViewBag.order2 = orderdata.ToList();
-
+            System.Diagnostics.Debug.WriteLine(JsonSerializer.Serialize(orderdata));
             return View();
         }
 
 
+        //接收出貨寫入db 訂單網頁使用者為廠商
+        [HttpPost]
+        public IActionResult orderdone2(int onumber)
+        {
+
+
+            var getorder = from o in _context.OrderDatatables
+                           where o.ONumber == onumber
+                           select o;
+            if (getorder.FirstOrDefault() == null)
+            {
+                return Content("order is null");
+            }
+
+            getorder.First().OShipstatus = "已寄出";
+            _context.Update(getorder.First());
+            _context.SaveChanges();
+
+
+            return Content("orderdone is write to db");
+        }
+
+
+        //查詢評分資料  訂單網頁使用者為廠商
+        [HttpPost]
+        public IActionResult getassess2(int onumber)
+        {
+            if (_context.OrderAssesstables.Where(x => x.ONumber == onumber).FirstOrDefault() == null)
+            {
+                return Content("null");
+            }
+
+            var myassess = from o in _context.OrderAssesstables
+                           where o.ONumber == onumber
+                           select new { ocs = o.OCscore, ocm = o.OCcomment, ofs = o.OFscore, ofm = o.OFcomment };
 
 
 
+            return Content(JsonSerializer.Serialize(myassess));
+        }
 
 
 
+        //寫入廠商評分資料  訂單網頁使用者為廠商
+        [HttpPost]
+        public IActionResult setassess2(int onumber, float ofs, string ofm)
+        {
+            if (_context.OrderAssesstables.Where(x => x.ONumber == onumber).FirstOrDefault() == null)
+            {
+                OrderAssesstable myassess = new OrderAssesstable();
+                myassess.ONumber = onumber;
+                myassess.OFscore = ofs;
+                myassess.OFcomment = ofm;
+                _context.Add(myassess);
+                _context.SaveChanges();
+
+                return Content("assess add to db ");
+            }
+            else
+            {
+                var myassess = from o in _context.OrderAssesstables
+                               where o.ONumber == onumber 
+                               select o;
+                myassess.First().OFscore = ofs;
+                myassess.First().OFcomment = ofm;
+                _context.Update(myassess.First());
+                _context.SaveChanges();
+
+                return Content("assess update to db ");
+            }
+
+        }
+
+        //新增talk member到db  訂單網頁使用者為廠商
+        [HttpPost]
+        public IActionResult gotalk2(int onumber)
+        {
 
 
+            int fnumber = (int)HttpContext.Session.GetInt32("myfnumber")!;
 
+            int cnumber = _context.OrderDatatables.Where(x => x.ONumber == onumber).First().CNumber;
 
+            var memberinlist = from t in _context.TalkMembertables
+                               where t.CNumber == cnumber && t.FNumber == fnumber
+                               select t;
+            if (memberinlist.FirstOrDefault() == null)
+            {
+                TalkMembertable member = new TalkMembertable();
+                member.CNumber = cnumber;
+                member.FNumber = fnumber;
+                _context.Add(member);
+                _context.SaveChanges();
+
+                return Content("talk memeber add to db");
+            }
+
+            return Content("talk memeber in list");
+        }
 
     }
 }
