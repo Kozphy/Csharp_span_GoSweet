@@ -25,7 +25,7 @@ namespace GoSweet.Controllers
                             join pic in _context.ProductPicturetables
                             on o.PNumber equals pic.PNumber
                             join f in _context.FirmPagetables
-                            on o.FNumber equals f.FNumberr
+                            on o.FNumber equals f.FNumber
                             join p in _context.ProductDatatables
                             on o.PNumber equals p.PNumber
                             join s in _context.ShipDatatables
@@ -135,7 +135,10 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult gotalk(int onumber)
         {
-            int cnumber = 10000;
+
+
+            int cnumber = (int)HttpContext.Session.GetInt32("mycnumber")!;
+
             int fnumber = _context.OrderDatatables.Where(x => x.ONumber == onumber).First().FNumber;
 
             var memberinlist = from t in _context.TalkMembertables
@@ -160,7 +163,47 @@ namespace GoSweet.Controllers
 
 
 
+        public IActionResult f_order()
+        {
+            HttpContext.Session.SetInt32("myfnumber",60000);
 
+            var id = HttpContext.Session.GetInt32("mycnumber");
+
+            var orderdata = from o in _context.OrderDatatables
+                            join pic in _context.ProductPicturetables
+                            on o.PNumber equals pic.PNumber
+                            join c in _context.CustomerAccounttables
+                            on o.CNumber equals c.CNumber
+                            join p in _context.ProductDatatables
+                            on o.PNumber equals p.PNumber
+                            join s in _context.ShipDatatables
+                            on o.OShip equals s.ShipNumber
+                            join pay in _context.PaymentDatatables
+                            on o.OPayment equals pay.PaymentNumber
+                            where pic.PPicnumber == 1 && o.FNumber == id
+                            select new
+                            {
+                                pic = pic.PUrl,
+                                cname = c.CNickname,
+                                pname = p.PName,
+                                pbuy = o.OBuynumber,
+                                otype = o.OType,
+                                ostatus = o.OStatus,
+                                oshipstatus = o.OShipstatus,
+                                oplace = o.OPlace,
+                                ostart = o.OStart.ToString("yyyy-MM-dd"),
+                                oprice = o.OPrice,
+                                onumber = o.ONumber,
+                                oship = s.ShipName,
+                                opay = pay.PaymentName
+                            };
+
+
+
+            ViewBag.order2 = orderdata.ToList();
+
+            return View();
+        }
 
 
 

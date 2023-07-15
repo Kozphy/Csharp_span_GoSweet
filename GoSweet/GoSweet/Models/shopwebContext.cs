@@ -91,13 +91,13 @@ public partial class ShopwebContext : DbContext
 
         modelBuilder.Entity<FirmPagetable>(entity =>
         {
-            entity.HasKey(e => e.FNumberr).HasName("PK_f_pagetable");
+            entity.HasKey(e => e.FNumber).HasName("PK_f_pagetable");
 
             entity.ToTable("Firm_pagetable");
 
-            entity.Property(e => e.FNumberr)
+            entity.Property(e => e.FNumber)
                 .ValueGeneratedNever()
-                .HasColumnName("f_numberr");
+                .HasColumnName("f_number");
             entity.Property(e => e.FMessage)
                 .HasMaxLength(50)
                 .HasColumnName("f_message");
@@ -108,8 +108,8 @@ public partial class ShopwebContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("f_picurl");
 
-            entity.HasOne(d => d.FNumberrNavigation).WithOne(p => p.FirmPagetable)
-                .HasForeignKey<FirmPagetable>(d => d.FNumberr)
+            entity.HasOne(d => d.FNumberNavigation).WithOne(p => p.FirmPagetable)
+                .HasForeignKey<FirmPagetable>(d => d.FNumber)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Firm_pagetable_Firm_accounttable");
         });
