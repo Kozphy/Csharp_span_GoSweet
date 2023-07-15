@@ -10,6 +10,7 @@ namespace GoSweet.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly shopwebContext _shopwebContext;
+        private HomeIndexViewModel indexViewModelData = new HomeIndexViewModel();
 
         public HomeController(ILogger<HomeController> logger, shopwebContext shopwebContext)
         {
@@ -19,6 +20,7 @@ namespace GoSweet.Controllers
 
         public IActionResult Index()
         {
+
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
             List<ProductRankDataViewModel> productRankData = (from product in _shopwebContext.Product_datatables
@@ -58,7 +60,6 @@ namespace GoSweet.Controllers
                                                                  GroupEndDate = groupbuy.g_end,
                                                              }).ToList();
             Console.WriteLine(productGroupBuyData);
-            HomeIndexViewModel indexViewModelData = new HomeIndexViewModel();
             indexViewModelData.productRankDatas = productRankData;
             indexViewModelData.productGroupBuyDatas = productGroupBuyData;
 
@@ -67,6 +68,38 @@ namespace GoSweet.Controllers
                     Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
                 }
             }
+            return View(indexViewModelData);
+        }
+
+        [HttpPost]
+        public IActionResult HandleProductCategory(string Category) 
+        {
+
+            Console.WriteLine(Category);
+            List<ProductRankDataViewModel> productRankData = (from product in _shopwebContext.Product_datatables
+                                                              join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
+                                                              join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number
+                                                              where product_pic.p_picnumber == 1 && product.p_category.ToString() == Category
+                                                              select new ProductRankDataViewModel
+                                                              {
+                                                                  ProductNumber = product.p_number,
+                                                                  ProductName = product.p_name,
+                                                                  ProductCategory = product.p_category,
+                                                                  ProductPicture = product_pic.p_url,
+                                                                  ProductPrice = product.p_price,
+                                                                  ProductDescription = product.p_describe,
+                                                                  ProductTotalBuyNumber = order.o_buynumber,
+                                                              }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
+            Console.WriteLine("productRankData");
+            foreach (var group in productRankData) {
+                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+                    Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+                }
+            }
+
+            indexViewModelData.productRankDatas = productRankData;
+
+
             return View(indexViewModelData);
         }
 

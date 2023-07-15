@@ -1,0 +1,2 @@
+EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT ALL"
+EXEC sp_MSForEachTable "DELETE FROM ?"
