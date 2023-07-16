@@ -1,7 +1,4 @@
-﻿CREATE DATABASE [shopweb]
-USE [shopweb]
-GO
-/****** Object:  Table [dbo].[Customer_accounttable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Customer_accounttable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -18,7 +15,7 @@ CREATE TABLE [dbo].[Customer_accounttable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Firm_accounttable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Firm_accounttable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -35,7 +32,7 @@ CREATE TABLE [dbo].[Firm_accounttable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Firm_pagetable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Firm_pagetable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -51,7 +48,7 @@ CREATE TABLE [dbo].[Firm_pagetable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Group_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Group_datatable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -70,7 +67,7 @@ CREATE TABLE [dbo].[Group_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Member_membertable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Member_membertable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -87,7 +84,7 @@ CREATE TABLE [dbo].[Member_membertable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Notify_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Notify_datatable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -105,7 +102,7 @@ CREATE TABLE [dbo].[Notify_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Order_assesstable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Order_assesstable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -122,7 +119,7 @@ CREATE TABLE [dbo].[Order_assesstable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Order_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Order_datatable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -149,7 +146,7 @@ CREATE TABLE [dbo].[Order_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Payment_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Payment_datatable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,7 +160,7 @@ CREATE TABLE [dbo].[Payment_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Product_datatable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -187,7 +184,7 @@ CREATE TABLE [dbo].[Product_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product_picturetable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Product_picturetable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -203,7 +200,7 @@ CREATE TABLE [dbo].[Product_picturetable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product_to_Payment]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Product_to_Payment]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -218,7 +215,7 @@ CREATE TABLE [dbo].[Product_to_Payment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product_to_Ship]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Product_to_Ship]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -233,7 +230,7 @@ CREATE TABLE [dbo].[Product_to_Ship](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Ship_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Ship_datatable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -247,7 +244,7 @@ CREATE TABLE [dbo].[Ship_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Talk_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Talk_datatable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -266,7 +263,7 @@ CREATE TABLE [dbo].[Talk_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Talk_membertable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Talk_membertable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -281,7 +278,7 @@ CREATE TABLE [dbo].[Talk_membertable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Talk_persontable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Talk_persontable]    Script Date: 2023/7/15 �U�� 11:30:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -297,130 +294,7 @@ CREATE TABLE [dbo].[Talk_persontable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-SET IDENTITY_INSERT [dbo].[Customer_accounttable] ON 
-GO
-INSERT [dbo].[Customer_accounttable] ([c_nickname], [c_number], [c_account], [c_password], [c_mailpass]) VALUES (N'李銘翔', 10000, N'test@gmail.com', N'test', 0)
-GO
-INSERT [dbo].[Customer_accounttable] ([c_nickname], [c_number], [c_account], [c_password], [c_mailpass]) VALUES (N'黃瀞儀', 10001, N'test1@gmail.com', N'test', 0)
-GO
-INSERT [dbo].[Customer_accounttable] ([c_nickname], [c_number], [c_account], [c_password], [c_mailpass]) VALUES (N'廖胤翔', 10002, N'test2@gmail.com', N'test', 0)
-GO
-INSERT [dbo].[Customer_accounttable] ([c_nickname], [c_number], [c_account], [c_password], [c_mailpass]) VALUES (N'趙晟佑', 10003, N'test3@gmail.com', N'test', 0)
-GO
-SET IDENTITY_INSERT [dbo].[Customer_accounttable] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Firm_accounttable] ON 
-GO
-INSERT [dbo].[Firm_accounttable] ([f_number], [f_nickname], [f_account], [f_password], [f_mailpass]) VALUES (60000, N'巴特里', N'test@gmail.com', N'test', 1)
-GO
-INSERT [dbo].[Firm_accounttable] ([f_number], [f_nickname], [f_account], [f_password], [f_mailpass]) VALUES (60001, N'麥之鄉', N'test2@gmail.com', N'test', 1)
-GO
-INSERT [dbo].[Firm_accounttable] ([f_number], [f_nickname], [f_account], [f_password], [f_mailpass]) VALUES (60002, N'穀王烘焙', N'test3@gmail.com', N'test', 1)
-GO
-SET IDENTITY_INSERT [dbo].[Firm_accounttable] OFF
-GO
-INSERT [dbo].[Firm_pagetable] ([f_number], [f_pagename], [f_message], [f_picurl]) VALUES (60000, N'巴特里', N'販賣各式糕點店', N'/img/order/廠商.jpg')
-GO
-INSERT [dbo].[Firm_pagetable] ([f_number], [f_pagename], [f_message], [f_picurl]) VALUES (60001, N'麥之鄉', N'販賣各種口味的法式布丁', N'/img/order/廠商2.jpg')
-GO
-INSERT [dbo].[Firm_pagetable] ([f_number], [f_pagename], [f_message], [f_picurl]) VALUES (60002, N'穀王烘焙', N'販賣各式黑糖糕點店', NULL)
-GO
-SET IDENTITY_INSERT [dbo].[Group_datatable] ON 
-GO
-INSERT [dbo].[Group_datatable] ([g_number], [f_number], [p_number], [g_start], [g_end], [g_maxpeople], [g_price]) VALUES (30000, 60000, 20000, CAST(N'2023-07-01' AS Date), CAST(N'2023-08-30' AS Date), 20, 250)
-GO
-INSERT [dbo].[Group_datatable] ([g_number], [f_number], [p_number], [g_start], [g_end], [g_maxpeople], [g_price]) VALUES (30001, 60001, 20001, CAST(N'2023-07-07' AS Date), CAST(N'2023-09-20' AS Date), 17, 450)
-GO
-INSERT [dbo].[Group_datatable] ([g_number], [f_number], [p_number], [g_start], [g_end], [g_maxpeople], [g_price]) VALUES (30002, 60002, 20002, CAST(N'2023-07-11' AS Date), CAST(N'2023-09-10' AS Date), 15, 370)
-GO
-SET IDENTITY_INSERT [dbo].[Group_datatable] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Member_membertable] ON 
-GO
-INSERT [dbo].[Member_membertable] ([m_number], [g_number], [g_maxpeople], [m_nowpeople], [m_status]) VALUES (40000, 30000, 20, 10, 0)
-GO
-INSERT [dbo].[Member_membertable] ([m_number], [g_number], [g_maxpeople], [m_nowpeople], [m_status]) VALUES (40001, 30001, 17, 11, 0)
-GO
-INSERT [dbo].[Member_membertable] ([m_number], [g_number], [g_maxpeople], [m_nowpeople], [m_status]) VALUES (40002, 30002, 15, 13, 0)
-GO
-SET IDENTITY_INSERT [dbo].[Member_membertable] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Notify_datatable] ON 
-GO
-INSERT [dbo].[Notify_datatable] ([n_number], [c_number], [f_number], [o_number], [o_status], [n_read]) VALUES (1, NULL, 60000, 50000, N'已下單', 0)
-GO
-SET IDENTITY_INSERT [dbo].[Notify_datatable] OFF
-GO
-INSERT [dbo].[Order_assesstable] ([o_number], [o_cscore], [o_ccomment], [o_fscore], [o_fcomment]) VALUES (50000, 4.5, N'普通gg 555fff
-jiji
-好吃', 5, N'歡迎下次購買其他品項')
-GO
-INSERT [dbo].[Order_assesstable] ([o_number], [o_cscore], [o_ccomment], [o_fscore], [o_fcomment]) VALUES (50001, 4.5, N'gggg', NULL, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[Order_datatable] ON 
-GO
-INSERT [dbo].[Order_datatable] ([o_number], [o_start], [o_end], [c_number], [f_number], [o_type], [m_number], [p_number], [o_buynumber], [o_price], [o_status], [o_shipstatus], [o_ship], [o_place], [o_payment]) VALUES (50000, CAST(N'2023-07-01' AS Date), CAST(N'2023-07-15' AS Date), 10000, 60000, 1, 40000, 20000, 3, 750, N'已下單', N'已寄出', 1, N'408台中市南屯區公益路二段51號', 1)
-GO
-INSERT [dbo].[Order_datatable] ([o_number], [o_start], [o_end], [c_number], [f_number], [o_type], [m_number], [p_number], [o_buynumber], [o_price], [o_status], [o_shipstatus], [o_ship], [o_place], [o_payment]) VALUES (50001, CAST(N'2023-07-03' AS Date), CAST(N'2023-07-13' AS Date), 10000, 60000, 0, NULL, 20001, 2, 1000, N'已結單', N'已出貨', 1, N'408台中市南屯區公益路二段51號', 1)
-GO
-INSERT [dbo].[Order_datatable] ([o_number], [o_start], [o_end], [c_number], [f_number], [o_type], [m_number], [p_number], [o_buynumber], [o_price], [o_status], [o_shipstatus], [o_ship], [o_place], [o_payment]) VALUES (50002, CAST(N'2023-07-04' AS Date), NULL, 10002, 60002, 1, 40002, 20002, 3, 1110, N'待成團', N'未出貨', NULL, NULL, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[Order_datatable] OFF
-GO
-INSERT [dbo].[Payment_datatable] ([Payment_number], [Payment_name]) VALUES (1, N'超商取貨付款')
-GO
-INSERT [dbo].[Payment_datatable] ([Payment_number], [Payment_name]) VALUES (2, N'VISA')
-GO
-SET IDENTITY_INSERT [dbo].[Product_datatable] ON 
-GO
-INSERT [dbo].[Product_datatable] ([f_number], [p_number], [p_name], [p_spec], [p_category], [p_price], [p_describe], [p_savedate], [p_saveway], [p_Inventory], [p_ship], [p_payment]) VALUES (60000, 20000, N'奶油爆漿餐包', N'6入/包', N'餐包', 300, N'好吃奶油餐包', N'一週', N'冷藏', 300, NULL, NULL)
-GO
-INSERT [dbo].[Product_datatable] ([f_number], [p_number], [p_name], [p_spec], [p_category], [p_price], [p_describe], [p_savedate], [p_saveway], [p_Inventory], [p_ship], [p_payment]) VALUES (60001, 20001, N'法式楓糖布丁', N'/入', N'布丁', 500, N'好吃法式布丁', N'五天', N'冷藏', 50, NULL, NULL)
-GO
-INSERT [dbo].[Product_datatable] ([f_number], [p_number], [p_name], [p_spec], [p_category], [p_price], [p_describe], [p_savedate], [p_saveway], [p_Inventory], [p_ship], [p_payment]) VALUES (60002, 20002, N'焦糖布丁蛋糕', N'/盒', N'布丁', 400, N'好吃焦糖蛋糕', N'四天', N'冷藏', 70, NULL, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[Product_datatable] OFF
-GO
-INSERT [dbo].[Product_picturetable] ([p_picnumber], [p_number], [p_url]) VALUES (1, 20000, N'/img/order/蛋糕.jpg')
-GO
-INSERT [dbo].[Product_picturetable] ([p_picnumber], [p_number], [p_url]) VALUES (1, 20001, N'/img/order/蛋糕2.jpg')
-GO
-INSERT [dbo].[Product_picturetable] ([p_picnumber], [p_number], [p_url]) VALUES (2, 20000, N'/img2')
-GO
-INSERT [dbo].[Product_to_Payment] ([p_number], [Payment_number]) VALUES (20000, 1)
-GO
-INSERT [dbo].[Product_to_Payment] ([p_number], [Payment_number]) VALUES (20000, 2)
-GO
-INSERT [dbo].[Product_to_Ship] ([p_number], [ship_number]) VALUES (20000, 1)
-GO
-INSERT [dbo].[Product_to_Ship] ([p_number], [ship_number]) VALUES (20000, 2)
-GO
-INSERT [dbo].[Ship_datatable] ([ship_number], [ship_name]) VALUES (1, N'全家')
-GO
-INSERT [dbo].[Ship_datatable] ([ship_number], [ship_name]) VALUES (2, N'7-11')
-GO
-SET IDENTITY_INSERT [dbo].[Talk_datatable] ON 
-GO
-INSERT [dbo].[Talk_datatable] ([t_number], [c_number], [f_number], [t_time], [t_message], [t_read], [t_post]) VALUES (1, 10000, 60000, CAST(N'2007-06-11T13:50:30.000' AS DateTime), N'我收到的不是餐包', 0, 0)
-GO
-INSERT [dbo].[Talk_datatable] ([t_number], [c_number], [f_number], [t_time], [t_message], [t_read], [t_post]) VALUES (3, 10000, 60000, CAST(N'2023-06-11T15:30:33.000' AS DateTime), N'呼叫廠商', 0, 0)
-GO
-SET IDENTITY_INSERT [dbo].[Talk_datatable] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Talk_membertable] ON 
-GO
-INSERT [dbo].[Talk_membertable] ([Talk_member_id], [c_number], [f_number]) VALUES (5, 10000, 60000)
-GO
-INSERT [dbo].[Talk_membertable] ([Talk_member_id], [c_number], [f_number]) VALUES (7, 10000, 60001)
-GO
-SET IDENTITY_INSERT [dbo].[Talk_membertable] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Talk_persontable] ON 
-GO
-INSERT [dbo].[Talk_persontable] ([t_forPK], [c_number], [f_number], [t_id]) VALUES (1, NULL, 60000, N'1--XnJQElaTboh2OC2_iAA')
-GO
-SET IDENTITY_INSERT [dbo].[Talk_persontable] OFF
-GO
+
 ALTER TABLE [dbo].[Firm_pagetable]  WITH CHECK ADD  CONSTRAINT [FK_Firm_pagetable_Firm_accounttable] FOREIGN KEY([f_number])
 REFERENCES [dbo].[Firm_accounttable] ([f_number])
 GO
@@ -551,6 +425,3 @@ REFERENCES [dbo].[Firm_accounttable] ([f_number])
 GO
 ALTER TABLE [dbo].[Talk_persontable] CHECK CONSTRAINT [FK_Talk_persontable_Firm_accounttable]
 GO
-
-
-
