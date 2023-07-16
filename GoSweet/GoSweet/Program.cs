@@ -1,5 +1,10 @@
 using GoSweet.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 using Toolbelt.Extensions.DependencyInjection;
 namespace GoSweet
 {
@@ -18,7 +23,7 @@ namespace GoSweet
             builder.Services.AddSession(options =>
             {
                 options.Cookie.Name = ".GoSweet.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.IsEssential = true;
             });
 
