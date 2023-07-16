@@ -3,19 +3,20 @@ using GoSweet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.ComponentModel;
+using Azure.Identity;
 
 namespace GoSweet.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly shopwebContext _shopwebContext;
+        private readonly shopwebContext _context;
         private HomeIndexViewModel indexViewModelData = new HomeIndexViewModel();
 
-        public HomeController(ILogger<HomeController> logger, shopwebContext shopwebContext)
+        public HomeController(ILogger<HomeController> logger, shopwebContext context)
         {
             _logger = logger;
-            _shopwebContext = shopwebContext;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -23,9 +24,9 @@ namespace GoSweet.Controllers
 
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
-            List<ProductRankDataViewModel> productRankData = (from product in _shopwebContext.Product_datatables
-                                                              join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
-                                                              join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number
+            List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
+                                                              join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
+                                                              join order in _context.Order_datatables on product.p_number equals order.p_number
                                                               where product_pic.p_picnumber == 1
                                                               select new ProductRankDataViewModel
                                                               {
@@ -47,10 +48,10 @@ namespace GoSweet.Controllers
             Console.WriteLine();
 
             Console.WriteLine("productGroupBuyData");
-            List<ProductGroupBuyData> productGroupBuyData = (from product in _shopwebContext.Product_datatables
-                                                             join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
-                                                             join groupbuy in _shopwebContext.Group_datatables on product.p_number equals groupbuy.p_number
-                                                             join member in _shopwebContext.Member_membertables on groupbuy.g_number equals member.g_number
+            List<ProductGroupBuyData> productGroupBuyData = (from product in _context.Product_datatables
+                                                             join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
+                                                             join groupbuy in _context.Group_datatables on product.p_number equals groupbuy.p_number
+                                                             join member in _context.Member_membertables on groupbuy.g_number equals member.g_number
                                                              select new ProductGroupBuyData
                                                              {
                                                                  ProductName = product.p_name,
@@ -75,10 +76,11 @@ namespace GoSweet.Controllers
         public IActionResult HandleProductCategory(string Category) 
         {
 
+            //TODO: fix
             Console.WriteLine(Category);
-            List<ProductRankDataViewModel> productRankData = (from product in _shopwebContext.Product_datatables
-                                                              join product_pic in _shopwebContext.Product_picturetables on product.p_number equals product_pic.p_number
-                                                              join order in _shopwebContext.Order_datatables on product.p_number equals order.p_number
+            List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
+                                                              join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
+                                                              join order in _context.Order_datatables on product.p_number equals order.p_number
                                                               where product_pic.p_picnumber == 1 && product.p_category.ToString() == Category
                                                               select new ProductRankDataViewModel
                                                               {
@@ -103,13 +105,29 @@ namespace GoSweet.Controllers
             return View(indexViewModelData);
         }
 
-        public IActionResult Login()
+        public IActionResult Login(Customer_accounttable customer)
         {
+            //if (ModelState.IsValid) { 
+            //    _context.Customer_accounttables
+            //    HttpContext.Session.SetString("", customer.c_nickname);
+            //}
             return View();
         }
 
-        public IActionResult SignUp()
+        public IActionResult SignUp(Customer_accounttable CustomerAccountData)
         {
+            if (ModelState.IsValid) {
+                Console.WriteLine(CustomerAccountData);
+                return Content("");
+                try
+                {
+                    _context.Add(CustomerAccountData);
+                    _context.SaveChanges();
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                }
+            }
             return View();
         }
 

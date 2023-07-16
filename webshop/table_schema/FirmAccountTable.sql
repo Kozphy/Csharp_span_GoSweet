@@ -8,10 +8,14 @@
 
 insert into Firm_accounttable(f_nickname, f_account, f_password, f_mailpass) values ();
 
-INSERT [dbo].[Customer_accounttable] ([c_nickname], [c_number], [c_account], [c_password], [c_mailpass]) VALUES (N'李銘翔', 10000, N'test@gmail.com', N'test', 0)
+-- 60000
+INSERT [dbo].[Firm_accounttable] ([f_nickname], [f_account], [f_password], [f_mailpass]) VALUES (N'巴特里', N'test@gmail.com', N'test', 1)
 GO
-INSERT [dbo].[Customer_accounttable] ([c_nickname], [c_number], [c_account], [c_password], [c_mailpass]) VALUES (N'黃瀞儀', 10001, N'test1@gmail.com', N'test', 0)
+
+-- 60001
+INSERT [dbo].[Firm_accounttable] ([f_nickname], [f_account], [f_password], [f_mailpass]) VALUES (N'麥之鄉', N'test2@gmail.com', N'test', 1)
 GO
-INSERT [dbo].[Customer_accounttable] ([c_nickname], [c_number], [c_account], [c_password], [c_mailpass]) VALUES (N'廖胤翔', 10002, N'test2@gmail.com', N'test', 0)
+
+-- 60002
+INSERT [dbo].[Firm_accounttable] ([f_nickname], [f_account], [f_password], [f_mailpass]) VALUES (N'穀王烘焙', N'test3@gmail.com', N'test', 1)
 GO
-INSERT [dbo].[Customer_accounttable] ([c_nickname], [c_number], [c_account], [c_password], [c_mailpass]) VALUES (N'趙晟佑', 10003, N'test3@gmail.com', N'test', 0)
