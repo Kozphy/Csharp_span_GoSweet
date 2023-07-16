@@ -40,7 +40,7 @@ GO
 CREATE TABLE [dbo].[Firm_pagetable](
 	[f_number] [int] NOT NULL,
 	[f_pagename] [nvarchar](50) NOT NULL,
-	[f_message] [nvarchar](50) NULL,
+	[f_message] [nvarchar](500) NULL,
 	[f_picurl] [nvarchar](50) NULL,
  CONSTRAINT [PK_f_pagetable] PRIMARY KEY CLUSTERED 
 (
@@ -172,8 +172,8 @@ CREATE TABLE [dbo].[Product_datatable](
 	[p_spec] [nvarchar](50) NULL,
 	[p_category] [nvarchar](50) NOT NULL,
 	[p_price] [int] NOT NULL,
-	[p_describe] [nvarchar](50) NULL,
-	[p_savedate] [nvarchar](500) NULL,
+	[p_describe] [nvarchar](500) NULL,
+	[p_savedate] [nvarchar](50) NULL,
 	[p_saveway] [nvarchar](50) NULL,
 	[p_Inventory] [int] NOT NULL,
 	[p_ship] [int] NULL,
@@ -254,7 +254,7 @@ CREATE TABLE [dbo].[Talk_datatable](
 	[c_number] [int] NOT NULL,
 	[f_number] [int] NOT NULL,
 	[t_time] [datetime] NOT NULL,
-	[t_message] [nvarchar](50) NOT NULL,
+	[t_message] [nvarchar](500) NOT NULL,
 	[t_read] [bit] NOT NULL,
 	[t_post] [int] NOT NULL,
  CONSTRAINT [PK_t_datatable] PRIMARY KEY CLUSTERED 
