@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.ComponentModel;
 using Azure.Identity;
+using System.Xml;
+using Newtonsoft.Json;
 
 namespace GoSweet.Controllers
 {
@@ -11,7 +13,7 @@ namespace GoSweet.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly shopwebContext _context;
-        private HomeIndexViewModel indexViewModelData = new HomeIndexViewModel();
+        private HomeIndexViewModel _indexViewModelData = new HomeIndexViewModel();
 
         public HomeController(ILogger<HomeController> logger, shopwebContext context)
         {
@@ -19,11 +21,17 @@ namespace GoSweet.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string Category)
         {
-
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
+            List<CategoryViewModel> categoriesDatas = (from product in _context.Product_datatables
+                                                      select new CategoryViewModel
+                                                      {
+                                                          Category = product.p_category
+                                                      }).Distinct().ToList();
+
+
             List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
                                                               join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
                                                               join order in _context.Order_datatables on product.p_number equals order.p_number
@@ -32,7 +40,6 @@ namespace GoSweet.Controllers
                                                               {
                                                                   ProductNumber = product.p_number,
                                                                   ProductName = product.p_name,
-                                                                  ProductCategory = product.p_category,
                                                                   ProductPicture = product_pic.p_url,
                                                                   ProductPrice = product.p_price,
                                                                   ProductDescription = product.p_describe,
@@ -61,15 +68,18 @@ namespace GoSweet.Controllers
                                                                  GroupEndDate = groupbuy.g_end,
                                                              }).ToList();
             Console.WriteLine(productGroupBuyData);
-            indexViewModelData.productRankDatas = productRankData;
-            indexViewModelData.productGroupBuyDatas = productGroupBuyData;
+            _indexViewModelData.categoryViewModel = categoriesDatas;
+            _indexViewModelData.productRankDatas = productRankData;
+            _indexViewModelData.productGroupBuyDatas = productGroupBuyData;
+            HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
+            HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
 
             foreach (var group in productGroupBuyData) {
                 foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
                     Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
                 }
             }
-            return View(indexViewModelData);
+            return View(_indexViewModelData);
         }
 
         [HttpPost]
@@ -77,16 +87,14 @@ namespace GoSweet.Controllers
         {
 
             //TODO: fix
-            Console.WriteLine(Category);
             List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
                                                               join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
                                                               join order in _context.Order_datatables on product.p_number equals order.p_number
-                                                              where product_pic.p_picnumber == 1 && product.p_category.ToString() == Category
+                                                              where product_pic.p_picnumber == 1 && product.p_category == Category
                                                               select new ProductRankDataViewModel
                                                               {
                                                                   ProductNumber = product.p_number,
                                                                   ProductName = product.p_name,
-                                                                  ProductCategory = product.p_category,
                                                                   ProductPicture = product_pic.p_url,
                                                                   ProductPrice = product.p_price,
                                                                   ProductDescription = product.p_describe,
@@ -99,10 +107,24 @@ namespace GoSweet.Controllers
                 }
             }
 
-            indexViewModelData.productRankDatas = productRankData;
+            IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
+            foreach (var item in categoriesDatas) {
+                Console.WriteLine(item.Category);
+            }
+            IEnumerable<ProductGroupBuyData>? productGroupBuyDatas = JsonConvert.DeserializeObject<IEnumerable<ProductGroupBuyData>>(HttpContext.Session.GetString("productGroupBuyDatas")!);
+            _indexViewModelData.categoryViewModel = categoriesDatas;
+            _indexViewModelData.productGroupBuyDatas = productGroupBuyDatas;
+            _indexViewModelData.productRankDatas = productRankData;
+
+            //foreach (var group in _indexViewModelData.categoryViewModel) {
+            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+            //    }
+            //}
 
 
-            return View(indexViewModelData);
+
+            return View("Index", _indexViewModelData);
         }
 
         public IActionResult Login(Customer_accounttable customer)

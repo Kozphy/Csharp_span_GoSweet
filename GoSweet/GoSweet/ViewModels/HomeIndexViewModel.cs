@@ -4,8 +4,14 @@ namespace GoSweet.ViewModels
 {
     public class HomeIndexViewModel
     {
-        public IEnumerable<ProductRankDataViewModel> productRankDatas { get; set; }
-        public IEnumerable<ProductGroupBuyData> productGroupBuyDatas { get; set; }
+        public IEnumerable<CategoryViewModel>? categoryViewModel { get; set; }
+        public IEnumerable<ProductRankDataViewModel>? productRankDatas { get; set; }
+        public IEnumerable<ProductGroupBuyData>? productGroupBuyDatas { get; set; }
+    }
+
+    public class CategoryViewModel
+    { 
+        public string? Category { get; set; }
     }
 
     public class ProductRankDataViewModel

@@ -192,7 +192,7 @@ GO
 CREATE TABLE [dbo].[Product_picturetable](
 	[p_picnumber] [int] NOT NULL,
 	[p_number] [int] NOT NULL,
-	[p_url] [nvarchar](50) NOT NULL,
+	[p_url] [nvarchar](500) NOT NULL,
  CONSTRAINT [PK_p_picturetable] PRIMARY KEY CLUSTERED 
 (
 	[p_picnumber] ASC,

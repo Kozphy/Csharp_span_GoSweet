@@ -116,13 +116,17 @@ VALUES
 INSERT [dbo].[Order_datatable] ([o_start], [o_end], [c_number], [f_number], [o_type], [m_number], [p_number], [o_buynumber], [o_price], [o_status], [o_shipstatus], [o_ship], [o_place], [o_payment]) 
 VALUES 
 (CAST(N'2023-07-01' AS Date), NULL, 10000, 60000, 1, 40000, 20003, 2500, 750, N'待成團', N'已送出', NULL, NULL, NULL)
+INSERT [dbo].[Order_datatable] ([o_start], [o_end], [c_number], [f_number], [o_type], [m_number], [p_number], [o_buynumber], [o_price], [o_status], [o_shipstatus], [o_ship], [o_place], [o_payment]) 
+VALUES 
+(CAST(N'2023-07-01' AS Date), NULL, 10000, 60000, 1, 40000, 20005, 2500, 750, N'待成團', N'已送出', NULL, NULL, NULL)
+
 
 -- Order_assesstable
 INSERT [dbo].[Order_assesstable] ([o_number], [o_cscore], [o_ccomment], [o_fscore], [o_fcomment]) VALUES (50000, 3, N'普通', 5, N'歡迎下次購買其他品項')
 GO
 
 -- Notify_datatable, n_number identity: 1
-INSERT [dbo].[Notify_datatable] ([n_number], [c_number], [f_number], [o_number], [o_status], [n_read]) VALUES (NULL, 60000, 50000, N'已下單', 0)
+INSERT [dbo].[Notify_datatable] ([c_number], [f_number], [o_number], [o_status], [n_read]) VALUES (NULL, 60000, 50000, N'已下單', 0)
 
 -- Talk_membertable, Talk_member_id identiy(1,1)
 INSERT [dbo].[Talk_membertable] ([c_number], [f_number]) VALUES (10000, 60000)
