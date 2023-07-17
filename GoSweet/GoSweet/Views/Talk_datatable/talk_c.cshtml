@@ -4,11 +4,100 @@
     }
 </style>
 <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
-
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script>
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    let otherid;
+    let myid = '';
+    //與Server建立連線
+    connection.start().then(function () {
+        console.log("Hub 連線完成");
+    }).catch(function (err) {
+        alert('連線錯誤: ' + err.toString());
+    });
+
+    // 更新連線 ID 列表事件
+    connection.on("UpdList", function (jsonList) {
+        var list = JSON.parse(jsonList);
+        $("#IDList li").remove();
+        for (i = 0; i < list.length; i++) {
+            $("#IDList").append($("<li></li>").attr("class", "list-group-item").text(list[i]));
+        }
+
+    });
+
+    // 更新用戶個人連線 ID 事件
+    connection.on("UpdSelfID", function (id) {
+        $('#SelfID').html(id);
+        myid = id;
+        //把聊天室id丟給db
+        $.post("/Talk_datatable/chatid_c", { "uid": id.toString() })
+            .done(function (data) {
+                console.log(data + id)
+            });
+    });
+
+    // 更新聊天內容事件
+    connection.on("UpdContent", function (msg) {
+        if (msg.includes('你向')) {
+            console.log(msg)
+        } else {
+
+            //獲得現在時間並排序好
+            const date = new Date();
+
+            let seconds = date.getSeconds();
+            let minutes = date.getMinutes();
+            let hours = date.getHours();
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+
+            // This arrangement can be altered based on how we want the date's format to appear.
+            let currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+            $('.chat').append(`
+                                                    <div style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+                                                    <div
+                                                        style="border: 2px solid #ccc; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                                                    <label for="">${msg}</label>
+                                                    </div>
+                                                    <div style=" margin-left: 30px; ">
+                                                                    <label for="">${currentDate}</label>
+                                                    </div>
+                                                </div>
+                                        `)
+
+            //聊天室滾到最下面
+            $('.chat').scrollTop($('.chat').height() + 99999)
+
+
+        }
+    });
+
+    //傳送訊息
+    $('#sendButton').on('click', function () {
+
+        $.post('/Talk_datatable/getsendid', { sendnumber: nownumber })
+            .done(function (data) {
+                let data2 = JSON.parse(data);
+                alert('傳送 ');
+                console.log('get sendid' + data)
+                let selfID = myid;
+                let message = $('.messageinput').val();
+                let sendToID = data2[0].id;
+                connection.invoke("SendMessage", selfID, message, sendToID).catch(function (err) {
+                    alert('傳送錯誤: ' + err.toString());
+                });
+            })
+    });
+
+
+
     console.log('test')
 
-    let nowfnumber ;
+    let nownumber ;
 
     //點選廠商顯示聊天內容
     function changecolor(order) {
@@ -30,7 +119,7 @@
             document.getElementById('chattitle').style.visibility = "visible";
             document.getElementById('startchat').style.display = "none";
             //紀錄目前點選廠商編號
-            nowfnumber = parseInt($(order).find('.fnumber').text())
+            nownumber = parseInt($(order).find('.fnumber').text())
             $('.title').text()
             $('#chat').empty()
             console.log($(order).find('.fname').text())
@@ -83,6 +172,19 @@
         $('.messagebutton').on('click', function () {
             console.log($('.messageinput').val())
 
+            $.post('/Talk_datatable/getsendid', { sendnumber: nownumber })
+                .done(function (data) {
+                    let data2 = JSON.parse(data);
+                    alert('傳送 ');
+                    console.log('get sendid' + data)
+                    let selfID = myid;
+                    let message = $('.messageinput').val();
+                    let sendToID = data2[0].id;
+                    connection.invoke("SendMessage", selfID, message, sendToID).catch(function (err) {
+                        alert('傳送錯誤: ' + err.toString());
+                    });
+                })
+
 
             //獲得現在時間並排序好
             const date = new Date();
@@ -100,14 +202,14 @@
             console.log(currentDate);
 
             //將文字欄內容新增至db
-            $.post('/Talk_datatable/postmessage_c', { fnumber: nowfnumber, time: currentDate2, message: $('.messageinput').val() })
+            $.post('/Talk_datatable/postmessage_c', { fnumber: nownumber, time: currentDate2, message: $('.messageinput').val() })
                 .done(function (data) {
                     console.log(data)
                 })
 
             //將文字欄內容新增至聊天室
             $('.chat').append(`
-                        <div style="width: 100%;  text-align: right; margin-top: 20px;" >
+                        <div style="width: 100%;  text-align: right; margin-top: 20px; " >
                             <div style="color: white; background-color: dodgerblue; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
                                 <label for="" style="text-align: left;">${$('.messageinput').val()}</label>
                             </div>
@@ -263,7 +365,7 @@
                         <div>
                             <div class="input-group mb-3" style="margin:20px;height: 50px; width: 95%; ">
                                 <input type="text" class="form-control messageinput" placeholder="輸入聊天內容">
-                                <button class="btn btn-outline-secondary messagebutton" type="button">送出</button>
+                                <button class="btn btn-outline-secondary messagebutton"  type="button">送出</button>
                             </div>
                         </div>
                     </div>
@@ -273,3 +375,13 @@
         </div>
     </div>
 </body>
+
+
+@*singalr  js觸發事件*@
+@section scripts{
+
+    <script>
+       
+
+    </script>
+}

@@ -84,7 +84,34 @@ namespace GoSweet.Controllers
 
 
 
+        //將編號及uid寫入資料庫
+        [HttpPost]
+        public string chatid_c( string uid)
+        {
+            TalkPersontable person = new TalkPersontable();
+            int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
 
+            person.CNumber = cnumber;
+            person.TId = uid;
+            var getuid = from t in _context!.TalkPersontables
+                         where t.CNumber == cnumber
+                         select t;
+            if (getuid.FirstOrDefault() == null)
+            {
+                _context.Add(person);
+                _context.SaveChanges();
+                System.Diagnostics.Debug.WriteLine("add CNumber to db");
+            }
+            else
+            {
+                getuid.First().TId = uid;
+                _context.Update(getuid.First());
+                _context.SaveChanges();
+                System.Diagnostics.Debug.WriteLine("Update CNumber to db");
+            }
+
+            return "uid update";
+        }
 
 
 
@@ -166,6 +193,37 @@ namespace GoSweet.Controllers
 
 
 
+        //將編號及uid寫入資料庫
+        [HttpPost]
+        public string chatid_f( string uid)
+        {
+            TalkPersontable person = new TalkPersontable();
+
+            int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
+
+            person.FNumber = fnumber;
+            person.TId = uid;
+            var getuid = from t in _context!.TalkPersontables
+                         where t.FNumber == fnumber
+                         select t;
+            if (getuid.FirstOrDefault() == null)
+            {
+
+                _context.Add(person);
+                _context.SaveChanges();
+                System.Diagnostics.Debug.WriteLine("add FNumber to db");
+            }
+            else
+            {
+                getuid.First().TId = uid;
+                _context.Update(getuid.First());
+                _context.SaveChanges();
+                System.Diagnostics.Debug.WriteLine("Update FNumberto db");
+            }
+
+
+            return "uid update";
+        }
 
 
 
@@ -174,8 +232,16 @@ namespace GoSweet.Controllers
 
 
 
+        //聊天室網頁  廠商與客戶共用 
+        public IActionResult getsendid(int sendnumber)
+        {
+            var sendid = from t in _context.TalkPersontables
+                         where sendnumber == t.CNumber || sendnumber == t.FNumber
+                         select new { id = t.TId };
+            
 
-
+            return Content(JsonSerializer.Serialize(sendid));
+        }
 
 
 

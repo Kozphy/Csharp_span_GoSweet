@@ -5,6 +5,8 @@ namespace GoSweet.Models;
 
 public partial class ProductPicturetable
 {
+    public int PSort { get; set; }
+
     public int PPicnumber { get; set; }
 
     public int PNumber { get; set; }

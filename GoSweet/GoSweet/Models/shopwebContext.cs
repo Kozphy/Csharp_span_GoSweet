@@ -46,7 +46,7 @@ public partial class ShopwebContext : DbContext
     public virtual DbSet<TalkPersontable> TalkPersontables { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost;Database=shopweb;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -365,12 +365,13 @@ public partial class ShopwebContext : DbContext
 
         modelBuilder.Entity<ProductPicturetable>(entity =>
         {
-            entity.HasKey(e => new { e.PPicnumber, e.PNumber }).HasName("PK_p_picturetable");
+            entity.HasKey(e => e.PSort);
 
             entity.ToTable("Product_picturetable");
 
-            entity.Property(e => e.PPicnumber).HasColumnName("p_picnumber");
+            entity.Property(e => e.PSort).HasColumnName("p_sort");
             entity.Property(e => e.PNumber).HasColumnName("p_number");
+            entity.Property(e => e.PPicnumber).HasColumnName("p_picnumber");
             entity.Property(e => e.PUrl)
                 .HasMaxLength(50)
                 .HasColumnName("p_url");
