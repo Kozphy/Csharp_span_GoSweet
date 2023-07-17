@@ -27,5 +27,7 @@ public partial class FirmAccounttable
 
     public virtual ICollection<TalkDatatable> TalkDatatables { get; set; } = new List<TalkDatatable>();
 
+    public virtual ICollection<TalkMembertable> TalkMembertables { get; set; } = new List<TalkMembertable>();
+
     public virtual ICollection<TalkPersontable> TalkPersontables { get; set; } = new List<TalkPersontable>();
 }
