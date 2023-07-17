@@ -1,11 +1,7 @@
 using GoSweet.Models;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using Toolbelt.Extensions.DependencyInjection;
+using GoSweet.Hubs;
+
 namespace GoSweet
 {
     public class Program
@@ -27,6 +23,8 @@ namespace GoSweet
                 options.Cookie.IsEssential = true;
             });
 
+            //Add Singalr 
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -47,6 +45,9 @@ namespace GoSweet
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            //Singalr Path
+            app.MapHub<ChatHub>("/chatHub");
 
             app.Run();
         }
