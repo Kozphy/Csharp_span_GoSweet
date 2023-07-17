@@ -34,20 +34,19 @@
             $('.title').text()
             $('#chat').empty()
             console.log($(order).find('.fname').text())
-            $.post('/Talk_datatable/gethistory_c', { talkperson: $(order).find('.fname').text() })
+            $.post('/Talk_datatable/gethistory_c', { fname: $(order).find('.fname').text() })
                 .done(function (data) {
                     let data2 = JSON.parse(data)
                     //清空聊天室內容
                     $('.chat').empty()
                     $('.title').text($(order).find('.fname').text())
                     console.log(data2[0].person)
-                    //判斷頁面使用者 <50000代表客戶
-                    if (data2[0].person < 50000) {
+                    //顯示聊天內容
                         $(data2).each(function () {
                             //post = 0 代表客戶發言
                             if (this.post == 0) {
                                 $('.chat').append(`
-                                        <div style="width: 100%;  text-align: right; margin-top: 20px;" >
+                                            <div style="width: 100%;  text-align: right; margin-top: 10px; margin-bottom: 10px;" >
                                             <div style="color: white; background-color: dodgerblue; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
                                                 <label for="" style="text-align: left;">${this.message}</label>
                                             </div>
@@ -56,13 +55,23 @@
                                             </div>
                                          </div>
                                         `)
-
-
+                            } else {
+                            $('.chat').append(`
+                                            <div style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+                                            <div
+                                                style="border: 2px solid #ccc; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                                    <label for="">${this.message}</label>
+                                            </div>
+                                            <div style=" margin-left: 30px; ">
+                                                    <label for="">${this.time}</label>
+                                            </div>
+                                        </div>
+                                    `)
                             }
                             //聊天室滾到最下面
                             $('.chat').scrollTop($('.chat').height() + 99999)
                         })
-                    }
+                    
                 })
 
             

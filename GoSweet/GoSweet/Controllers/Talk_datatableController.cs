@@ -44,24 +44,24 @@ namespace GoSweet.Controllers
             return Content(JsonSerializer.Serialize(list));
         }
 
-        //取得聊天內容
+        //取得聊天歷史傳到前端
         [HttpPost]
-        public IActionResult gethistory_c(string talkperson)
+        public IActionResult gethistory_c(string fname)
         {
             int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
 
-            int fnumber = _context.FirmPagetables.Where(x => x.FPagename == talkperson).First().FNumber;
-            System.Diagnostics.Debug.WriteLine(talkperson + fnumber);
+            int fnumber = _context.FirmPagetables.Where(x => x.FPagename == fname).First().FNumber;
+            System.Diagnostics.Debug.WriteLine(fname + fnumber);
 
             var history = from t in _context.TalkDatatables
                           where t.CNumber == cnumber && t.FNumber == fnumber
-                          select new { person = cnumber, message = t.TMessage, time = t.TTime.ToString("yyyy-MM-dd HH:mm"), post = t.TPost };
+                          select new {  message = t.TMessage, time = t.TTime.ToString("yyyy-MM-dd HH:mm"), post = t.TPost };
 
 
             return Content(JsonSerializer.Serialize(history));
         }
 
-        //取得聊天內容
+        //取得聊天內容寫入db
         [HttpPost]
         public IActionResult postmessage_c(int fnumber,string time,string message)
         {
@@ -100,7 +100,7 @@ namespace GoSweet.Controllers
 
 
 
-
+        //聊天室網頁  廠商用 
         public IActionResult talk_f()
         {
             HttpContext.Session.SetInt32("fnumber", 60000);
@@ -108,10 +108,61 @@ namespace GoSweet.Controllers
         }
 
 
-        
 
 
 
+
+        //取得聊天名單
+        [HttpGet]
+        public IActionResult getlist_f()
+        {
+            int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
+
+            var list = from t in _context.TalkMembertables
+                       join c in _context.CustomerAccounttables
+                       on t.CNumber equals c.CNumber
+                       where t.FNumber == fnumber
+                       select new { cnumber = t.CNumber, cname = c.CNickname };
+
+            return Content(JsonSerializer.Serialize(list));
+        }
+
+        //取得聊天歷史傳到前端
+        [HttpPost]
+        public IActionResult gethistory_f(int cnumber)
+        {
+            int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
+
+            
+
+            var history = from t in _context.TalkDatatables
+                          where t.CNumber == cnumber && t.FNumber == fnumber
+                          select new { message = t.TMessage, time = t.TTime.ToString("yyyy-MM-dd HH:mm"), post = t.TPost };
+
+
+            return Content(JsonSerializer.Serialize(history));
+        }
+
+        //取得聊天內容寫入db
+        [HttpPost]
+        public IActionResult postmessage_f(int cnumber, string time, string message)
+        {
+            int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
+
+
+            TalkDatatable talk = new TalkDatatable();
+
+            talk.CNumber = cnumber;
+            talk.FNumber = fnumber;
+            talk.TTime = DateTime.Parse(time);
+            talk.TMessage = message;
+            talk.TRead = 1;
+            talk.TPost = 1;
+            _context.Add(talk);
+            _context.SaveChanges();
+
+            return Content("postmessage write to db");
+        }
 
 
 
