@@ -2806,6 +2806,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
+    <Folder Include="wwwroot\img\Products\" />
   </ItemGroup>
 
 </Project>
