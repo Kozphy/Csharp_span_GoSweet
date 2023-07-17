@@ -15,7 +15,7 @@ namespace GoSweet
 
             // setting database
             builder.Services.AddDbContext<shopwebContext>(
-            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopweb")));
+            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopwebConnstring")));
 
             // setting session
             builder.Services.AddDistributedMemoryCache();
