@@ -7,6 +7,7 @@ namespace GoSweet.Models
 {
     public partial class Product_picturetable
     {
+        public int p_sort { get; set; }
         public int p_picnumber { get; set; }
         public int p_number { get; set; }
         public string p_url { get; set; }

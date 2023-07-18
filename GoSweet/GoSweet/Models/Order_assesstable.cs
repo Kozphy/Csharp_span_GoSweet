@@ -8,13 +8,11 @@ namespace GoSweet.Models
     public partial class Order_assesstable
     {
         public int o_number { get; set; }
-        public int p_number { get; set; }
         public double? o_cscore { get; set; }
         public string o_ccomment { get; set; }
         public double? o_fscore { get; set; }
         public string o_fcomment { get; set; }
 
         public virtual Order_datatable o_numberNavigation { get; set; }
-        public virtual Product_datatable p_numberNavigation { get; set; }
     }
 }

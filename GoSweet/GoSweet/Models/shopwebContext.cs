@@ -31,6 +31,7 @@ namespace GoSweet.Models
         public virtual DbSet<Product_picturetable> Product_picturetables { get; set; }
         public virtual DbSet<Ship_datatable> Ship_datatables { get; set; }
         public virtual DbSet<Talk_datatable> Talk_datatables { get; set; }
+        public virtual DbSet<Talk_membertable> Talk_membertables { get; set; }
         public virtual DbSet<Talk_persontable> Talk_persontables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -77,12 +78,12 @@ namespace GoSweet.Models
 
             modelBuilder.Entity<Firm_pagetable>(entity =>
             {
-                entity.HasKey(e => e.f_numberr)
+                entity.HasKey(e => e.f_number)
                     .HasName("PK_f_pagetable");
 
                 entity.ToTable("Firm_pagetable");
 
-                entity.Property(e => e.f_numberr).ValueGeneratedNever();
+                entity.Property(e => e.f_number).ValueGeneratedNever();
 
                 entity.Property(e => e.f_message).HasMaxLength(500);
 
@@ -90,11 +91,11 @@ namespace GoSweet.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.f_picurl).HasMaxLength(50);
+                entity.Property(e => e.f_picurl).HasMaxLength(500);
 
-                entity.HasOne(d => d.f_numberrNavigation)
+                entity.HasOne(d => d.f_numberNavigation)
                     .WithOne(p => p.Firm_pagetable)
-                    .HasForeignKey<Firm_pagetable>(d => d.f_numberr)
+                    .HasForeignKey<Firm_pagetable>(d => d.f_number)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Firm_pagetable_Firm_accounttable");
             });
@@ -166,26 +167,21 @@ namespace GoSweet.Models
 
             modelBuilder.Entity<Order_assesstable>(entity =>
             {
-                entity.HasKey(e => new { e.o_number, e.p_number })
-                    .HasName("PK_o_assesstable");
+                entity.HasKey(e => e.o_number);
 
                 entity.ToTable("Order_assesstable");
 
-                entity.Property(e => e.o_ccomment).HasMaxLength(50);
+                entity.Property(e => e.o_number).ValueGeneratedNever();
 
-                entity.Property(e => e.o_fcomment).HasMaxLength(50);
+                entity.Property(e => e.o_ccomment).HasMaxLength(500);
+
+                entity.Property(e => e.o_fcomment).HasMaxLength(500);
 
                 entity.HasOne(d => d.o_numberNavigation)
-                    .WithMany(p => p.Order_assesstables)
-                    .HasForeignKey(d => d.o_number)
+                    .WithOne(p => p.Order_assesstable)
+                    .HasForeignKey<Order_assesstable>(d => d.o_number)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_o_assesstable_o_datatable");
-
-                entity.HasOne(d => d.p_numberNavigation)
-                    .WithMany(p => p.Order_assesstables)
-                    .HasForeignKey(d => d.p_number)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_o_assesstable_p_datatable");
             });
 
             modelBuilder.Entity<Order_datatable>(entity =>
@@ -197,7 +193,7 @@ namespace GoSweet.Models
 
                 entity.Property(e => e.o_end).HasColumnType("date");
 
-                entity.Property(e => e.o_place).HasMaxLength(50);
+                entity.Property(e => e.o_place).HasMaxLength(500);
 
                 entity.Property(e => e.o_shipstatus)
                     .IsRequired()
@@ -225,6 +221,16 @@ namespace GoSweet.Models
                     .WithMany(p => p.Order_datatables)
                     .HasForeignKey(d => d.m_number)
                     .HasConstraintName("FK_o_datatable_m_membertable");
+
+                entity.HasOne(d => d.o_paymentNavigation)
+                    .WithMany(p => p.Order_datatables)
+                    .HasForeignKey(d => d.o_payment)
+                    .HasConstraintName("FK_Order_datatable_Payment_datatable");
+
+                entity.HasOne(d => d.o_shipNavigation)
+                    .WithMany(p => p.Order_datatables)
+                    .HasForeignKey(d => d.o_ship)
+                    .HasConstraintName("FK_Order_datatable_Ship_datatable");
 
                 entity.HasOne(d => d.p_numberNavigation)
                     .WithMany(p => p.Order_datatables)
@@ -263,7 +269,7 @@ namespace GoSweet.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.p_savedate).HasMaxLength(50);
+                entity.Property(e => e.p_savedate).HasMaxLength(500);
 
                 entity.Property(e => e.p_saveway).HasMaxLength(50);
 
@@ -304,14 +310,13 @@ namespace GoSweet.Models
 
             modelBuilder.Entity<Product_picturetable>(entity =>
             {
-                entity.HasKey(e => new { e.p_picnumber, e.p_number })
-                    .HasName("PK_p_picturetable");
+                entity.HasKey(e => e.p_sort);
 
                 entity.ToTable("Product_picturetable");
 
                 entity.Property(e => e.p_url)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasMaxLength(500);
 
                 entity.HasOne(d => d.p_numberNavigation)
                     .WithMany(p => p.Product_picturetables)
@@ -359,6 +364,25 @@ namespace GoSweet.Models
                     .HasConstraintName("FK_Talk_datatable_Firm_accounttable");
             });
 
+            modelBuilder.Entity<Talk_membertable>(entity =>
+            {
+                entity.HasKey(e => e.Talk_member_id);
+
+                entity.ToTable("Talk_membertable");
+
+                entity.HasOne(d => d.c_numberNavigation)
+                    .WithMany(p => p.Talk_membertables)
+                    .HasForeignKey(d => d.c_number)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Talk_membertable_Customer_accounttable");
+
+                entity.HasOne(d => d.f_numberNavigation)
+                    .WithMany(p => p.Talk_membertables)
+                    .HasForeignKey(d => d.f_number)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Talk_membertable_Firm_accounttable");
+            });
+
             modelBuilder.Entity<Talk_persontable>(entity =>
             {
                 entity.HasKey(e => e.t_forPK);
@@ -367,7 +391,7 @@ namespace GoSweet.Models
 
                 entity.Property(e => e.t_id)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(500);
 
                 entity.HasOne(d => d.c_numberNavigation)
                     .WithMany(p => p.Talk_persontables)

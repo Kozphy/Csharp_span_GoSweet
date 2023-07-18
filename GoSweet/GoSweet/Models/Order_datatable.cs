@@ -10,7 +10,6 @@ namespace GoSweet.Models
         public Order_datatable()
         {
             Notify_datatables = new HashSet<Notify_datatable>();
-            Order_assesstables = new HashSet<Order_assesstable>();
         }
 
         public int o_number { get; set; }
@@ -32,8 +31,10 @@ namespace GoSweet.Models
         public virtual Customer_accounttable c_numberNavigation { get; set; }
         public virtual Firm_accounttable f_numberNavigation { get; set; }
         public virtual Member_membertable m_numberNavigation { get; set; }
+        public virtual Payment_datatable o_paymentNavigation { get; set; }
+        public virtual Ship_datatable o_shipNavigation { get; set; }
         public virtual Product_datatable p_numberNavigation { get; set; }
+        public virtual Order_assesstable Order_assesstable { get; set; }
         public virtual ICollection<Notify_datatable> Notify_datatables { get; set; }
-        public virtual ICollection<Order_assesstable> Order_assesstables { get; set; }
     }
 }

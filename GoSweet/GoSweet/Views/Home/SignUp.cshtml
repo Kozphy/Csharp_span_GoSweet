@@ -1,4 +1,5 @@
-﻿@using Newtonsoft.Json;
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Newtonsoft.Json;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -12,21 +13,36 @@
 }
 
 
+
 @await Html.PartialAsync("~/Pages/Shared/_SignUp.cshtml");
 
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
+    <script src="~/js/PasswordCheck.js"></script>
 
-    @if (TempData["accountExistMessage"] != null)
+
+    @if (TempData["customerAccountExistMessage"] != null)
     {
         <script>
-            let accountExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["accountExistMessage"]));
-            // console.log(accountExistMessage);
+            let customerAccountExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountExistMessage"]));
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: accountExistMessage,
+                text: customerAccountExistMessage,
             });
+        </script>
+    }
+
+    @if (TempData["customerSignUpSuccessMessage"] != null)
+    {
+        <script>
+            let customerSignUpSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerSignUpSuccessMessage"]));
+            Swal.fire({
+                icon: 'success',
+                title: 'SignUp Success...',
+                text: customerSignUpSuccessMessage,
+            });
+
         </script>
     }
 }

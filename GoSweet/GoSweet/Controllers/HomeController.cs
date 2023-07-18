@@ -7,6 +7,7 @@ using Azure.Identity;
 using System.Xml;
 using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace GoSweet.Controllers
 {
@@ -22,7 +23,7 @@ namespace GoSweet.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string Category)
+        public IActionResult Index()
         {
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
@@ -46,11 +47,6 @@ namespace GoSweet.Controllers
                                                                   ProductDescription = product.p_describe,
                                                                   ProductTotalBuyNumber = order.o_buynumber,
                                                               }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
-            //foreach (var group in productRankData) {
-            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
-            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-            //    }
-            //}
 
 
             //Console.WriteLine("productGroupBuyData");
@@ -73,6 +69,9 @@ namespace GoSweet.Controllers
             HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
 
+
+            Console.WriteLine(HttpContext.Session.GetString("AccountName"));
+            Console.WriteLine(HttpContext.Session.GetString("c_number"));
             //foreach (var group in productGroupBuyData) {
             //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
             //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
@@ -85,7 +84,6 @@ namespace GoSweet.Controllers
         public IActionResult HandleProductCategory(string Category)
         {
 
-            //TODO: fix
             List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
                                                               join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
                                                               join order in _context.Order_datatables on product.p_number equals order.p_number
@@ -99,30 +97,26 @@ namespace GoSweet.Controllers
                                                                   ProductDescription = product.p_describe,
                                                                   ProductTotalBuyNumber = order.o_buynumber,
                                                               }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
-            Console.WriteLine("productRankData");
-            foreach (var group in productRankData)
-            {
-                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
-                {
-                    Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-                }
-            }
+            //Console.WriteLine("productRankData");
+            //foreach (var group in productRankData)
+            //{
+            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
+            //    {
+            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+            //    }
+            //}
 
+            //TODO: fix value can't be null
             IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
-            foreach (var item in categoriesDatas)
-            {
-                Console.WriteLine(item.Category);
-            }
+            //foreach (var item in categoriesDatas!)
+            //{
+            //    Console.WriteLine(item.Category);
+            //}
             IEnumerable<ProductGroupBuyData>? productGroupBuyDatas = JsonConvert.DeserializeObject<IEnumerable<ProductGroupBuyData>>(HttpContext.Session.GetString("productGroupBuyDatas")!);
             _indexViewModelData.categoryViewModel = categoriesDatas;
             _indexViewModelData.productGroupBuyDatas = productGroupBuyDatas;
             _indexViewModelData.productRankDatas = productRankData;
 
-            //foreach (var group in _indexViewModelData.categoryViewModel) {
-            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
-            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-            //    }
-            //}
 
 
 
@@ -131,16 +125,33 @@ namespace GoSweet.Controllers
 
         public IActionResult Login()
         {
-            //if (ModelState.IsValid) { 
-            //    _context.Customer_accounttables
-            //    HttpContext.Session.SetString("", customer.c_nickname);
-            //}
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(Customer_accounttable customer) 
+        public IActionResult Login(Customer_accounttable customerLoginData) 
         {
+            if (ModelState.IsValid) 
+            {
+                var userAccount = _context.Customer_accounttables.Where((c) =>
+                    c.c_account.Equals(customerLoginData.c_account) &&
+                    c.c_password.Equals(customerLoginData.c_password)
+                ).Select((c) =>
+                new {
+                    AccountName = c.c_nickname,
+                    c_number = c.c_number,
+                });
+
+                bool accountNotExist = userAccount.IsNullOrEmpty();
+
+                if (accountNotExist.Equals(true)) {
+                    TempData["accountNotExistMessage"] = "帳號不存在";
+                    return View();
+                }
+                HttpContext.Session.SetString("AccountName", userAccount.First().AccountName);
+                HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.First().c_number));
+                TempData["accountLoginSuccessMessage"] = "帳號登入成功";
+            }
             return View();
         }
 
@@ -151,28 +162,28 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(Customer_accounttable CustomerAccountData)
+        public IActionResult SignUp(Customer_accounttable customerAccountData)
         {
             if (ModelState.IsValid)
             {
                 // check account whether exist
                 bool accountNotExist = _context.Customer_accounttables.Where((c) =>
-                    c.c_nickname.Equals(CustomerAccountData.c_nickname) &&
-                    c.c_account.Equals(CustomerAccountData.c_account) &&
-                    c.c_password.Equals(CustomerAccountData.c_password)
+                    c.c_nickname.Equals(customerAccountData.c_nickname) &&
+                    c.c_account.Equals(customerAccountData.c_account) &&
+                    c.c_password.Equals(customerAccountData.c_password)
                 ).IsNullOrEmpty();
 
                 if (accountNotExist.Equals(false))
                 {
-                    TempData["accountExistMessage"] = "此帳號已被註冊";
+                    TempData["customerAccountExistMessage"] = "此帳號已被註冊";
                     return View();
                 }
 
                 try
                 {
-                    _context.Customer_accounttables.Add(CustomerAccountData);
+                    _context.Customer_accounttables.Add(customerAccountData);
                     _context.SaveChanges();
-                    TempData["CustomerSignUpSuccess"] = true;
+                    TempData["customerSignUpSuccessMessage"] = "帳號註冊成功";
                 }
                 catch (Exception e)
                 {
