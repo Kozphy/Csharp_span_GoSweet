@@ -35,7 +35,7 @@
                 <hr />
                 <div class="splide__track">
                     <ul class="splide__list">
-                        @foreach (var item in Model.categoryViewModel)
+                        @foreach (var item in Model.categoryViewModel!)
                         {
                             <li class="splide__slide">
                                 <div class="text-center">
@@ -59,7 +59,7 @@
                     <section class="splide2 splide">
                         <div class="splide__track">
                             <ul class="splide__list">
-                                @foreach (var item in Model.productRankDatas)
+                                @foreach (var item in Model.productRankDatas!)
                                 {
                                     <li class="splide__slide">
                                         <div class="splide__slide__container">
