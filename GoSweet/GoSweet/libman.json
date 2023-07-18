@@ -34,6 +34,15 @@
     {
       "library": "d3@7.8.5",
       "destination": "wwwroot/lib/d3/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "@microsoft/signalr@latest",
+      "destination": "wwwroot/lib/microsoft/signalr/",
+      "files": [
+        "dist/browser/signalr.js.map",
+        "dist/browser/signalr.min.js.map"
+      ]
     }
   ]
 }

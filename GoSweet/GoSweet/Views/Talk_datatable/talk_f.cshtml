@@ -1,0 +1,388 @@
+﻿<style>
+    .talk-member:hover {
+        opacity: .5;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script>
+
+
+
+    console.log('test')
+
+    let nownumber;
+
+    //點選廠商顯示聊天內容
+    function changecolor(order) {
+        // jquery background寫法
+        // var ex = $(order)
+        // ex.css( "background", "blue" );
+        if (order.style.backgroundColor == 'rgb(149, 213, 255)') {
+            // 已點過聊天室列表
+            order.style.backgroundColor = 'white';
+            document.getElementById('chat').style.display = "none";
+            document.getElementById('chattitle').style.visibility = "hidden";
+            document.getElementById('startchat').style.display = "block";
+            $('.title').text()
+            $('#chat').empty()
+        } else {
+            // 未點過聊天室列表
+            order.style.backgroundColor = 'rgb(149, 213, 255)';
+            document.getElementById('chat').style.display = "block";
+            document.getElementById('chattitle').style.visibility = "visible";
+            document.getElementById('startchat').style.display = "none";
+            //紀錄目前點選廠商編號
+            nownumber = parseInt($(order).find('.cnumber').text())
+            $('.title').text()
+            $('#chat').empty()
+            console.log($(order).find('.fname').text())
+            $.post('/Talk_datatable/gethistory_f', { cnumber: nownumber })
+                .done(function (data) {
+                    let data2 = JSON.parse(data)
+                    //清空聊天室內容
+                    $('.chat').empty()
+                    $('.title').text($(order).find('.cname').text())
+                    console.log(data2[0].person)
+                    //顯示聊天內容
+                    $(data2).each(function () {
+                        //post = 0 代表客戶發言
+                        if (this.post == 1) {
+                            $('.chat').append(`
+                                                <div style="width: 100%;  text-align: right; margin-top: 10px; margin-bottom: 10px;" >
+                                                <div style="color: white; background-color: dodgerblue; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                                    <label for="" style="text-align: left;">${this.message}</label>
+                                                </div>
+                                                <div style=" margin-right: 30px; ">
+                                                        <label for="">${this.time}</label>
+                                                </div>
+                                             </div>
+                                            `)
+                        }else{
+                            $('.chat').append(`
+                                        <div style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+                                        <div
+                                            style="border: 2px solid #ccc; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                                <label for="">${this.message}</label>
+                                        </div>
+                                        <div style=" margin-left: 30px; ">
+                                                <label for="">${this.time}</label>
+                                        </div>
+                                    </div>
+                            `)
+                        }
+                        //聊天室滾到最下面
+                        $('.chat').scrollTop($('.chat').height() + 99999)
+                    })
+
+                })
+
+
+        }
+
+    }
+    $(function () {
+
+        $('.messagebutton').on('click', function () {
+            console.log($('.messageinput').val())
+
+
+            
+            $.post('/Talk_datatable/getsendid', { sendnumber: nownumber })
+                .done(function (data) {
+                    let data2 = JSON.parse(data);
+                    alert('傳送 ');
+                    console.log('get sendid' + data)
+                    let selfID = myid;
+                    let message = $('.messageinput').val();
+                    let sendToID = data2[0].id;
+                    connection.invoke("SendMessage", selfID, message, sendToID).catch(function (err) {
+                        alert('傳送錯誤: ' + err.toString());
+                    });
+                })
+
+
+            //獲得現在時間並排序好
+            const date = new Date();
+
+            let seconds = date.getSeconds();
+            let minutes = date.getMinutes();
+            let hours = date.getHours();
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+
+            // This arrangement can be altered based on how we want the date's format to appear.
+            let currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+            let currentDate2 = `${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
+            console.log(currentDate);
+
+            //將文字欄內容新增至db
+            $.post('/Talk_datatable/postmessage_f', { cnumber: nownumber, time: currentDate2, message: $('.messageinput').val() })
+                .done(function (data) {
+                    console.log(data)
+                })
+
+            //將文字欄內容新增至聊天室
+            $('.chat').append(`
+                            <div style="width: 100%;  text-align: right; margin-top: 20px;" >
+                                <div style="color: white; background-color: dodgerblue; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                    <label for="" style="text-align: left;">${$('.messageinput').val()}</label>
+                                </div>
+                                <div style=" margin-right: 30px; ">
+                                    <label for="">${currentDate}</label>
+                                </div>
+                            </div>
+                        `)
+
+            //聊天室滾到最下面
+            $('.chat').scrollTop($('.chat').height() + 99999)
+        })
+
+        //清空聊天室
+        // $('.chat').empty()
+
+
+        //從後端取得聊天室列表
+        $.get('/Talk_datatable/getlist_f').done(function (data) {
+            console.log(data)
+            let data2 = JSON.parse(data)
+            $('.flist').empty()
+
+            $(data2).each(function () {
+                $('.flist').append(`
+                                   <div class="row talk-member" style="margin: 10px;" onclick="changecolor(this)">
+                                       <div class="col-4 ">
+                                                   <img src="/img/order/person.png" style="width: 100%; border-radius: 100%;" alt="">
+                                       </div>
+                                       <div class="col-6">
+                                           <div style="margin-top: 30px;">
+                                                   <label for="" style="font-size: 28px;" class="cname">${this.cname}</label>
+                                                   <label for="" style="font-size: 28px; display:none;"class="cnumber" >${this.cnumber}</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-2 ">
+                                                <div style="margin-top: 30px;">
+                                                <div style=" text-align: center ; background-image: url(/img/order/聊天室未讀.jpg);width: 100%; border-radius: 100%;">
+                                                    <!-- <label for="" style="font-weight: bold; font-size: 30px; color: white;" class="noread"></label> -->
+                                                            <b style="font-weight: bold; font-size: 30px; color: white;" class="noread_${this.cnumber}">1</b>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                   </div>
+                                `)
+            })
+
+        })
+
+    })
+
+</script>
+
+<body>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12">
+                <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-top: 20px;">
+                    <label style="font-size:40px ;margin-left: 40px;">聊天室</label>
+                </div>
+                <div class="row" style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;  margin-top: 20px;">
+                    <!-- 左邊欄位 -->
+                    <div class="col-4 " style="margin-top: 20px;">
+                        <!-- 搜尋欄 -->
+                        <div>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="輸入廠商名稱"
+                                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <button class="btn btn-outline-secondary" type="button" id="button-addon2">搜尋</button>
+                            </div>
+                        </div>
+                        <!-- 廠商列表 -->
+                        <div class="flist">
+                            <!-- 廠商一號 -->
+                            <div class="row talk-member" style="margin: 10px;" onclick="changecolor(this)">
+                                <div class="col-4 ">
+                                    <img src="/img/order/廠商.jpg" style="width: 100%; border-radius: 100%;" alt="">
+                                </div>
+                                <div class="col-8">
+                                    <div style="margin-top: 30px;">
+                                        <label for="" style="font-size: 28px;">巴特里</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 廠商二號 -->
+                            <div class="row talk-member" style="margin: 10px;" onclick="changecolor(this)">
+                                <div class="col-4 ">
+                                    <img src="/img/order/廠商2.jpg" style="width: 100%; border-radius: 100%;" alt="">
+                                </div>
+                                <div class="col-8">
+                                    <div style="margin-top: 30px;">
+                                        <label for="" style="font-size: 28px;">麥之鄉</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- 右邊欄位 -->
+                    <div class="col-8" style=" border-left: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
+                        <!-- 聊天室標頭 -->
+                        <div id="chattitle" style="text-align: center; margin-top: 10px; visibility: hidden;">
+                            <label for="" style="font-size: 28px;" class="title">巴特里</label>
+                        </div>
+                        <!-- 聊天室外框 -->
+                        <div style="margin:10px ; border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; height: 500px; ">
+                            <!-- 聊天內容 -->
+                            <div id="chat" style="display:none; height: 500px;" class="overflow-y-scroll chat">
+                                <div style="width: 100%;  text-align: right; margin-top: 20px;">
+
+                                    <div style="color: white; background-color: dodgerblue; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                        <label for="" style="text-align: left;">我收到貨打開後發現不是爆醬餐包</label>
+                                    </div>
+                                    <div style=" margin-right: 30px; ">
+                                        <label for="">2023/07/01 13:40</label>
+                                    </div>
+                                </div>
+
+                                <div style="width: 100%; margin-top: 20px;">
+                                    <div style="border: 2px solid #ccc; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                        <label for="">抱歉造成您的困擾，我們會在今日重新寄送商品給您</label>
+                                    </div>
+                                    <div style=" margin-left: 30px; ">
+                                        <label for="">2023/07/01 13:45</label>
+                                    </div>
+                                </div>
+
+                                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+                                <div style="width: 100%; margin-top: 20px;">
+                                    <div style="border: 2px solid #ccc; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                        <label for="">抱歉造成您的困擾，我們會在今日重新寄送商品給您</label>
+                                    </div>
+                                    <div style=" margin-left: 30px; ">
+                                        <label for="">2023/07/01 13:45</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="startchat" style="text-align: center; margin-top: 100px; display: block;">
+                                <label for="" style="font-size: 28px; color: rgb(153, 153, 153);">選擇廠商開始聊天吧</label>
+
+                            </div>
+                        </div>
+
+
+                        <!-- 聊天輸入欄 -->
+                        <div>
+                            <div class="input-group mb-3" style="margin:20px;height: 50px; width: 95%; ">
+                                <input type="text" class="form-control messageinput" placeholder="輸入聊天內容">
+                                <button class="btn btn-outline-secondary messagebutton" type="button">送出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+
+
+@*singalr  js觸發事件*@
+@section scripts{
+
+    <script>
+
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        let otherid;
+        let myid = '';
+        //與Server建立連線
+        connection.start().then(function () {
+            console.log("Hub 連線完成");
+        }).catch(function (err) {
+            alert('連線錯誤: ' + err.toString());
+        });
+
+        // 更新連線 ID 列表事件
+        connection.on("UpdList", function (jsonList) {
+            var list = JSON.parse(jsonList);
+            $("#IDList li").remove();
+            for (i = 0; i < list.length; i++) {
+                $("#IDList").append($("<li></li>").attr("class", "list-group-item").text(list[i]));
+            }
+
+        });
+
+        // 更新用戶個人連線 ID 事件
+        connection.on("UpdSelfID", function (id) {
+            $('#SelfID').html(id);
+            myid = id;
+            //把聊天室id丟給db
+            $.post("/Talk_datatable/chatid_f", { "uid": id.toString() })
+                .done(function (data) {
+                    console.log(data + id)
+                });
+        });
+
+        // 更新聊天內容事件
+        connection.on("UpdContent", function (msg) {
+            if (msg.includes('你向')) {
+                console.log(msg)
+            } else {
+
+
+                //獲得現在時間並排序好
+                const date = new Date();
+
+                let seconds = date.getSeconds();
+                let minutes = date.getMinutes();
+                let hours = date.getHours();
+                let day = date.getDate();
+                let month = date.getMonth() + 1;
+                let year = date.getFullYear();
+
+                // This arrangement can be altered based on how we want the date's format to appear.
+                let currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+                //將文字欄內容新增至聊天室
+                $('.chat').append(`
+                                                <div style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+                                                <div
+                                                    style="border: 2px solid #ccc; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
+                                                                <label for="">${msg}</label>
+                                                </div>
+                                                <div style=" margin-left: 30px; ">
+                                                                <label for="">${currentDate}</label>
+                                                </div>
+                                            </div>
+                                    `)
+
+                //聊天室滾到最下面
+                $('.chat').scrollTop($('.chat').height() + 99999)
+            }
+        });
+
+            ////傳送訊息
+            //$('#sendButton').on('click', function () {
+            //    console.log($(nownumber))
+            //    $.post('/Talk_datatable/getsendid', { sendnumber: $(nownumber) })
+            //        .done(function (data) {
+            //            alert('傳送錯誤: ');
+            //            console.log('get sendid' + data)
+            //            let selfID = $(myid);
+            //            let message = $('.messageinput').val();
+            //            let sendToID = $(data);
+            //            connection.invoke("SendMessage", selfID, message, sendToID).catch(function (err) {
+            //                alert('傳送錯誤: ' + err.toString());
+            //            });
+            //        })
+            //});
+    </script>
+}
