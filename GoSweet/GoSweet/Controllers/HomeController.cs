@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Azure.Identity;
 using System.Xml;
 using Newtonsoft.Json;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GoSweet.Controllers
 {
@@ -26,10 +27,10 @@ namespace GoSweet.Controllers
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
             List<CategoryViewModel> categoriesDatas = (from product in _context.Product_datatables
-                                                      select new CategoryViewModel
-                                                      {
-                                                          Category = product.p_category
-                                                      }).Distinct().ToList();
+                                                       select new CategoryViewModel
+                                                       {
+                                                           Category = product.p_category
+                                                       }).Distinct().ToList();
 
 
             List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
@@ -45,16 +46,14 @@ namespace GoSweet.Controllers
                                                                   ProductDescription = product.p_describe,
                                                                   ProductTotalBuyNumber = order.o_buynumber,
                                                               }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
-            Console.WriteLine("productRankData");
-            foreach (var group in productRankData) {
-                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
-                    Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-                }
-            }
+            //foreach (var group in productRankData) {
+            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+            //    }
+            //}
 
-            Console.WriteLine();
 
-            Console.WriteLine("productGroupBuyData");
+            //Console.WriteLine("productGroupBuyData");
             List<ProductGroupBuyData> productGroupBuyData = (from product in _context.Product_datatables
                                                              join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
                                                              join groupbuy in _context.Group_datatables on product.p_number equals groupbuy.p_number
@@ -63,27 +62,27 @@ namespace GoSweet.Controllers
                                                              {
                                                                  ProductName = product.p_name,
                                                                  ProductPicture = product_pic.p_url,
-                                                                 GroupMaxPeople = groupbuy.g_maxpeople, 
-                                                                 GroupNowPeople = member.m_nowpeople, 
+                                                                 GroupMaxPeople = groupbuy.g_maxpeople,
+                                                                 GroupNowPeople = member.m_nowpeople,
                                                                  GroupEndDate = groupbuy.g_end,
                                                              }).ToList();
-            Console.WriteLine(productGroupBuyData);
+            //Console.WriteLine(productGroupBuyData);
             _indexViewModelData.categoryViewModel = categoriesDatas;
             _indexViewModelData.productRankDatas = productRankData;
             _indexViewModelData.productGroupBuyDatas = productGroupBuyData;
             HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
 
-            foreach (var group in productGroupBuyData) {
-                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
-                    Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-                }
-            }
+            //foreach (var group in productGroupBuyData) {
+            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+            //    }
+            //}
             return View(_indexViewModelData);
         }
 
         [HttpPost]
-        public IActionResult HandleProductCategory(string Category) 
+        public IActionResult HandleProductCategory(string Category)
         {
 
             //TODO: fix
@@ -101,14 +100,17 @@ namespace GoSweet.Controllers
                                                                   ProductTotalBuyNumber = order.o_buynumber,
                                                               }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
             Console.WriteLine("productRankData");
-            foreach (var group in productRankData) {
-                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+            foreach (var group in productRankData)
+            {
+                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
+                {
                     Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
                 }
             }
 
             IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
-            foreach (var item in categoriesDatas) {
+            foreach (var item in categoriesDatas)
+            {
                 Console.WriteLine(item.Category);
             }
             IEnumerable<ProductGroupBuyData>? productGroupBuyDatas = JsonConvert.DeserializeObject<IEnumerable<ProductGroupBuyData>>(HttpContext.Session.GetString("productGroupBuyDatas")!);
@@ -127,7 +129,7 @@ namespace GoSweet.Controllers
             return View("Index", _indexViewModelData);
         }
 
-        public IActionResult Login(Customer_accounttable customer)
+        public IActionResult Login()
         {
             //if (ModelState.IsValid) { 
             //    _context.Customer_accounttables
@@ -136,19 +138,48 @@ namespace GoSweet.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Login(Customer_accounttable customer) 
+        {
+            return View();
+        }
+
+
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult SignUp(Customer_accounttable CustomerAccountData)
         {
-            if (ModelState.IsValid) {
-                Console.WriteLine(CustomerAccountData);
-                return Content("");
+            if (ModelState.IsValid)
+            {
+                // check account whether exist
+                bool accountNotExist = _context.Customer_accounttables.Where((c) =>
+                    c.c_nickname.Equals(CustomerAccountData.c_nickname) &&
+                    c.c_account.Equals(CustomerAccountData.c_account) &&
+                    c.c_password.Equals(CustomerAccountData.c_password)
+                ).IsNullOrEmpty();
+
+                if (accountNotExist.Equals(false))
+                {
+                    TempData["accountExistMessage"] = "此帳號已被註冊";
+                    return View();
+                }
+
                 try
                 {
-                    _context.Add(CustomerAccountData);
+                    _context.Customer_accounttables.Add(CustomerAccountData);
                     _context.SaveChanges();
+                    TempData["CustomerSignUpSuccess"] = true;
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     Console.WriteLine(e);
                 }
+                //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
+                //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
             }
             return View();
         }

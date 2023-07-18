@@ -1,0 +1,62 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+@{
+    Layout = "_LayoutLoginSignUp";
+    string? currentController = @ViewContext.RouteData.Values["controller"]!.ToString();
+}
+
+@section Head{
+    <link rel="stylesheet" href="~/css//SignUp/SignUp.css" />
+}
+
+<div class="container-fluid px-0 position-relative">
+    <div class="row g-0">
+        <div class="col-6">
+            <img class="img-fluid vh-100 w-100" src="~/img/SignUp/註冊頁面pic.jpg" alt="SignUp pic" />
+        </div>
+        <div class="col-6  d-flex flex-column SignUp-section ">
+            <div class="signUp-form m-auto">
+                <div class="form-title-box bg-mute-2 py-2 text-white rounded mb-2">
+                    @if (currentController == "FirmPage")
+                    {
+                        <h2 class="display-6">Firm SignUp</h2>
+                    }
+                    else
+                    {
+                        <h2 class="display-6">SignUp</h2>
+                    }
+                </div>
+                <form method="post">
+                    <div class="py-2">
+                        <label for="AccountName" class="form-label">帳戶名稱</label>
+                        <input type="text" id="AccountName" class="form-control" required />
+                    </div>
+                    <div class="py-2">
+                        <label for="UserEmail" class="form-label">Email</label>
+                        <input type="email" id="UserEmail" class="form-control" pattern="[a-z0-9]+@@[a-z]+\.[a-z]{2,3}" required />
+                    </div>
+                    <div class="py-2">
+                        <label for="UserPassword" class="form-label">密碼</label>
+                        <input type="password" id="UserPassword" class="form-control" required />
+                    </div>
+                    <div class="py-2">
+                        <label for="UserPasswordCheck" class="form-label">再次確認密碼</label>
+                        <input type="password" id="UserPasswordCheck" class="form-control" required />
+                    </div>
+                    <span class="passwordCheckResult text-danger"></span>
+                    <div class="row">
+                        <div class="col-12 mb-2 mb-md-0 col-md-12">
+                            <button type="submit" class="SignUpBtn w-100 btn btn-mute-2  text-dark">註冊</button>
+                        </div>
+                    </div>
+                    <p class="text-center mt-2">繼續進行代表您同意<a class="text-decoration-underline text-primary">服務條款</a>。</p>
+                </form>
+            </div>
+            @await Html.PartialAsync("~/Pages/Shared/_SignUpNavigation.cshtml");
+        </div>
+    </div>
+</div>
+
+
