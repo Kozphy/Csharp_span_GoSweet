@@ -18,11 +18,12 @@ function NowTime(){
 }
 //#endregion 回傳字串
 
-//放外面，定義重整事件
+//#region 定義重整事件
 function refresh(){
     let Now = NowTime() 
     alert(Now)
     Now = $(".update").text(Now)
 }
+//#endregion 可以可慮跟NowTime整合
 
 
