@@ -1,5 +1,11 @@
 window.onload=function(){
 
+    //評價估算
+    var Rating = 3997;
+    var NumberTotal = 996;
+    $(".star").children().eq(Math.round(Rating/NumberTotal)-1).prop('checked',true)
+    $("#NumberOrder").text(NumberTotal)
+    
     //更新日期設定
     Now = $(".update").text(NowTime())
 }
@@ -12,11 +18,12 @@ function NowTime(){
 }
 //#endregion 回傳字串
 
-//放外面，定義重整事件
+//#region 定義重整事件
 function refresh(){
     let Now = NowTime() 
     alert(Now)
     Now = $(".update").text(Now)
 }
+//#endregion 可以可慮跟NowTime整合
 
 
