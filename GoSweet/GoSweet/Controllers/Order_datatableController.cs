@@ -1,8 +1,12 @@
 ﻿using GoSweet.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace GoSweet.Controllers
@@ -17,8 +21,108 @@ namespace GoSweet.Controllers
             _context = context;
         }
 
+
+        //訂單搜尋 客戶用
+        [HttpPost]
+        public IActionResult search_c(DateTime start ,DateTime end, string o_status , string o_type, string ship_status, int orderby)
+        {
+
+            var id = HttpContext.Session.GetInt32("mycnumber");
+
+            var orderdata = from o in _context.OrderDatatables
+                            join pic in _context.ProductPicturetables
+                            on o.PNumber equals pic.PNumber
+                            join f in _context.FirmPagetables
+                            on o.FNumber equals f.FNumber
+                            join p in _context.ProductDatatables
+                            on o.PNumber equals p.PNumber
+                            join s in _context.ShipDatatables
+                            on o.OShip equals s.ShipNumber
+                            join pay in _context.PaymentDatatables
+                            on o.OPayment equals pay.PaymentNumber
+                            where pic.PPicnumber == 1 && o.CNumber == id
+                            orderby o.OStart descending
+                            select new
+                            {
+                                start = o.OStart,
+                                pic = pic.PUrl,
+                                fname = f.FPagename,
+                                pname = p.PName,
+                                pbuy = o.OBuynumber,
+                                otype = o.OType,
+                                ostatus = o.OStatus,
+                                oshipstatus = o.OShipstatus,
+                                oplace = o.OPlace,
+                                ostart = o.OStart.ToString("yyyy-MM-dd"),
+                                oprice = o.OPrice,
+                                onumber = o.ONumber,
+                                oship = s.ShipName,
+                                opay = pay.PaymentName
+                            };
+
+            orderdata = from o in orderdata
+                        where o.start >= start
+                        select o;
+            if (end > DateTime.Parse("01-01-1900"))
+            {
+                orderdata = from o in orderdata
+                            where o.start <= end
+                            select o;
+            }
+
+            if (o_status != "全部")
+            {
+                orderdata = from o in orderdata
+                            where o.ostatus == o_status
+                            select o;
+            }
+
+            if (o_type != "全部")
+            {
+                if (o_type == "直購") { 
+                    orderdata = from o in orderdata
+                            where o.otype == false
+                            select o;
+                } 
+                else {
+                    orderdata = from o in orderdata
+                                where o.otype == true
+                                select o;
+                }
+                
+            }
+            if (ship_status != "全部")
+            {
+                orderdata = from o in orderdata
+                            where o.oshipstatus == ship_status
+                            select o;
+            }
+
+
+            if (orderby == 1)
+            {
+                orderdata = from o in orderdata
+                            orderby o.start descending
+                            select o;
+            }
+            else if (orderby == 2) {
+                orderdata = from o in orderdata
+                            orderby o.oprice descending
+                            select o;
+            } else {
+                orderdata = from o in orderdata
+                            orderby o.oprice 
+                            select o;
+            }
+
+
+                return Content(JsonSerializer.Serialize(orderdata));
+            //return Content(orderlist);
+        }
+
+
         //取得訂單列表
-        public IActionResult c_order()
+        public IActionResult order_c()
         {
             HttpContext.Session.SetInt32("mycnumber",10000);
 
@@ -54,6 +158,7 @@ namespace GoSweet.Controllers
                                 opay = pay.PaymentName
                             };
 
+            
 
 
             ViewBag.order = orderdata.ToList();
@@ -166,8 +271,36 @@ namespace GoSweet.Controllers
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //取得廠商訂單資料  訂單網頁使用者為廠商
-        public IActionResult f_order()
+        public IActionResult order_f()
         {
             HttpContext.Session.SetInt32("myfnumber",60000);
 
@@ -209,6 +342,114 @@ namespace GoSweet.Controllers
             System.Diagnostics.Debug.WriteLine(JsonSerializer.Serialize(orderdata));
             return View();
         }
+
+
+
+        //訂單搜尋 廠商用
+        [HttpPost]
+        public IActionResult search_f(DateTime start, DateTime end, string o_status, string o_type, string ship_status, int orderby)
+        {
+
+            var id = HttpContext.Session.GetInt32("myfnumber");
+
+            var orderdata = from o in _context.OrderDatatables
+                            join pic in _context.ProductPicturetables
+                            on o.PNumber equals pic.PNumber
+                            join c in _context.CustomerAccounttables
+                            on o.CNumber equals c.CNumber
+                            join p in _context.ProductDatatables
+                            on o.PNumber equals p.PNumber
+                            join s in _context.ShipDatatables
+                            on o.OShip equals s.ShipNumber
+                            join pay in _context.PaymentDatatables
+                            on o.OPayment equals pay.PaymentNumber
+                            where o.FNumber == id && pic.PPicnumber == 1 && (o.OStatus == "已下單" || o.OStatus == "已結單")
+                            orderby o.OStart descending
+                            select new
+                            {
+                                start = o.OStart,
+                                pic = pic.PUrl,
+                                cname = c.CNickname,
+                                pname = p.PName,
+                                pbuy = o.OBuynumber,
+                                otype = o.OType,
+                                ostatus = o.OStatus,
+                                oshipstatus = o.OShipstatus,
+                                oplace = o.OPlace,
+                                ostart = o.OStart.ToString("yyyy-MM-dd"),
+                                oprice = o.OPrice,
+                                onumber = o.ONumber,
+                                oship = s.ShipName,
+                                opay = pay.PaymentName
+                            };
+
+            orderdata = from o in orderdata
+                        where o.start >= start
+                        select o;
+            if (end > DateTime.Parse("01-01-1900"))
+            {
+                orderdata = from o in orderdata
+                            where o.start <= end
+                            select o;
+            }
+
+            if (o_status != "全部")
+            {
+                orderdata = from o in orderdata
+                            where o.ostatus == o_status
+                            select o;
+            }
+
+            if (o_type != "全部")
+            {
+                if (o_type == "直購")
+                {
+                    orderdata = from o in orderdata
+                                where o.otype == false
+                                select o;
+                }
+                else
+                {
+                    orderdata = from o in orderdata
+                                where o.otype == true
+                                select o;
+                }
+
+            }
+            if (ship_status != "全部")
+            {
+                orderdata = from o in orderdata
+                            where o.oshipstatus == ship_status
+                            select o;
+            }
+
+
+            if (orderby == 1)
+            {
+                orderdata = from o in orderdata
+                            orderby o.start descending
+                            select o;
+            }
+            else if (orderby == 2)
+            {
+                orderdata = from o in orderdata
+                            orderby o.oprice descending
+                            select o;
+            }
+            else
+            {
+                orderdata = from o in orderdata
+                            orderby o.oprice
+                            select o;
+            }
+
+
+            return Content(JsonSerializer.Serialize(orderdata));
+            //return Content(orderlist);
+        }
+
+
+
 
 
         //接收出貨寫入db 訂單網頁使用者為廠商

@@ -10,34 +10,38 @@
         //領貨確認後寫入db
         $('.getproduct').on('click', function () {
             console.log(parseInt($('#s_onumber').text()))
-            if (!($('.shipget').eq(olistnumber).html() == "確認取貨")) {
-                console.log('未寄出或已取貨不寫入')
-                return;
-            }
+            console.log($('.shipget').eq(olistnumber).html())
+            //觸發動態訂單
+            getrow(olistnumber)
 
-            $('.o_status').eq(olistnumber).text('已結單')
-            $('.o_shipstatus').eq(olistnumber).text('已取貨')
-            //$('.shipget').eq(olistnumber).prop('disabled', true)
-            $('.shipget').eq(olistnumber).html("已取貨")
+            //if (!($('.shipget').eq(olistnumber).html() == "確認取貨")) {
+            //    console.log('未寄出或已取貨不寫入')
+            //    return;
+            //}
 
-            //獲得現在時間並排序好
-            const date = new Date();
+            //$('.o_status').eq(olistnumber).text('已結單')
+            //$('.o_shipstatus').eq(olistnumber).text('已取貨')
+            ////$('.shipget').eq(olistnumber).prop('disabled', true)
+            //$('.shipget').eq(olistnumber).html("已取貨")
 
-            let seconds = date.getSeconds();
-            let minutes = date.getMinutes();
-            let hours = date.getHours();
-            let day = date.getDate();
-            let month = date.getMonth() + 1;
-            let year = date.getFullYear();
+            ////獲得現在時間並排序好
+            //const date = new Date();
 
-            // This arrangement can be altered based on how we want the date's format to appear.
-            let currentDate = `${month}-${day}-${year}`;
+            //let seconds = date.getSeconds();
+            //let minutes = date.getMinutes();
+            //let hours = date.getHours();
+            //let day = date.getDate();
+            //let month = date.getMonth() + 1;
+            //let year = date.getFullYear();
 
-            let onum = parseInt($('#s_onumber').text())
-            $.post('/Order_datatable/orderdone', { 'onumber': onum, "end": currentDate })
-                .done(function (data) {
-                    console.log($('#s_onumber').text() + " onumber is done" + data);
-                });
+            //// This arrangement can be altered based on how we want the date's format to appear.
+            //let currentDate = `${month}-${day}-${year}`;
+
+            //let onum = parseInt($('#s_onumber').text())
+            //$.post('/Order_datatable/orderdone', { 'onumber': onum, "end": currentDate })
+            //    .done(function (data) {
+            //        console.log($('#s_onumber').text() + " onumber is done" + data);
+            //    });
         })
 
         //取得訂單評分資料傳給db
@@ -56,7 +60,225 @@
             $('.assess').eq(olistnumber).html("訂單詳細")
         })
 
+        //排序觸發搜尋按鈕
+        $('.orderby').change(function () {
+            $(".searchorder").trigger("click");
+        });
+
+
+        //搜尋訂單按鈕事件
+        $('.searchorder').on('click', function () {
+            //搜尋訂單
+            $.post('/Order_datatable/search_c', {
+                start: $('.start').val(), 
+                end: $('.end').val(),
+                o_type: $('.o_type option').filter(':selected').text(),
+                o_status: $('.o_status option').filter(':selected').text(),
+                ship_status: $('.ship_status option').filter(':selected').text(),
+                orderby: $('.orderby').val()
+            })
+                .done(function (data) {
+                    console.log(data)
+                    let data2 = JSON.parse(data)
+                    let count = 0
+                    $('.orderlist').empty()
+                    $(data2).each(function () {
+                        let item = this
+
+                        let x1
+                        let x2
+                        if (item.otype) {
+                            x1 = '<label for= "" style = "font-size: 28px;" class= "o_type" > 團購</label>'
+                        }
+                        else {
+                            x1 = '<label for= "" style = "font-size: 28px;" class= "o_type" > 直購</label>'
+                        }
+                        //x2 = `<input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick = "shipget(${count},${item.onumber})" value="確認取貨"  >`
+                        if (item.oshipstatus == "已寄出") {
+                            x2 = `<input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick = "shipget(${count},${item.onumber})" value="確認取貨"  >`
+                                
+
+                        }
+                        else if (item.oshipstatus == "未寄出") {
+                            x2 = `<input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick = "shipget(${count},${item.onumber})" value="確認取貨" disabled >`
+
+                        }
+                        else {
+                            x2 = `<input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick = "shipget(${count},${item.onumber})" value="${item.oshipstatus}"  >`
+
+                        }
+                        console.log(x1)
+                        console.log(x2)
+						$('.orderlist').append(`
+
+                                        <div class="row getrow" style="margin: 20px;">
+										<div class="col-3 mb-1">
+                                                <a href=""><img src="${item.pic}" style="width: 100%;" class="o_ppic" alt=""></a>
+												<label for="" style="display: none;" class="o_ship">${item.oship}</label>
+												<label for="" style="display: none;" class="o_place">${item.oplace}</label>
+										</div>
+
+
+										<div class="col-5 mb-1">
+
+
+											<table style="height: 100%; width: 100%;">
+												<tr style="height: 33%; text-align: center; vertical-align: middle;">
+													<td style="vertical-align: middle;">
+															<label for="" style="font-size: 28px;" class="o_fname">【${item.fname}】</label>
+															<label for="" style="font-size: 28px;" class="o_pname">${item.pname}</label>
+													</td>
+												</tr>
+												<tr style="height: 66%;">
+													<td>
+														<div class="row" style="height: 100%; ">
+															<div class="col-6 mb-1">
+																<table style="height: 100%; width: 100%; text-align: center">
+																	<tr style="height: 50%;">
+																		<td>
+																			<label for="" style="font-size: 28px;">數量:</label>
+																				<label for="" style="font-size: 28px;" class="o_pbuynumber">${item.pbuy} </label>
+																		</td>
+																	</tr>
+																	<tr style="height: 50%;">
+																		<td>
+																				<label for="" style="font-size: 28px;" class="o_status">${item.ostatus} </label>
+																		</td>
+																	</tr>
+																</table>
+															</div>
+															<div class="col-6 mb-1">
+																<table style="height: 100%; text-align: center">
+
+																	<tr style="height: 50%;">
+																		<td>
+																			<label for="" style="font-size: 28px;">種類：</label>
+																			`+
+                            `${x1}`
+                            + `
+						
+
+																		</td>
+																	</tr>
+																	<tr style="height: 50%;">
+																		<td>
+																				<label for="" style="font-size: 28px;" class="o_shipstatus">${item.oshipstatus}</label>
+																		</td>
+																	</tr>
+																</table>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</table>
+
+										</div>
+
+										<div class="col-4 mb-1">
+											<table style="height: 100%;">
+												<tr style="height: 33%; text-align: center">
+													<td>
+															<label for="" style="font-size: 24px;" class="o_starttime">下單日期：${item.ostart}</label>
+													</td>
+												</tr>
+												<tr style="height: 66%;">
+													<td>
+														<div class="row" style="height: 100%; ">
+															<div class="col-6 mb-1">
+																<table style="height: 100%; width: 100%; text-align: center">
+																	<tr style="height: 50%;">
+																		<td>
+																				<label for="" style="font-size: 48px; color: red;" class="o_pprice">$${item.oprice}</label>
+																		</td>
+																	</tr>
+																	<tr style="height: 50%;">
+																		<td>
+																					<button class="btn btn-primary btn-lg assess" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="assess(${count},${item.onumber} )">我要評分</button>
+																		</td>
+																	</tr>
+																</table>
+															</div>
+															<div class="col-6 mb-1">
+																<table style="height: 100%; text-align: center">
+
+																	<tr style="height: 50%;">
+																		<td>
+																				<a href="/Talk_datatable/talk" onclick="gotalk(${item.onumber})"><img src="/img/order/chat.png" style="width: 50%;" alt=""></a>
+																		</td>
+																	</tr>
+																	<tr style="height: 50%;">
+																		<td>
+																		`+
+                            `${x2}`
+						
+                             + `
+																		</td>
+																	</tr>
+																</table>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</table>
+
+										</div>
+
+									</div>
+
+
+
+							`)
+
+						count++
+                    })
+                })
+        })
+
+
+
+
+
+
+
     })
+
+
+
+    //領貨確認後寫入db  for 動態訂單
+    function getrow(olistnumber) {
+        console.log($('.getrow').eq(olistnumber).find('.shipget').val())
+        let ship = $('.getrow').eq(olistnumber).find('.shipget').val()
+        console.log(ship)
+        console.log(olistnumber)
+        if (!(ship == "確認取貨")) {
+            console.log('已寄出不寫入')
+            return;
+        }
+        $('.getrow').eq(olistnumber).find('.o_shipstatus').text('已取貨')
+        $('.getrow').eq(olistnumber).find('.shipget').val("已取貨")
+        $('.getrow').eq(olistnumber).find('.o_status').text('已結單')
+        console.log('寄出寫入')
+
+        //獲得現在時間並排序好
+        const date = new Date();
+
+        let seconds = date.getSeconds();
+        let minutes = date.getMinutes();
+        let hours = date.getHours();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        // This arrangement can be altered based on how we want the date's format to appear.
+        let currentDate = `${month}-${day}-${year}`;
+
+        let onum = parseInt($('#s_onumber').text())
+        $.post('/Order_datatable/orderdone', { 'onumber': onum, "end": currentDate })
+            .done(function (data) {
+                console.log($('#s_onumber').text() + " onumber is done" + data);
+            });
+    }
+
 
     // 動態訂單評分
     function assess(listnumber, onumber) {
@@ -107,6 +329,10 @@
 
 
             });
+
+
+
+
     }
 
     // 動態取貨結單
@@ -148,19 +374,19 @@
                 </div>
                 <!-- 搜尋列開始 -->
                 <div style="margin-top: 20px; border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
-                    <form action="" style="margin: 30px;">
+                    <div  style="margin: 30px;" >
                         <div class="row">
                             <div class="col-5">
                                 <label for="" style="font-size: 28px;">搜尋日期：</label>
-                                <input type="date" name="date">
+                                <input type="date" name="start" class="start">
                                 <label for="" style="font-size: 28px;">到</label>
-                                <input type="date" name="date">
+                                <input type="date" name="end" class="end">
                             </div>
 
                             <div class="col-3">
                                 <label for="" style="font-size: 28px;">訂單狀態：</label>
-                                <select class="form-select form-select-lg mb-3" style="width: 50%; display: inline-block;" name="" id="">
-                                    <option value="">全部</option>
+                                <select class="form-select form-select-lg mb-3 o_status" style="width: 50%; display: inline-block;" name="o_status" id="">
+                                    <option value="" selected>全部</option>
                                     <option value="">已下單</option>
                                     <option value="">已結單</option>
                                     <option value="">待成團</option>
@@ -169,8 +395,8 @@
                             </div>
                             <div class="col-3">
                                 <label for="" style="font-size: 28px;">訂單類型：</label>
-                                <select class="form-select form-select-lg mb-3" style="width: 50%; display: inline-block;" name="" id="">
-                                    <option value="">全部</option>
+                                <select class="form-select form-select-lg mb-3 o_type" style="width: 50%; display: inline-block;" name="o_type" id="">
+                                    <option value="" selected>全部</option>
                                     <option value="">直購</option>
                                     <option value="">團購</option>
                                 </select>
@@ -191,10 +417,10 @@
 
                             <div class="col-4">
                                 <label for="" style="font-size: 28px;">貨物狀態：</label>
-                                <select class="form-select form-select-lg mb-3" style="width: 40%; display: inline-block;" name="" id="">
-                                    <option value="">全部</option>
+                                <select class="form-select form-select-lg mb-3 ship_status" style="width: 40%; display: inline-block;" name="ship_status" id="">
+                                    <option value="" selected>全部</option>
                                     <option value="">未寄出</option>
-                                    <option value="">已出貨</option>
+                                    <option value="">已寄出</option>
                                     <option value="">已取貨</option>
                                 </select>
                             </div>
@@ -204,10 +430,10 @@
                             <div class="col-8"></div>
 
                             <div class="col-4">
-                                <button type="submit" class="btn btn-primary btn-lg">搜尋訂單</button>
+                                <button  class="btn btn-primary btn-lg searchorder">搜尋訂單</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
 
                 </div>
                 <!-- 排序按鈕 -->
@@ -218,10 +444,10 @@
                     </div>
                     <div class="col-4">
                         <label for="" style="font-size: 30px">排序：</label>
-                        <select class="form-select form-select-lg mb-3" style="width: 50%; display: inline-block;" aria-label=".form-select-lg example">
-                            <option selected>日期新到舊</option>
-                            <option value="1">價格高到低</option>
-                            <option value="2">價格低到高</option>
+                        <select class="form-select form-select-lg mb-3 orderby" style="width: 50%; display: inline-block;" aria-label=".form-select-lg example">
+                            <option value="1" selected>日期新到舊</option>
+                            <option value="2">價格高到低</option>
+                            <option value="3">價格低到高</option>
                         </select>
                     </div>
                 </div>
@@ -233,7 +459,7 @@
                     {
                         var item = ViewBag.order[count];
 
-                        <div class="row " style="margin: 20px;">
+                        <div class="row getrow" style="margin: 20px;">
                             <div class="col-3 mb-1">
                                 <a href=""><img src="@item.pic" style="width: 100%;" class="o_ppic" alt=""></a>
                                 <label for="" style="display: none;" class="o_ship">@item.oship</label>

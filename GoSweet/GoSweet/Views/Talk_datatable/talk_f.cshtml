@@ -26,6 +26,13 @@
             document.getElementById('startchat').style.display = "block";
             $('.title').text()
             $('#chat').empty()
+
+            //發送已讀給後端
+            $.post('/Talk_datatable/read_f', { cnumber: nownumber })
+                .done(function (data) {
+                    console.log(data)
+                })
+
         } else {
             // 未點過聊天室列表
             order.style.backgroundColor = 'rgb(149, 213, 255)';
@@ -36,7 +43,14 @@
             nownumber = parseInt($(order).find('.cnumber').text())
             $('.title').text()
             $('#chat').empty()
-            console.log($(order).find('.fname').text())
+            $(order).find('.noread').html('')
+            //發送已讀給後端
+            $.post('/Talk_datatable/read_f', { cnumber: nownumber })
+                .done(function (data) {
+                    console.log(data)
+                })
+
+
             $.post('/Talk_datatable/gethistory_f', { cnumber: nownumber })
                 .done(function (data) {
                     let data2 = JSON.parse(data)
@@ -150,6 +164,12 @@
             $('.flist').empty()
 
             $(data2).each(function () {
+                let noread
+                if (this.noread == 0) {
+                    noread = ''
+                } else {
+                    noread = this.noread
+                }
                 $('.flist').append(`
                                    <div class="row talk-member" style="margin: 10px;" onclick="changecolor(this)">
                                        <div class="col-4 ">
@@ -165,7 +185,7 @@
                                                 <div style="margin-top: 30px;">
                                                 <div style=" text-align: center ; background-image: url(/img/order/聊天室未讀.jpg);width: 100%; border-radius: 100%;">
                                                     <!-- <label for="" style="font-weight: bold; font-size: 30px; color: white;" class="noread"></label> -->
-                                                            <b style="font-weight: bold; font-size: 30px; color: white;" class="noread_${this.cnumber}">1</b>
+                                                                    <b style="font-weight: bold; font-size: 30px; color: white;" class="noread">${noread}</b>
                                                 </div>
 
                                             </div>

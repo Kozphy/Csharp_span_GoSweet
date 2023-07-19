@@ -1,9 +1,11 @@
-﻿using GoSweet.Models;
+﻿using AngleSharp.Browser.Dom;
+using GoSweet.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text.Json;
 
@@ -18,7 +20,13 @@ namespace GoSweet.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+
+            var read = from t in _context.TalkDatatables
+                       where t.CNumber == 10000 && t.FNumber == 60000 && t.TPost == 1
+                       select t;
+
+
+            return Content(JsonSerializer.Serialize(read));
         }
 
         //聊天室網頁  客戶用  
@@ -35,11 +43,22 @@ namespace GoSweet.Controllers
         {
             int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
 
+
+            var noreadlist = from t in _context.TalkDatatables
+                             where t.CNumber == cnumber && t.TPost == 1
+                             group t by new { fnumber = t.FNumber } into t2
+                             select new { fnumber = t2.Key.fnumber, noread = t2.Sum(x => x.TRead) };
+
             var list = from t in _context.TalkMembertables
                        join f in _context.FirmPagetables
                        on t.FNumber equals f.FNumber
+                       join n in noreadlist
+                       on t.FNumber equals n.fnumber
                        where t.CNumber == cnumber
-                       select new { fnumber = t.FNumber, fname = f.FPagename, fpic = f.FPicurl };
+                       select new { fnumber = t.FNumber, fname = f.FPagename, fpic = f.FPicurl, noread = n.noread };
+
+
+
 
             return Content(JsonSerializer.Serialize(list));
         }
@@ -56,6 +75,8 @@ namespace GoSweet.Controllers
             var history = from t in _context.TalkDatatables
                           where t.CNumber == cnumber && t.FNumber == fnumber
                           select new {  message = t.TMessage, time = t.TTime.ToString("yyyy-MM-dd HH:mm"), post = t.TPost };
+
+            
 
 
             return Content(JsonSerializer.Serialize(history));
@@ -115,6 +136,35 @@ namespace GoSweet.Controllers
 
 
 
+        //已讀聊天室內容
+        [HttpPost]
+        public IActionResult read_c(int fnumber)
+        {
+            int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
+
+
+             var read = from t in _context.TalkDatatables
+                        where t.CNumber == cnumber && t.FNumber == fnumber && t.TPost==1
+                        select t;
+            foreach (var item in read)
+            {
+                item.TRead = 0;
+                _context.Update(item);
+            }
+            
+            _context.SaveChanges();
+
+
+            return Content("read  message");
+        }
+
+
+
+
+
+
+
+
 
 
 
@@ -145,11 +195,21 @@ namespace GoSweet.Controllers
         {
             int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
 
+
+            var noreadlist = from t in _context.TalkDatatables
+                             where t.FNumber == fnumber && t.TPost == 0
+                             group t by new { cnumber = t.CNumber } into t2
+                             select new { cnumber = t2.Key.cnumber, noread = t2.Sum(x => x.TRead) };
+
+
+
             var list = from t in _context.TalkMembertables
                        join c in _context.CustomerAccounttables
                        on t.CNumber equals c.CNumber
+                       join n in noreadlist
+                       on t.CNumber equals n.cnumber
                        where t.FNumber == fnumber
-                       select new { cnumber = t.CNumber, cname = c.CNickname };
+                       select new { cnumber = t.CNumber, cname = c.CNickname, noread = n.noread };
 
             return Content(JsonSerializer.Serialize(list));
         }
@@ -225,6 +285,29 @@ namespace GoSweet.Controllers
             return "uid update";
         }
 
+
+
+        //已讀聊天室內容
+        [HttpPost]
+        public IActionResult read_f(int cnumber)
+        {
+            int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
+
+
+            var read = from t in _context.TalkDatatables
+                       where t.CNumber == cnumber && t.FNumber == fnumber && t.TPost == 0
+                       select t;
+            foreach (var item in read)
+            {
+                item.TRead = 0;
+                _context.Update(item);
+            }
+
+            _context.SaveChanges();
+
+
+            return Content("read  message");
+        }
 
 
 
