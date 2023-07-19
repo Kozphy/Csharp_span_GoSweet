@@ -46,7 +46,7 @@ public partial class ShopwebContext : DbContext
     public virtual DbSet<TalkPersontable> TalkPersontables { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost;Database=shopweb;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -91,13 +91,13 @@ public partial class ShopwebContext : DbContext
 
         modelBuilder.Entity<FirmPagetable>(entity =>
         {
-            entity.HasKey(e => e.FNumberr).HasName("PK_f_pagetable");
+            entity.HasKey(e => e.FNumber).HasName("PK_f_pagetable");
 
             entity.ToTable("Firm_pagetable");
 
-            entity.Property(e => e.FNumberr)
+            entity.Property(e => e.FNumber)
                 .ValueGeneratedNever()
-                .HasColumnName("f_numberr");
+                .HasColumnName("f_number");
             entity.Property(e => e.FMessage)
                 .HasMaxLength(50)
                 .HasColumnName("f_message");
@@ -108,8 +108,8 @@ public partial class ShopwebContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("f_picurl");
 
-            entity.HasOne(d => d.FNumberrNavigation).WithOne(p => p.FirmPagetable)
-                .HasForeignKey<FirmPagetable>(d => d.FNumberr)
+            entity.HasOne(d => d.FNumberNavigation).WithOne(p => p.FirmPagetable)
+                .HasForeignKey<FirmPagetable>(d => d.FNumber)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Firm_pagetable_Firm_accounttable");
         });
@@ -365,12 +365,13 @@ public partial class ShopwebContext : DbContext
 
         modelBuilder.Entity<ProductPicturetable>(entity =>
         {
-            entity.HasKey(e => new { e.PPicnumber, e.PNumber }).HasName("PK_p_picturetable");
+            entity.HasKey(e => e.PSort);
 
             entity.ToTable("Product_picturetable");
 
-            entity.Property(e => e.PPicnumber).HasColumnName("p_picnumber");
+            entity.Property(e => e.PSort).HasColumnName("p_sort");
             entity.Property(e => e.PNumber).HasColumnName("p_number");
+            entity.Property(e => e.PPicnumber).HasColumnName("p_picnumber");
             entity.Property(e => e.PUrl)
                 .HasMaxLength(50)
                 .HasColumnName("p_url");
@@ -433,6 +434,16 @@ public partial class ShopwebContext : DbContext
             entity.Property(e => e.TalkMemberId).HasColumnName("Talk_member_id");
             entity.Property(e => e.CNumber).HasColumnName("c_number");
             entity.Property(e => e.FNumber).HasColumnName("f_number");
+
+            entity.HasOne(d => d.CNumberNavigation).WithMany(p => p.TalkMembertables)
+                .HasForeignKey(d => d.CNumber)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Talk_membertable_Customer_accounttable");
+
+            entity.HasOne(d => d.FNumberNavigation).WithMany(p => p.TalkMembertables)
+                .HasForeignKey(d => d.FNumber)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Talk_membertable_Firm_accounttable");
         });
 
         modelBuilder.Entity<TalkPersontable>(entity =>

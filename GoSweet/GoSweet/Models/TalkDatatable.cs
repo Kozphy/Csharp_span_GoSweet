@@ -15,7 +15,7 @@ public partial class TalkDatatable
 
     public string TMessage { get; set; } = null!;
 
-    public bool TRead { get; set; }
+    public int TRead { get; set; }
 
     public int TPost { get; set; }
 

@@ -10,11 +10,15 @@
         //領貨確認後寫入db
         $('.getproduct').on('click', function () {
             console.log(parseInt($('#s_onumber').text()))
+            if (!($('.shipget').eq(olistnumber).html() == "確認取貨")) {
+                console.log('未寄出或已取貨不寫入')
+                return;
+            }
 
             $('.o_status').eq(olistnumber).text('已結單')
             $('.o_shipstatus').eq(olistnumber).text('已取貨')
-            $('.shipget').eq(olistnumber).prop('disabled', true)
-            $('.shipget').eq(olistnumber).html("已領取")
+            //$('.shipget').eq(olistnumber).prop('disabled', true)
+            $('.shipget').eq(olistnumber).html("已取貨")
 
             //獲得現在時間並排序好
             const date = new Date();
@@ -30,7 +34,7 @@
             let currentDate = `${month}-${day}-${year}`;
 
             let onum = parseInt($('#s_onumber').text())
-            $.post('/test1/orderdone', { 'onumber': onum, "end": currentDate })
+            $.post('/Order_datatable/orderdone', { 'onumber': onum, "end": currentDate })
                 .done(function (data) {
                     console.log($('#s_onumber').text() + " onumber is done" + data);
                 });
@@ -42,7 +46,7 @@
             let ocs = $('.ocs option').filter(':selected').val()
 
             console.log(parseInt($('#o_number').text()))
-            $.post('/test1/setassess', {
+            $.post('/Order_datatable/setassess', {
                 onumber: parseInt($('#o_number').text()),
                 ocs: parseFloat(ocs),
                 ocm: $('.ocm').val()
@@ -64,7 +68,7 @@
         $('#p_name').text($('.o_pname').eq(listnumber).text())
         $('#p_price').text($('.o_pprice').eq(listnumber).text())
         //取得評分資料
-        $.post('/test1/getassess', { 'onumber': onumber })
+        $.post('/Order_datatable/getassess', { 'onumber': onumber })
             .done(function (data) {
                 if (!(data == "null")) {
                     let data2 = JSON.parse(data)
@@ -110,6 +114,7 @@
         olistnumber = listnumber
         $('#s_fname').text($('.o_fname').eq(listnumber).text())
         $('#s_pname').text($('.o_pname').eq(listnumber).text())
+        $('#s_buynumber').text($('.o_pbuynumber').eq(listnumber).text())
         $('#s_onumber').text(onumber)
         $('#s_ship').text($('.o_ship').eq(listnumber).text())
         $('#s_place').text($('.o_place').eq(listnumber).text())
@@ -118,7 +123,7 @@
 
     //廠商加入聊天室名單
     function gotalk(onumber) {
-        $.post('/test1/gotalk', { onumber: onumber }).done(function (data) {
+        $.post('/Order_datatable/gotalk', { onumber: onumber }).done(function (data) {
             console.log(data)
             //window.location.assign("/test3/index")
         })
@@ -138,11 +143,11 @@
 
             <div class="col-12">
 
-                <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-top: 50px;">
+                <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-top: 20px;">
                     <label style="font-size:40px ;margin-left: 40px;">訂單紀錄</label>
                 </div>
                 <!-- 搜尋列開始 -->
-                <div style="margin-top: 50px; border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
+                <div style="margin-top: 20px; border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
                     <form action="" style="margin: 30px;">
                         <div class="row">
                             <div class="col-5">
@@ -206,7 +211,7 @@
 
                 </div>
                 <!-- 排序按鈕 -->
-                <div class="row" style="margin-top: 30px; margin-left: 0px;">
+                <div class="row" style="margin-top: 20px; margin-left: 0px;">
                     <div class="col-4">
                     </div>
                     <div class="col-4">
@@ -223,6 +228,7 @@
                 <!-- 外框設定 -->
                 <div class="orderlist" style=" border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-bottom: 50px; height: 1800px;">
                     <!-- 商品列表 -->
+                    @* viewbag 拿出訂單資料顯示 *@
                     @for (int count = 0; count < ViewBag.order.Count; count++)
                     {
                         var item = ViewBag.order[count];
@@ -322,12 +328,26 @@
 
                                                         <tr style="height: 50%;">
                                                             <td>
-                                                                <a href="/test3/index" onclick="gotalk(@item.onumber)"><img src="/img/order/chat.png" style="width: 50%;" alt=""></a>
+                                                                <a href="/Talk_datatable/talk" onclick="gotalk(@item.onumber)"><img src="/img/order/chat.png" style="width: 50%;" alt=""></a>
                                                             </td>
                                                         </tr>
                                                         <tr style="height: 50%;">
                                                             <td>
-                                                                <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">確認領貨</button>
+                                                                @if (@item.oshipstatus == "已寄出")
+                                                                {
+
+                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">確認取貨</button>
+                                                                }
+                                                                else if (@item.oshipstatus == "未寄出")
+                                                                {
+                                                                    <button disabled class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">確認取貨</button>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">@item.oshipstatus</button>
+
+                                                                }
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -481,8 +501,14 @@
                             <label for="" style="font-size: 30px;">訂單編號：</label>
                             <label for="" style="font-size: 30px;" id="s_onumber">99999</label>
                         </div>
-                        <label for="" style="font-size: 28px;" id="s_fname">[里]</label>
-                        <label for="" style="font-size: 28px;" id="s_pname">人氣</label>
+                        <div>
+                            <label for="" style="font-size: 28px;" id="s_fname">[里]</label>
+                            <label for="" style="font-size: 28px;" id="s_pname">人氣</label>
+                        </div>
+                        <div>
+                            <label for="" style="font-size: 28px;">數量：</label>
+                            <label for="" style="font-size: 28px;" id="s_buynumber">5</label>
+                        </div>
                     </div>
                     <br>
                     <div>
