@@ -40,7 +40,7 @@
 
     // 更新聊天內容事件
     connection.on("UpdContent", function (msg) {
-        if (msg.includes('你向')) {
+        if (msg.includes('你向') || msg.includes('ID:')) {
             console.log(msg)
         } else {
 
@@ -76,22 +76,22 @@
         }
     });
 
-    //傳送訊息
-    $('#sendButton').on('click', function () {
+    ////傳送訊息  廢棄原案
+    //$('#sendButton').on('click', function () {
 
-        $.post('/Talk_datatable/getsendid', { sendnumber: nownumber })
-            .done(function (data) {
-                let data2 = JSON.parse(data);
-                alert('傳送 ');
-                console.log('get sendid' + data)
-                let selfID = myid;
-                let message = $('.messageinput').val();
-                let sendToID = data2[0].id;
-                connection.invoke("SendMessage", selfID, message, sendToID).catch(function (err) {
-                    alert('傳送錯誤: ' + err.toString());
-                });
-            })
-    });
+    //    $.post('/Talk_datatable/getsendid', { sendnumber: nownumber })
+    //        .done(function (data) {
+    //            let data2 = JSON.parse(data);
+    //            alert('傳送 ');
+    //            console.log('get sendid' + data)
+    //            let selfID = myid;
+    //            let message = $('.messageinput').val();
+    //            let sendToID = data2[0].id;
+    //            connection.invoke("SendMessage", selfID, message, sendToID).catch(function (err) {
+    //                alert('傳送錯誤: ' + err.toString());
+    //            });
+    //        })
+    //});
 
 
 
@@ -110,7 +110,7 @@
             document.getElementById('chat').style.display = "none";
             document.getElementById('chattitle').style.visibility = "hidden";
             document.getElementById('startchat').style.display = "block";
-            $('.title').text()
+            $('.title').text('')
             $('#chat').empty()
 
             ////發送已讀給後端
@@ -127,7 +127,7 @@
             document.getElementById('startchat').style.display = "none";
             //紀錄目前點選廠商編號
             nownumber = parseInt($(order).find('.fnumber').text())
-            $('.title').text()
+            $('.title').text('')
             $('#chat').empty()
             $(order).find('.noread').html('')
 
@@ -142,7 +142,7 @@
                     let data2 = JSON.parse(data)
                     //清空聊天室內容
                     $('.chat').empty()
-
+                    $('.title').text($(order).find('.fname').text())
                     //顯示聊天內容
                         $(data2).each(function () {
                             //post = 0 代表客戶發言
@@ -184,14 +184,15 @@
 
         $('.messagebutton').on('click', function () {
             console.log($('.messageinput').val())
+            let mytalk = $('.messageinput').val()
 
             $.post('/Talk_datatable/getsendid', { sendnumber: nownumber })
                 .done(function (data) {
                     let data2 = JSON.parse(data);
-                    alert('傳送 ');
+                    //alert('傳送 ');
                     console.log('get sendid' + data)
                     let selfID = myid;
-                    let message = $('.messageinput').val();
+                    let message = mytalk;
                     let sendToID = data2[0].id;
                     connection.invoke("SendMessage", selfID, message, sendToID).catch(function (err) {
                         alert('傳送錯誤: ' + err.toString());
@@ -222,7 +223,7 @@
 
             //將文字欄內容新增至聊天室
             $('.chat').append(`
-                        <div style="width: 100%;  text-align: right; margin-top: 20px; " >
+                            <div style="width: 100%;  text-align: right; margin-top: 10px; margin-bottom: 10px; " >
                             <div style="color: white; background-color: dodgerblue; max-width: 70%; font-size: 28px; border-radius: 20%; padding: 10px; margin: 10px; display: inline-block; ">
                                 <label for="" style="text-align: left;">${$('.messageinput').val()}</label>
                             </div>
@@ -234,6 +235,8 @@
             
             //聊天室滾到最下面
             $('.chat').scrollTop($('.chat').height() + 99999)
+            //清空輸入欄
+            $('.messageinput').val('')
         })
 
         //清空聊天室
@@ -292,7 +295,7 @@
                 <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; margin-top: 20px;">
                     <label style="font-size:40px ;margin-left: 40px;">聊天室</label>
                 </div>
-                <div class="row" style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;  margin-top: 20px;">
+                <div class="row" style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;  margin-top: 20px; margin-left: 0px;margin-right: 0px;">
                     <!-- 左邊欄位 -->
                     <div class="col-4 " style="margin-top: 20px;">
                         <!-- 搜尋欄 -->
@@ -335,7 +338,7 @@
                     <!-- 右邊欄位 -->
                     <div class="col-8" style=" border-left: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
                         <!-- 聊天室標頭 -->
-                        <div id="chattitle" style="text-align: center; margin-top: 10px; visibility: hidden;">
+                        <div id="chattitle" style="text-align: center; margin-top: 10px; visibility: hidden; height:45px">
                             <label for="" style="font-size: 28px;" class="title">巴特里</label>
                         </div>
                         <!-- 聊天室外框 -->
@@ -375,7 +378,7 @@
 
                             </div>
                             <div id="startchat" style="text-align: center; margin-top: 100px; display: block;">
-                                <label for="" style="font-size: 28px; color: rgb(153, 153, 153);">選擇廠商開始聊天吧</label>
+                                <label for="" style="font-size: 28px; color: rgb(153, 153, 153);">選擇對象開始聊天吧</label>
 
                             </div>
                         </div>
@@ -384,7 +387,7 @@
                         <!-- 聊天輸入欄 -->
                         <div>
                             <div class="input-group mb-3" style="margin:20px;height: 50px; width: 95%; ">
-                                <input type="text" class="form-control messageinput" placeholder="輸入聊天內容">
+                                <input type="text" class="form-control messageinput" style="font-size : 24px" placeholder="輸入聊天內容">
                                 <button class="btn btn-outline-secondary messagebutton"  type="button">送出</button>
                             </div>
                         </div>
