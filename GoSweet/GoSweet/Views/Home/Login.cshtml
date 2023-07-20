@@ -22,26 +22,26 @@
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/EmailCheck.js"></script>
 
-    @if (TempData["customerAccountExistMessage"] != null)
+    @if (TempData["customerAccountNotExistMessage"] != null)
     {
         <script>
-            let customerAccountExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountExistMessage"]));
+            let customerAccountNotExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountNotExistMessage"]));
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: customerAccountExistMessage,
+                text: customerAccountNotExistMessage,
             });
         </script>
     }
 
-    @if (TempData["accountLoginSuccessMessage"] != null)
+    @if (TempData["customerAccountLoginSuccessMessage"] != null)
     {
         <script>
-            let accountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["accountLoginSuccessMessage"]));
+            let accountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountLoginSuccessMessage"]));
             Swal.fire({
                 icon: 'success',
                 title: 'LoginSuccess...',
-                text: accountLoginSuccessMessage,
+                text: customerAccountLoginSuccessMessage,
             });
         </script>
     }

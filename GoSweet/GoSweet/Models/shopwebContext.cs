@@ -7,400 +7,563 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace GoSweet.Models
 {
-    public partial class shopwebContext : DbContext
+    public partial class ShopwebContext : DbContext
     {
-        public shopwebContext()
+        public ShopwebContext()
         {
         }
 
-        public shopwebContext(DbContextOptions<shopwebContext> options)
+        public ShopwebContext(DbContextOptions<ShopwebContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<Customer_accounttable> Customer_accounttables { get; set; }
-        public virtual DbSet<Firm_accounttable> Firm_accounttables { get; set; }
-        public virtual DbSet<Firm_pagetable> Firm_pagetables { get; set; }
-        public virtual DbSet<Group_datatable> Group_datatables { get; set; }
-        public virtual DbSet<Member_membertable> Member_membertables { get; set; }
-        public virtual DbSet<Notify_datatable> Notify_datatables { get; set; }
-        public virtual DbSet<Order_assesstable> Order_assesstables { get; set; }
-        public virtual DbSet<Order_datatable> Order_datatables { get; set; }
-        public virtual DbSet<Payment_datatable> Payment_datatables { get; set; }
-        public virtual DbSet<Product_datatable> Product_datatables { get; set; }
-        public virtual DbSet<Product_picturetable> Product_picturetables { get; set; }
-        public virtual DbSet<Ship_datatable> Ship_datatables { get; set; }
-        public virtual DbSet<Talk_datatable> Talk_datatables { get; set; }
-        public virtual DbSet<Talk_membertable> Talk_membertables { get; set; }
-        public virtual DbSet<Talk_persontable> Talk_persontables { get; set; }
+        public virtual DbSet<CustomerAccounttable> CustomerAccounttables { get; set; }
+        public virtual DbSet<FirmAccounttable> FirmAccounttables { get; set; }
+        public virtual DbSet<FirmPagetable> FirmPagetables { get; set; }
+        public virtual DbSet<GroupDatatable> GroupDatatables { get; set; }
+        public virtual DbSet<MemberMembertable> MemberMembertables { get; set; }
+        public virtual DbSet<NotifyDatatable> NotifyDatatables { get; set; }
+        public virtual DbSet<OrderAssesstable> OrderAssesstables { get; set; }
+        public virtual DbSet<OrderDatatable> OrderDatatables { get; set; }
+        public virtual DbSet<PaymentDatatable> PaymentDatatables { get; set; }
+        public virtual DbSet<ProductDatatable> ProductDatatables { get; set; }
+        public virtual DbSet<ProductPicturetable> ProductPicturetables { get; set; }
+        public virtual DbSet<ShipDatatable> ShipDatatables { get; set; }
+        public virtual DbSet<TalkDatatable> TalkDatatables { get; set; }
+        public virtual DbSet<TalkMembertable> TalkMembertables { get; set; }
+        public virtual DbSet<TalkPersontable> TalkPersontables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer_accounttable>(entity =>
+            modelBuilder.Entity<CustomerAccounttable>(entity =>
             {
-                entity.HasKey(e => e.c_number)
+                entity.HasKey(e => e.CNumber)
                     .HasName("PK_c_accounttable");
 
                 entity.ToTable("Customer_accounttable");
 
-                entity.Property(e => e.c_account)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.CNumber).HasColumnName("c_number");
 
-                entity.Property(e => e.c_nickname)
+                entity.Property(e => e.CAccount)
                     .IsRequired()
-                    .HasMaxLength(10);
+                    .HasMaxLength(50)
+                    .HasColumnName("c_account");
 
-                entity.Property(e => e.c_password)
+                entity.Property(e => e.CMailpass).HasColumnName("c_mailpass");
+
+                entity.Property(e => e.CNickname)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(10)
+                    .HasColumnName("c_nickname");
+
+                entity.Property(e => e.CPassword)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("c_password");
             });
 
-            modelBuilder.Entity<Firm_accounttable>(entity =>
+            modelBuilder.Entity<FirmAccounttable>(entity =>
             {
-                entity.HasKey(e => e.f_number)
+                entity.HasKey(e => e.FNumber)
                     .HasName("PK_f_accounttable");
 
                 entity.ToTable("Firm_accounttable");
 
-                entity.Property(e => e.f_account)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.FNumber).HasColumnName("f_number");
 
-                entity.Property(e => e.f_nickname)
+                entity.Property(e => e.FAccount)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("f_account");
 
-                entity.Property(e => e.f_password)
+                entity.Property(e => e.FMailpass).HasColumnName("f_mailpass");
+
+                entity.Property(e => e.FNickname)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("f_nickname");
+
+                entity.Property(e => e.FPassword)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("f_password");
             });
 
-            modelBuilder.Entity<Firm_pagetable>(entity =>
+            modelBuilder.Entity<FirmPagetable>(entity =>
             {
-                entity.HasKey(e => e.f_number)
+                entity.HasKey(e => e.FNumber)
                     .HasName("PK_f_pagetable");
 
                 entity.ToTable("Firm_pagetable");
 
-                entity.Property(e => e.f_number).ValueGeneratedNever();
+                entity.Property(e => e.FNumber)
+                    .ValueGeneratedNever()
+                    .HasColumnName("f_number");
 
-                entity.Property(e => e.f_message).HasMaxLength(500);
+                entity.Property(e => e.FMessage)
+                    .HasMaxLength(500)
+                    .HasColumnName("f_message");
 
-                entity.Property(e => e.f_pagename)
+                entity.Property(e => e.FPagename)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("f_pagename");
 
-                entity.Property(e => e.f_picurl).HasMaxLength(500);
+                entity.Property(e => e.FPicurl)
+                    .HasMaxLength(500)
+                    .HasColumnName("f_picurl");
 
-                entity.HasOne(d => d.f_numberNavigation)
-                    .WithOne(p => p.Firm_pagetable)
-                    .HasForeignKey<Firm_pagetable>(d => d.f_number)
+                entity.HasOne(d => d.FNumberNavigation)
+                    .WithOne(p => p.FirmPagetable)
+                    .HasForeignKey<FirmPagetable>(d => d.FNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Firm_pagetable_Firm_accounttable");
             });
 
-            modelBuilder.Entity<Group_datatable>(entity =>
+            modelBuilder.Entity<GroupDatatable>(entity =>
             {
-                entity.HasKey(e => e.g_number)
+                entity.HasKey(e => e.GNumber)
                     .HasName("PK_g_datatable");
 
                 entity.ToTable("Group_datatable");
 
-                entity.Property(e => e.g_end).HasColumnType("date");
+                entity.Property(e => e.GNumber).HasColumnName("g_number");
 
-                entity.Property(e => e.g_start).HasColumnType("date");
+                entity.Property(e => e.FNumber).HasColumnName("f_number");
 
-                entity.HasOne(d => d.f_numberNavigation)
-                    .WithMany(p => p.Group_datatables)
-                    .HasForeignKey(d => d.f_number)
+                entity.Property(e => e.GEnd)
+                    .HasColumnType("date")
+                    .HasColumnName("g_end");
+
+                entity.Property(e => e.GMaxpeople).HasColumnName("g_maxpeople");
+
+                entity.Property(e => e.GPrice).HasColumnName("g_price");
+
+                entity.Property(e => e.GStart)
+                    .HasColumnType("date")
+                    .HasColumnName("g_start");
+
+                entity.Property(e => e.PNumber).HasColumnName("p_number");
+
+                entity.HasOne(d => d.FNumberNavigation)
+                    .WithMany(p => p.GroupDatatables)
+                    .HasForeignKey(d => d.FNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Group_datatable_Firm_accounttable");
 
-                entity.HasOne(d => d.p_numberNavigation)
-                    .WithMany(p => p.Group_datatables)
-                    .HasForeignKey(d => d.p_number)
+                entity.HasOne(d => d.PNumberNavigation)
+                    .WithMany(p => p.GroupDatatables)
+                    .HasForeignKey(d => d.PNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_g_datatable_p_datatable");
             });
 
-            modelBuilder.Entity<Member_membertable>(entity =>
+            modelBuilder.Entity<MemberMembertable>(entity =>
             {
-                entity.HasKey(e => e.m_number)
+                entity.HasKey(e => e.MNumber)
                     .HasName("PK_m_membertable");
 
                 entity.ToTable("Member_membertable");
 
-                entity.HasOne(d => d.g_numberNavigation)
-                    .WithMany(p => p.Member_membertables)
-                    .HasForeignKey(d => d.g_number)
+                entity.Property(e => e.MNumber).HasColumnName("m_number");
+
+                entity.Property(e => e.GMaxpeople).HasColumnName("g_maxpeople");
+
+                entity.Property(e => e.GNumber).HasColumnName("g_number");
+
+                entity.Property(e => e.MNowpeople).HasColumnName("m_nowpeople");
+
+                entity.Property(e => e.MStatus).HasColumnName("m_status");
+
+                entity.HasOne(d => d.GNumberNavigation)
+                    .WithMany(p => p.MemberMembertables)
+                    .HasForeignKey(d => d.GNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_m_membertable_g_datatable");
             });
 
-            modelBuilder.Entity<Notify_datatable>(entity =>
+            modelBuilder.Entity<NotifyDatatable>(entity =>
             {
-                entity.HasKey(e => e.n_number);
+                entity.HasKey(e => e.NNumber);
 
                 entity.ToTable("Notify_datatable");
 
-                entity.Property(e => e.o_status)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.NNumber).HasColumnName("n_number");
 
-                entity.HasOne(d => d.c_numberNavigation)
-                    .WithMany(p => p.Notify_datatables)
-                    .HasForeignKey(d => d.c_number)
+                entity.Property(e => e.CNumber).HasColumnName("c_number");
+
+                entity.Property(e => e.FNumber).HasColumnName("f_number");
+
+                entity.Property(e => e.NRead).HasColumnName("n_read");
+
+                entity.Property(e => e.ONumber).HasColumnName("o_number");
+
+                entity.Property(e => e.OStatus)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("o_status");
+
+                entity.HasOne(d => d.CNumberNavigation)
+                    .WithMany(p => p.NotifyDatatables)
+                    .HasForeignKey(d => d.CNumber)
                     .HasConstraintName("FK_Notify_datatable_Customer_accounttable");
 
-                entity.HasOne(d => d.f_numberNavigation)
-                    .WithMany(p => p.Notify_datatables)
-                    .HasForeignKey(d => d.f_number)
+                entity.HasOne(d => d.FNumberNavigation)
+                    .WithMany(p => p.NotifyDatatables)
+                    .HasForeignKey(d => d.FNumber)
                     .HasConstraintName("FK_Notify_datatable_Firm_accounttable");
 
-                entity.HasOne(d => d.o_numberNavigation)
-                    .WithMany(p => p.Notify_datatables)
-                    .HasForeignKey(d => d.o_number)
+                entity.HasOne(d => d.ONumberNavigation)
+                    .WithMany(p => p.NotifyDatatables)
+                    .HasForeignKey(d => d.ONumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_n_datatable_o_datatable");
             });
 
-            modelBuilder.Entity<Order_assesstable>(entity =>
+            modelBuilder.Entity<OrderAssesstable>(entity =>
             {
-                entity.HasKey(e => e.o_number);
+                entity.HasKey(e => e.ONumber);
 
                 entity.ToTable("Order_assesstable");
 
-                entity.Property(e => e.o_number).ValueGeneratedNever();
+                entity.Property(e => e.ONumber)
+                    .ValueGeneratedNever()
+                    .HasColumnName("o_number");
 
-                entity.Property(e => e.o_ccomment).HasMaxLength(500);
+                entity.Property(e => e.OCcomment)
+                    .HasMaxLength(500)
+                    .HasColumnName("o_ccomment");
 
-                entity.Property(e => e.o_fcomment).HasMaxLength(500);
+                entity.Property(e => e.OCscore).HasColumnName("o_cscore");
 
-                entity.HasOne(d => d.o_numberNavigation)
-                    .WithOne(p => p.Order_assesstable)
-                    .HasForeignKey<Order_assesstable>(d => d.o_number)
+                entity.Property(e => e.OFcomment)
+                    .HasMaxLength(500)
+                    .HasColumnName("o_fcomment");
+
+                entity.Property(e => e.OFscore).HasColumnName("o_fscore");
+
+                entity.HasOne(d => d.ONumberNavigation)
+                    .WithOne(p => p.OrderAssesstable)
+                    .HasForeignKey<OrderAssesstable>(d => d.ONumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_o_assesstable_o_datatable");
             });
 
-            modelBuilder.Entity<Order_datatable>(entity =>
+            modelBuilder.Entity<OrderDatatable>(entity =>
             {
-                entity.HasKey(e => e.o_number)
+                entity.HasKey(e => e.ONumber)
                     .HasName("PK_o_datatable");
 
                 entity.ToTable("Order_datatable");
 
-                entity.Property(e => e.o_end).HasColumnType("date");
+                entity.Property(e => e.ONumber).HasColumnName("o_number");
 
-                entity.Property(e => e.o_place).HasMaxLength(500);
+                entity.Property(e => e.CNumber).HasColumnName("c_number");
 
-                entity.Property(e => e.o_shipstatus)
+                entity.Property(e => e.FNumber).HasColumnName("f_number");
+
+                entity.Property(e => e.MNumber).HasColumnName("m_number");
+
+                entity.Property(e => e.OBuynumber).HasColumnName("o_buynumber");
+
+                entity.Property(e => e.OEnd)
+                    .HasColumnType("date")
+                    .HasColumnName("o_end");
+
+                entity.Property(e => e.OPayment).HasColumnName("o_payment");
+
+                entity.Property(e => e.OPlace)
+                    .HasMaxLength(500)
+                    .HasColumnName("o_place");
+
+                entity.Property(e => e.OPrice).HasColumnName("o_price");
+
+                entity.Property(e => e.OShip).HasColumnName("o_ship");
+
+                entity.Property(e => e.OShipstatus)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("o_shipstatus");
 
-                entity.Property(e => e.o_start).HasColumnType("date");
+                entity.Property(e => e.OStart)
+                    .HasColumnType("date")
+                    .HasColumnName("o_start");
 
-                entity.Property(e => e.o_status)
+                entity.Property(e => e.OStatus)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("o_status");
 
-                entity.HasOne(d => d.c_numberNavigation)
-                    .WithMany(p => p.Order_datatables)
-                    .HasForeignKey(d => d.c_number)
+                entity.Property(e => e.OType).HasColumnName("o_type");
+
+                entity.Property(e => e.PNumber).HasColumnName("p_number");
+
+                entity.HasOne(d => d.CNumberNavigation)
+                    .WithMany(p => p.OrderDatatables)
+                    .HasForeignKey(d => d.CNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Order_datatable_Customer_accounttable");
 
-                entity.HasOne(d => d.f_numberNavigation)
-                    .WithMany(p => p.Order_datatables)
-                    .HasForeignKey(d => d.f_number)
+                entity.HasOne(d => d.FNumberNavigation)
+                    .WithMany(p => p.OrderDatatables)
+                    .HasForeignKey(d => d.FNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Order_datatable_Firm_accounttable");
 
-                entity.HasOne(d => d.m_numberNavigation)
-                    .WithMany(p => p.Order_datatables)
-                    .HasForeignKey(d => d.m_number)
+                entity.HasOne(d => d.MNumberNavigation)
+                    .WithMany(p => p.OrderDatatables)
+                    .HasForeignKey(d => d.MNumber)
                     .HasConstraintName("FK_o_datatable_m_membertable");
 
-                entity.HasOne(d => d.o_paymentNavigation)
-                    .WithMany(p => p.Order_datatables)
-                    .HasForeignKey(d => d.o_payment)
+                entity.HasOne(d => d.OPaymentNavigation)
+                    .WithMany(p => p.OrderDatatables)
+                    .HasForeignKey(d => d.OPayment)
                     .HasConstraintName("FK_Order_datatable_Payment_datatable");
 
-                entity.HasOne(d => d.o_shipNavigation)
-                    .WithMany(p => p.Order_datatables)
-                    .HasForeignKey(d => d.o_ship)
+                entity.HasOne(d => d.OShipNavigation)
+                    .WithMany(p => p.OrderDatatables)
+                    .HasForeignKey(d => d.OShip)
                     .HasConstraintName("FK_Order_datatable_Ship_datatable");
 
-                entity.HasOne(d => d.p_numberNavigation)
-                    .WithMany(p => p.Order_datatables)
-                    .HasForeignKey(d => d.p_number)
+                entity.HasOne(d => d.PNumberNavigation)
+                    .WithMany(p => p.OrderDatatables)
+                    .HasForeignKey(d => d.PNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_o_datatable_p_datatable");
             });
 
-            modelBuilder.Entity<Payment_datatable>(entity =>
+            modelBuilder.Entity<PaymentDatatable>(entity =>
             {
-                entity.HasKey(e => e.Payment_number);
+                entity.HasKey(e => e.PaymentNumber);
 
                 entity.ToTable("Payment_datatable");
 
-                entity.Property(e => e.Payment_number).ValueGeneratedNever();
+                entity.Property(e => e.PaymentNumber)
+                    .ValueGeneratedNever()
+                    .HasColumnName("Payment_number");
 
-                entity.Property(e => e.Payment_name)
+                entity.Property(e => e.PaymentName)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("Payment_name");
             });
 
-            modelBuilder.Entity<Product_datatable>(entity =>
+            modelBuilder.Entity<ProductDatatable>(entity =>
             {
-                entity.HasKey(e => e.p_number)
+                entity.HasKey(e => e.PNumber)
                     .HasName("PK_p_datatable");
 
                 entity.ToTable("Product_datatable");
 
-                entity.Property(e => e.p_category)
+                entity.Property(e => e.PNumber).HasColumnName("p_number");
+
+                entity.Property(e => e.FNumber).HasColumnName("f_number");
+
+                entity.Property(e => e.PCategory)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("p_category");
 
-                entity.Property(e => e.p_describe).HasMaxLength(500);
+                entity.Property(e => e.PDescribe)
+                    .HasMaxLength(500)
+                    .HasColumnName("p_describe");
 
-                entity.Property(e => e.p_name)
+                entity.Property(e => e.PInventory).HasColumnName("p_Inventory");
+
+                entity.Property(e => e.PName)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("p_name");
 
-                entity.Property(e => e.p_savedate).HasMaxLength(500);
+                entity.Property(e => e.PPayment).HasColumnName("p_payment");
 
-                entity.Property(e => e.p_saveway).HasMaxLength(50);
+                entity.Property(e => e.PPrice).HasColumnName("p_price");
 
-                entity.Property(e => e.p_spec).HasMaxLength(50);
+                entity.Property(e => e.PSavedate)
+                    .HasMaxLength(500)
+                    .HasColumnName("p_savedate");
 
-                entity.HasOne(d => d.f_numberNavigation)
-                    .WithMany(p => p.Product_datatables)
-                    .HasForeignKey(d => d.f_number)
+                entity.Property(e => e.PSaveway)
+                    .HasMaxLength(50)
+                    .HasColumnName("p_saveway");
+
+                entity.Property(e => e.PShip).HasColumnName("p_ship");
+
+                entity.Property(e => e.PSpec)
+                    .HasMaxLength(50)
+                    .HasColumnName("p_spec");
+
+                entity.HasOne(d => d.FNumberNavigation)
+                    .WithMany(p => p.ProductDatatables)
+                    .HasForeignKey(d => d.FNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_datatable_Firm_accounttable");
 
-                entity.HasMany(d => d.Payment_numbers)
-                    .WithMany(p => p.p_numbers)
+                entity.HasMany(d => d.PaymentNumbers)
+                    .WithMany(p => p.PNumbers)
                     .UsingEntity<Dictionary<string, object>>(
-                        "Product_to_Payment",
-                        l => l.HasOne<Payment_datatable>().WithMany().HasForeignKey("Payment_number").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Product_to_Payment_Payment_datatable"),
-                        r => r.HasOne<Product_datatable>().WithMany().HasForeignKey("p_number").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Product_to_Payment_Product_datatable"),
+                        "ProductToPayment",
+                        l => l.HasOne<PaymentDatatable>().WithMany().HasForeignKey("PaymentNumber").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Product_to_Payment_Payment_datatable"),
+                        r => r.HasOne<ProductDatatable>().WithMany().HasForeignKey("PNumber").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Product_to_Payment_Product_datatable"),
                         j =>
                         {
-                            j.HasKey("p_number", "Payment_number");
+                            j.HasKey("PNumber", "PaymentNumber");
 
                             j.ToTable("Product_to_Payment");
+
+                            j.IndexerProperty<int>("PNumber").HasColumnName("p_number");
+
+                            j.IndexerProperty<int>("PaymentNumber").HasColumnName("Payment_number");
                         });
 
-                entity.HasMany(d => d.ship_numbers)
-                    .WithMany(p => p.p_numbers)
+                entity.HasMany(d => d.ShipNumbers)
+                    .WithMany(p => p.PNumbers)
                     .UsingEntity<Dictionary<string, object>>(
-                        "Product_to_Ship",
-                        l => l.HasOne<Ship_datatable>().WithMany().HasForeignKey("ship_number").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Product_to_Ship_Ship_datatable"),
-                        r => r.HasOne<Product_datatable>().WithMany().HasForeignKey("p_number").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Product_to_Ship_Product_datatable"),
+                        "ProductToShip",
+                        l => l.HasOne<ShipDatatable>().WithMany().HasForeignKey("ShipNumber").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Product_to_Ship_Ship_datatable"),
+                        r => r.HasOne<ProductDatatable>().WithMany().HasForeignKey("PNumber").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Product_to_Ship_Product_datatable"),
                         j =>
                         {
-                            j.HasKey("p_number", "ship_number");
+                            j.HasKey("PNumber", "ShipNumber");
 
                             j.ToTable("Product_to_Ship");
+
+                            j.IndexerProperty<int>("PNumber").HasColumnName("p_number");
+
+                            j.IndexerProperty<int>("ShipNumber").HasColumnName("ship_number");
                         });
             });
 
-            modelBuilder.Entity<Product_picturetable>(entity =>
+            modelBuilder.Entity<ProductPicturetable>(entity =>
             {
-                entity.HasKey(e => e.p_sort);
+                entity.HasKey(e => e.PSort);
 
                 entity.ToTable("Product_picturetable");
 
-                entity.Property(e => e.p_url)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.PSort).HasColumnName("p_sort");
 
-                entity.HasOne(d => d.p_numberNavigation)
-                    .WithMany(p => p.Product_picturetables)
-                    .HasForeignKey(d => d.p_number)
+                entity.Property(e => e.PNumber).HasColumnName("p_number");
+
+                entity.Property(e => e.PPicnumber).HasColumnName("p_picnumber");
+
+                entity.Property(e => e.PUrl)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnName("p_url");
+
+                entity.HasOne(d => d.PNumberNavigation)
+                    .WithMany(p => p.ProductPicturetables)
+                    .HasForeignKey(d => d.PNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_p_picturetable_p_datatable");
             });
 
-            modelBuilder.Entity<Ship_datatable>(entity =>
+            modelBuilder.Entity<ShipDatatable>(entity =>
             {
-                entity.HasKey(e => e.ship_number);
+                entity.HasKey(e => e.ShipNumber);
 
                 entity.ToTable("Ship_datatable");
 
-                entity.Property(e => e.ship_number).ValueGeneratedNever();
+                entity.Property(e => e.ShipNumber)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ship_number");
 
-                entity.Property(e => e.ship_name)
+                entity.Property(e => e.ShipName)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("ship_name");
             });
 
-            modelBuilder.Entity<Talk_datatable>(entity =>
+            modelBuilder.Entity<TalkDatatable>(entity =>
             {
-                entity.HasKey(e => e.t_number)
+                entity.HasKey(e => e.TNumber)
                     .HasName("PK_t_datatable");
 
                 entity.ToTable("Talk_datatable");
 
-                entity.Property(e => e.t_message)
+                entity.Property(e => e.TNumber).HasColumnName("t_number");
+
+                entity.Property(e => e.CNumber).HasColumnName("c_number");
+
+                entity.Property(e => e.FNumber).HasColumnName("f_number");
+
+                entity.Property(e => e.TMessage)
                     .IsRequired()
-                    .HasMaxLength(500);
+                    .HasMaxLength(500)
+                    .HasColumnName("t_message");
 
-                entity.Property(e => e.t_time).HasColumnType("datetime");
+                entity.Property(e => e.TPost).HasColumnName("t_post");
 
-                entity.HasOne(d => d.c_numberNavigation)
-                    .WithMany(p => p.Talk_datatables)
-                    .HasForeignKey(d => d.c_number)
+                entity.Property(e => e.TRead).HasColumnName("t_read");
+
+                entity.Property(e => e.TTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("t_time");
+
+                entity.HasOne(d => d.CNumberNavigation)
+                    .WithMany(p => p.TalkDatatables)
+                    .HasForeignKey(d => d.CNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Talk_datatable_Customer_accounttable");
 
-                entity.HasOne(d => d.f_numberNavigation)
-                    .WithMany(p => p.Talk_datatables)
-                    .HasForeignKey(d => d.f_number)
+                entity.HasOne(d => d.FNumberNavigation)
+                    .WithMany(p => p.TalkDatatables)
+                    .HasForeignKey(d => d.FNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Talk_datatable_Firm_accounttable");
             });
 
-            modelBuilder.Entity<Talk_membertable>(entity =>
+            modelBuilder.Entity<TalkMembertable>(entity =>
             {
-                entity.HasKey(e => e.Talk_member_id);
+                entity.HasKey(e => e.TalkMemberId);
 
                 entity.ToTable("Talk_membertable");
 
-                entity.HasOne(d => d.c_numberNavigation)
-                    .WithMany(p => p.Talk_membertables)
-                    .HasForeignKey(d => d.c_number)
+                entity.Property(e => e.TalkMemberId).HasColumnName("Talk_member_id");
+
+                entity.Property(e => e.CNumber).HasColumnName("c_number");
+
+                entity.Property(e => e.FNumber).HasColumnName("f_number");
+
+                entity.HasOne(d => d.CNumberNavigation)
+                    .WithMany(p => p.TalkMembertables)
+                    .HasForeignKey(d => d.CNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Talk_membertable_Customer_accounttable");
 
-                entity.HasOne(d => d.f_numberNavigation)
-                    .WithMany(p => p.Talk_membertables)
-                    .HasForeignKey(d => d.f_number)
+                entity.HasOne(d => d.FNumberNavigation)
+                    .WithMany(p => p.TalkMembertables)
+                    .HasForeignKey(d => d.FNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Talk_membertable_Firm_accounttable");
             });
 
-            modelBuilder.Entity<Talk_persontable>(entity =>
+            modelBuilder.Entity<TalkPersontable>(entity =>
             {
-                entity.HasKey(e => e.t_forPK);
+                entity.HasKey(e => e.TForPk);
 
                 entity.ToTable("Talk_persontable");
 
-                entity.Property(e => e.t_id)
-                    .IsRequired()
-                    .HasMaxLength(500);
+                entity.Property(e => e.TForPk).HasColumnName("t_forPK");
 
-                entity.HasOne(d => d.c_numberNavigation)
-                    .WithMany(p => p.Talk_persontables)
-                    .HasForeignKey(d => d.c_number)
+                entity.Property(e => e.CNumber).HasColumnName("c_number");
+
+                entity.Property(e => e.FNumber).HasColumnName("f_number");
+
+                entity.Property(e => e.TId)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnName("t_id");
+
+                entity.HasOne(d => d.CNumberNavigation)
+                    .WithMany(p => p.TalkPersontables)
+                    .HasForeignKey(d => d.CNumber)
                     .HasConstraintName("FK_Talk_persontable_Customer_accounttable");
 
-                entity.HasOne(d => d.f_numberNavigation)
-                    .WithMany(p => p.Talk_persontables)
-                    .HasForeignKey(d => d.f_number)
+                entity.HasOne(d => d.FNumberNavigation)
+                    .WithMany(p => p.TalkPersontables)
+                    .HasForeignKey(d => d.FNumber)
                     .HasConstraintName("FK_Talk_persontable_Firm_accounttable");
             });
 

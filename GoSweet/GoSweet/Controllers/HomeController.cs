@@ -16,10 +16,10 @@ namespace GoSweet.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly shopwebContext _context;
+        private readonly ShopwebContext _context;
         private HomeIndexViewModel _indexViewModelData = new HomeIndexViewModel();
 
-        public HomeController(ILogger<HomeController> logger, shopwebContext context)
+        public HomeController(ILogger<HomeController> logger, ShopwebContext context)
         {
             _logger = logger;
             _context = context;
@@ -27,42 +27,62 @@ namespace GoSweet.Controllers
 
         public IActionResult Index()
         {
-            // Order_datatable, o_buynumber
-            // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
-            List<CategoryViewModel> categoriesDatas = (from product in _context.Product_datatables
+            List<CategoryViewModel> categoriesDatas = (from product in _context.ProductDatatables
                                                        select new CategoryViewModel
                                                        {
-                                                           Category = product.p_category
+                                                           Category = product.PCategory
                                                        }).Distinct().ToList();
 
 
-            List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
-                                                              join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
-                                                              join order in _context.Order_datatables on product.p_number equals order.p_number
-                                                              where product_pic.p_picnumber == 1
-                                                              select new ProductRankDataViewModel
-                                                              {
-                                                                  ProductNumber = product.p_number,
-                                                                  ProductName = product.p_name,
-                                                                  ProductPicture = product_pic.p_url,
-                                                                  ProductPrice = product.p_price,
-                                                                  ProductDescription = product.p_describe,
-                                                                  ProductTotalBuyNumber = order.o_buynumber,
-                                                              }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
+            List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
+                                  join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
+                                  join order in _context.OrderDatatables on product.PNumber equals order.PNumber
+                                  where product_pic.PPicnumber == 1
+                                  group order by 
+                                  new
+                                  {
+                                       product.PName,
+                                       product.PCategory,
+                                       product_pic.PUrl,
+                                       product.PPrice,
+                                       product.PDescribe,
+                                       order.OBuynumber
+                                  }
+                                  into grouped
+                                  orderby grouped.Sum((g) => g.OBuynumber) descending
+                                  select new ProductRankDataViewModel
+                                  {
+                                      ProductName = grouped.Key.PName,
+                                      ProductCategory = grouped.Key.PCategory,
+                                      ProductPicture = grouped.Key.PUrl,
+                                      ProductPrice = grouped.Key.PPrice,
+                                      ProductDescription = grouped.Key.PDescribe,
+                                      ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber) 
+                                  }).ToList();
 
+            //foreach (var group in productRankData)
+            //{
+            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
+            //    {
+            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+            //    }
+            //}
 
-            //Console.WriteLine("productGroupBuyData");
-            List<ProductGroupBuyData> productGroupBuyData = (from product in _context.Product_datatables
-                                                             join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
-                                                             join groupbuy in _context.Group_datatables on product.p_number equals groupbuy.p_number
-                                                             join member in _context.Member_membertables on groupbuy.g_number equals member.g_number
+            List<ProductGroupBuyData> productGroupBuyData = (from product in _context.ProductDatatables
+                                                             join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
+                                                             join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
+                                                             join member in _context.MemberMembertables on groupbuy.GNumber equals member.GNumber
+                                                             orderby member.MNowpeople descending
                                                              select new ProductGroupBuyData
                                                              {
-                                                                 ProductName = product.p_name,
-                                                                 ProductPicture = product_pic.p_url,
-                                                                 GroupMaxPeople = groupbuy.g_maxpeople,
-                                                                 GroupNowPeople = member.m_nowpeople,
-                                                                 GroupEndDate = groupbuy.g_end,
+                                                                 ProductName = product.PName,
+                                                                 ProductPicture = product_pic.PUrl,
+                                                                 ProductDescription = product.PDescribe,
+                                                                 GroupMaxPeople = groupbuy.GMaxpeople,
+                                                                 GroupNowPeople = member.MNowpeople,
+                                                                 GroupEndDate = groupbuy.GEnd,
+                                                                 GroupPeoplePercent = Math.Floor((double)member.MNowpeople / groupbuy.GMaxpeople * 100.0),
+                                                                 GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
                                                              }).ToList();
             //Console.WriteLine(productGroupBuyData);
             _indexViewModelData.categoryViewModel = categoriesDatas;
@@ -74,8 +94,10 @@ namespace GoSweet.Controllers
 
             Console.WriteLine(HttpContext.Session.GetString("AccountName"));
             Console.WriteLine(HttpContext.Session.GetString("c_number"));
-            //foreach (var group in productGroupBuyData) {
-            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+            //foreach (var group in productGroupBuyData)
+            //{
+            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
+            //    {
             //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
             //    }
             //}
@@ -85,30 +107,34 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult HandleProductCategory(string Category)
         {
+                List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
+                                  join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
+                                  join order in _context.OrderDatatables on product.PNumber equals order.PNumber
+                                  where product_pic.PPicnumber == 1 && product.PCategory == Category
+                                  group order by
+                                  new
+                                  {
+                                       product.PName,
+                                       product.PCategory,
+                                       product_pic.PUrl,
+                                       product.PPrice,
+                                       product.PDescribe,
+                                       order.OBuynumber
+                                  }
+                                  into grouped
+                                  orderby grouped.Sum((g) => g.OBuynumber) descending
+                                  select new ProductRankDataViewModel
+                                  {
+                                      ProductName = grouped.Key.PName,
+                                      ProductCategory = grouped.Key.PCategory,
+                                      ProductPicture = grouped.Key.PUrl,
+                                      ProductPrice = grouped.Key.PPrice,
+                                      ProductDescription = grouped.Key.PDescribe,
+                                      ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber) 
+                                  }).ToList();
 
-            List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
-                                                              join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
-                                                              join order in _context.Order_datatables on product.p_number equals order.p_number
-                                                              where product_pic.p_picnumber == 1 && product.p_category == Category
-                                                              select new ProductRankDataViewModel
-                                                              {
-                                                                  ProductNumber = product.p_number,
-                                                                  ProductName = product.p_name,
-                                                                  ProductPicture = product_pic.p_url,
-                                                                  ProductPrice = product.p_price,
-                                                                  ProductDescription = product.p_describe,
-                                                                  ProductTotalBuyNumber = order.o_buynumber,
-                                                              }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
-            //Console.WriteLine("productRankData");
-            //foreach (var group in productRankData)
-            //{
-            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
-            //    {
-            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-            //    }
-            //}
 
-            //TODO: fix value can't be null
+             //TODO: fix value can't be null
             IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
             //foreach (var item in categoriesDatas!)
             //{
@@ -131,30 +157,32 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(Customer_accounttable customerLoginData) 
+        public IActionResult Login(CustomerAccounttable customerLoginData)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
-                var userAccount = _context.Customer_accounttables.Where((c) =>
-                    c.c_account.Equals(customerLoginData.c_account) &&
-                    c.c_password.Equals(customerLoginData.c_password)
+                var userAccount = _context.CustomerAccounttables.Where((c) =>
+                    c.CAccount.Equals(customerLoginData.CAccount) &&
+                    c.CPassword.Equals(customerLoginData.CPassword)
                 ).Select((c) =>
-                new {
-                    AccountName = c.c_nickname,
-                    c_number = c.c_number,
+                new
+                {
+                    AccountName = c.CNickname,
+                    c_number = c.CNumber,
                 });
 
                 bool accountNotExist = userAccount.IsNullOrEmpty();
 
-                if (accountNotExist.Equals(true)) {
-                    TempData["accountNotExistMessage"] = "帳號不存在";
-                    return View();
+                if (accountNotExist.Equals(true))
+                {
+                    TempData["customerAccountNotExistMessage"] = "帳號不存在";
+                    return RedirectToAction("Login");
                 }
                 HttpContext.Session.SetString("AccountName", userAccount.First().AccountName);
                 HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.First().c_number));
-                TempData["accountLoginSuccessMessage"] = "帳號登入成功";
+                TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
             }
-            return View();
+            return RedirectToAction("Login");
         }
 
 
@@ -164,7 +192,7 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(Customer_accounttable customerAccountData)
+        public IActionResult SignUp(CustomerAccounttable customerAccountData)
         {
             // encoding
             if (ModelState.IsValid)
@@ -176,21 +204,21 @@ namespace GoSweet.Controllers
                 customerAccountData.c_password = hashResult;
 
                 // check account whether exist
-                bool accountNotExist = _context.Customer_accounttables.Where((c) =>
-                    c.c_nickname.Equals(customerAccountData.c_nickname) &&
-                    c.c_account.Equals(customerAccountData.c_account) &&
-                    c.c_password.Equals(customerAccountData.c_password)
+                bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
+                    c.CNickname.Equals(customerAccountData.CNickname) &&
+                    c.CAccount.Equals(customerAccountData.CAccount) &&
+                    c.CPassword.Equals(customerAccountData.CPassword)
                 ).IsNullOrEmpty();
 
                 if (accountNotExist.Equals(false))
                 {
                     TempData["customerAccountExistMessage"] = "此帳號已被註冊";
-                    return View();
+                    return RedirectToAction("SignUp");
                 }
 
                 try
                 {
-                    _context.Customer_accounttables.Add(customerAccountData);
+                    _context.CustomerAccounttables.Add(customerAccountData);
                     _context.SaveChanges();
                     TempData["customerSignUpSuccessMessage"] = "帳號註冊成功";
                 }
@@ -201,7 +229,7 @@ namespace GoSweet.Controllers
                 //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
                 //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
             }
-            return View();
+            return RedirectToAction("SignUp");
         }
 
         [HttpPost]

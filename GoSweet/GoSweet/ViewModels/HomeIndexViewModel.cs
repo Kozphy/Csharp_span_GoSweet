@@ -16,7 +16,6 @@ namespace GoSweet.ViewModels
 
     public class ProductRankDataViewModel
     {
-        public int ProductNumber { get; set; }
         public string? ProductName { get; set; }
         public string? ProductCategory { get; set; }
         public string? ProductPicture { get; set; }
@@ -29,8 +28,11 @@ namespace GoSweet.ViewModels
     {
         public string? ProductName { get; set; }
         public string? ProductPicture { get; set; }
+        public string? ProductDescription { get; set; }
         public int GroupMaxPeople { get; set; }
         public int GroupNowPeople { get; set; }
+        public double GroupPeoplePercent { get; set; }
         public DateTime GroupEndDate { get; set; }
+        public int GroupRemainDate { get; set; }
     } 
 }
