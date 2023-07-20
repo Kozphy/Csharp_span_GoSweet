@@ -1,5 +1,10 @@
+using GoSweet.Hubs;
 using GoSweet.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Toolbelt.Extensions.DependencyInjection;
 namespace GoSweet
 {
@@ -12,9 +17,19 @@ namespace GoSweet
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("ShopwebConnstring")));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            //builder.Services.AddDbContext<shopwebContext>(
-            //options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopweb")));
+            builder.Services.AddDbContext<ShopwebContext>(
+            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopwebConnstring")));
 
+            //Add  Http Session
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = ".GoSweet.Session";
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.IsEssential = true;
+            });
+
+            //Add Singalr 
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -29,9 +44,15 @@ namespace GoSweet
 
             app.UseAuthorization();
 
+            //±Ò¥Îhttp session
+            app.UseSession();
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            //Singalr Path
+            app.MapHub<ChatHub>("/chatHub");
 
             app.Run();
         }

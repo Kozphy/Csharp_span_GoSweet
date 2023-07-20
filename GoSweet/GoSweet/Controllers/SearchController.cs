@@ -1,4 +1,3 @@
-﻿
 using GoSweet.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,8 +46,6 @@ namespace GoSweet.Controllers {
 			return View();
 		}
 
-		public IActionResult SearchResultGroup() {
-			string? keyWord = HttpContext.Request.Query["keyWord"];
 
 			var xx = _shopwebContext.ProductGroupViews.ToList();
 			xx = xx.Where(x => x.PPicnumber == 1).ToList();
