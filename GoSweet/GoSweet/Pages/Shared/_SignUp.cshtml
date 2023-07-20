@@ -10,7 +10,7 @@
             <img class="img-fluid vh-100 w-100" src="~/img/SignUp/註冊頁面pic.jpg" alt="SignUp pic" />
         </div>
         <div class="col-6  d-flex flex-column SignUp-section ">
-            <div class="signUp-form m-auto">
+            <div class="signUp-form-section m-auto">
                 <div class="form-title-box bg-mute-2 py-2 text-white rounded mb-2">
                     @if (currentController == "FirmPage")
                     {
@@ -21,7 +21,7 @@
                         <h2 class="display-6">SignUp</h2>
                     }
                 </div>
-                <form method="post" asp-action="SignUp">
+                <form class="signUp-form" method="post" asp-action="SignUp">
                     <div class="py-2">
                         <label for="AccountName" class="form-label">帳戶名稱</label>
                         <input type="text" name="AccountName" id="AccountName" class="form-control" required />

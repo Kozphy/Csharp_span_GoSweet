@@ -6,7 +6,13 @@
     Layout = "_LayoutLoginSignUp";
 }
 
-<link rel="stylesheet" href="~/css/Login/Login.css" />
+@section Head{
+    <link rel="stylesheet" href="~/css/Login/Login.css" />
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <script src="https://www.google.com/recaptcha/enterprise.js?onload=onloadCallback&render=explicit"
+        async defer></script>
+}
+
 
 @await Html.PartialAsync("~/Pages/Shared/_Login.cshtml");
 
@@ -15,6 +21,7 @@
 
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
+    <script src="~/js/EmailCheck.js"></script>
 
     @if (TempData["frimAccountExistMessage"] != null)
     {
@@ -47,7 +54,7 @@
                 'action': 'LOGIN'
             });
 
-            let form_submit = document.querySelector(".login_form");
+            let form_submit = document.querySelector(".login-form");
             // 表單寄出如果沒有勾 recaptcha 提示要勾
             form_submit.addEventListener("submit", function (e) {
                 if (grecaptcha.enterprise.getResponse() === '') {

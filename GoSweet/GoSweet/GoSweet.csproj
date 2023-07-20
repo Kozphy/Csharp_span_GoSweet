@@ -2469,6 +2469,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -2809,6 +2810,7 @@
     <Folder Include="CustomModel\" />
     <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
     <Folder Include="wwwroot\img\Products\" />
+    <Folder Include="wwwroot\js\Firm\" />
   </ItemGroup>
 
 </Project>

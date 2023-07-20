@@ -8,6 +8,8 @@ using System.Xml;
 using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace GoSweet.Controllers
 {
@@ -164,8 +166,15 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult SignUp(Customer_accounttable customerAccountData)
         {
+            // encoding
             if (ModelState.IsValid)
             {
+                SHA512 sha512 = new SHA512CryptoServiceProvider();
+                byte[] source = Encoding.Default.GetBytes(customerAccountData.c_password);
+                byte[] crypto = sha512.ComputeHash(source);
+                string hashResult = Convert.ToBase64String(crypto);
+                customerAccountData.c_password = hashResult;
+
                 // check account whether exist
                 bool accountNotExist = _context.Customer_accounttables.Where((c) =>
                     c.c_nickname.Equals(customerAccountData.c_nickname) &&
@@ -187,12 +196,34 @@ namespace GoSweet.Controllers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine(e.Message);
                 }
                 //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
                 //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
             }
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult SendMailForResetPassword(string email)
+        {
+            try
+            {
+                if (email.IsNullOrEmpty()) {
+                    TempData["PleaseInputEmailMessage"] = "請輸入Email";
+                    return RedirectToAction("Login");
+                }
+                bool emailNotExist = _context.Customer_accounttables.Where((c) => c.c_account == email).IsNullOrEmpty();
+                if (emailNotExist.Equals(true)) {
+                    TempData["EmailNotExistMessage"] = "帳戶不存在";
+                    return RedirectToAction("Login");
+                }
+            }
+            catch (Exception e){
+                Console.WriteLine(e.Message);
+            }
+
+            return RedirectToAction("Login");
         }
 
         public IActionResult Privacy()
