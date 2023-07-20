@@ -13,7 +13,8 @@ namespace GoSweet
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddDbContext<ShopwebContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("ShopwebConnstring")));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ShopwebContext>(

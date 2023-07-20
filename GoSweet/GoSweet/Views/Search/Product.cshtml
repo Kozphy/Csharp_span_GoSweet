@@ -1,8 +1,6 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
 <link rel="stylesheet" href="~/css/Search/style_product.css">
@@ -13,22 +11,32 @@
 	<div class="row d-flex">
 		@*<div class="col-1"></div>*@
 		<div class="col-lg-5 m-auto pt-4">
-			<img src="~/images/cake1.jpg" style="width: 30rem;" id="imgMain">
+			<img src=@ViewBag.ProductData[0].ProductPic[0].PUrl style="width: 30rem;" id="imgMain">
 			<br>
 			<div class="d-flex">
-				<img src="~/images/cake1.jpg" style="width: 5rem;" id="img1" class="imgBox openImg">
+				@{
+					// -1 是為了要放介紹圖片
+					for (int i = 0; i < (@ViewBag.ProductData[0].ProductPic.Count)-1; i++) {
+						if (i == 0) {
+							<img src=@ViewBag.ProductData[0].ProductPic[i].PUrl style="width: 5rem;" id="img1" class="imgBox openImg">
+						} else {
+							<img src=@ViewBag.ProductData[0].ProductPic[i].PUrl style="width: 5rem;" id="img1" class="imgBox">
+						}
+					}
+				}
+@*				<img src="~/images/cake1.jpg" style="width: 5rem;" id="img1" class="imgBox openImg">
 				<img src="~/images/cake2.webp" style="width: 5rem;" id="img2" class="imgBox">
-				<img src="~/images/cake3.jpg" style="width: 5rem;" id="img3" class="imgBox">
+				<img src="~/images/cake3.jpg" style="width: 5rem;" id="img3" class="imgBox">*@
 			</div>
 		</div>
 		<div class="col-7 pt-4 cakeData">
-			<h1 style="text-align: center; font-size:40px">提拉米蘇</h1>
+			<h1 style="text-align: center; font-size:40px">@ViewBag.ProductData[0].ProductData.PName</h1>
 			<br>
 			<p class="text-center" style="font-size: 22px;">
-				萃取伯爵茶完整原葉，低溫研磨，將來自錫蘭的異國茶香融入北海道奶霜與泡芙蛋糕， 迷人的佛手柑香滲入北海道奶霜，茶奶融合，滑嫩香甜的布丁激發出伯爵茶獨有的清新與優雅，療癒夏日煩燥 。
+				@ViewBag.ProductData[0].ProductData.PDescribe
 			</p>
 			<p class="text-center" style="font-size: 22px;">
-				價格 : 1000 元
+				價格 : @ViewBag.ProductData[0].ProductData.PPrice 元
 			</p>
 			<p class="text-center">
 				<label for="buyNum" style="font-size: 22px;"> 購買數量 : </label>
@@ -39,16 +47,16 @@
 					<div class="empty_star" style="font-size:28px">★★★★★</div>
 					<div class="full_star" style="font-size:28px">★★★★★</div>
 				</div>
-				&nbsp;<span style="font-size:26px; line-height:28px">4.9</span>
+				&nbsp;<span style="font-size:26px; line-height:28px">@ViewBag.ProductData[0].ProductOat</span>
 			</div>
 			<div class="d-flex justify-content-center">
-				<a href="../BuyList/BuyList" class="btn mt-3 buyBtn" id="buy">
+				<a href="../BuyList/BuyList?pid=@ViewBag.ProductData[0].ProductData.PNumber&num=1" class="btn mt-3 buyBtn" id="buy">
 					購買
 				</a>
 				<a href="#" class="btn mt-3 buyBtn" id="buyCart">
 					加入購物車
 				</a>
-				<a href="../BuyList/BuyListGroup" class="btn mt-3 buyBtn" id="group_buy">
+				<a href="../BuyList/BuyListGroup?pid=@ViewBag.ProductData[0].ProductData.PNumber&num=1" class="btn mt-3 buyBtn" id="group_buy">
 					加入團購
 				</a>
 			</div>
@@ -61,13 +69,13 @@
 			<img src="~/images/cake.jpg" alt="" style="width: 100%;" class="">
 			<br />
 			<p class="introduce">
-				保存方式 : 冷凍
+				保存方式 : @ViewBag.ProductData[0].ProductData.PSaveway
 			</p>
 			<p class="introduce">
-				保存期限 : 3個月
+				保存期限 : @ViewBag.ProductData[0].ProductData.PSavedate
 			</p>
 			<p class="introduce">
-				廠商 : 可爾必思
+				廠商 : @ViewBag.FirmData
 			</p>
 			<label class="mt-4">配送方式 : </label>
 			<br>
@@ -89,12 +97,13 @@
 	</div>
 </div>
 <script>
+	var aa = @ViewBag.ProductData[0].ProductOat;
+	$(".full_star").css("width", `${(aa / 5) * 100}%`)
+	$(".evaluate span").text(parseFloat(aa).toFixed(1))
 	$("#buyCart").click(() => {
 		// alert('已加入購物車')
 		Swal.fire('已加入購物車')
-		var aa = 2
-		$(".full_star").css("width", `${(aa / 5) * 100}%`)
-		$(".evaluate span").text(parseFloat(aa).toFixed(1))
+		
 	})
 
 	$(".imgBox").click(function () {
@@ -103,6 +112,20 @@
 		var aa = $(this).attr("src");
 		$("#imgMain").prop("src", aa)
 	})
+	$("#buyNum").change(function () {
+		var buyNum = $("#buyNum").val()
+		$("#buy").prop("href", "../BuyList/BuyList?pid=@ViewBag.ProductData[0].ProductData.PNumber" + "&num=" + buyNum)
+		$("#group_buy").prop("href", "../BuyList/BuyListGroup?pid=@ViewBag.ProductData[0].ProductData.PNumber" + "&num=" + buyNum)
+	})
+
+	//$("#group_buy").prop("href") += @ViewBag.MMT
+	$("a#group_buy").click(function (event) {
+		if (@ViewBag.GroupTF == 0){
+			event.preventDefault();
+			Swal.fire('此商品無法團購')
+			}
+	})
+	
 </script>
 
 

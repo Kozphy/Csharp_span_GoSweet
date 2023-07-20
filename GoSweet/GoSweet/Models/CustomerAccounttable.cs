@@ -33,3 +33,4 @@ namespace GoSweet.Models
         public virtual ICollection<TalkPersontable> TalkPersontables { get; set; }
     }
 }
+
