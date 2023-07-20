@@ -55,7 +55,7 @@
     opacity:1;
 }
 
-.product-rank-hover-content > button {
+.product-rank-hover-content  .btnGo {
     padding:5px 30px;
 }
 

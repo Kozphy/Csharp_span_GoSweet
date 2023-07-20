@@ -103,6 +103,7 @@ namespace GoSweet.Controllers
 
             return Content(JsonSerializer.Serialize(myassess));
         }
+
         //寫入客戶評分資料
         [HttpPost]
         public IActionResult setassess(int onumber, float ocs, string ocm)
