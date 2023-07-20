@@ -3,32 +3,19 @@
 *@
 @{
 }
-@*<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>團購中</title>
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</head>
-<body>*@
 <link rel="stylesheet" href="~/css/Search/style_buyList.css">
 <link rel="stylesheet" href="~/css/Search/style_star.css">
     <div class="container pt-5 pb-3">
     <h1 class="text-center" style="font-size:40px">團購中</h1>
     <div class="row d-flex productBox">
-        <img src="~/images/cake1.jpg" alt="" class="m-md-auto m-lg-0 ps-5">
+        <img src=@ViewBag.ProductData[0].ProductPic[0].PUrl alt="" class="m-md-auto m-lg-0 ps-5">
         <div class="col-8">
-            <h2 class="text-center mt-3" style="font-size:32px">提拉米蘇</h2>
+            <h2 class="text-center mt-3" style="font-size:32px">@ViewBag.ProductData[0].ProductData.PName</h2>
             <p class="text-center" style="font-size: 22px;">
-                萃取伯爵茶完整原葉，低溫研磨，將來自錫蘭的異國茶香融入北海道奶霜與泡芙蛋糕， 迷人的佛手柑香滲入北海道奶霜，茶奶融合，滑嫩香甜的布丁激發出伯爵茶獨有的清新與優雅，療癒夏日煩燥 。
+                @ViewBag.ProductData[0].ProductData.PDescribe
             </p>
-            <p class="text-center">購買數量 : 5 </p>
-            <p class="text-center">總價 : 1000 元</p>
+            <p class="text-center">購買數量 :  @ViewBag.num </p>
+            <p class="text-center">總價 : @ViewBag.total 元</p>
         </div>
     </div>
     </div>
