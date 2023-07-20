@@ -27,44 +27,45 @@ namespace GoSweet.Controllers
         {
             // Order_datatable, o_buynumber
             // Member_membertable, m_nowpeople, g_maxpeople, Group_datatable g_end
-            List<CategoryViewModel> categoriesDatas = (from product in _context.Product_datatables
+            List<CategoryViewModel> categoriesDatas = (from product in _context.ProductDatatables
                                                        select new CategoryViewModel
                                                        {
-                                                           Category = product.p_category
+                                                           Category = product.PCategory
                                                        }).Distinct().ToList();
 
 
             // TODO: fix groupby
-            List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
-                                                              join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
-                                                              join order in _context.Order_datatables on product.p_number equals order.p_number
-                                                              where product_pic.p_picnumber == 1
+            List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
+                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
+                                                              join order in _context.OrderDatatables on product.PNumber equals order.PNumber
+                                                              where product_pic.PPicnumber == 1
                                                               select new ProductRankDataViewModel
                                                               {
-                                                                  ProductNumber = product.p_number,
-                                                                  ProductName = product.p_name,
-                                                                  ProductPicture = product_pic.p_url,
-                                                                  ProductPrice = product.p_price,
-                                                                  ProductDescription = product.p_describe,
-                                                                  ProductTotalBuyNumber = order.o_buynumber,
+                                                                  ProductNumber = product.PNumber,
+                                                                  ProductName = product.PName,
+                                                                  ProductPicture = product_pic.PUrl,
+                                                                  ProductPrice = product.PPrice,
+                                                                  ProductDescription = product.PDescribe,
+                                                                  ProductTotalBuyNumber = order.OBuynumber
+                                                                  ,
                                                               }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
 
 
             //Console.WriteLine("productGroupBuyData");
-            List<ProductGroupBuyData> productGroupBuyData = (from product in _context.Product_datatables
-                                                             join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
-                                                             join groupbuy in _context.Group_datatables on product.p_number equals groupbuy.p_number
-                                                             join member in _context.Member_membertables on groupbuy.g_number equals member.g_number
+            List<ProductGroupBuyData> productGroupBuyData = (from product in _context.ProductDatatables
+                                                             join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
+                                                             join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
+                                                             join member in _context.MemberMembertables on groupbuy.GNumber equals member.GNumber
                                                              select new ProductGroupBuyData
                                                              {
-                                                                 ProductName = product.p_name,
-                                                                 ProductPicture = product_pic.p_url,
-                                                                 ProductDescription = product.p_describe,
-                                                                 GroupMaxPeople = groupbuy.g_maxpeople,
-                                                                 GroupNowPeople = member.m_nowpeople,
-                                                                 GroupEndDate = groupbuy.g_end,
-                                                                 GroupPeoplePercent = Math.Floor((double)member.m_nowpeople / groupbuy.g_maxpeople * 100.0),
-                                                                 GroupRemainDate =   groupbuy.g_end.Day - new DateTime().Day,
+                                                                 ProductName = product.PName,
+                                                                 ProductPicture = product_pic.PUrl,
+                                                                 ProductDescription = product.PDescribe,
+                                                                 GroupMaxPeople = groupbuy.GMaxpeople,
+                                                                 GroupNowPeople = member.MNowpeople,
+                                                                 GroupEndDate = groupbuy.GEnd,
+                                                                 GroupPeoplePercent = Math.Floor((double)member.MNowpeople / groupbuy.GMaxpeople * 100.0),
+                                                                 GroupRemainDate =   groupbuy.GEnd.Day - new DateTime().Day,
                                                              }).ToList();
             //Console.WriteLine(productGroupBuyData);
             _indexViewModelData.categoryViewModel = categoriesDatas;
@@ -88,18 +89,18 @@ namespace GoSweet.Controllers
         public IActionResult HandleProductCategory(string Category)
         {
 
-            List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
-                                                              join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
-                                                              join order in _context.Order_datatables on product.p_number equals order.p_number
-                                                              where product_pic.p_picnumber == 1 && product.p_category == Category
+            List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
+                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
+                                                              join order in _context.OrderDatatables on product.PNumber equals order.PNumber
+                                                              where product_pic.PPicnumber == 1 && product.PCategory == Category
                                                               select new ProductRankDataViewModel
                                                               {
-                                                                  ProductNumber = product.p_number,
-                                                                  ProductName = product.p_name,
-                                                                  ProductPicture = product_pic.p_url,
-                                                                  ProductPrice = product.p_price,
-                                                                  ProductDescription = product.p_describe,
-                                                                  ProductTotalBuyNumber = order.o_buynumber,
+                                                                  ProductNumber = product.PNumber,
+                                                                  ProductName = product.PName,
+                                                                  ProductPicture = product_pic.PUrl,
+                                                                  ProductPrice = product.PPrice,
+                                                                  ProductDescription = product.PDescribe,
+                                                                  ProductTotalBuyNumber = order.OBuynumber,
                                                               }).OrderByDescending((p => p.ProductTotalBuyNumber)).ToList();
             //Console.WriteLine("productRankData");
             //foreach (var group in productRankData)
@@ -133,17 +134,17 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(Customer_accounttable customerLoginData) 
+        public IActionResult Login(CustomerAccounttable customerLoginData) 
         {
             if (ModelState.IsValid) 
             {
-                var userAccount = _context.Customer_accounttables.Where((c) =>
-                    c.c_account.Equals(customerLoginData.c_account) &&
-                    c.c_password.Equals(customerLoginData.c_password)
+                var userAccount = _context.CustomerAccounttables.Where((c) =>
+                    c.CAccount.Equals(customerLoginData.CAccount) &&
+                    c.CPassword.Equals(customerLoginData.CPassword)
                 ).Select((c) =>
                 new {
-                    AccountName = c.c_nickname,
-                    c_number = c.c_number,
+                    AccountName = c.CNickname,
+                    c_number = c.CNumber,
                 });
 
                 bool accountNotExist = userAccount.IsNullOrEmpty();
@@ -166,15 +167,15 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(Customer_accounttable customerAccountData)
+        public IActionResult SignUp(CustomerAccounttable customerAccountData)
         {
             if (ModelState.IsValid)
             {
                 // check account whether exist
-                bool accountNotExist = _context.Customer_accounttables.Where((c) =>
-                    c.c_nickname.Equals(customerAccountData.c_nickname) &&
-                    c.c_account.Equals(customerAccountData.c_account) &&
-                    c.c_password.Equals(customerAccountData.c_password)
+                bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
+                    c.CNickname.Equals(customerAccountData.CNickname) &&
+                    c.CAccount.Equals(customerAccountData.CAccount) &&
+                    c.CPassword.Equals(customerAccountData.CPassword)
                 ).IsNullOrEmpty();
 
                 if (accountNotExist.Equals(false))
@@ -185,7 +186,7 @@ namespace GoSweet.Controllers
 
                 try
                 {
-                    _context.Customer_accounttables.Add(customerAccountData);
+                    _context.CustomerAccounttables.Add(customerAccountData);
                     _context.SaveChanges();
                     TempData["customerSignUpSuccessMessage"] = "帳號註冊成功";
                 }

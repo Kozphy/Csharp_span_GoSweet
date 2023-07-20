@@ -1,3 +1,4 @@
+using GoSweet.Hubs;
 using GoSweet.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,8 @@ namespace GoSweet
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<shopwebContext>(
-            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopweb")));
+            builder.Services.AddDbContext<ShopwebContext>(
+            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopwebConnstring")));
 
             //Add  Http Session
             builder.Services.AddSession(options =>

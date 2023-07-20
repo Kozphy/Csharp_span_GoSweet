@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace GoSweet.Models
 {
-    public partial class shopwebContext : DbContext
+    public partial class ShopwebContext : DbContext
     {
-        public shopwebContext()
+        public ShopwebContext()
         {
         }
 
-        public shopwebContext(DbContextOptions<shopwebContext> options)
+        public ShopwebContext(DbContextOptions<ShopwebContext> options)
             : base(options)
         {
         }

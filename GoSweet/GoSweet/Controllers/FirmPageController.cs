@@ -1,12 +1,13 @@
 ﻿using GoSweet.Models;
 using Microsoft.AspNetCore.Mvc;
-using GoSweet.Models;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.IO.Pipelines;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Json;
+using System.Linq;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GoSweet.Controllers {
     public class FirmPageController : Controller {
@@ -305,13 +306,13 @@ namespace GoSweet.Controllers {
         }
 
         [HttpPost]
-        public IActionResult SignUp(Firm_accounttable firmAccountData) 
+        public IActionResult SignUp(FirmAccounttable firmAccountData) 
         {
             if (ModelState.IsValid) {
-                bool accountNotExist = _context.Firm_accounttables.Where((f) =>
-                    f.f_nickname.Equals(firmAccountData.f_nickname) &&
-                    f.f_account.Equals(firmAccountData.f_account)  &&
-                    f.f_password.Equals(firmAccountData.f_password)
+                bool accountNotExist = _context.FirmAccounttables.Where((f) =>
+                    f.FNickname.Equals(firmAccountData.FNickname) &&
+                    f.FAccount.Equals(firmAccountData.FAccount)  &&
+                    f.FPassword.Equals(firmAccountData.FPassword)
                 ).IsNullOrEmpty();
 
                 if (accountNotExist.Equals(false)){
@@ -320,7 +321,7 @@ namespace GoSweet.Controllers {
                 }
 
                 try {
-                    _context.Firm_accounttables.Add(firmAccountData);
+                    _context.FirmAccounttables.Add(firmAccountData);
                     _context.SaveChanges();
                     TempData["firmSignUpSuccessMessage"] = "帳號註冊成功";
                 } catch (Exception e) {
