@@ -87,7 +87,7 @@
    "UiHint": "desktop-bo1njfv.shopweb.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
-   "UseDatabaseNames": true,
+   "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
