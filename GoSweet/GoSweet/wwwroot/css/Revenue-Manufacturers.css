@@ -1,105 +1,170 @@
-body{
-    background-color: #F7F1F0;
+.FirmBackground {
+    background-color: rgba(33,37,41,0.03);
+}
+/*Àç¦¬ÀËªí-¦¸¼ĞÃD*/
+.RevenuepageSubtitle {
+    font-size: 2rem;
 }
 
-.performance-number{
-  color:#C15C38
+/*Àç¦¬ÀËªí-­^¤å¥N¸¹*/
+.RevenuepageExplain {
+    font-size:1.2rem;
 }
 
-/* åœ–è¡¨ç”¨æ¨£å¼ */
-
-canvas{
-    min-height: 300px;
-    max-height: 300px;
+/*Àç¦¬ÀËªí-¼Æ¦r*/
+.RevenuepageContent {
+    font-size:1.5rem;
+    color:#A15C38;
 }
 
-.nav-link{
-  color:#C15C38
+/*Àç¦¬¹Ïªí-¤é´Á·j¯Á«ö¶s*/
+.btn-sm:hover {
+    background-color: rgba(0,0,0,0.2);
 }
 
+/*Àç¦¬ÀËªí-¹Ïªí³]©w¼ĞÃD*/
+.RevenuepageChartSet {
+    font-size:1.5rem;
+}
 
-/* è¡¨æ ¼ç”¨æ¨£å¼ */
+/*Àç¦¬¹Ïªí-¹Ïªí³]©w²Ó¶µ*/
+.RevenuepageChartSetting {
+    font-size:1.2rem;
+}
+
+/*Àç¦¬¹Ïªí-¹Ïªí³]©w²Ó¶µ*/
+/*.radio:hover {
+background-color: rgba(0,0,0,0.2);
+}*/
+
+/*¹Ïªí³]©w*/
+canvas {
+    min-height: 311px;
+}
+
+/*¦Cªí¼ĞÅÒ*/
+.nav-link {
+    color:black;
+}
+
+/*¦Cªí¼ĞÅÒ*/
+.nav-link:hover {
+    color: #C15C38;
+}
+
+/*¦Cªí¼ĞÅÒ*/
+.nav-item:hover {
+    background-color: rgba(0,0,0,0.2);
+}
+
+/*¦Cªíªí®æ¬y¤ô½s*/
+.RevenuepageTableNumber {
+    width: 20%;
+    word-break: keep-all;
+    white-space: nowrap;
+}
+
+.RevenuepageTableTitle {
+    font-size:1.3rem;
+    width:100%;
+}
+/*¦Cªíªí®æ¸ê®Æ*/
+.RevenuepageTableData {
+    width: 100%;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ªí®æ¥Î¼Ë¦¡ */
+.SearchList{
+  min-height: 910px;
+}
+
 table {
     border-collapse: collapse;
     border: 1px solid #cdcdcd;
     width: 100%;
-  }
-  td,
-  th {
+    table-layout:fixed;
+}
+
+td,
+th {
     border: 1px solid #cdcdcd;
     padding: 8px;
-  }
-  
-  @media only screen and (max-width: 1200px),
-    (min-device-width: 768px) and (max-device-width: 1024px) {
+}
+
+@media only screen and (max-width: 1200px), (min-device-width: 768px) and (max-device-width: 1024px) {
     table,
     thead,
     tbody,
     th,
     td,
     tr {
-      display: block;
-    }
-  
-    thead tr {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-    }
-  
-    tr {
-      border-bottom: 2px solid #690461;
-    }
-  
-    td {
-      border: none;
-      border-bottom: 1px solid #eee;
-      position: relative;
-      padding-left: 50% !important;
-      text-align: left !important;
-    }
-  
-    td:before {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      width: 45%;
-      padding-right: 10px;
-      white-space: nowrap;
-      font-weight: bold;
-    }
-  
-    td:nth-of-type(1):before {
-      content: "æ—¥æœŸ";
-      color: #0e9893;
-    }
-    td:nth-of-type(2):before {
-      content: "äº‹é …";
-      color: #0e9893;
-    }
-    td:nth-of-type(3):before {
-      content: "è¨‚å–®ç·¨è™Ÿ";
-      color: #0e9893;
-    }
-    td:nth-of-type(4):before {
-      content: "è¨‚å–®ç‹€æ…‹";
-      color: #0e9893;
-    }
-    td:nth-of-type(5):before {
-      content: "å–®åƒ¹";
-      color: #0e9893;
-    }
-    td:nth-of-type(6):before {
-      content: "æ•¸é‡";
-      color: #0e9893;
-    }
-    td:nth-of-type(7):before {
-      content: "å°è¨ˆ";
-      color: #0e9893;
-    }
-    td:nth-of-type(8):before {
-      content: "ç¸½é¡";
-      color: #0e9893;
+        display: block;
     }
 
-  }
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border-bottom: 2px solid #690461;
+    }
+
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50% !important;
+        text-align: left !important;
+    }
+
+    td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+
+    td:nth-of-type(1):before {
+        content: 'Date';
+        color: #C15C38;
+    }
+
+    td:nth-of-type(2):before {
+        content: "Reason";
+        color: #C15C38;
+    }
+
+    td:nth-of-type(3):before {
+        content: "OrderID";
+        color: #C15C38;
+    }
+
+    td:nth-of-type(4):before {
+        content: "OrderStatus";
+        color: #C15C38;
+    }
+
+    td:nth-of-type(5):before {
+        content: "UnitPrice(A)";
+        color: #C15C38;
+    }
+
+    td:nth-of-type(6):before {
+        content: "Quentity(B)";
+        color: #C15C38;
+    }
+
+    td:nth-of-type(7):before {
+        content: "Total(A*B)";
+        color: #C15C38;
+    }
+}
