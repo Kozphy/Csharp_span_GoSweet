@@ -34,6 +34,7 @@ namespace GoSweet.Controllers
                                                        }).Distinct().ToList();
 
 
+            // TODO: fix groupby
             List<ProductRankDataViewModel> productRankData = (from product in _context.Product_datatables
                                                               join product_pic in _context.Product_picturetables on product.p_number equals product_pic.p_number
                                                               join order in _context.Order_datatables on product.p_number equals order.p_number
@@ -58,9 +59,12 @@ namespace GoSweet.Controllers
                                                              {
                                                                  ProductName = product.p_name,
                                                                  ProductPicture = product_pic.p_url,
+                                                                 ProductDescription = product.p_describe,
                                                                  GroupMaxPeople = groupbuy.g_maxpeople,
                                                                  GroupNowPeople = member.m_nowpeople,
                                                                  GroupEndDate = groupbuy.g_end,
+                                                                 GroupPeoplePercent = Math.Floor((double)member.m_nowpeople / groupbuy.g_maxpeople * 100.0),
+                                                                 GroupRemainDate =   groupbuy.g_end.Day - new DateTime().Day,
                                                              }).ToList();
             //Console.WriteLine(productGroupBuyData);
             _indexViewModelData.categoryViewModel = categoriesDatas;
@@ -72,11 +76,11 @@ namespace GoSweet.Controllers
 
             Console.WriteLine(HttpContext.Session.GetString("AccountName"));
             Console.WriteLine(HttpContext.Session.GetString("c_number"));
-            //foreach (var group in productGroupBuyData) {
-            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
-            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-            //    }
-            //}
+            foreach (var group in productGroupBuyData) {
+                foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group)) { 
+                    Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
+                }
+            }
             return View(_indexViewModelData);
         }
 
@@ -108,10 +112,10 @@ namespace GoSweet.Controllers
 
             //TODO: fix value can't be null
             IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
-            //foreach (var item in categoriesDatas!)
-            //{
-            //    Console.WriteLine(item.Category);
-            //}
+            foreach (var item in categoriesDatas!)
+            {
+                Console.WriteLine(item.Category);
+            }
             IEnumerable<ProductGroupBuyData>? productGroupBuyDatas = JsonConvert.DeserializeObject<IEnumerable<ProductGroupBuyData>>(HttpContext.Session.GetString("productGroupBuyDatas")!);
             _indexViewModelData.categoryViewModel = categoriesDatas;
             _indexViewModelData.productGroupBuyDatas = productGroupBuyDatas;
@@ -195,10 +199,6 @@ namespace GoSweet.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -55,7 +55,7 @@ namespace Lab_0704_Firm.Controllers {
                     _context.SaveChanges();
                     TempData["firmSignUpSuccessMessage"] = "帳號註冊成功";
                 } catch (Exception e) {
-                    Console.WriteLine(e);
+                    Console.WriteLine(e.Message);
                 }
             }
             return View();
