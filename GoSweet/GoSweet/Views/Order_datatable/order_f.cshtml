@@ -525,11 +525,14 @@
                                                                 @if ((@item.oshipstatus == "未寄出"))
                                                                 {
 
-                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">確認寄出</button>
+                                                                    <input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)" value="確認寄出">
+                                                                    
                                                                 }
                                                                 else
                                                                 {
-                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">@item.oshipstatus</button>
+                                                                    <input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)" value="@item.oshipstatus">
+
+                                                                    
 
                                                                 }
                                                             </td>

@@ -66,6 +66,9 @@
         });
 
 
+
+
+
         //搜尋訂單按鈕事件
         $('.searchorder').on('click', function () {
             //搜尋訂單
@@ -85,8 +88,15 @@
                     $(data2).each(function () {
                         let item = this
 
+                        //判斷團購直購
                         let x1
+
+                        //判斷貨物狀態
                         let x2
+
+                        //判斷團購狀態
+                        let x3
+
                         if (item.otype) {
                             x1 = '<label for= "" style = "font-size: 28px;" class= "o_type" > 團購</label>'
                         }
@@ -107,6 +117,17 @@
                             x2 = `<input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick = "shipget(${count},${item.onumber})" value="${item.oshipstatus}"  >`
 
                         }
+
+                        if (item.ostatus == "未成團"){
+                            x3 = `<input type="button" class="btn btn-primary btn-lg "   value="未成團" disabled >`
+                        }
+                        else if (item.ostatus == "已成團") {
+                            x3 = `<input type="button" class="btn btn-primary btn-lg "  onclick="gotobuy(${item.pnumber},${item.pbuy} )" value="我要結帳">`
+                        }
+                        else{
+                            x3 = `<input type="button" class="btn btn-primary btn-lg assess" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="assess(${count},${item.onumber} )" value="我要評分">`
+                        }
+
                         console.log(x1)
                         console.log(x2)
 						$('.orderlist').append(`
@@ -162,7 +183,7 @@
 																	</tr>
 																	<tr style="height: 50%;">
 																		<td>
-																				<label for="" style="font-size: 28px;" class="o_shipstatus">${item.oshipstatus}</label>
+                                                                                    <label for="" style="font-size: 28px;" class="o_shipstatus">${item.oshipstatus}</label>
 																		</td>
 																	</tr>
 																</table>
@@ -192,9 +213,9 @@
 																		</td>
 																	</tr>
 																	<tr style="height: 50%;">
-																		<td>
-																					<button class="btn btn-primary btn-lg assess" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="assess(${count},${item.onumber} )">我要評分</button>
-																		</td>
+																		<td>`+
+																		`${x3}`			
+																		+`</td>
 																	</tr>
 																</table>
 															</div>
@@ -354,6 +375,14 @@
             //window.location.assign("/test3/index")
         })
     }
+
+    //跳轉到結帳畫面
+    function gotobuy(pnumber,buynumber){
+        console.log("go to buy "+pnumber+buynumber)
+        $.post('',{}).done()
+    }
+
+
 
 </script>
 <style>
@@ -544,7 +573,19 @@
                                                         </tr>
                                                         <tr style="height: 50%;">
                                                             <td>
-                                                                <button class="btn btn-primary btn-lg assess" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="assess(@count,@item.onumber )">我要評分</button>
+                                                                @if (@item.ostatus == "未成團")
+                                                                {
+                                                                    <input type="button" class="btn btn-primary btn-lg " value="未成團" disabled>
+                                                                }
+                                                                else if (@item.ostatus == "已成團")
+                                                                {
+                                                                    <input type="button" class="btn btn-primary btn-lg "  onclick="gotobuy(@item.pnumber,@item.pbuy )" value="我要結帳">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="button" class="btn btn-primary btn-lg assess" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="assess(@count,@item.onumber )" value="我要評分">
+                                                                }
+                                                                
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -562,16 +603,17 @@
                                                                 @if (@item.oshipstatus == "已寄出")
                                                                 {
 
-                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">確認取貨</button>
+                                                                    <input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)" value="確認取貨">
+                                                                    
                                                                 }
                                                                 else if (@item.oshipstatus == "未寄出")
                                                                 {
-                                                                    <button disabled class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">確認取貨</button>
+                                                                    <input type="button" disabled class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)" value="確認取貨">
 
                                                                 }
                                                                 else
                                                                 {
-                                                                    <button class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)">@item.oshipstatus</button>
+                                                                    <input type="button" class="btn btn-primary btn-lg shipget" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="shipget(@count,@item.onumber)" value="@item.oshipstatus">
 
                                                                 }
                                                             </td>

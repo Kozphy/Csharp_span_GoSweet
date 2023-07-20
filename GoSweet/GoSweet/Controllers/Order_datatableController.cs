@@ -48,6 +48,7 @@ namespace GoSweet.Controllers
                                 pic = pic.PUrl,
                                 fname = f.FPagename,
                                 pname = p.PName,
+                                pnumber = o.PNumber,
                                 pbuy = o.OBuynumber,
                                 otype = o.OType,
                                 ostatus = o.OStatus,
@@ -146,6 +147,7 @@ namespace GoSweet.Controllers
                                 pic = pic.PUrl,
                                 fname = f.FPagename,
                                 pname = p.PName,
+                                pnumber = o.PNumber,
                                 pbuy = o.OBuynumber,
                                 otype = o.OType,
                                 ostatus = o.OStatus,
@@ -185,6 +187,16 @@ namespace GoSweet.Controllers
             getorder.First().OStatus = "已結單";
             getorder.First().OShipstatus = "已取貨";
             _context.Update(getorder.First());
+            _context.SaveChanges();
+
+
+            //寫入notify 通知客戶已寄出
+            NotifyDatatable notify = new NotifyDatatable();
+            notify.FNumber = getorder.First().FNumber;
+            notify.ONumber = getorder.First().ONumber;
+            notify.OStatus = getorder.First().OShipstatus;
+            notify.NRead = false;
+            _context.Update(notify);
             _context.SaveChanges();
 
 
@@ -470,6 +482,15 @@ namespace GoSweet.Controllers
             _context.Update(getorder.First());
             _context.SaveChanges();
 
+            //寫入notify 通知客戶已寄出
+            NotifyDatatable notify = new NotifyDatatable();
+            notify.CNumber = getorder.First().CNumber;
+            notify.ONumber = getorder.First().ONumber;
+            notify.OStatus = getorder.First().OShipstatus;
+            notify.NRead = false;
+            _context.Update(notify);
+            _context.SaveChanges();
+
 
             return Content("orderdone is write to db");
         }
@@ -551,6 +572,60 @@ namespace GoSweet.Controllers
 
             return Content("talk memeber in list");
         }
+
+
+
+
+
+
+
+
+
+        //member滿人判斷 後 修改訂單狀態 並新增 notify
+        public IActionResult Index2()
+        {
+            int mymnumber = 40000;
+
+            var membermax = from m in _context.MemberMembertables
+                            where m.MNumber == mymnumber && m.GMaxpeople == m.MNowpeople
+                            select m;
+            if ((membermax.FirstOrDefault() != null)&&(membermax.FirstOrDefault().MStatus == false)) {
+                membermax.FirstOrDefault().MStatus = true;
+                _context.Update(membermax.First());
+                _context.SaveChanges();
+                var orderlist = from o in _context.OrderDatatables
+                                where o.MNumber == mymnumber
+                                select o;
+
+                foreach (var item in orderlist)
+                {
+                    item.OStatus = "已成團";
+                    _context.Update(item);
+
+                    NotifyDatatable notify = new NotifyDatatable();
+                    notify.CNumber = item.CNumber;
+                    notify.ONumber = item.ONumber;
+                    notify.OStatus = item.OStatus;
+                    notify.NRead = false;
+                    _context.Update(notify);
+
+                }
+                _context.SaveChanges();
+
+                return Content("member max write to db");
+
+
+            }
+
+            return Content("member status true or member nofound");
+        }
+
+
+
+
+
+
+
 
     }
 }
