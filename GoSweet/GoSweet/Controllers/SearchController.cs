@@ -1,4 +1,3 @@
-﻿
 using GoSweet.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,8 +46,6 @@ namespace GoSweet.Controllers {
 			return View();
 		}
 
-		public IActionResult SearchResultGroup() {
-			string? keyWord = HttpContext.Request.Query["keyWord"];
 
 			var xx = from groupTable in _context.GroupDatatables
 					 join productTable in _context.ProductDatatables on groupTable.PNumber equals productTable.PNumber

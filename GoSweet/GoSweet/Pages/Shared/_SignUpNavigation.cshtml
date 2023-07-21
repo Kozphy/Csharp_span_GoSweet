@@ -8,10 +8,21 @@
 
 <div class="home-icon-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <a class="ms-3 mb-3 btn btn-secondary" asp-controller="Home" asp-action="Login">
-            Back To Login >>
-        </a>
-        @if (!currentController.Equals("Home")) { 
+        @if (currentController == "FirmPage")
+        {
+            <a class="ms-3 mb-3 btn btn-secondary" asp-controller="FirmPage" asp-action="Login">
+                Back To Login >>
+            </a>
+        }
+        else
+        {
+
+            <a class="ms-3 mb-3 btn btn-secondary" asp-controller="Home" asp-action="Login">
+                Back To Login >>
+            </a>
+            
+        }
+        @if (!currentController!.Equals("Home")) { 
             <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="FirmPage" asp-action="HomePage">
                 <i class="bi bi-house-door-fill"></i>
             </a>

@@ -11,6 +11,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
+    <Compile Include="obj\Debug\net6.0\GoSweet.AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\net6.0\GoSweet.GlobalUsings.g.cs" />
+    <Compile Include="obj\Debug\net6.0\GoSweet.RazorAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net6.0\appsettings.Development.json" />
+    <Content Include="bin\Debug\net6.0\appsettings.json" />
+    <Content Include="bin\Debug\net6.0\efpt.config.json" />
+    <Content Include="bin\Debug\net6.0\GoSweet.deps.json" />
+    <Content Include="bin\Debug\net6.0\GoSweet.runtimeconfig.json" />
+    <Content Include="bin\Debug\net6.0\GoSweet.staticwebassets.runtime.json" />
+    <Content Include="bin\Debug\net6.0\jit_init\package-lock.json" />
+    <Content Include="bin\Debug\net6.0\jit_init\package.json" />
+    <Content Include="bin\Debug\net6.0\libman.json" />
     <Content Include="jit_init\node_modules\%40alloc\quick-lru\package.json" />
     <Content Include="jit_init\node_modules\%40jridgewell\gen-mapping\package.json" />
     <Content Include="jit_init\node_modules\%40jridgewell\resolve-uri\package.json" />
@@ -206,9 +222,82 @@
     <Content Include="jit_init\node_modules\yargs\locales\zh_CN.json" />
     <Content Include="jit_init\node_modules\yargs\locales\zh_TW.json" />
     <Content Include="jit_init\node_modules\yargs\package.json" />
+    <Content Include="obj\Debug\net6.0\GoSweet.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\net6.0\project.razor.vs.json" />
+    <Content Include="obj\Debug\net6.0\scopedcss\bundle\GoSweet.styles.css" />
+    <Content Include="obj\Debug\net6.0\scopedcss\projectbundle\GoSweet.bundle.scp.css" />
+    <Content Include="obj\Debug\net6.0\scopedcss\Views\Shared\BE_Layout.cshtml.rz.scp.css" />
+    <Content Include="obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css" />
+    <Content Include="obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutBE.cshtml.rz.scp.css" />
+    <Content Include="obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutFirm.cshtml.rz.scp.css" />
+    <Content Include="obj\Debug\net6.0\staticwebassets.build.json" />
+    <Content Include="obj\Debug\net6.0\staticwebassets.development.json" />
+    <Content Include="obj\Debug\net6.0\staticwebassets.pack.json" />
+    <Content Include="obj\GoSweet.csproj.nuget.dgspec.json" />
+    <Content Include="obj\project.assets.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="bin\Debug\net6.0\AngleSharp.dll" />
+    <None Include="bin\Debug\net6.0\Azure.Core.dll" />
+    <None Include="bin\Debug\net6.0\Azure.Identity.dll" />
+    <None Include="bin\Debug\net6.0\GoSweet.dll" />
+    <None Include="bin\Debug\net6.0\GoSweet.exe" />
+    <None Include="bin\Debug\net6.0\GoSweet.pdb" />
+    <None Include="bin\Debug\net6.0\Humanizer.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Data.SqlClient.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Options.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Identity.Client.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.SqlServer.Server.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll" />
+    <None Include="bin\Debug\net6.0\Mono.TextTemplating.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll" />
+    <None Include="bin\Debug\net6.0\System.CodeDom.dll" />
+    <None Include="bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll" />
+    <None Include="bin\Debug\net6.0\System.Drawing.Common.dll" />
+    <None Include="bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll" />
+    <None Include="bin\Debug\net6.0\System.Memory.Data.dll" />
+    <None Include="bin\Debug\net6.0\System.Runtime.Caching.dll" />
+    <None Include="bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll" />
+    <None Include="bin\Debug\net6.0\System.Security.Permissions.dll" />
+    <None Include="bin\Debug\net6.0\System.Text.Encodings.Web.dll" />
+    <None Include="bin\Debug\net6.0\System.Text.Json.dll" />
+    <None Include="bin\Debug\net6.0\System.Windows.Extensions.dll" />
+    <None Include="bin\Debug\net6.0\Toolbelt.AspNetCore.CssLiveReloader.dll" />
     <None Include="compilerconfig.json" />
     <None Include="jit_init\node_modules\%40alloc\quick-lru\index.js" />
     <None Include="jit_init\node_modules\%40alloc\quick-lru\license" />
@@ -2466,6 +2555,28 @@
     <None Include="jit_init\node_modules\yargs\README.md" />
     <None Include="jit_init\node_modules\yargs\yargs" />
     <None Include="jit_init\node_modules\yargs\yargs.mjs" />
+    <None Include="obj\Debug\net6.0\apphost.exe" />
+    <None Include="obj\Debug\net6.0\GoSweet.AssemblyInfoInputs.cache" />
+    <None Include="obj\Debug\net6.0\GoSweet.assets.cache" />
+    <None Include="obj\Debug\net6.0\GoSweet.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\net6.0\GoSweet.csproj.BuildWithSkipAnalyzers" />
+    <None Include="obj\Debug\net6.0\GoSweet.csproj.CopyComplete" />
+    <None Include="obj\Debug\net6.0\GoSweet.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\net6.0\GoSweet.dll" />
+    <None Include="obj\Debug\net6.0\GoSweet.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="obj\Debug\net6.0\GoSweet.genruntimeconfig.cache" />
+    <None Include="obj\Debug\net6.0\GoSweet.MvcApplicationPartsAssemblyInfo.cache" />
+    <None Include="obj\Debug\net6.0\GoSweet.pdb" />
+    <None Include="obj\Debug\net6.0\GoSweet.RazorAssemblyInfo.cache" />
+    <None Include="obj\Debug\net6.0\refint\GoSweet.dll" />
+    <None Include="obj\Debug\net6.0\ref\GoSweet.dll" />
+    <None Include="obj\Debug\net6.0\staticwebassets\msbuild.build.GoSweet.props" />
+    <None Include="obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.GoSweet.props" />
+    <None Include="obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.GoSweet.props" />
+    <None Include="obj\Debug\net6.0\staticwebassets\msbuild.GoSweet.Microsoft.AspNetCore.StaticWebAssets.props" />
+    <None Include="obj\GoSweet.csproj.nuget.g.props" />
+    <None Include="obj\GoSweet.csproj.nuget.g.targets" />
+    <None Include="obj\project.nuget.cache" />
   </ItemGroup>
 
   <ItemGroup>
@@ -2478,6 +2589,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />
   </ItemGroup>
 
@@ -2802,6 +2914,12 @@
     <TypeScriptCompile Include="jit_init\node_modules\yaml\dist\util.d.ts" />
     <TypeScriptCompile Include="jit_init\node_modules\yaml\dist\visit.d.ts" />
     <TypeScriptCompile Include="jit_init\node_modules\yargs\browser.d.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CustomModel\" />
+    <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
+    <Folder Include="wwwroot\img\Products\" />
   </ItemGroup>
 
 </Project>

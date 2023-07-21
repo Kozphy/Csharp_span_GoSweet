@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<GoSweet.Models.FirmPagetable>
+@*@model GoSweet.Models.FirmPagetable*@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,7 @@
 <body>
     <div class="container" id="firmDataContent">
         <p id="marketdata">廠商資料</p>
+
         <div id="content" style="border: none solid #ccc; box-shadow: 0 0 10px #ddd;">
             <div style="float:right">
                 <button id="editdata">
@@ -25,38 +27,40 @@
                 </button>
             </div>
             <br>
-            <div class="row">
-                <div class="col-2 m-auto" style="line-height:25px;">
-                    <label>廠商名稱 </label>
+            <form method="post" action="">
+                <div class="row">
+                    <div class="col-2 m-auto" style="line-height:25px;">
+                        <label>廠商名稱 </label>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" class="form-control" name="FPagename" value="@ViewBag.FirmName">
+                    </div>
                 </div>
-                <div class="col-10">
-                    <input type="text" class="form-control" value="亞尼克">
+                <br />
+                <div class="row">
+                    <div class="col-2 m-auto" style="line-height:25px;">
+                        <label>廠商圖片 </label>
+                    </div>
+                    <div class="col-10">
+                        <img src="@ViewBag.FirmPic"
+                             style="width:250px;">
+                    </div>
                 </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-2 m-auto" style="line-height:25px;">
-                    <label>廠商圖片 </label>
-                </div>
-                <div class="col-10">
-                    <img src="https://www.yannick.com.tw/Source/images/zh-cht/icons/logo.svg"
-                         style="width:250px;">
-                </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-2 m-auto" style="line-height:25px;">
-                    <label>廠商介紹 </label>
-                </div>
-                <div class="col-10">
-                    <textarea style=" overflow:hidden; resize:none; border:0px;" cols="80" rows="5">
-亞尼克成立超過20年，始終堅持初心「嚴選安心食材，堅守新鮮品質的王道」從「純粹」出發的產品概念是亞尼克想要強調的自然風味，屏除多餘的添加物與裝飾，只是單純地表現麵粉、雞蛋、糖、牛奶所交織而成的美味。
+                <br />
+                <div class="row">
+                    <div class="col-2 m-auto" style="line-height:25px;">
+                        <label>廠商介紹 </label>
+                    </div>
+                    <div class="col-10">
+                        <textarea style=" overflow:hidden; resize:none; border:0px;" cols="80" rows="5" name="FMessage">@ViewBag.FirmMes"
             </textarea>
+                    </div>
                 </div>
-            </div>
-            <br />
-
+                <br />
+            </form>
         </div>
     </div>
+
+
 </body>
 </html>

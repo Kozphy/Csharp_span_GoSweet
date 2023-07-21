@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="~/css/Layout/shopCart.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Layout/ChatPanel.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Content/app.css" />
+    @if (IsSectionDefined("Head"))
+    {
+       @await RenderSectionAsync("Head", required:true);
+    }
     @*
     third party package
     *@
@@ -397,7 +401,10 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+    @if (IsSectionDefined("Scripts")) { 
+        @await RenderSectionAsync("Scripts", required: false)
+    }
 
     <script src="~/js/Layout/SideBar.js"></script>
     <script src="~/js/Layout/bellDropDown.js"></script>
