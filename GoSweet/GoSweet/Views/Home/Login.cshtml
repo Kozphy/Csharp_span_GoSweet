@@ -36,7 +36,7 @@
     @if (TempData["customerAccountLoginSuccessMessage"] != null)
     {
         <script>
-            let accountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountLoginSuccessMessage"]));
+            let customerAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountLoginSuccessMessage"]));
             Swal.fire({
                 icon: 'success',
                 title: 'LoginSuccess...',
@@ -52,7 +52,7 @@
                 'action': 'LOGIN'
             });
 
-            let form_submit = document.querySelector(".login_form");
+            let form_submit = document.querySelector(".login-form");
             // 表單寄出如果沒有勾 recaptcha 提示要勾
             form_submit.addEventListener("submit", function (e) {
                 if (grecaptcha.enterprise.getResponse() === '') {
