@@ -1,4 +1,5 @@
-﻿@*引用*@
+﻿@model GoSweet.Models.FirmHomepageModel
+@*引用*@
 <link href="~/css/Homepage-Manufacturers.css" rel="stylesheet" asp-append-version="true">
 <script src="~/js/Homepage-Manufacturers.js" asp-append-version="true"></script>
 
@@ -45,26 +46,26 @@
 							<div class="col-12 my-3 text-center">
 								<div class="row d-flex justify-content-around">
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總訂單數:<span class="HomepageFirmStatusContent">999</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總訂單數:<span class="HomepageFirmStatusContent">@Model.ThisMonthOrdersTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總寄件數:<span class="HomepageFirmStatusContent">999</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總寄件數:<span class="HomepageFirmStatusContent">@Model.ThisMonthShippedTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">未寄件數:<span class="HomepageFirmStatusContent">999</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl">未寄件數:<span class="HomepageFirmStatusContent">@Model.ThisMonthunShippedTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl text-nowrap overflow-hidden">總銷售額:<span class="HomepageFirmStatusContent">999,999</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl text-nowrap overflow-hidden">總銷售額:<span class="HomepageFirmStatusContent">@Model.ThisMonthReveune</span></div>
 								</div>
 							</div>
 							<div class="HomepageFirmStatusTitle fw-bold col-12">前月表現:</div>
 							<div class="col-12 my-3 text-center">
 								<div class="row d-flex justify-content-around">
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總訂單數:<span class="HomepageFirmStatusContent">999</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總訂單數:<span class="HomepageFirmStatusContent">@Model.LastMonthOrdersTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總寄件數:<span class="HomepageFirmStatusContent">999</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總寄件數:<span class="HomepageFirmStatusContent">@Model.LastMonthShippedTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">未寄件數:<span class="HomepageFirmStatusContent">999</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl">未寄件數:<span class="HomepageFirmStatusContent">@Model.LastMonthunShippedTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl text-nowrap overflow-hidden">總銷售額:<span class="HomepageFirmStatusContent">999,999</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl text-nowrap overflow-hidden">總銷售額:<span class="HomepageFirmStatusContent">@Model.LastMonthReveune</span></div>
 								</div>
 							</div>
 							<a class="col-12 mt-3 text-end link-underline-light text-secondary">
@@ -96,12 +97,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td class="HomepageTableData">9999/12/31</td>
-								<td class="HomepageTableData"><a href="./">AA999999999999999999999999999999999999999999</a></td>
-								<td class="HomepageTableData">龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍龍</td>
-							</tr>
+							@{
+								int i = 1;
+								foreach (var WL in Model.WaitingList)
+								{
+									<tr>
+										<th scope="row">@(i++)</th>
+										<td class="HomepageTableData">@WL.OrderDate</td>
+										<td class="HomepageTableData"><a href="./">@WL.OrderID</a></td>
+										<td class="HomepageTableData">@WL.Products</td>
+									</tr>
+								}
+							}
 						</tbody>
 					</table>
 				</form>
@@ -129,11 +136,17 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<th class="HomepageTableNumber" scope="row">1</th>
-										<td class="HomepageTableData">RC.CommentDate</td>
-										<td class="HomepageTableData">RC.Contentttttttttttttttttttttttttttttttttttttttttttttttttttt</td>
-									</tr>
+									@{
+										int j = 1;
+										foreach (var RC in Model.RecentlyComments)
+										{
+										<tr>
+											<th class="HomepageTableNumber" scope="row">@(j++)</th>
+											<td class="HomepageTableData">@RC.CommentDate</td>
+											<td class="HomepageTableData">@RC.Content</td>
+											</tr>
+										}
+									}
 								</tbody>
 							</table>
 						</div>
@@ -159,11 +172,17 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<th class="HomepageTableNumber" scope="row">1</th>
-										<td class="HomepageTableData">HS.ProductName</td>
-										<td class="HomepageTableData">HS.Quentity</td>
-									</tr>
+									@{
+										int k = 1;
+										foreach (var HS in Model.HotSale)
+										{
+											<tr>
+												<th class="HomepageTableNumber" scope="row">@(k++)</th>
+												<td class="HomepageTableData">@HS.ProductName</td>
+												<td class="HomepageTableData">@HS.Quentity</td>
+											</tr>											
+										}
+									}
 								</tbody>
 							</table>
 						</div>
