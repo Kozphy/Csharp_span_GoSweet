@@ -198,10 +198,10 @@ namespace GoSweet.Controllers
             if (ModelState.IsValid)
             {
                 SHA512 sha512 = new SHA512CryptoServiceProvider();
-                byte[] source = Encoding.Default.GetBytes(customerAccountData.c_password);
+                byte[] source = Encoding.Default.GetBytes(customerAccountData.CPassword);
                 byte[] crypto = sha512.ComputeHash(source);
                 string hashResult = Convert.ToBase64String(crypto);
-                customerAccountData.c_password = hashResult;
+                customerAccountData.CPassword = hashResult;
 
                 // check account whether exist
                 bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
@@ -241,7 +241,7 @@ namespace GoSweet.Controllers
                     TempData["PleaseInputEmailMessage"] = "請輸入Email";
                     return RedirectToAction("Login");
                 }
-                bool emailNotExist = _context.Customer_accounttables.Where((c) => c.c_account == email).IsNullOrEmpty();
+                bool emailNotExist = _context.CustomerAccounttables.Where((c) => c.CAccount == email).IsNullOrEmpty();
                 if (emailNotExist.Equals(true)) {
                     TempData["EmailNotExistMessage"] = "帳戶不存在";
                     return RedirectToAction("Login");
