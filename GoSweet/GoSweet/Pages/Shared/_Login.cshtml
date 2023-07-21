@@ -42,9 +42,19 @@
                             <button type="submit" class="loginBtn w-100 btn btn-mute-2  text-dark">登入</button>
                         </div>
                         <div class="col-12 col-md-6">
-                            <a asp-controller="Home" asp-action="SignUp" class="signUpBtn w-100 btn btn-mute-5  text-dark">
-                                註冊
-                            </a>
+                            @if (currentController == "FirmPage")
+                            {
+                                <a asp-controller="FirmPage" asp-action="SignUp" class="signUpBtn w-100 btn btn-mute-5  text-dark">
+                                    註冊
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Home" asp-action="SignUp" class="signUpBtn w-100 btn btn-mute-5  text-dark">
+                                    註冊
+                                </a>
+                            }
+
                         </div>
                     </div>
                 </form>

@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Linq;
 using Microsoft.IdentityModel.Tokens;
+using GoSweet.Controllers.feature;
 
 namespace GoSweet.Controllers
 {
@@ -15,9 +16,13 @@ namespace GoSweet.Controllers
     {
 
         private readonly ShopwebContext _context;
-        public FirmPageController(ShopwebContext context)
+        private readonly IConfiguration _config;
+
+        public FirmPageController(ShopwebContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
+
         }
         public IActionResult ProductSale()
         {
@@ -308,6 +313,7 @@ namespace GoSweet.Controllers
             if (ModelState.IsValid)
             {
                 Console.WriteLine(firmLoginData);
+                // get database firm account data
                 var firmAccount = _context.CustomerAccounttables.Where((c) =>
                     c.CAccount.Equals(firmLoginData.FAccount) &&
                     c.CPassword.Equals(firmLoginData.FPassword)
@@ -369,6 +375,25 @@ namespace GoSweet.Controllers
             }
 
             return RedirectToAction("SignUp");
+        }
+
+        [HttpPost]
+        public IActionResult SendMail(string emailAddress) {
+
+            if (ModelState.IsValid)
+            {
+                if (emailAddress.IsNullOrEmpty())
+                {
+                    return RedirectToAction("Login");
+                }
+
+                Mail mailHandler = new Mail(emailAddress, "FirmPage");
+                string sendEmailResult = mailHandler.SendMail();
+                TempData["sendEmailResultMessage"] = sendEmailResult;
+
+
+            }
+            return RedirectToAction("Login");
         }
     }
 }

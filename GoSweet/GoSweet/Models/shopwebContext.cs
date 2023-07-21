@@ -47,19 +47,19 @@ namespace GoSweet.Models
 
                 entity.Property(e => e.CAccount)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(500)
                     .HasColumnName("c_account");
 
                 entity.Property(e => e.CMailpass).HasColumnName("c_mailpass");
 
                 entity.Property(e => e.CNickname)
                     .IsRequired()
-                    .HasMaxLength(10)
+                    .HasMaxLength(50)
                     .HasColumnName("c_nickname");
 
                 entity.Property(e => e.CPassword)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(500)
                     .HasColumnName("c_password");
             });
 
@@ -74,7 +74,7 @@ namespace GoSweet.Models
 
                 entity.Property(e => e.FAccount)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(500)
                     .HasColumnName("f_account");
 
                 entity.Property(e => e.FMailpass).HasColumnName("f_mailpass");
@@ -86,7 +86,7 @@ namespace GoSweet.Models
 
                 entity.Property(e => e.FPassword)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(500)
                     .HasColumnName("f_password");
             });
 
@@ -243,11 +243,18 @@ namespace GoSweet.Models
 
                 entity.Property(e => e.OFscore).HasColumnName("o_fscore");
 
+                entity.Property(e => e.PNumber).HasColumnName("p_number");
+
                 entity.HasOne(d => d.ONumberNavigation)
                     .WithOne(p => p.OrderAssesstable)
                     .HasForeignKey<OrderAssesstable>(d => d.ONumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_o_assesstable_o_datatable");
+
+                entity.HasOne(d => d.PNumberNavigation)
+                    .WithMany(p => p.OrderAssesstables)
+                    .HasForeignKey(d => d.PNumber)
+                    .HasConstraintName("FK_Order_assesstable_Product_datatable");
             });
 
             modelBuilder.Entity<OrderDatatable>(entity =>

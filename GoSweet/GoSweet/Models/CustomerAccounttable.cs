@@ -17,9 +17,11 @@ namespace GoSweet.Models
             TalkPersontables = new HashSet<TalkPersontable>();
         }
 
+
         [BindProperty(Name = "AccountName")]
         public string CNickname { get; set; }
         public int CNumber { get; set; }
+
         [BindProperty(Name = "UserEmail")]
         public string CAccount { get; set; }
 

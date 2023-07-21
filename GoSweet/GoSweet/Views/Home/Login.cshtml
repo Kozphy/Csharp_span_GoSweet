@@ -21,6 +21,7 @@
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
 
+    @*check account exist*@
     @if (TempData["customerAccountNotExistMessage"] != null)
     {
         <script>
@@ -33,6 +34,8 @@
         </script>
     }
 
+
+    @*login success message*@
     @if (TempData["customerAccountLoginSuccessMessage"] != null)
     {
         <script>
@@ -41,6 +44,19 @@
                 icon: 'success',
                 title: 'LoginSuccess...',
                 text: customerAccountLoginSuccessMessage,
+            });
+        </script>
+    }
+
+
+    @*Send Email Result Message*@
+    @if (TempData["sendEmailResultMessage"] != null)
+    {
+        <script>
+            let sendEmailResultMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["sendEmailResultMessage"]));
+            Swal.fire({
+                title: 'SendEmailStatus',
+                text: sendEmailResultMessage,
             });
         </script>
     }

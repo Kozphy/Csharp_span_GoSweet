@@ -10,6 +10,7 @@ namespace GoSweet.Models
         public ProductDatatable()
         {
             GroupDatatables = new HashSet<GroupDatatable>();
+            OrderAssesstables = new HashSet<OrderAssesstable>();
             OrderDatatables = new HashSet<OrderDatatable>();
             ProductPicturetables = new HashSet<ProductPicturetable>();
             PaymentNumbers = new HashSet<PaymentDatatable>();
@@ -31,6 +32,7 @@ namespace GoSweet.Models
 
         public virtual FirmAccounttable FNumberNavigation { get; set; }
         public virtual ICollection<GroupDatatable> GroupDatatables { get; set; }
+        public virtual ICollection<OrderAssesstable> OrderAssesstables { get; set; }
         public virtual ICollection<OrderDatatable> OrderDatatables { get; set; }
         public virtual ICollection<ProductPicturetable> ProductPicturetables { get; set; }
 

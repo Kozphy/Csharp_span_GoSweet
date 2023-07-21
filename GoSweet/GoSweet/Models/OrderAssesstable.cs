@@ -12,7 +12,9 @@ namespace GoSweet.Models
         public string OCcomment { get; set; }
         public double? OFscore { get; set; }
         public string OFcomment { get; set; }
+        public int? PNumber { get; set; }
 
         public virtual OrderDatatable ONumberNavigation { get; set; }
+        public virtual ProductDatatable PNumberNavigation { get; set; }
     }
 }

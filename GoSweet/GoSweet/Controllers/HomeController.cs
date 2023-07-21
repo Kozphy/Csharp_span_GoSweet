@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks.Dataflow;
 using AngleSharp.Common;
+using GoSweet.Controllers.feature;
 
 namespace GoSweet.Controllers
 {
@@ -17,16 +18,21 @@ namespace GoSweet.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ShopwebContext _context;
+        private readonly IConfiguration _config;
+        private readonly IWebHostEnvironment _webHost;
         private HomeIndexViewModel _indexViewModelData = new HomeIndexViewModel();
 
-        public HomeController(ILogger<HomeController> logger, ShopwebContext context)
+        public HomeController(ILogger<HomeController> logger, ShopwebContext context, IConfiguration config, IWebHostEnvironment webHost)
         {
             _logger = logger;
             _context = context;
+            _config = config;
+            _webHost = webHost;
         }
 
         public IActionResult Index()
         {
+
             List<CategoryViewModel> categoriesDatas = (from product in _context.ProductDatatables
                                                        select new CategoryViewModel
                                                        {
@@ -225,7 +231,33 @@ namespace GoSweet.Controllers
             return RedirectToAction("SignUp");
         }
 
+        [HttpPost]
+        public IActionResult SendMail(string emailAddress) {
 
+            if (ModelState.IsValid) {
+                if (emailAddress.IsNullOrEmpty()) {
+                    return RedirectToAction("Login");
+                }
+
+                Mail mailHandler = new Mail(emailAddress, "Home");
+                string sendEmailResult = mailHandler.SendMail();
+                TempData["sendEmailResultMessage"] = sendEmailResult;
+            }
+            return RedirectToAction("Login");
+        }
+
+        public IActionResult ResetPassword() {
+            return View();
+        }
+
+   
+        [HttpPost]
+        public IActionResult ResetPassword(string oldPassword, string newPassword) {
+            
+            return View();
+        }
+
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

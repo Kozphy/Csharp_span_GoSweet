@@ -19,7 +19,6 @@ namespace GoSweet.Models
             TalkPersontables = new HashSet<TalkPersontable>();
         }
 
-
         public int FNumber { get; set; }
 
         [BindProperty(Name = "AccountName")]
