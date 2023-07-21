@@ -139,7 +139,7 @@
 
         @*search bar section*@
         <div class="container search-bar-section">
-            <form class="search-bar" role="search">
+            <form method="get" class="search-bar" role="search">
                 <div class="row">
                     <div class="col-12 col-md-10">
                         <input class="form-control me-2" type="search" placeholder="Search" >
@@ -171,7 +171,7 @@
                             <a class="nav-link text-dark px-5"  asp-controller="Search" asp-action="Product">商品</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark px-5"  asp-controller="BuyList" asp-action="BuyListGroup">團購</a>
+                            <a class="nav-link text-dark px-5"  asp-controller="Search" asp-action="SearchResult">團購</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark px-5"  asp-controller="Home" asp-action="Privacy">合作廠商</a>

@@ -8,14 +8,21 @@ using System.Text;
 using System.Text.Json;
 using System.Linq;
 using Microsoft.IdentityModel.Tokens;
+using GoSweet.Controllers.feature;
 
-namespace GoSweet.Controllers {
-    public class FirmPageController : Controller {
+namespace GoSweet.Controllers
+{
+    public class FirmPageController : Controller
+    {
 
         private readonly ShopwebContext _context;
-        public FirmPageController(ShopwebContext context)
+        private readonly IConfiguration _config;
+
+        public FirmPageController(ShopwebContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
+
         }
         public IActionResult ProductSale()
         {
@@ -300,35 +307,93 @@ namespace GoSweet.Controllers {
             return View();
         }
 
-        public IActionResult SignUp() 
+        [HttpPost]
+        public IActionResult Login(FirmAccounttable firmLoginData)
+        {
+            if (ModelState.IsValid)
+            {
+                Console.WriteLine(firmLoginData);
+                // get database firm account data
+                var firmAccount = _context.CustomerAccounttables.Where((c) =>
+                    c.CAccount.Equals(firmLoginData.FAccount) &&
+                    c.CPassword.Equals(firmLoginData.FPassword)
+                ).Select((c) =>
+                new
+                {
+                    AccountName = c.CNickname,
+                    c_number = c.CNumber,
+                });
+
+                bool accountNotExist = firmAccount.IsNullOrEmpty();
+
+                if (accountNotExist.Equals(true))
+                {
+                    TempData["firmAccountNotExistMessage"] = "帳號不存在";
+                    return RedirectToAction("Login");
+                }
+                HttpContext.Session.SetString("AccountName", firmAccount.First().AccountName);
+                HttpContext.Session.SetString("c_number", Convert.ToString(firmAccount.First().c_number));
+                TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
+            }
+            return RedirectToAction("Login");
+        }
+
+
+        public IActionResult SignUp()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult SignUp(FirmAccounttable firmAccountData) 
+        public IActionResult SignUp(FirmAccounttable firmAccountData)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 bool accountNotExist = _context.FirmAccounttables.Where((f) =>
                     f.FNickname.Equals(firmAccountData.FNickname) &&
-                    f.FAccount.Equals(firmAccountData.FAccount)  &&
+                    f.FAccount.Equals(firmAccountData.FAccount) &&
                     f.FPassword.Equals(firmAccountData.FPassword)
                 ).IsNullOrEmpty();
 
-                if (accountNotExist.Equals(false)){
-                    TempData["frimAccountExistMessage"] = "此帳號已被註冊";
+                if (accountNotExist.Equals(false))
+                {
+                    TempData["firmAccountExistMessage"] = "此帳號已被註冊";
+                    RedirectToAction("SignUp");
                     return View();
                 }
 
-                try {
+                try
+                {
                     _context.FirmAccounttables.Add(firmAccountData);
                     _context.SaveChanges();
                     TempData["firmSignUpSuccessMessage"] = "帳號註冊成功";
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     Console.WriteLine(e.Message);
                 }
             }
-            return View();
+
+            return RedirectToAction("SignUp");
+        }
+
+        [HttpPost]
+        public IActionResult SendMail(string emailAddress) {
+
+            if (ModelState.IsValid)
+            {
+                if (emailAddress.IsNullOrEmpty())
+                {
+                    return RedirectToAction("Login");
+                }
+
+                Mail mailHandler = new Mail(emailAddress, "FirmPage");
+                string sendEmailResult = mailHandler.SendMail();
+                TempData["sendEmailResultMessage"] = sendEmailResult;
+
+
+            }
+            return RedirectToAction("Login");
         }
     }
 }

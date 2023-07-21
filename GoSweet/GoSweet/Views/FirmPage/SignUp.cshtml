@@ -22,29 +22,29 @@
     <script src="~/js/PasswordCheck.js"></script>
 
 
-@*    @if (TempData["customerAccountExistMessage"] != null)
+    @if (TempData["firmAccountExistMessage"] != null)
     {
         <script>
-            let customerAccountExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountExistMessage"]));
+            let firmAccountExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmAccountExistMessage"]));
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: customerAccountExistMessage,
+                text: firmAccountExistMessage,
             });
         </script>
     }
 
-    @if (TempData["customerSignUpSuccessMessage"] != null)
+    @if (TempData["firmSignUpSuccessMessage"] != null)
     {
         <script>
-            let customerSignUpSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerSignUpSuccessMessage"]));
+            let firmSignUpSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmSignUpSuccessMessage"]));
             Swal.fire({
                 icon: 'success',
                 title: 'SignUp Success...',
-                text: customerSignUpSuccessMessage,
+                text: firmSignUpSuccessMessage,
             });
 
         </script>
-    }*@
+    }
 }
 
