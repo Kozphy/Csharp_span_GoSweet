@@ -43,7 +43,5 @@ public partial class OrderDatatable
 
     public virtual ICollection<NotifyDatatable> NotifyDatatables { get; set; } = new List<NotifyDatatable>();
 
-    public virtual ICollection<OrderAssesstable> OrderAssesstables { get; set; } = new List<OrderAssesstable>();
-
     public virtual ProductDatatable PNumberNavigation { get; set; } = null!;
 }

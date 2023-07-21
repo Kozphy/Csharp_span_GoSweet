@@ -7,8 +7,6 @@ public partial class OrderAssesstable
 {
     public int ONumber { get; set; }
 
-    public int PNumber { get; set; }
-
     public double? OCscore { get; set; }
 
     public string? OCcomment { get; set; }
@@ -17,7 +15,7 @@ public partial class OrderAssesstable
 
     public string? OFcomment { get; set; }
 
-    public virtual OrderDatatable ONumberNavigation { get; set; } = null!;
+    public int? PNumber { get; set; }
 
-    public virtual ProductDatatable PNumberNavigation { get; set; } = null!;
+    public virtual OrderDatatable ONumberNavigation { get; set; } = null!;
 }

@@ -192,12 +192,10 @@ public partial class ShopwebContext : DbContext
 
         modelBuilder.Entity<OrderAssesstable>(entity =>
         {
-            entity.HasKey(e => new { e.ONumber, e.PNumber }).HasName("PK_o_assesstable");
+            entity
+                .HasNoKey()
+                .ToTable("Order_assesstable");
 
-            entity.ToTable("Order_assesstable");
-
-            entity.Property(e => e.ONumber).HasColumnName("o_number");
-            entity.Property(e => e.PNumber).HasColumnName("p_number");
             entity.Property(e => e.OCcomment)
                 .HasMaxLength(50)
                 .HasColumnName("o_ccomment");
@@ -206,16 +204,13 @@ public partial class ShopwebContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("o_fcomment");
             entity.Property(e => e.OFscore).HasColumnName("o_fscore");
+            entity.Property(e => e.ONumber).HasColumnName("o_number");
+            entity.Property(e => e.PNumber).HasColumnName("p_number");
 
-            entity.HasOne(d => d.ONumberNavigation).WithMany(p => p.OrderAssesstables)
+            entity.HasOne(d => d.ONumberNavigation).WithMany()
                 .HasForeignKey(d => d.ONumber)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_o_assesstable_o_datatable");
-
-            entity.HasOne(d => d.PNumberNavigation).WithMany(p => p.OrderAssesstables)
-                .HasForeignKey(d => d.PNumber)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_o_assesstable_p_datatable");
         });
 
         modelBuilder.Entity<OrderDatatable>(entity =>

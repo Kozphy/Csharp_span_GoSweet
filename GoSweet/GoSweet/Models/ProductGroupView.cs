@@ -45,7 +45,7 @@ public partial class ProductGroupView
 
     public int ONumber { get; set; }
 
-    public int PNumber { get; set; }
+    public int? PNumber { get; set; }
 
     public double? OCscore { get; set; }
 

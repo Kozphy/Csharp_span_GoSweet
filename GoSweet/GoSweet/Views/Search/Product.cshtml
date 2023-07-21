@@ -66,7 +66,7 @@
 	<div class=" mt-5 row">
 		@*<div class="col-1"></div>*@
 		<div class="col-12 product">
-			<img src="~/images/cake.jpg" alt="" style="width: 100%;" class="">
+			<img src="@ViewBag.lastPic.PUrl" alt="" style="width: 100%;" class="">
 			<br />
 			<p class="introduce">
 				保存方式 : @ViewBag.ProductData[0].ProductData.PSaveway
@@ -97,7 +97,7 @@
 	</div>
 </div>
 <script>
-	var aa = @ViewBag.ProductData[0].ProductOat;
+	var aa = @ViewBag.ProductData[0].ProductOat
 	$(".full_star").css("width", `${(aa / 5) * 100}%`)
 	$(".evaluate span").text(parseFloat(aa).toFixed(1))
 	$("#buyCart").click(() => {
@@ -109,7 +109,7 @@
 	$(".imgBox").click(function () {
 		$(this).addClass("openImg")
 		$(this).siblings().removeClass("openImg")
-		var aa = $(this).attr("src");
+		var aa = $(this).attr("src")
 		$("#imgMain").prop("src", aa)
 	})
 	$("#buyNum").change(function () {

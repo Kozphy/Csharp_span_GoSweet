@@ -7,10 +7,12 @@
 	//var products = ViewBag.ProductDatatables as IEnumerable<dynamic>;
 	//Type parameterType = typeof(ViewBag.ProductDatatablesJoin);
 
-	void test3(dynamic vv) {
-		double vvv = 0;
-		foreach (var item in vv) {
-			vvv = ( Convert.ToDouble(@item.ProductOat) / 5) * 100;
+	void test3(dynamic x) {
+		double controllWidth = 0;
+		foreach (var item in x) {
+			controllWidth = (Convert.ToDouble(@item.ProductOat) / 5) * 100;
+			double oat_double = Convert.ToDouble(@item.ProductOat);
+			string oat = oat_double.ToString("0.0");
 			<div class="card col-lg-4 col-md-2 col-sm-1 proCard p-0 " style="width: 20rem;">
 				<img src=@item.ProductPic[0].PUrl class="card-img-top"
 					 alt="...">
@@ -22,9 +24,9 @@
 						<div class="evaluate pe-5">
 							<div class="ratings">
 								<div class="empty_star">★★★★★</div>
-								<div class="full_star" style="width :@vvv% ">★★★★★</div>
+								<div class="full_star" style="width :@controllWidth% ">★★★★★</div>
 							</div>
-							&nbsp;<span>@item.ProductOat</span>
+							&nbsp;<span>@oat</span>
 						</div>
 					</div>
 					<a href="./Product?pid=@item.ProductData.PNumber" class="btn result mt-3 ">

@@ -33,8 +33,6 @@ public partial class ProductDatatable
 
     public virtual ICollection<GroupDatatable> GroupDatatables { get; set; } = new List<GroupDatatable>();
 
-    public virtual ICollection<OrderAssesstable> OrderAssesstables { get; set; } = new List<OrderAssesstable>();
-
     public virtual ICollection<OrderDatatable> OrderDatatables { get; set; } = new List<OrderDatatable>();
 
     public virtual ICollection<ProductPicturetable> ProductPicturetables { get; set; } = new List<ProductPicturetable>();

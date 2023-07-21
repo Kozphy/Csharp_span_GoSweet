@@ -18,7 +18,7 @@ namespace GoSweet.Controllers {
 			if (y != null) {
                 int num = int.Parse(y);
             }
-			var xx = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
+			var groups = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
 						pdt => pdt.PNumber,
 						ppt => ppt.PNumber,
 						(pdt, ppt) => new {
@@ -27,9 +27,9 @@ namespace GoSweet.Controllers {
 						}).ToList();
 			if (x != null) {
 				int pid = int.Parse(x);
-				xx = xx.Where(x => x.ProductData.PNumber == pid).ToList();
+				groups = groups.Where(x => x.ProductData.PNumber == pid).ToList();
 			}
-			ViewBag.ProductData = xx;
+			ViewBag.ProductData = groups;
 			ViewBag.buyNum = y;
 			return View();
         }
@@ -37,20 +37,20 @@ namespace GoSweet.Controllers {
 		[HttpPost]
 		public ActionResult BuyList(IFormCollection form) {
 			if (form != null) {
-				var result2 = new OrderDatatable();
-				result2.OStart = DateTime.Now;
-				result2.CNumber = Convert.ToInt32(form["CNumber"]);
-				result2.FNumber = Convert.ToInt32(form["FNumber"]);
-				result2.PNumber = Convert.ToInt32(form["PNumber"]);
-				result2.OBuynumber = Convert.ToInt32(form["OBuynumber"]);
-				result2.OType = false;
-				result2.OPrice = Convert.ToInt32(form["OPrice"]);
-				result2.OStatus = "已下單";
-				result2.OShip = Convert.ToInt32(form["Delivery"]);
-				result2.OPayment = Convert.ToInt32(form["Payment"]);
-				result2.OPlace = form["OPlace"];
-				result2.OShipstatus = "未出貨";
-				_shopwebContext.Add(result2);
+				var result = new OrderDatatable();
+				result.OStart = DateTime.Now;
+				result.CNumber = Convert.ToInt32(form["CNumber"]);
+				result.FNumber = Convert.ToInt32(form["FNumber"]);
+				result.PNumber = Convert.ToInt32(form["PNumber"]);
+				result.OBuynumber = Convert.ToInt32(form["OBuynumber"]);
+				result.OType = false;
+				result.OPrice = Convert.ToInt32(form["OPrice"]);
+				result.OStatus = "已下單";
+				result.OShip = Convert.ToInt32(form["Delivery"]);
+				result.OPayment = Convert.ToInt32(form["Payment"]);
+				result.OPlace = form["OPlace"];
+				result.OShipstatus = "未出貨";
+				_shopwebContext.Add(result);
 				_shopwebContext.SaveChanges();
 
 				return Redirect("/home/index");
@@ -64,41 +64,41 @@ namespace GoSweet.Controllers {
 			int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
 			int num = Convert.ToInt32(HttpContext.Request.Query["num"]);
 			int mmt = Convert.ToInt32(HttpContext.Request.Query["mmt"]);
-			var xx = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
+			var groups = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
 						pdt => pdt.PNumber,
 						ppt => ppt.PNumber,
 						(pdt, ppt) => new {
 							ProductData = pdt,
 							ProductPic = ppt
 						}).ToList();
-			xx = xx.Where(x=>x.ProductData.PNumber==pid).ToList();
-			var mm = _shopwebContext.GroupDatatables.GroupJoin(_shopwebContext.MemberMembertables,
+			groups = groups.Where(x=>x.ProductData.PNumber==pid).ToList();
+			var gdtg = _shopwebContext.GroupDatatables.GroupJoin(_shopwebContext.MemberMembertables,
 				gdt => gdt.GNumber,
 				mmt => mmt.GNumber, (gdt, mmt) => new {
 					GroupDatatable = gdt,
 					MemberMembertable = mmt.Select(x => x.MNumber).Single()
 				}).ToList();
 
-			mm = mm.Where(x => x.GroupDatatable.PNumber == pid).ToList();
+			gdtg = gdtg.Where(x => x.GroupDatatable.PNumber == pid).ToList();
 
 
 			var result2 = new OrderDatatable();
 			result2.OStart = DateTime.Now;
 			result2.CNumber = 10000;
-			result2.FNumber = xx[0].ProductData.FNumber;
-			result2.PNumber = xx[0].ProductData.PNumber;
+			result2.FNumber = groups[0].ProductData.FNumber;
+			result2.PNumber = groups[0].ProductData.PNumber;
 			result2.OBuynumber = num;
 			result2.OType = true;
-			result2.MNumber = Convert.ToInt32(mm[0].MemberMembertable);
-			result2.OPrice = xx[0].ProductData.PNumber;
+			result2.MNumber = Convert.ToInt32(gdtg[0].MemberMembertable);
+			result2.OPrice = groups[0].ProductData.PNumber;
 			result2.OStatus = "待成團";
 			result2.OShipstatus = "未出貨";
 			_shopwebContext.Add(result2);
 			_shopwebContext.SaveChanges();
 
-			ViewBag.ProductData = xx;
+			ViewBag.ProductData = groups;
 			ViewBag.num = num;
-			ViewBag.total = xx[0].ProductData.PPrice * num;
+			ViewBag.total = groups[0].ProductData.PPrice * num;
 
             return View();
         }
@@ -107,23 +107,52 @@ namespace GoSweet.Controllers {
         public IActionResult BuyListGp() {
             string? x = HttpContext.Request.Query["pid"];
             string? y = HttpContext.Request.Query["num"];
-            if (y != null) {
-                int num = int.Parse(y);
+			int num = 0;
+			if (y != null) {
+                num = int.Parse(y);
             }
-            var xx = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
+            var groups = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
                         pdt => pdt.PNumber,
                         ppt => ppt.PNumber,
                         (pdt, ppt) => new {
                             ProductData = pdt,
                             ProductPic = ppt
                         }).ToList();
+			int pid = 0;
             if (x != null) {
-                int pid = int.Parse(x);
-                xx = xx.Where(x => x.ProductData.PNumber == pid).ToList();
+                pid = int.Parse(x);
+				groups = groups.Where(x => x.ProductData.PNumber == pid).ToList();
             }
-            ViewBag.ProductData = xx;
-            ViewBag.buyNum = y;
+			var xxgp = _shopwebContext.GroupDatatables.Where(p => p.PNumber == pid).Select(p => p.GPrice).FirstOrDefault();
+
+            ViewBag.ProductData = groups;
+			ViewBag.GPrice = xxgp;
+            ViewBag.buyNum = num;
             return View();
         }
-    }
+
+		[HttpPost]
+		public ActionResult BuyListgp(IFormCollection form) {
+			if (form != null) {
+				var result = new OrderDatatable();
+				result.OStart = DateTime.Now;
+				result.CNumber = Convert.ToInt32(form["CNumber"]);
+				result.FNumber = Convert.ToInt32(form["FNumber"]);
+				result.PNumber = Convert.ToInt32(form["PNumber"]);
+				result.OBuynumber = Convert.ToInt32(form["OBuynumber"]);
+				result.OType = true;
+				result.OPrice = Convert.ToInt32(form["OPrice"]);
+				result.OStatus = "已下單";
+				result.OShip = Convert.ToInt32(form["Delivery"]);
+				result.OPayment = Convert.ToInt32(form["Payment"]);
+				result.OPlace = form["OPlace"];
+				result.OShipstatus = "未出貨";
+				_shopwebContext.Add(result);
+				_shopwebContext.SaveChanges();
+
+				return Redirect("/home/index");
+			}
+			return View();
+		}
+	}
 }
