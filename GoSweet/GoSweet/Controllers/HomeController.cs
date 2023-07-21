@@ -200,8 +200,15 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult SignUp(CustomerAccounttable customerAccountData)
         {
+            // encoding
             if (ModelState.IsValid)
             {
+                SHA512 sha512 = new SHA512CryptoServiceProvider();
+                byte[] source = Encoding.Default.GetBytes(customerAccountData.CPassword);
+                byte[] crypto = sha512.ComputeHash(source);
+                string hashResult = Convert.ToBase64String(crypto);
+                customerAccountData.CPassword = hashResult;
+
                 // check account whether exist
                 bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
                     c.CNickname.Equals(customerAccountData.CNickname) &&
@@ -223,7 +230,7 @@ namespace GoSweet.Controllers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine(e.Message);
                 }
                 //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
                 //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
