@@ -46,7 +46,7 @@ public partial class ShopwebContext : DbContext
     public virtual DbSet<TalkPersontable> TalkPersontables { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost;Database=shopweb;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,14 +59,14 @@ public partial class ShopwebContext : DbContext
 
             entity.Property(e => e.CNumber).HasColumnName("c_number");
             entity.Property(e => e.CAccount)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("c_account");
             entity.Property(e => e.CMailpass).HasColumnName("c_mailpass");
             entity.Property(e => e.CNickname)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .HasColumnName("c_nickname");
             entity.Property(e => e.CPassword)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("c_password");
         });
 
@@ -78,14 +78,14 @@ public partial class ShopwebContext : DbContext
 
             entity.Property(e => e.FNumber).HasColumnName("f_number");
             entity.Property(e => e.FAccount)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("f_account");
             entity.Property(e => e.FMailpass).HasColumnName("f_mailpass");
             entity.Property(e => e.FNickname)
                 .HasMaxLength(50)
                 .HasColumnName("f_nickname");
             entity.Property(e => e.FPassword)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("f_password");
         });
 
@@ -99,13 +99,13 @@ public partial class ShopwebContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("f_number");
             entity.Property(e => e.FMessage)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("f_message");
             entity.Property(e => e.FPagename)
                 .HasMaxLength(50)
                 .HasColumnName("f_pagename");
             entity.Property(e => e.FPicurl)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("f_picurl");
 
             entity.HasOne(d => d.FNumberNavigation).WithOne(p => p.FirmPagetable)
@@ -200,18 +200,23 @@ public partial class ShopwebContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("o_number");
             entity.Property(e => e.OCcomment)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("o_ccomment");
             entity.Property(e => e.OCscore).HasColumnName("o_cscore");
             entity.Property(e => e.OFcomment)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("o_fcomment");
             entity.Property(e => e.OFscore).HasColumnName("o_fscore");
+            entity.Property(e => e.PNumber).HasColumnName("p_number");
 
             entity.HasOne(d => d.ONumberNavigation).WithOne(p => p.OrderAssesstable)
                 .HasForeignKey<OrderAssesstable>(d => d.ONumber)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_o_assesstable_o_datatable");
+
+            entity.HasOne(d => d.PNumberNavigation).WithMany(p => p.OrderAssesstables)
+                .HasForeignKey(d => d.PNumber)
+                .HasConstraintName("FK_Order_assesstable_Product_datatable");
         });
 
         modelBuilder.Entity<OrderDatatable>(entity =>
@@ -230,7 +235,7 @@ public partial class ShopwebContext : DbContext
                 .HasColumnName("o_end");
             entity.Property(e => e.OPayment).HasColumnName("o_payment");
             entity.Property(e => e.OPlace)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("o_place");
             entity.Property(e => e.OPrice).HasColumnName("o_price");
             entity.Property(e => e.OShip).HasColumnName("o_ship");
@@ -300,7 +305,7 @@ public partial class ShopwebContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("p_category");
             entity.Property(e => e.PDescribe)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("p_describe");
             entity.Property(e => e.PInventory).HasColumnName("p_Inventory");
             entity.Property(e => e.PName)
@@ -373,7 +378,7 @@ public partial class ShopwebContext : DbContext
             entity.Property(e => e.PNumber).HasColumnName("p_number");
             entity.Property(e => e.PPicnumber).HasColumnName("p_picnumber");
             entity.Property(e => e.PUrl)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("p_url");
 
             entity.HasOne(d => d.PNumberNavigation).WithMany(p => p.ProductPicturetables)
@@ -406,7 +411,7 @@ public partial class ShopwebContext : DbContext
             entity.Property(e => e.CNumber).HasColumnName("c_number");
             entity.Property(e => e.FNumber).HasColumnName("f_number");
             entity.Property(e => e.TMessage)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("t_message");
             entity.Property(e => e.TPost).HasColumnName("t_post");
             entity.Property(e => e.TRead).HasColumnName("t_read");
@@ -456,7 +461,7 @@ public partial class ShopwebContext : DbContext
             entity.Property(e => e.CNumber).HasColumnName("c_number");
             entity.Property(e => e.FNumber).HasColumnName("f_number");
             entity.Property(e => e.TId)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("t_id");
 
             entity.HasOne(d => d.CNumberNavigation).WithMany(p => p.TalkPersontables)

@@ -266,6 +266,7 @@
                         })
                     } else {
                         $('.ofs option').filter(':selected').attr('selected', false)
+                        $('.ofs option').eq(0).attr('selected', true)
                     }
                     if (data2[0].ofm) {
                         $('.ofm').val(data2[0].ofm)

@@ -224,12 +224,17 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult setassess(int onumber, float ocs, string ocm)
         {
+            var getpnumber = from o in _context.OrderDatatables
+                             where o.ONumber == onumber
+                             select o;
+
             if (_context.OrderAssesstables.Where(x => x.ONumber == onumber).FirstOrDefault() == null)
             {
                 OrderAssesstable myassess = new OrderAssesstable();
                 myassess.ONumber = onumber;
                 myassess.OCscore = ocs;
                 myassess.OCcomment = ocm;
+                myassess.PNumber = getpnumber.First().PNumber;
                 _context.Add(myassess);
                 _context.SaveChanges();
 
@@ -520,12 +525,17 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult setassess2(int onumber, float ofs, string ofm)
         {
+            var getpnumber = from o in _context.OrderDatatables
+                             where o.ONumber == onumber
+                             select o;
+
             if (_context.OrderAssesstables.Where(x => x.ONumber == onumber).FirstOrDefault() == null)
             {
                 OrderAssesstable myassess = new OrderAssesstable();
                 myassess.ONumber = onumber;
                 myassess.OFscore = ofs;
                 myassess.OFcomment = ofm;
+                myassess.PNumber = getpnumber.First().PNumber;
                 _context.Add(myassess);
                 _context.SaveChanges();
 

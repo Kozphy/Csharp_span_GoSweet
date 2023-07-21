@@ -15,5 +15,9 @@ public partial class OrderAssesstable
 
     public string? OFcomment { get; set; }
 
+    public int? PNumber { get; set; }
+
     public virtual OrderDatatable ONumberNavigation { get; set; } = null!;
+
+    public virtual ProductDatatable? PNumberNavigation { get; set; }
 }
