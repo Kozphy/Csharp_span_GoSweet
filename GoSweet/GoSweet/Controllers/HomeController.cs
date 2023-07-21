@@ -259,7 +259,8 @@ namespace GoSweet.Controllers
 
    
         [HttpPost]
-        public IActionResult ResetPassword(string oldPassword, string newPassword) {
+        public IActionResult ResetPassword(string oldPassword, string newPassword) 
+        {
             
             return View();
         }
