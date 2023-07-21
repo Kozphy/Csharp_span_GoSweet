@@ -14,7 +14,16 @@ namespace GoSweet.Models
         public double? OFscore { get; set; }
         public string OFcomment { get; set; }
 
-        public virtual OrderDatatable ONumberNavigation { get; set; }
-    }
+
+    public double? OFscore { get; set; }
+
+    public string? OFcomment { get; set; }
+
+    public int? PNumber { get; set; }
+
+    public virtual OrderDatatable ONumberNavigation { get; set; } = null!;
+
+    public virtual ProductDatatable? PNumberNavigation { get; set; }
+
 }
 
