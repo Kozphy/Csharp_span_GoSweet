@@ -1,4 +1,4 @@
-/****** Object:  Table [dbo].[Customer_accounttable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Customer_accounttable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15,7 +15,7 @@ CREATE TABLE [dbo].[Customer_accounttable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Firm_accounttable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Firm_accounttable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -32,7 +32,7 @@ CREATE TABLE [dbo].[Firm_accounttable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Firm_pagetable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Firm_pagetable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -40,15 +40,15 @@ GO
 CREATE TABLE [dbo].[Firm_pagetable](
 	[f_number] [int] NOT NULL,
 	[f_pagename] [nvarchar](50) NOT NULL,
-	[f_message] [nvarchar](50) NULL,
-	[f_picurl] [nvarchar](50) NULL,
+	[f_message] [nvarchar](500) NULL,
+	[f_picurl] [nvarchar](500) NULL,
  CONSTRAINT [PK_f_pagetable] PRIMARY KEY CLUSTERED 
 (
 	[f_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Group_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Group_datatable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -67,7 +67,7 @@ CREATE TABLE [dbo].[Group_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Member_membertable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Member_membertable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -84,7 +84,7 @@ CREATE TABLE [dbo].[Member_membertable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Notify_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Notify_datatable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -102,7 +102,7 @@ CREATE TABLE [dbo].[Notify_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Order_assesstable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Order_assesstable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -110,16 +110,16 @@ GO
 CREATE TABLE [dbo].[Order_assesstable](
 	[o_number] [int] NOT NULL,
 	[o_cscore] [float] NULL,
-	[o_ccomment] [nvarchar](50) NULL,
+	[o_ccomment] [nvarchar](500) NULL,
 	[o_fscore] [float] NULL,
-	[o_fcomment] [nvarchar](50) NULL,
+	[o_fcomment] [nvarchar](500) NULL,
  CONSTRAINT [PK_Order_assesstable] PRIMARY KEY CLUSTERED 
 (
 	[o_number] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Order_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Order_datatable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -138,7 +138,7 @@ CREATE TABLE [dbo].[Order_datatable](
 	[o_status] [nvarchar](50) NOT NULL,
 	[o_shipstatus] [nvarchar](50) NOT NULL,
 	[o_ship] [int] NULL,
-	[o_place] [nvarchar](50) NULL,
+	[o_place] [nvarchar](500) NULL,
 	[o_payment] [int] NULL,
  CONSTRAINT [PK_o_datatable] PRIMARY KEY CLUSTERED 
 (
@@ -146,7 +146,7 @@ CREATE TABLE [dbo].[Order_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Payment_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Payment_datatable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -160,7 +160,7 @@ CREATE TABLE [dbo].[Payment_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Product_datatable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -172,7 +172,7 @@ CREATE TABLE [dbo].[Product_datatable](
 	[p_spec] [nvarchar](50) NULL,
 	[p_category] [nvarchar](50) NOT NULL,
 	[p_price] [int] NOT NULL,
-	[p_describe] [nvarchar](50) NULL,
+	[p_describe] [nvarchar](500) NULL,
 	[p_savedate] [nvarchar](500) NULL,
 	[p_saveway] [nvarchar](50) NULL,
 	[p_Inventory] [int] NOT NULL,
@@ -184,23 +184,23 @@ CREATE TABLE [dbo].[Product_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product_picturetable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Product_picturetable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Product_picturetable](
+	[p_sort] [int] IDENTITY(1,1) NOT NULL,
 	[p_picnumber] [int] NOT NULL,
 	[p_number] [int] NOT NULL,
-	[p_url] [nvarchar](50) NOT NULL,
- CONSTRAINT [PK_p_picturetable] PRIMARY KEY CLUSTERED 
+	[p_url] [nvarchar](500) NOT NULL,
+ CONSTRAINT [PK_Product_picturetable] PRIMARY KEY CLUSTERED 
 (
-	[p_picnumber] ASC,
-	[p_number] ASC
+	[p_sort] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product_to_Payment]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Product_to_Payment]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -215,7 +215,7 @@ CREATE TABLE [dbo].[Product_to_Payment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product_to_Ship]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Product_to_Ship]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -230,7 +230,7 @@ CREATE TABLE [dbo].[Product_to_Ship](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Ship_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Ship_datatable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -244,7 +244,7 @@ CREATE TABLE [dbo].[Ship_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Talk_datatable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Talk_datatable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,8 +254,8 @@ CREATE TABLE [dbo].[Talk_datatable](
 	[c_number] [int] NOT NULL,
 	[f_number] [int] NOT NULL,
 	[t_time] [datetime] NOT NULL,
-	[t_message] [nvarchar](50) NOT NULL,
-	[t_read] [bit] NOT NULL,
+	[t_message] [nvarchar](500) NOT NULL,
+	[t_read] [int] NOT NULL,
 	[t_post] [int] NOT NULL,
  CONSTRAINT [PK_t_datatable] PRIMARY KEY CLUSTERED 
 (
@@ -263,7 +263,7 @@ CREATE TABLE [dbo].[Talk_datatable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Talk_membertable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Talk_membertable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -278,7 +278,7 @@ CREATE TABLE [dbo].[Talk_membertable](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Talk_persontable]    Script Date: 2023/7/15 下午 11:30:06 ******/
+/****** Object:  Table [dbo].[Talk_persontable]    Script Date: 2023/7/17 下午 01:54:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -287,7 +287,7 @@ CREATE TABLE [dbo].[Talk_persontable](
 	[t_forPK] [int] IDENTITY(1,1) NOT NULL,
 	[c_number] [int] NULL,
 	[f_number] [int] NULL,
-	[t_id] [nvarchar](50) NOT NULL,
+	[t_id] [nvarchar](500) NOT NULL,
  CONSTRAINT [PK_Talk_persontable] PRIMARY KEY CLUSTERED 
 (
 	[t_forPK] ASC
