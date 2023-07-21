@@ -89,7 +89,7 @@ namespace GoSweet.Controllers
                                                                  GroupEndDate = groupbuy.GEnd,
                                                                  GroupPeoplePercent = Math.Floor((double)member.MNowpeople / groupbuy.GMaxpeople * 100.0),
                                                                  GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
-                                                             }).ToList();
+                                                             }).Take(4).ToList();
             //Console.WriteLine(productGroupBuyData);
             _indexViewModelData.categoryViewModel = categoriesDatas;
             _indexViewModelData.productRankDatas = productRankData;
@@ -203,11 +203,11 @@ namespace GoSweet.Controllers
             // encoding
             if (ModelState.IsValid)
             {
-                SHA512 sha512 = new SHA512CryptoServiceProvider();
-                byte[] source = Encoding.Default.GetBytes(customerAccountData.CPassword);
-                byte[] crypto = sha512.ComputeHash(source);
-                string hashResult = Convert.ToBase64String(crypto);
-                customerAccountData.CPassword = hashResult;
+                //SHA512 sha512 = new SHA512CryptoServiceProvider();
+                //byte[] source = Encoding.Default.GetBytes(customerAccountData.CPassword);
+                //byte[] crypto = sha512.ComputeHash(source);
+                //string hashResult = Convert.ToBase64String(crypto);
+                //customerAccountData.CPassword = hashResult;
 
                 // check account whether exist
                 bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
