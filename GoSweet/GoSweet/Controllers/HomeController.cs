@@ -177,6 +177,9 @@ namespace GoSweet.Controllers
                     c_number = c.CNumber,
                 });
 
+                // TODO: check account permission
+                //var userAccountPermission = userAccount.
+
                 bool accountNotExist = userAccount.IsNullOrEmpty();
 
                 if (accountNotExist.Equals(true))
@@ -215,6 +218,8 @@ namespace GoSweet.Controllers
                     c.CAccount.Equals(customerAccountData.CAccount) &&
                     c.CPassword.Equals(customerAccountData.CPassword)
                 ).IsNullOrEmpty();
+                
+                
 
                 if (accountNotExist.Equals(false))
                 {
@@ -227,6 +232,7 @@ namespace GoSweet.Controllers
                     _context.CustomerAccounttables.Add(customerAccountData);
                     _context.SaveChanges();
                     TempData["customerSignUpSuccessMessage"] = "帳號註冊成功";
+                    
                 }
                 catch (Exception e)
                 {
