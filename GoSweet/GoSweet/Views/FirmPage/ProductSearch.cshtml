@@ -1,19 +1,15 @@
-﻿<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+﻿<head>
     <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="~/css/Firm/商品查詢.css">
 </head>
+<link rel="stylesheet" type="text/css" href="~/css/Firm/商品查詢.css">
 
 <body>
     <div class="container" id="ProductSearchContent">
-        <p id="search">商品搜尋</p>
+        <h1 id="search" style="40px">商品搜尋</h1>
 
         <div id="searchContainer">
             <div id="block" style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd;">
@@ -37,7 +33,7 @@
 
                     <label style="padding-left:16%">團購商品</label>
                     <input name="gobuy" type="radio" id="yes" value="1" class="groupbuy chooseyes"><label for="yes">是</label>
-                    <input name="gobuy" type="radio" id="no" value="2" class="groupbuy"><label for="no">否</label>
+                    <input name="gobuy" type="radio" id="no" value="2" class="groupbuy" checked><label for="no">否</label>
                 </div>
                 <br>
                 <input type="submit" value="搜尋" id="firmSearchButton">
@@ -45,21 +41,18 @@
             </div>
         </div>
         <div style="margin:10px">
-        <br>
-@*        <p style="float:left;">
-            <button id="groupbutton1" onclick="getorderby(4)">團購商品</button>
-        </p>*@
-        @*<p style="float:right;" id="selectbutton">*@
-            <button id="price" onclick="getorderby(1)">商品價格</button>
-            <button id="quantity" onclick="getorderby(2)">庫存數量</button>
-            <button id="sales" onclick="getorderby(3)">售出數量</button>
-       @* </p>*@
+            <br>
+            <div style="float:right;" id="selectbutton">
+                <button id="price" onclick="getorderby(1)">商品價格</button>
+                <button id="quantity" onclick="getorderby(2)">庫存數量</button>
+                <button id="sales" onclick="getorderby(3)">售出數量</button>
+            </div>
 
         </div>
-        <div style="margin:20px">
-            <div class="alltable" style="display:none">
-                <table id="productTable" class="table_change" >
-                    <thead>
+        <div style="margin:10px">
+            <div>
+                <table id="productTable" class="table_change">
+                    <thead class="alltable">
                         <tr>
                             <th>商品圖片</th>
                             <th>商品名稱</th>
@@ -67,30 +60,9 @@
                             <th>商品價格</th>
                             <th>庫存數量</th>
                             <th>售出數量</th>
-                            @*<th>開團日期</th>*@
                         </tr>
                     </thead>
-                    <tbody class="tbody">
-                        @*            @if (ViewBag.resultdata != null)
-                        {
-                        foreach (var item in ViewBag.resultdata)
-                        {
-                        <tr>
-                        <td>@item.PUrl</td>
-                        <td>@item.PName</td>
-                        <td>@item.PCategory</td>
-                        <td>@item.PPrice</td>
-                        <td>@item.PInventory</td>
-                        <td>@item.OBuynumber</td>
-                        </tr>
-                        }
-                        }*@
-                    </tbody>
-                </table>
-        </div>
-            <div class="grouptable">
-                <table id="" class="table_change ">
-                    <thead>
+                    <thead class="grouptable" style="display:none">
                         <tr>
                             <th>商品圖片</th>
                             <th>商品名稱</th>
@@ -101,66 +73,25 @@
                             <th>售出數量</th>
                         </tr>
                     </thead>
-                    <tbody class="grouptbody">
-                        <tr>
-                            <td>
-                                <img src="https://photo.yannick.com.tw/photo/0101196/1.jpg">
-                            </td>
-                            <td>皇家奶茶布丁生乳捲</td>
-                            <td>蛋糕</td>
-                            <td class="buydate">2023/7/1 - 2023/7/14</td>
-                            <td>320元</td>
-                            <td>80</td>
-                            <td>150</td>
-                        </tr>
+                    <tbody class="tbody alltbody">
+
+                    </tbody>
+                    <tbody class="grouptbody" style="display:none">
+
                     </tbody>
                 </table>
-           </div>
+            </div>
         </div>
     </div>
-
     <br>
     <br>
-
-    <!-- 團購商品 -->
-
-
-    @*<table id="" class="table_change">
-    <thead>
-    <tr>
-    <th>商品圖片</th>
-    <th>商品名稱</th>
-    <th>商品類別</th>
-    <th>開團日期</th>
-    <th>團購價格</th>
-    <th>庫存數量</th>
-    <th>售出數量</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-    <td>
-    <img src="https://photo.yannick.com.tw/photo/0101196/1.jpg">
-    </td>
-    <td>皇家奶茶布丁生乳捲</td>
-    <td>蛋糕</td>
-    <td class="buydate">2023/7/1 - 2023/7/14</td>
-    <td>320元</td>
-    <td>80</td>
-    <td>150</td>
-    </tr>
-    </tbody>
-    </table>
-    <br><br>
-
-    </div>*@
 
 </body>
 <script>
     let order = 1;
 
     $(function () {
-
+        //獲取使用者在搜索表單中輸入的值。這個函數返回一個包含搜索參數的物件
         function getFormData() {
             let pname = $('.pname').val();
             let pmin = parseInt($('.pmin').val());
@@ -177,34 +108,53 @@
                 orderby: order
             };
         }
-
+        //用於將表格填充為搜尋結果
         function displayDataInTable(data2) {
             $('.tbody').empty();
+            $('.grouptbody').empty();
             //切換顯示group table
             console.log("change table")
             if ($('input:radio:checked').attr("id") == 'yes') {
                 $('.alltable').css("display", "none")
-                $('.grouptable').css("display", "table")
+                $('.alltbody').css("display", "none")
+                $('.grouptable').css("display", "table-header-group")
+                $('.grouptbody').css("display", "table-row-group")
             } else {
-                $('.alltable').css("display", "table")
+                $('.alltable').css("display", "table-header-group")
+                $('.alltbody').css("display", "table-row-group")
                 $('.grouptable').css("display", "none")
+                $('.grouptbody').css("display", "none")
             }
-            data2.forEach(function (item) {
 
+            data2.forEach(function (item) {
                 console.log(item)
                 $('.tbody').append(`
-                                    <tr>
-                                        <td><img src="${item.PUrl}"></td>
-                                        <td>${item.PName}</td>
-                                        <td>${item.PCategory}</td>
-                                        <td>${item.PPrice}</td>
-                                        <td>${item.PInventory}</td>
-                                        <td>${item.soldnumber}</td>
-                                    </tr>
-                                `);
+                                                <tr>
+                                                    <td><img src="${item.PUrl}"></td>
+                                                    <td>${item.PName}</td>
+                                                    <td>${item.PCategory}</td>
+                                                    <td>${item.PPrice}</td>
+                                                    <td>${item.PInventory}</td>
+                                                    <td>${item.soldnumber}</td>
+                                                </tr>
+                                            `);
+            });
+            data2.forEach(function (item) {
+                console.log(item)
+                $('.grouptbody').append(`
+                                                    <tr>
+                                                        <td><img src="${item.PUrl}"></td>
+                                                        <td>${item.PName}</td>
+                                                        <td>${item.PCategory}</td>
+                                                        <td>${item.GStart.substring(0, 10)}</td>
+                                                        <td>${item.PPrice}</td>
+                                                        <td>${item.PInventory}</td>
+                                                        <td>${item.soldnumber}</td
+                                                    </tr>
+                                                `);
             });
         }
-
+        // 重設的按鈕會用到
         function displaySearchedData(formData) {
             $.post('/FirmPage/Index', formData)
                 .done(function (data) {
@@ -213,14 +163,14 @@
                     displayDataInTable(data2);
                 });
         }
-
+        //顯示初始的搜索結果
         function displayAllData() {
-            $.post('/FirmPage/Index', {
+            $.post('/FirmPage/IndexWithoutJoin', {
                 pname: '',
                 pmin: null,
                 pmax: null,
                 pCategory: '全部',
-                groupbuy: '1',
+                groupbuy: 'no',
                 orderby: 0
             })
                 .done(function (data) {
@@ -248,48 +198,67 @@
                             data4 = $.extend({}, data2[0], soldlist2[0])
                             $(data2).each(function () {
                                 $('.tbody').append(`
-                                            <tr>
-                                                <td><img src="${this.PUrl}"></td>
-                                                <td>${this.PName}</td>
-                                                <td>${this.PCategory}</td>
-                                                <td>${this.PPrice}</td>
-                                                <td>${this.PInventory}</td>
-                                                <td>${this.soldnumber}</td>
-                                            </tr>
-                                        `);
+                                                        <tr>
+                                                            <td><img src="${this.PUrl}"></td>
+                                                            <td>${this.PName}</td>
+                                                            <td>${this.PCategory}</td>
+                                                            <td>${this.PPrice}</td>
+                                                            <td>${this.PInventory}</td>
+                                                            <td>${this.soldnumber}</td>
+                                                        </tr>
+                                                    `);
                             })
                         })
                     console.log(data2)
                 });
         }
-
-        // 载入页面时显示所有数据
+        // 載入頁面時顯示所有資料
         displayAllData();
 
-
+        //處理"搜尋"按鈕的點擊事件。它獲取表單數據，向服務器發送AJAX POST請求以獲取搜尋結果，然後調用displayDataInTable(data2)顯示結果在表格中
         $('#firmSearchButton').on('click', function () {
             $('.tbody').empty();
             let formData = getFormData();
-            $.post('/FirmPage/Index', formData)
-                .done(function (data) {
-                    let data2 = JSON.parse(data);
-                    $.post('/FirmPage/Index2', {})
-                        .done(function (soldlist) {
-                            let soldlist2 = JSON.parse(soldlist);
-                            $(data2).each(function () {
-                                for (let i = 0; i < Object.keys(soldlist2).length; i++) {
-                                    if (this.pnumber == soldlist2[i].pnumber) {
-                                        this.soldnumber = soldlist2[i].soldnumber;
-                                        console.log(this);
-                                        break;
+            // 判斷是否團購商品，根據不同選擇發送不同的POST請求
+            if ($('input:radio:checked').attr("id") == 'yes') {
+                $.post('/FirmPage/Index', formData)
+                    .done(function (data) {
+                        let data2 = JSON.parse(data);
+                        $.post('/FirmPage/Index2', {})
+                            .done(function (soldlist) {
+                                let soldlist2 = JSON.parse(soldlist);
+                                $(data2).each(function () {
+                                    for (let i = 0; i < Object.keys(soldlist2).length; i++) {
+                                        if (this.pnumber == soldlist2[i].pnumber) {
+                                            this.soldnumber = soldlist2[i].soldnumber;
+                                            console.log(this);
+                                            break;
+                                        }
                                     }
-                                }
+                                });
+                                displayDataInTable(data2);
                             });
-
-
-                            displayDataInTable(data2);
-                        });
-                });
+                    });
+            } else {
+                $.post('/FirmPage/IndexWithoutJoin', formData)
+                    .done(function (data) {
+                        let data2 = JSON.parse(data);
+                        $.post('/FirmPage/Index2', {})
+                            .done(function (soldlist) {
+                                let soldlist2 = JSON.parse(soldlist);
+                                $(data2).each(function () {
+                                    for (let i = 0; i < Object.keys(soldlist2).length; i++) {
+                                        if (this.pnumber == soldlist2[i].pnumber) {
+                                            this.soldnumber = soldlist2[i].soldnumber;
+                                            console.log(this);
+                                            break;
+                                        }
+                                    }
+                                });
+                                displayDataInTable(data2);
+                            });
+                    });
+            }
         });
 
         $('#firmReset').on('click', function () {
@@ -311,11 +280,15 @@
         });
 
         function getorderby(x) {
-            order = x;
             let formData = getFormData();
-            $.post('/FirmPage/Index', formData)
+
+            // 判斷是否團購商品，根據不同選擇發送不同的POST請求
+            let postUrl = $('input:radio:checked').attr("id") == 'yes' ? '/FirmPage/Index' : '/FirmPage/IndexWithoutJoin';
+
+            $.post(postUrl, formData)
                 .done(function (data) {
                     let data2 = JSON.parse(data);
+
                     $.post('/FirmPage/Index2', {})
                         .done(function (soldlist) {
                             let soldlist2 = JSON.parse(soldlist);
@@ -328,6 +301,7 @@
                                     }
                                 }
                             });
+
                             data2 = data2.sort(function (a, b) {
                                 if (x === 1) {
                                     return a.PPrice - b.PPrice;
@@ -337,6 +311,7 @@
                                     return a.soldnumber - b.soldnumber;
                                 }
                             });
+
                             displayDataInTable(data2);
                         });
                 });
