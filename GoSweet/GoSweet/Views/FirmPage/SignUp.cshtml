@@ -20,17 +20,15 @@
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/PasswordCheck.js"></script>
+    <script src="~/js/messageAlert.js"></script>
+
 
 
     @if (TempData["firmAccountExistMessage"] != null)
     {
         <script>
             let firmAccountExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmAccountExistMessage"]));
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: firmAccountExistMessage,
-            });
+            showSwal('error', 'Oops...', firmAccountExistMessage);
         </script>
     }
 
@@ -38,12 +36,7 @@
     {
         <script>
             let firmSignUpSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmSignUpSuccessMessage"]));
-            Swal.fire({
-                icon: 'success',
-                title: 'SignUp Success...',
-                text: firmSignUpSuccessMessage,
-            });
-
+            showSwal('success', 'SignUp Success...', firmSignUpSuccessMessage);
         </script>
     }
 }
