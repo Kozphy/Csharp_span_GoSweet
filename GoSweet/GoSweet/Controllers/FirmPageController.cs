@@ -6,6 +6,7 @@ using System.IO.Pipelines;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GoSweet.Controllers {
     public class FirmPageController : Controller {
@@ -31,6 +32,7 @@ namespace GoSweet.Controllers {
             // 圖片路徑 Start
             // 儲存路徑參數
             var filePath = "";
+            string mypath = "";
             ArrayList pathtest = new ArrayList();
             //List<IFormFile>拿出file
             foreach (var file in files)
@@ -38,16 +40,17 @@ namespace GoSweet.Controllers {
                 if (file != null && file.Length > 0)
                 {
                     //設定儲存路徑及檔案名稱
-                    filePath = Path.Combine("/img/" + file.FileName);
+                    filePath = Path.Combine("./wwwroot/img/ProductUrl" + file.FileName);
                     System.Diagnostics.Debug.WriteLine(filePath);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         //執行檔案複製到本地
                         file.CopyTo(stream);
                         //System.Diagnostics.Debug.WriteLine("wrtie file");
-                        stream.Close();
                     }
-                    pathtest.Add(filePath);
+                    // 可以在此处进行进一步的处理或保存文件路径到数据库等
+                    mypath = filePath.Substring(9, filePath.Length - 9);
+                    pathtest.Add(mypath);
                 }
             }
             // 產生要顯示的string
@@ -114,7 +117,7 @@ namespace GoSweet.Controllers {
 
                     var proNum = _context.ProductDatatables.Where(y => y.PName == data.PName).Select(data => data.PNumber).Single();
 
-                    int i = 0;
+                    int i = 1;
                     foreach (var valueitem in values)
                     {
                         ProductPicturetable newpic = new ProductPicturetable();
@@ -123,7 +126,6 @@ namespace GoSweet.Controllers {
                             newpic.PUrl = valueitem;
                             newpic.PNumber = (int)proNum;
                             newpic.PPicnumber = i++;
-                            //System.Diagnostics.Debug.WriteLine("write pic");
                             _context.Add(newpic);
                         }
                     }
@@ -186,115 +188,122 @@ namespace GoSweet.Controllers {
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult ProductSearch(IFormCollection form)
-        //{
-        //    string PName = form["PName"];
-        //    string PInventorymin = form["PInventory"];
-        //    string PInventorymax = form["PInventory[1]"];
-        //    string PCategory = form["PCategory"];
-        //    //string gobuy = form["gobuy"];
-        //    string OBuynumberMin = form["OBuynumber[0]"];
-        //    string OBuynumberMax = form["OBuynumber[1]"];
-
-        // 正常可動的
-        //var result = (_context.ProductDatatables)
-        //   .Where(p => p.PInventory >= int.Parse(PInventorymin) && p.PInventory <= int.Parse(PInventorymax)
-        //       && p.PCategory == PCategory)
-        //   .Select(p => new {
-        //       p.PName,
-        //       p.PInventory,
-        //       p.PCategory,
-        //       p.PPrice
-        //   })
-        //   .ToList();
-        //ViewBag.resultdata = result;
-
-        //var result = (from product in _context.ProductDatatables
-        //              //join groupData in _context.GroupDatatables on product.PNumber equals groupData.PNumber
-        //              join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
-        //              //join salenum in _context.OrderDatatables on product.PNumber equals salenum.PNumber
-        //              where product.FNumber == 60000 && pic.PPicnumber == 1
-        //              //product.PInventory >= int.Parse(PInventorymin) && product.PInventory <= int.Parse(PInventorymax)
-        //              //      && product.PCategory == PCategory && pic.PPicnumber == 0
-        //              select new
-        //              {
-        //                  //FirstPUrl = pic.PUrl.First(),
-        //                  pic.PUrl,
-        //                  product.PName,
-        //                  product.PInventory,
-        //                  product.PCategory,
-        //                  product.PPrice,
-        //                  //salenum.OBuynumber,
-        //                  //groupData.GStart
-        //              });
-
-
-
-        //ViewBag.resultdata = result.ToList();
-
-
-
-        //var result = (
-        //    from p in _context.ProductDatatables
-        //    join pic in _context.ProductPicturetables on p.PNumber equals pic.PNumber
-        //    join salenum in _context.OrderDatatables on p.PNumber equals salenum.PNumber
-        //    where p.PInventory >= int.Parse(PInventorymin) && p.PInventory <= int.Parse(PInventorymax)
-        //        && p.PCategory == PCategory
-        //        //|| p.PName == PName
-        //    select new { 
-        //    p.PName,p.PInventory, p.PCategory,p.PPrice
-        //    })
-        //    .ToList();
-        //ViewBag.resultdata = result;
-
-        //return PartialView("ProductSearch", result);
-        //}
         public IActionResult Index(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
         {
             var result = (from product in _context.ProductDatatables
-                              //join groupData in _context.GroupDatatables on product.PNumber equals groupData.PNumber
+                          join groupData in _context.GroupDatatables on product.PNumber equals groupData.PNumber
                           join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
-                          //join salenum in _context.OrderDatatables on product.PNumber equals salenum.PNumber
                           where product.FNumber == 60000 && pic.PPicnumber == 1
-                          //product.PInventory >= int.Parse(PInventorymin) && product.PInventory <= int.Parse(PInventorymax)
-                          //      && product.PCategory == PCategory && pic.PPicnumber == 0
                           select new
                           {
-                              //FirstPUrl = pic.PUrl.First(),
                               pic.PUrl,
                               product.PName,
                               product.PInventory,
                               product.PCategory,
                               product.PPrice,
-                              //salenum.OBuynumber,
-                              //groupData.GStart
+                              pnumber = product.PNumber,
+                              soldnumber = 0,
+                              groupData.GPrice,
+                              groupData.GStart,
+                              groupData.GEnd,
                           });
+
+            // 根據填寫的欄位內容構造 where 條件
+            if (!string.IsNullOrEmpty(pname))
+            {
+                result = result.Where(product => product.PName.Contains(pname));
+            }
+
+            if (pmin >= 0 && pmax > 0)
+            {
+                result = result.Where(product => product.PInventory >= pmin && product.PInventory <= pmax);
+            }
+
+            if (!string.IsNullOrEmpty(pCategory) && pCategory != "全部")
+            {
+                result = result.Where(product => product.PCategory == pCategory);
+            }
 
             if (orderby == 2)
             {
-                result = from r in result
-                         orderby r.PInventory
-                         select r;
+                result = result.OrderBy(product => product.PInventory);
+            }
+            else if (orderby == 3)
+            {
+                result = result.OrderBy(product => product.soldnumber).ThenBy(product => product.PPrice);
             }
             else
             {
-                result = from r in result
-                         orderby r.PPrice
-                         select r;
+                result = result.OrderBy(product => product.PPrice);
             }
-
-
 
             return Content(JsonSerializer.Serialize(result));
         }
 
+        public IActionResult IndexWithoutJoin(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
+        {
+            var result = (from product in _context.ProductDatatables
+                          join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
+                          where product.FNumber == 60000 && pic.PPicnumber == 1
+                          select new
+                          {
+                              pic.PUrl,
+                              product.PName,
+                              product.PInventory,
+                              product.PCategory,
+                              product.PPrice,
+                              pnumber = product.PNumber,
+                              soldnumber = 0
+                          });
+
+            // 根據填寫的欄位內容構造 where 條件
+            if (!string.IsNullOrEmpty(pname))
+            {
+                result = result.Where(product => product.PName.Contains(pname));
+            }
+
+            if (pmin >= 0 && pmax > 0)
+            {
+                result = result.Where(product => product.PInventory >= pmin && product.PInventory <= pmax);
+            }
+
+            if (!string.IsNullOrEmpty(pCategory) && pCategory != "全部")
+            {
+                result = result.Where(product => product.PCategory == pCategory);
+            }
+
+            if (orderby == 2)
+            {
+                result = result.OrderBy(product => product.PInventory);
+            }
+            else if (orderby == 3)
+            {
+                result = result.OrderBy(product => product.soldnumber).ThenBy(product => product.PPrice);
+            }
+            else
+            {
+                result = result.OrderBy(product => product.PPrice);
+            }
+
+            return Content(JsonSerializer.Serialize(result));
+        }
+
+        public IActionResult index2()
+        {
+            var soldlist = from o in _context.OrderDatatables
+                           where o.FNumber == 60000
+                           group o by o.PNumber into o2
+                           select new { pnumber = o2.Key, soldnumber = o2.Sum(x => x.OBuynumber) };
+
+            return Content(JsonSerializer.Serialize(soldlist));
+        }
 
 
 
 
         public IActionResult Login()
         {
+
             return View();
         }
 
