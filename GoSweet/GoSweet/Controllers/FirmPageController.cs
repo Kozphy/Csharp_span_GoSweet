@@ -314,14 +314,14 @@ namespace GoSweet.Controllers
             if (ModelState.IsValid == false) return View();
 
             // get database firm account data
-            var firmAccount = _context.CustomerAccounttables.Where((c) =>
-                c.CAccount.Equals(firmLoginData.FAccount) &&
-                c.CPassword.Equals(firmLoginData.FPassword)
-            ).Select((c) =>
+            var firmAccount = _context.FirmAccounttables.Where((f) =>
+                f.FAccount.Equals(firmLoginData.FAccount) &&
+                f.FPassword.Equals(firmLoginData.FPassword)
+            ).Select((f) =>
             new
             {
-                AccountName = c.CNickname,
-                c_number = c.CNumber,
+                AccountName = f.FNickname,
+                f_number = f.FNumber,
             });
 
             bool accountNotExist = firmAccount.IsNullOrEmpty();
@@ -331,10 +331,11 @@ namespace GoSweet.Controllers
                 TempData["firmAccountNotExistMessage"] = "帳號不存在";
                 return RedirectToAction("Login");
             }
-            HttpContext.Session.SetString("AccountName", firmAccount.First().AccountName);
-            HttpContext.Session.SetString("c_number", Convert.ToString(firmAccount.First().c_number));
+            HttpContext.Session.SetString("firmAccountName", firmAccount.First().AccountName);
+            HttpContext.Session.SetString("f_number", Convert.ToString(firmAccount.First().f_number));
             TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
-            return RedirectToAction("Login");
+
+            return RedirectToAction("Homepage","FirmPage");
         }
 
 
@@ -415,5 +416,38 @@ namespace GoSweet.Controllers
 
             return RedirectToAction("Login");
         }
+
+            public IActionResult ResetPassword(string EmailAddress)
+        {
+            ViewBag.EmailAddress = EmailAddress;
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult ResetPassword(string EmailAddress, string oldPassword, string newPassword)
+        {
+
+            var account = _context.FirmAccounttables.Where((c) => c.FAccount.Equals(EmailAddress)).First();
+
+            try
+            {
+                account.FPassword = newPassword;
+                _context.SaveChanges();
+                TempData["resetPasswordSuccessMessage"] = "密碼重置成功";
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction("Homepage","FirmPage");
+        }
+
+        public IActionResult Logout() {
+            HttpContext.Session.Remove("firmAccountName");
+            //HttpContext.Session.SetString("AccountName", String.Empty);
+            return RedirectToAction("Homepage","FirmPage");
+        }
+
     }
 }

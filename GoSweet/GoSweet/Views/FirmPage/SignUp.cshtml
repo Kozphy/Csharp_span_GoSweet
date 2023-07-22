@@ -23,7 +23,7 @@
     <script src="~/js/messageAlert.js"></script>
 
 
-
+    @*帳號已存在訊息*@
     @if (TempData["firmAccountExistMessage"] != null)
     {
         <script>
@@ -32,6 +32,7 @@
         </script>
     }
 
+    @*帳號成功註冊訊息*@
     @if (TempData["firmSignUpSuccessMessage"] != null)
     {
         <script>

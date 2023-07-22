@@ -38,6 +38,7 @@
     </script>
 
 
+    @*帳號不存在訊息*@
    @if (TempData["firmAccountNotExistMessage"] != null)
     {
         <script>
@@ -46,6 +47,7 @@
         </script>
     }
 
+    @*帳號成功登入訊息*@
     @if (TempData["firmAccountLoginSuccessMessage"] != null)
     {
         <script>
@@ -54,6 +56,7 @@
         </script>
     }
 
+    @*成功記送 Email 訊息*@
     @if (TempData["sendEmailResultMessage"] != null)
     {
         <script>

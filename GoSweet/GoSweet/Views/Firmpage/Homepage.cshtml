@@ -1,6 +1,11 @@
-﻿@*引用*@
-<link href="~/css/Homepage-Manufacturers.css" rel="stylesheet" asp-append-version="true">
-<script src="~/js/Homepage-Manufacturers.js" asp-append-version="true"></script>
+﻿@using Newtonsoft.Json;
+
+@*引用*@
+@section Head{
+    <link href="~/css/Homepage-Manufacturers.css" rel="stylesheet" asp-append-version="true">
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+}
+
 
 <div class="FirmBackground">
 	<section class="container">
@@ -173,3 +178,27 @@
 		</div>
 	</section>
 </div>
+
+
+@section Scripts{
+    <script src="~/lib/sweetalert2/sweetalert2.js"></script>
+    <script src="~/js/messageAlert.js"></script>
+    <script src="~/js/Homepage-Manufacturers.js" asp-append-version="true"></script>
+
+	@if (TempData["firmAccountLoginSuccessMessage"] != null)
+	{
+		<script>
+			let firmAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmAccountLoginSuccessMessage"]));
+			showSwal('Success', 'Login Success Status', firmAccountLoginSuccessMessage)
+        </script>
+    }
+
+
+    @if (TempData["resetPasswordSuccessMessage"] != null)
+    {
+        <script>
+            let resetPasswordSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["resetPasswordSuccessMessage"]));
+			showSwal('Success', 'Reset Password Status', resetPasswordSuccessMessage);
+        </script>
+    }
+}

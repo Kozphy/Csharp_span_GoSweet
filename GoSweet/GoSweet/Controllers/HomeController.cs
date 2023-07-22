@@ -95,7 +95,7 @@ namespace GoSweet.Controllers
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
 
 
-            Console.WriteLine(HttpContext.Session.GetString("AccountName"));
+            Console.WriteLine(HttpContext.Session.GetString("customerAccountName"));
             Console.WriteLine(HttpContext.Session.GetString("c_number"));
             //foreach (var group in productGroupBuyData)
             //{
@@ -181,7 +181,7 @@ namespace GoSweet.Controllers
                 TempData["customerAccountNotExistMessage"] = "帳號不存在或密碼錯誤";
                 return RedirectToAction("Login");
             }
-            HttpContext.Session.SetString("AccountName", userAccount.First().AccountName);
+            HttpContext.Session.SetString("customerAccountName", userAccount.First().AccountName);
             HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.First().c_number));
             TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
             return RedirectToAction("Index");
@@ -300,7 +300,7 @@ namespace GoSweet.Controllers
         }
 
         public IActionResult Logout() {
-            HttpContext.Session.Remove("AccountName");
+            HttpContext.Session.Remove("customerAccountName");
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index");
         }
