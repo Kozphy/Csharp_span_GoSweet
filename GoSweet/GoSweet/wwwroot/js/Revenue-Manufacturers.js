@@ -12,7 +12,7 @@ window.onload =function () {
     const ctx = $("#chart");
     var ChartType = "bar";
     var XaxisNameArray = [];
-    var ChartLegend = "";
+    var ChartLegend = "總額";
     var QuentityofXaxis = [];
     var color = ['rgba(195, 166, 160, 0.3)', 'rgba(161, 92, 56, 0.3)', 'rgba(255, 99, 132, 0.3)', 'rgba(255, 159, 64, 0.3)', 'rgba(255, 205, 86, 0.3)', 'rgba(75, 192, 192, 0.3)', 'rgba(54, 162, 235, 0.3)', 'rgba(153, 102, 255, 0.3)', 'rgba(201, 203, 207, 0.3)'];
     var ReportChart;
@@ -150,7 +150,7 @@ window.onload =function () {
     //#region 從後端拿資料的方法
     async function GetData() {
         return JsonData = await $.ajax({
-            url: "/Manufacturers/JsonData",
+            url: "/Firm/JsonData",
             success: function (item) {
 
                 //全部列表
@@ -162,7 +162,7 @@ window.onload =function () {
                                 <td class="RevenuepageTableData">${Data.orderDate}</td>
                                 <td class="RevenuepageTableData">${Data.name}</td>
                                 <td class="RevenuepageTableData">${Data.id}</td>
-                                <td class="RevenuepageTableData">${Data.categories}</td>
+                                <td class="RevenuepageTableData">${Data.shipState}</td>
                                 <td class="RevenuepageTableData">${Data.quentity}</td>
                                 <td class="RevenuepageTableData">${Data.price}</td>
                                 <td class="RevenuepageTableData">${Data.total}</td>

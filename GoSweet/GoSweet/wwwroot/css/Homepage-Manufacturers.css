@@ -80,8 +80,10 @@
 
 /*首頁表格*/
 .HomepageTable {
-    table-layout:fixed;
-    min-height:350px;
+    table-layout: fixed;
+    min-height: 350px;
+    align-content:center ;
+    vertical-align:middle;
 }
 
 /*首頁表格流水編*/
