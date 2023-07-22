@@ -1,5 +1,4 @@
 ﻿using GoSweet.Models;
-using GoSweet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.ComponentModel;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks.Dataflow;
 using AngleSharp.Common;
 using GoSweet.Controllers.feature;
+using GoSweet.Models.ViewModels;
 
 namespace GoSweet.Controllers
 {
