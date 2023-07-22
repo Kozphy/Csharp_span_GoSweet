@@ -1,8 +1,8 @@
 ﻿using GoSweet.Models;
 
-namespace GoSweet.ViewModels
+namespace GoSweet.Models.ViewModels
 {
-    public class HomeIndexViewModel
+    public class HomeIndexVm
     {
         public IEnumerable<CategoryViewModel>? categoryViewModel { get; set; }
         public IEnumerable<ProductRankDataViewModel>? productRankDatas { get; set; }
@@ -10,13 +10,12 @@ namespace GoSweet.ViewModels
     }
 
     public class CategoryViewModel
-    { 
+    {
         public string? Category { get; set; }
     }
 
     public class ProductRankDataViewModel
     {
-        public int ProductNumber { get; set; }
         public string? ProductName { get; set; }
         public string? ProductCategory { get; set; }
         public string? ProductPicture { get; set; }
@@ -35,5 +34,5 @@ namespace GoSweet.ViewModels
         public double GroupPeoplePercent { get; set; }
         public DateTime GroupEndDate { get; set; }
         public int GroupRemainDate { get; set; }
-    } 
+    }
 }
