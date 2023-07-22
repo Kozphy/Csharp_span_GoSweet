@@ -21,13 +21,10 @@ namespace GoSweet.Models
 
         public int FNumber { get; set; }
 
-        [BindProperty(Name = "AccountName")]
         public string FNickname { get; set; }
 
-        [BindProperty(Name = "UserEmail")]
         public string FAccount { get; set; }
 
-        [BindProperty(Name = "UserPassword")]
         public string FPassword { get; set; }
         public bool FMailpass { get; set; }
 

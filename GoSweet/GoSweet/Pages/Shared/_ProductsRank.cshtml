@@ -4,173 +4,41 @@
 *@
 @{
 }
-        @*商品排行內容*@
-        <div class="container product-rank px-3 ">
-            <h2 class="text-muted py-2 product-rank-small-title">XX種類熱銷排行(下方滑鼠可左右拖曳)</h2>
-            @*splide js*@
-            <section class="splide2 splide">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        @foreach (var item in Model.productRankDatas!)
-                        {
-                            <li class="splide__slide">
-                                <div class="splide__slide__container">
-                                    <div class="product-rank-card card">
-                                        <div class="position-relative">
-                                            <div class="product-rank-hover-content d-flex">
-                                                <button class="btn btn-outline-light rounded-0 m-auto ">GO >></button>
-                                            </div>
-                                            <img class="card-img-top" src="@item.ProductPicture" />
-                                        </div>
-                                        <div class="card-title mb-0 py-2 text-center product-card-title">
-                                            @item.ProductName
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="text-center card-text multiline-ellipsis-3">
-                                                @item.ProductDescription
-                                                @*
-                                                    布列塔尼圓酥餅 Galette Bretonne 始於19世紀後半，是法國的傳統小點心，發源地是法國西北邊的布列塔尼區，這即是此款甜點名字的由來，屬於地方甜點。
-                                                    我們使用法國頂級手工Échiré艾許奶油，奶油含量豐富，充滿濃郁的奶香；
-                                                    搭配法國頂級法芙娜巧克力，為麵糰帶來酥脆和入口即化的口感，並帶有芳香純美的風味；
-                                                    最後加入少許法國頂級鹽之花點綴，除了有濃郁的巧克力香外，甜中帶點鹹，好吃又不膩口。
-                                                *@
-                                            </div>
-                                        </div>
-                                        <div class="card-footer">
-                                            大約 @item.ProductTotalBuyNumber 人購買
-                                        </div>
+@*商品排行內容*@
+<div class="container product-rank px-3 ">
+    <h2 class="text-muted py-2 product-rank-small-title">XX種類熱銷排行(下方滑鼠可左右拖曳)</h2>
+    @*splide js*@
+    <section class="splide2 splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                @foreach (var item in Model.productRankDatas!)
+                {
+                    <li class="splide__slide">
+                        <div class="splide__slide__container">
+                            <div class="product-rank-card card">
+                                <div class="position-relative">
+                                    <div class="product-rank-hover-content d-flex">
+                                        <button class="btn btn-outline-light rounded-0 m-auto ">GO >></button>
+                                    </div>
+                                    <img class="card-img-top" src="@item.ProductPicture" />
+                                </div>
+                                <div class="card-title mb-0 py-2 text-center product-card-title">
+                                    @item.ProductName
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center card-text multiline-ellipsis-3">
+                                        @item.ProductDescription
                                     </div>
                                 </div>
-                            </li>
-                        }
-                        @*                            
-                        <li class="splide__slide">
-                        <div class="splide__slide__container">
-                        <div class="product-rank-card card">
-                        <div class="position-relative">
-                        <div class="product-rank-hover-content d-flex">
-                        <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
+                                <div class="card-footer">
+                                    大約 @item.ProductTotalBuyNumber 人購買
+                                </div>
+                            </div>
                         </div>
-                        <img class="card-img-top" src="~/img/Home/波士頓派.jpg" />
-                        </div>
-                        <div class="card-title mb-0 py-2 text-center product-card-title">
-                        波士頓派
-                        </div>
-                        <div class="card-body ">
-                        <div class="text-center card-text multiline-ellipsis-3">
-                        蛋糕體比戚風蛋糕更加輕盈綿密，重點在於使用北海道奶霜和法國鮮奶油，
-                        入口即能感受到鮮奶油濃濃的奶香和綿細的蛋糕體在嘴裡化開。
-                        </div>
-                        </div>
-                        <div class="card-footer">
-                        大約 1000 人購買
-                        </div>
-                        </div>
-                        </div>
-                        </li>
-                        <li class="splide__slide">
-                        <div class="splide__slide__container">
-                        <div class="product-rank-card card">
-                        <div class="position-relative">
-                        <div class="product-rank-hover-content d-flex">
-                        <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
-                        </div>
-                        <img class="card-img-top" src="~/img/Home/咕咕霍夫.jpg" />
-                        </div>
-                        <div class="card-title mb-0 py-2 text-center product-card-title">
-                        咕咕霍夫
-                        </div>
-                        <div class="card-body ">
-                        <div class="text-center card-text multiline-ellipsis-3">
-                        自於奧地利、法國、德國、瑞士等中歐國家的節慶甜點，經典款式是做成「皇冠、僧侶帽」的造型。
-                        據說法皇路易十六的皇妃喜歡吃，所以做成「皇冠」造型。另個傳言是神職人員的「僧侶帽」造型，是用來祈求世界和平；也有一說是古代巴勒斯坦國王遺失的皇冠被一位甜點師拾獲，後來他將麵包做成皇冠的造型。
-                        不論起源如何，咕咕霍夫這款節慶甜點傳遞的訊息都是「分享與喜悅」
-                        </div>
-                        </div>
-                        <div class="card-footer">
-                        大約 1000 人購買
-                        </div>
-                        </div>
-                        </div>
-                        </li>
-                        <li class="splide__slide">
-                        <div class="splide__slide__container">
-                        <div class="product-rank-card card">
-                        <div class="position-relative">
-                        <div class="product-rank-hover-content d-flex">
-                        <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
-                        </div>
-                        <img class="card-img-top" src="~/img/Home/AngleCake.jpg" />
-                        </div>
-                        <div class="card-title mb-0 py-2 text-center product-card-title">
-                        天使蛋糕
-                        </div>
-                        <div class="card-body ">
-                        <div class="text-center card-text multiline-ellipsis-3">
-                        天使蛋糕屬於乳沫類蛋糕，它有一個特色就是不能有一滴油，即使含有油脂的蛋黃也要捨去，同時因為無油脂，色澤呈現蛋糕少有的純白，如同天使般的純潔，故稱為天使。
-                        天使蛋糕的口味與一般蛋糕的口味完全不同，喜歡他的人覺得毫不油膩且具彈性，不喜歡的人覺得乾澀又韌，一般蛋糕店比較少販賣，
-                        主要因為口感比較特殊。天使蛋糕最適合推薦給怕胖或有心血管疾病的人，因為他不含油脂與膽固醇，可說是一種健康點心喔。
-                        </div>
-                        </div>
-                        <div class="card-footer">
-                        大約 1000 人購買
-                        </div>
-                        </div>
-                        </div>
-                        </li>
-                        <li class="splide__slide">
-                        <div class="splide__slide__container">
-                        <div class="product-rank-card card">
-                        <div class="position-relative">
-                        <div class="product-rank-hover-content d-flex">
-                        <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
-                        </div>
-                        <img class="card-img-top" src="~/img/Home/Classic_Mille_Feuille.jpg" />
-                        </div>
-                        <div class="card-title mb-0 py-2 text-center product-card-title">
-                        千層蛋糕
-                        </div>
-                        <div class="card-body ">
-                        <div class="text-center card-text multiline-ellipsis-3">
-                        英文名稱中的「crêpe」是法文，不少人認為千層蛋糕源自法國：亦有傳說是源自拿破崙御廚 — 享有第一位美食外交官之美譽的馬利．安東尼．卡瑞蒙（Marie-Antonin Carême）。
-                        亦有傳說千層形狀的蛋糕最早是源自匈牙利的Szeged城，那裏的人們常吃一種上層鋪有焦糖的千層蛋糕。也有流傳最早的千層蛋糕是以「千層可麗餅蛋糕」型態首度出現於東京，風靡日本後又席捲美國並陸續引進亞洲。
-                        </div>
-                        </div>
-                        <div class="card-footer">
-                        大約 1000 人購買
-                        </div>
-                        </div>
-                        </div>
-                        </li>
-                        <li class="splide__slide">
-                        <div class="splide__slide__container">
-                        <div class="product-rank-card card">
-                        <div class="position-relative">
-                        <div class="product-rank-hover-content d-flex">
-                        <button class="btn btn-outline-light rounded-0 m-auto">GO >></button>
-                        </div>
-                        <img class="card-img-top" src="~/img/Home/巧克力慕斯.jpg" alt="巧克力慕斯" />
-                        </div>
-                        <div class="card-title mb-0 py-2 text-center product-card-title">
-                        巧克力慕斯
-                        </div>
-                        <div class="card-body ">
-                        <div class="text-center card-text multiline-ellipsis-3">
-                        巧克力慕斯起源於法國，可以追溯到18世紀晚期或19世紀早期。它被認為是法國廚師創造的一種甜點，源於法國對巧克力的熱愛和獨特的烹飪傳統。
-                        慕斯最初是一種以蛋白和糖製成的輕盈甜點，但隨著時間的推移，人們開始將巧克力作為慕斯的主要成分之一。巧克力慕斯以其絲滑、濃郁的口感和巧克力的香味而受到人們的喜愛。
-                        在製作巧克力慕斯時，通常使用優質的巧克力、雞蛋、糖和奶油等原料。這些成分會被精心混合在一起，然後通過冷藏來達到慕斯的質地和口感。
-                        隨著時間的推移，巧克力慕斯逐漸成為一道備受歡迎的甜點，並在世界各地的餐廳和糕點店中廣泛供應。人們還會根據個人喜好和創意，加入其他食材和裝飾來製作各種口味和款式的巧克力慕斯。
-                        儘管巧克力慕斯的具體起源有些模糊，但它無疑成為了世界上最受歡迎和標誌性的巧克力甜點之一。
-                        </div>
-                        </div>
-                        <div class="card-footer">
-                        大約 1000 人購買
-                        </div>
-                        </div>
-                        </div>
-                        </li>*@
-                    </ul>
-                </div>
-            </section>
+                    </li>
+                }
+            </ul>
         </div>
+    </section>
+</div>
 

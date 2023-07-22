@@ -28,6 +28,7 @@
     {
         <script>
             let customerAccountNotExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountNotExistMessage"]));
+            console.log(customerAccountNotExistMessage);
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -42,6 +43,7 @@
     {
         <script>
             let customerAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountLoginSuccessMessage"]));
+            console.log(customerAccountLoginSuccessMessage);
             Swal.fire({
                 icon: 'success',
                 title: 'LoginSuccess...',

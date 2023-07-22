@@ -14,7 +14,6 @@ namespace GoSweet.Models.ViewModels
     {
         [DisplayName("帳號名稱")]
         [BindProperty(Name = "AccountName")]
-        [Required(ErrorMessage ="帳號名稱必填")]
         public string? CNickname { get; set; }
         public int CNumber { get; set; }
 
@@ -37,7 +36,6 @@ namespace GoSweet.Models.ViewModels
 
         [DisplayName("帳號名稱")]
         [BindProperty(Name = "AccountName")]
-        [Required(ErrorMessage ="帳號名稱必填")]
         public string? FNickname { get; set; }
 
         [DisplayName("Email")]

@@ -2,13 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.ComponentModel;
-using Azure.Identity;
-using System.Xml;
 using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks.Dataflow;
-using AngleSharp.Common;
 using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
 
@@ -41,30 +38,30 @@ namespace GoSweet.Controllers
 
 
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
-                                  join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
-                                  join order in _context.OrderDatatables on product.PNumber equals order.PNumber
-                                  where product_pic.PPicnumber == 1
-                                  group order by 
-                                  new
-                                  {
-                                       product.PName,
-                                       product.PCategory,
-                                       product_pic.PUrl,
-                                       product.PPrice,
-                                       product.PDescribe,
-                                       order.OBuynumber
-                                  }
+                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
+                                                              join order in _context.OrderDatatables on product.PNumber equals order.PNumber
+                                                              where product_pic.PPicnumber == 1
+                                                              group order by
+                                                              new
+                                                              {
+                                                                  product.PName,
+                                                                  product.PCategory,
+                                                                  product_pic.PUrl,
+                                                                  product.PPrice,
+                                                                  product.PDescribe,
+                                                                  order.OBuynumber
+                                                              }
                                   into grouped
-                                  orderby grouped.Sum((g) => g.OBuynumber) descending
-                                  select new ProductRankDataViewModel
-                                  {
-                                      ProductName = grouped.Key.PName,
-                                      ProductCategory = grouped.Key.PCategory,
-                                      ProductPicture = grouped.Key.PUrl,
-                                      ProductPrice = grouped.Key.PPrice,
-                                      ProductDescription = grouped.Key.PDescribe,
-                                      ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber) 
-                                  }).ToList();
+                                                              orderby grouped.Sum((g) => g.OBuynumber) descending
+                                                              select new ProductRankDataViewModel
+                                                              {
+                                                                  ProductName = grouped.Key.PName,
+                                                                  ProductCategory = grouped.Key.PCategory,
+                                                                  ProductPicture = grouped.Key.PUrl,
+                                                                  ProductPrice = grouped.Key.PPrice,
+                                                                  ProductDescription = grouped.Key.PDescribe,
+                                                                  ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber)
+                                                              }).ToList();
 
             //foreach (var group in productRankData)
             //{
@@ -113,34 +110,34 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult HandleProductCategory(string Category)
         {
-                List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
-                                  join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
-                                  join order in _context.OrderDatatables on product.PNumber equals order.PNumber
-                                  where product_pic.PPicnumber == 1 && product.PCategory == Category
-                                  group order by
-                                  new
-                                  {
-                                       product.PName,
-                                       product.PCategory,
-                                       product_pic.PUrl,
-                                       product.PPrice,
-                                       product.PDescribe,
-                                       order.OBuynumber
-                                  }
-                                  into grouped
-                                  orderby grouped.Sum((g) => g.OBuynumber) descending
-                                  select new ProductRankDataViewModel
-                                  {
-                                      ProductName = grouped.Key.PName,
-                                      ProductCategory = grouped.Key.PCategory,
-                                      ProductPicture = grouped.Key.PUrl,
-                                      ProductPrice = grouped.Key.PPrice,
-                                      ProductDescription = grouped.Key.PDescribe,
-                                      ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber) 
-                                  }).ToList();
+            List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
+                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
+                                                              join order in _context.OrderDatatables on product.PNumber equals order.PNumber
+                                                              where product_pic.PPicnumber == 1 && product.PCategory == Category
+                                                              group order by
+                                                              new
+                                                              {
+                                                                  product.PName,
+                                                                  product.PCategory,
+                                                                  product_pic.PUrl,
+                                                                  product.PPrice,
+                                                                  product.PDescribe,
+                                                                  order.OBuynumber
+                                                              }
+                              into grouped
+                                                              orderby grouped.Sum((g) => g.OBuynumber) descending
+                                                              select new ProductRankDataViewModel
+                                                              {
+                                                                  ProductName = grouped.Key.PName,
+                                                                  ProductCategory = grouped.Key.PCategory,
+                                                                  ProductPicture = grouped.Key.PUrl,
+                                                                  ProductPrice = grouped.Key.PPrice,
+                                                                  ProductDescription = grouped.Key.PDescribe,
+                                                                  ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber)
+                                                              }).ToList();
 
 
-             //TODO: fix value can't be null
+            //TODO: fix value can't be null
             IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
             //foreach (var item in categoriesDatas!)
             //{
@@ -151,9 +148,6 @@ namespace GoSweet.Controllers
             _indexViewModelData.productGroupBuyDatas = productGroupBuyDatas;
             _indexViewModelData.productRankDatas = productRankData;
 
-
-
-
             return View("Index", _indexViewModelData);
         }
 
@@ -163,34 +157,33 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(CustomerAccounttable customerLoginData)
+        public IActionResult Login(CustomerAccountVm customerLoginData)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false) return View();
+
+            var userAccount = _context.CustomerAccounttables.Where((c) =>
+                c.CAccount.Equals(customerLoginData.CAccount) &&
+                c.CPassword.Equals(customerLoginData.CPassword)
+            ).Select((c) =>
+            new
             {
-                var userAccount = _context.CustomerAccounttables.Where((c) =>
-                    c.CAccount.Equals(customerLoginData.CAccount) &&
-                    c.CPassword.Equals(customerLoginData.CPassword)
-                ).Select((c) =>
-                new
-                {
-                    AccountName = c.CNickname,
-                    c_number = c.CNumber,
-                });
+                AccountName = c.CNickname,
+                c_number = c.CNumber,
+            });
 
-                // TODO: check account permission
-                //var userAccountPermission = userAccount.
+            // TODO: check account permission
+            //var userAccountPermission = userAccount.
 
-                bool accountNotExist = userAccount.IsNullOrEmpty();
+            bool accountNotExist = userAccount.IsNullOrEmpty();
 
-                if (accountNotExist.Equals(true))
-                {
-                    TempData["customerAccountNotExistMessage"] = "帳號不存在";
-                    return RedirectToAction("Login");
-                }
-                HttpContext.Session.SetString("AccountName", userAccount.First().AccountName);
-                HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.First().c_number));
-                TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
+            if (accountNotExist.Equals(true))
+            {
+                TempData["customerAccountNotExistMessage"] = "帳號不存在或密碼錯誤";
+                return RedirectToAction("Login");
             }
+            HttpContext.Session.SetString("AccountName", userAccount.First().AccountName);
+            HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.First().c_number));
+            TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
             return RedirectToAction("Login");
         }
 
@@ -201,77 +194,112 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(CustomerAccounttable customerAccountData)
+        public IActionResult SignUp(CustomerAccountVm customerAccountData)
         {
             // encoding
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false) return View();
+            //SHA512 sha512 = new SHA512CryptoServiceProvider();
+            //byte[] source = Encoding.Default.GetBytes(customerAccountData.CPassword);
+            //byte[] crypto = sha512.ComputeHash(source);
+            //string hashResult = Convert.ToBase64String(crypto);
+            //customerAccountData.CPassword = hashResult;
+
+            // check account whether exist
+            bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
+                c.CNickname.Equals(customerAccountData.CNickname) &&
+                c.CAccount.Equals(customerAccountData.CAccount) &&
+                c.CPassword.Equals(customerAccountData.CPassword)
+            ).IsNullOrEmpty();
+
+
+
+            if (accountNotExist.Equals(false))
             {
-                //SHA512 sha512 = new SHA512CryptoServiceProvider();
-                //byte[] source = Encoding.Default.GetBytes(customerAccountData.CPassword);
-                //byte[] crypto = sha512.ComputeHash(source);
-                //string hashResult = Convert.ToBase64String(crypto);
-                //customerAccountData.CPassword = hashResult;
-
-                // check account whether exist
-                bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
-                    c.CNickname.Equals(customerAccountData.CNickname) &&
-                    c.CAccount.Equals(customerAccountData.CAccount) &&
-                    c.CPassword.Equals(customerAccountData.CPassword)
-                ).IsNullOrEmpty();
-                
-                
-
-                if (accountNotExist.Equals(false))
-                {
-                    TempData["customerAccountExistMessage"] = "此帳號已被註冊";
-                    return RedirectToAction("SignUp");
-                }
-
-                try
-                {
-                    _context.CustomerAccounttables.Add(customerAccountData);
-                    _context.SaveChanges();
-                    TempData["customerSignUpSuccessMessage"] = "帳號註冊成功";
-                    
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-                //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
-                //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
+                TempData["customerAccountExistMessage"] = "此帳號已被註冊";
+                return RedirectToAction("SignUp");
             }
+
+            try
+            {
+                CreateCustomerAccount(customerAccountData);
+                TempData["customerSignUpSuccessMessage"] = "帳號註冊成功";
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
+            //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
             return RedirectToAction("SignUp");
         }
 
+        private void CreateCustomerAccount(CustomerAccountVm customerAccountData)
+        {
+            CustomerAccounttable data = new CustomerAccounttable()
+            {
+                CAccount = customerAccountData.CAccount,
+                CNickname = customerAccountData.CNickname,
+                CPassword = customerAccountData.CPassword,
+                CMailpass = customerAccountData.CMailpass
+            };
+
+            _context.CustomerAccounttables.Add(data);
+            _context.SaveChanges();
+        }
+
         [HttpPost]
-        public IActionResult SendMail(string emailAddress) {
+        public IActionResult SendMail(string EmailAddress)
+        {
 
-            if (ModelState.IsValid) {
-                if (emailAddress.IsNullOrEmpty()) {
-                    return RedirectToAction("Login");
-                }
-
-                Mail mailHandler = new Mail(emailAddress, "Home");
-                string sendEmailResult = mailHandler.SendMail();
-                TempData["sendEmailResultMessage"] = sendEmailResult;
+            if (EmailAddress.IsNullOrEmpty())
+            {
+                return RedirectToAction("Login");
             }
+
+            // 寄送 email 之前先檢查 email 是否存在
+            bool customerAccountNotExist = _context.CustomerAccounttables.Where(c => c.CAccount.Equals(EmailAddress)).IsNullOrEmpty();
+
+            if (customerAccountNotExist.Equals(true))
+            {
+                TempData["customerAccountNotExistMessage"] = "帳號不存在";
+                return RedirectToAction("Login");
+            }
+
+            // send email
+            Mail mailHandler = new Mail(EmailAddress, "Home");
+            string sendEmailResult = mailHandler.SendMail();
+            TempData["sendEmailResultMessage"] = sendEmailResult;
             return RedirectToAction("Login");
         }
 
-        public IActionResult ResetPassword() {
-            return View();
-        }
-
-   
-        [HttpPost]
-        public IActionResult ResetPassword(string oldPassword, string newPassword) 
+        public IActionResult ResetPassword(string EmailAddress)
         {
-            
+            ViewBag.EmailAddress = EmailAddress;
             return View();
         }
 
-        
+
+        [HttpPost]
+        public IActionResult ResetPassword(string EmailAddress, string oldPassword, string newPassword)
+        {
+
+            var account = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(EmailAddress)).First();
+
+            try
+            {
+                account.CPassword = newPassword;
+                _context.SaveChanges();
+                TempData["resetPasswordSuccessMessage"] = "密碼重置成功";
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

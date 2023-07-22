@@ -30,7 +30,7 @@ namespace GoSweet.Controllers.feature
 
             // TODO: change port number to application port
             builder.HtmlBody = $@"<h1>點擊下方連結重置密碼: </h1> 
-                <a href=http://localhost:5183/{_controllerName}/ResetPassword>
+                <a href=http://localhost:5183/{_controllerName}/ResetPassword?EmailAddress={_mailAddress}>
                     click here to reset password 
                 </a>";
             message.Body = builder.ToMessageBody();

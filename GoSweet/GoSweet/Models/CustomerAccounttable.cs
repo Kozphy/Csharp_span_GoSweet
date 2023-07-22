@@ -18,14 +18,11 @@ namespace GoSweet.Models
         }
 
 
-        [BindProperty(Name = "AccountName")]
         public string CNickname { get; set; }
         public int CNumber { get; set; }
 
-        [BindProperty(Name = "UserEmail")]
         public string CAccount { get; set; }
 
-        [BindProperty(Name = "UserPassword")]
         public string CPassword { get; set; }
         public bool CMailpass { get; set; }
 
