@@ -2,7 +2,7 @@
 
 namespace GoSweet.Models.ViewModels
 {
-    public class HomeIndexViewModel
+    public class HomeIndexVm
     {
         public IEnumerable<CategoryViewModel>? categoryViewModel { get; set; }
         public IEnumerable<ProductRankDataViewModel>? productRankDatas { get; set; }

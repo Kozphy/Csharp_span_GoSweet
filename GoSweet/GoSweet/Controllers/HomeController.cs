@@ -20,7 +20,7 @@ namespace GoSweet.Controllers
         private readonly ShopwebContext _context;
         private readonly IConfiguration _config;
         private readonly IWebHostEnvironment _webHost;
-        private HomeIndexViewModel _indexViewModelData = new HomeIndexViewModel();
+        private HomeIndexVm _indexViewModelData = new HomeIndexVm();
 
         public HomeController(ILogger<HomeController> logger, ShopwebContext context, IConfiguration config, IWebHostEnvironment webHost)
         {

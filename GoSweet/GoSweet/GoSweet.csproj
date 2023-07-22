@@ -2918,7 +2918,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CustomModel\" />
     <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
     <Folder Include="wwwroot\img\ProductUrl\" />
     <Folder Include="wwwroot\js\Firm\" />

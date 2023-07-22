@@ -1,4 +1,4 @@
-﻿@model GoSweet.Models.ViewModels.HomeIndexViewModel;
+@model GoSweet.Models.ViewModels.HomeIndexVm;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -11,7 +11,7 @@
             <section class="splide2 splide">
                 <div class="splide__track">
                     <ul class="splide__list">
-                        @foreach (var item in Model.productRankDatas)
+                        @foreach (var item in Model.productRankDatas!)
                         {
                             <li class="splide__slide">
                                 <div class="splide__slide__container">
