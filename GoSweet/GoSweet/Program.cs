@@ -17,6 +17,7 @@ namespace GoSweet
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ShopwebContext>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopwebConnstring")));
+            builder.Services.AddHttpContextAccessor();
 
             //Add  Http Session
             builder.Services.AddSession(options =>

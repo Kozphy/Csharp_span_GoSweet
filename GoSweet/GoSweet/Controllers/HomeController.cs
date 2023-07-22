@@ -184,7 +184,7 @@ namespace GoSweet.Controllers
             HttpContext.Session.SetString("AccountName", userAccount.First().AccountName);
             HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.First().c_number));
             TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
-            return RedirectToAction("Login");
+            return RedirectToAction("Index");
         }
 
 
@@ -299,6 +299,11 @@ namespace GoSweet.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Logout() {
+            HttpContext.Session.Remove("AccountName");
+            //HttpContext.Session.SetString("AccountName", String.Empty);
+            return RedirectToAction("Index");
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
