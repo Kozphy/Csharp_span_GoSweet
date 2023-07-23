@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks.Dataflow;
 using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
+using Newtonsoft.Json;
 
 namespace GoSweet.Controllers
 {
@@ -107,8 +108,8 @@ namespace GoSweet.Controllers
             return View(_indexViewModelData);
         }
 
-        [HttpPost]
-        public IActionResult HandleProductCategory(string Category)
+        [HttpGet]
+        public JsonResult HandleProductCategory([FromQuery] string Category)
         {
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
@@ -138,17 +139,19 @@ namespace GoSweet.Controllers
 
 
             //TODO: fix value can't be null
-            IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
+            //IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
             //foreach (var item in categoriesDatas!)
             //{
             //    Console.WriteLine(item.Category);
             //}
-            IEnumerable<ProductGroupBuyData>? productGroupBuyDatas = JsonConvert.DeserializeObject<IEnumerable<ProductGroupBuyData>>(HttpContext.Session.GetString("productGroupBuyDatas")!);
-            _indexViewModelData.categoryViewModel = categoriesDatas;
-            _indexViewModelData.productGroupBuyDatas = productGroupBuyDatas;
-            _indexViewModelData.productRankDatas = productRankData;
-
-            return View("Index", _indexViewModelData);
+            //IEnumerable<ProductGroupBuyData>? productGroupBuyDatas = JsonConvert.DeserializeObject<IEnumerable<ProductGroupBuyData>>(HttpContext.Session.GetString("productGroupBuyDatas")!);
+            //_indexViewModelData.categoryViewModel = categoriesDatas;
+            //_indexViewModelData.productGroupBuyDatas = productGroupBuyDatas;
+            //_indexViewModelData.productRankDatas = productRankData;
+            
+            //RedirectToAction("Index", _indexViewModelData);
+            return new JsonResult(JsonConvert.SerializeObject(productRankData)); 
+            //return View("Index", _indexViewModelData);
         }
 
         public IActionResult Login()
@@ -304,7 +307,14 @@ namespace GoSweet.Controllers
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index");
         }
-
+        
+        public JsonResult BellDropdownMessage() {
+            
+            var notifyMessage  = from n in _context.NotifyDatatables
+                                 join f in _context.FirmAccounttables
+                                 join in _context.
+            return new JsonResult();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

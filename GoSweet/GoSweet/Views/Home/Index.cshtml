@@ -45,12 +45,12 @@
                         {
                             <li class="splide__slide">
                                 <div class="text-center">
-                                    <form method="post" asp-action="HandleProductCategory">
-                                        <input type="hidden" name="Category" value="@item.Category" />
-                                        <button type="submit" class="px-5 btn btn-hover-bg ">
+                                    @*<form method="post" asp-action="HandleProductCategory">*@
+                                        <input type="hidden" class="productCategory" name="Category" value="@item.Category" />
+                                        <button type="button" class="px-5 btn btn-hover-bg productCategoryBtn">
                                             <span class="product-category-title">@item.Category</span>
                                         </button>
-                                    </form>
+                                    @*</form>*@
                                 </div>
                             </li>
                         }
@@ -334,6 +334,7 @@
     @*third party*@ 
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/messageAlert.js"></script>
+    <script src="~/lib/splidejs/splide-extension-grid/dist/js/splide-extension-grid.js"></script>
 
     @if (TempData["customerAccountLoginSuccessMessage"] != null) { 
         <script>
@@ -417,5 +418,5 @@
 
     <script src="~/lib/d3/d3.js"></script>
     <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>
-    <script src="~/js/Home/FixScrollPosition.js"></script>
+    <script src="~/js/Home/productCategorySwitch.js"></script>
     }
