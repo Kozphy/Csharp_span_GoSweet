@@ -9,6 +9,7 @@ using System.Threading.Tasks.Dataflow;
 using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto.Agreement;
 
 namespace GoSweet.Controllers
 {
@@ -88,16 +89,21 @@ namespace GoSweet.Controllers
                                                                  GroupPeoplePercent = Math.Floor((double)member.MNowpeople / groupbuy.GMaxpeople * 100.0),
                                                                  GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
                                                              }).Take(4).ToList();
+            // belldropdown message
+            BellDropDownVm?  bellDropDownDatas = GetBellDropdownMessage();
+
             //Console.WriteLine(productGroupBuyData);
             _indexViewModelData.categoryViewModel = categoriesDatas;
             _indexViewModelData.productRankDatas = productRankData;
             _indexViewModelData.productGroupBuyDatas = productGroupBuyData;
+            _indexViewModelData.bellDropDownVm = bellDropDownDatas;
+            //_indexViewModelData.bellContentDatas = bellContentsDatas;
             HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
 
 
-            Console.WriteLine(HttpContext.Session.GetString("customerAccountName"));
-            Console.WriteLine(HttpContext.Session.GetString("c_number"));
+            //Console.WriteLine(HttpContext.Session.GetString("customerAccountName"));
+            //Console.WriteLine(HttpContext.Session.GetString("c_number"));
             //foreach (var group in productGroupBuyData)
             //{
             //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
@@ -106,6 +112,60 @@ namespace GoSweet.Controllers
             //    }
             //}
             return View(_indexViewModelData);
+        }
+
+        private BellDropDownVm? GetBellDropdownMessage() {
+
+            string customerAccount = HttpContext.Session.GetString("customerAccount")!;
+            if (customerAccount == null) {
+                return null;
+            }
+
+            IEnumerable<notifyMessageAlreadyGroupVm> notifyMessageAlreadyGroup =  
+                                           (from notify in _context.NotifyDatatables
+                                           join order in _context.OrderDatatables
+                                               on notify.ONumber equals order.ONumber
+                                           join customer in _context.CustomerAccounttables
+                                               on notify.CNumber equals customer.CNumber
+                                           join product in _context.ProductDatatables
+                                               on order.PNumber equals product.PNumber
+                                           join groups in _context.GroupDatatables 
+                                               on  product.PNumber equals groups.PNumber
+                                            where (notify.OStatus == "已成團") && customer.CAccount == customerAccount
+                                            select new notifyMessageAlreadyGroupVm
+                                            {
+                                                //OrderNumber = notify.ONumber,
+                                                GroupNumber = groups.PNumber,
+                                                //Account = customer.CAccount,
+                                                ProductName = product.PName,
+                                                OrderStatus = notify.OStatus,
+                                            }).ToList();
+
+            //IEnumerable<BellContentVm> notifyMessage
+
+            IEnumerable<notifyMessageAlreadySendVm> notifyMessageAlreadySend =
+            (from notify in _context.NotifyDatatables
+             join order in _context.OrderDatatables
+                 on notify.ONumber equals order.ONumber
+             join customer in _context.CustomerAccounttables
+                 on notify.CNumber equals customer.CNumber
+             join product in _context.ProductDatatables
+                 on order.PNumber equals product.PNumber
+             where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount
+             select new notifyMessageAlreadySendVm
+             {
+                 OrderNumber = notify.ONumber,
+                 //Account = customer.CAccount,
+                 ProductName = product.PName,
+                 OrderStatus = notify.OStatus,
+             }).ToList();
+
+            BellDropDownVm bellDropDownVm = new BellDropDownVm();
+
+            bellDropDownVm.notifyMessage.Append(notifyMessageAlreadyGroup);
+            bellDropDownVm.notifyMessage = notifyMessageAlreadySend;
+
+            return bellDropDownVm;
         }
 
         [HttpGet]
@@ -164,28 +224,31 @@ namespace GoSweet.Controllers
         {
             if (ModelState.IsValid == false) return View();
 
-            var userAccount = _context.CustomerAccounttables.Where((c) =>
+            var userAccountQuery = _context.CustomerAccounttables.Where((c) =>
                 c.CAccount.Equals(customerLoginData.CAccount) &&
                 c.CPassword.Equals(customerLoginData.CPassword)
             ).Select((c) =>
             new
             {
                 AccountName = c.CNickname,
+                CustomerAccount = c.CAccount,
                 c_number = c.CNumber,
             });
 
             // TODO: check account permission
             //var userAccountPermission = userAccount.
 
-            bool accountNotExist = userAccount.IsNullOrEmpty();
+            bool accountNotExist = userAccountQuery.IsNullOrEmpty();
 
             if (accountNotExist.Equals(true))
             {
                 TempData["customerAccountNotExistMessage"] = "帳號不存在或密碼錯誤";
                 return RedirectToAction("Login");
             }
-            HttpContext.Session.SetString("customerAccountName", userAccount.First().AccountName);
-            HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.First().c_number));
+            var userAccount = userAccountQuery.First();
+            HttpContext.Session.SetString("customerAccountName", userAccount.AccountName);
+            HttpContext.Session.SetString("customerAccount", userAccount.CustomerAccount);
+            HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.c_number));
             TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
             return RedirectToAction("Index");
         }
@@ -302,19 +365,13 @@ namespace GoSweet.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Logout() {
+        public IActionResult LogOut() {
             HttpContext.Session.Remove("customerAccountName");
+            HttpContext.Session.Remove("customerAccount");
             //HttpContext.Session.SetString("AccountName", String.Empty);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
         
-        public JsonResult BellDropdownMessage() {
-            
-            var notifyMessage  = from n in _context.NotifyDatatables
-                                 join f in _context.FirmAccounttables
-                                 join in _context.
-            return new JsonResult();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

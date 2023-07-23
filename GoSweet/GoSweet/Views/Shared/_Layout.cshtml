@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor Accessor
+@model GoSweet.Models.ViewModels.HomeIndexVm;
 @{
     string? currentPage = @ViewContext.RouteData.Values["controller"]!.ToString();
 }
@@ -53,18 +54,43 @@
                             <span class="count-red-circle">0</span>
                             @*bell dropdown*@
                             <div class="w-340px dropdown-menu bell-dropdown-menu  d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 rounded-3 shadow-lg " data-bs-theme="dark">
-                                <ul class="list-unstyled d-flex flex-column gap-2 flex-grow-1">
-                                    <li>
-                                        <a href="#" class="btn btn-hover-light rounded-2 d-flex align-items-start gap-2 py-2 px-3 lh-sm text-start">
-                                            <div class=" h-100 flex-grow-1 d-flex justify-content-center align-items-center">
-                                                <i class="bi bi-info-square info-icon"></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <strong class="d-block">Main product</strong>
-                                                <small>Take a tour through the product</small>
-                                            </div>
-                                        </a>
-                                    </li>
+                                <ul class="list-unstyled d-flex flex-column gap-2 flex-grow-1 bellContent">
+                                    @{
+                                        <h1>@Model.bellDropDownVm.notifyMessage</h1>
+                                        if (Accessor.HttpContext?.Session.GetString("customerAccount") == null || Model.bellContentDatas == null)
+                                        {
+                                            <li>
+                                                <a href="#" class="d-block btn btn-hover-light rounded-2 d-flex align-items-start gap-2 py-2 px-3 lh-sm text-start">
+                                                    <div class="row justify-content-center align-items-center flex-grow-1">
+                                                        <div class="col-3 text-center">
+                                                            <i class="bi bi-info-square info-icon"></i>
+                                                        </div>
+                                                        <div class="col-9 ">
+                                                            <string>無信息</string>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        }else{
+                                            foreach (var item in Model.bellDropDownVm.notifyMessage)
+                                            {
+                                                <li>
+                                                    <a href="#" class="d-block btn btn-hover-light rounded-2  align-items-start gap-2 py-2 px-3 lh-sm text-start">
+                                                        <div class="row justify-content-center align-items-center flex-grow-1">
+                                                            <div class="col-3 text-center">
+                                                                <i class="bi bi-info-square info-icon"></i>
+                                                            </div>
+                                                            <div class="col-9 ">
+                                                                <p>訂單編號: @item.OrderNumber</p>
+                                                                <string>@item.ProductName</string>
+                                                                <string>@item.OrderStatus</string>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                    }
                                 </ul>
                             </div>
                             @*bell dropdown end*@
@@ -141,7 +167,7 @@
         </div>
 
         @*search bar section*@
-        <div class="container search-bar-section">
+        <div class="container search-bar-section mb-1">
             <form method="get" class="search-bar" role="search">
                 <div class="row">
                     <div class="col-12 col-md-10">
@@ -188,35 +214,35 @@
                 </div>
             </div>
         </nav>
-@*        <nav class="navbar-section navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-mute-1 border-bottom box-shadow mt-alert-mute-2 pb-2 mt-2 ">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1 justify-content-around">
-                        <li class="nav-item">
-                            <a class="nav-link text-black px-5" asp-controller="Home" asp-action="Index">首頁</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-controller="Search" asp-action="Product">商品</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-controller="Search" asp-action="SearchResult">團購</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-controller="Home" asp-action="Privacy">合作廠商</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-controller="Home" asp-action="Privacy">關於我們</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5" asp-controller="Home" asp-action="Privacy">F&Q</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        @*        <nav class="navbar-section navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-mute-1 border-bottom box-shadow mt-alert-mute-2 pb-2 mt-2 ">
+        <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul class="navbar-nav flex-grow-1 justify-content-around">
+        <li class="nav-item">
+        <a class="nav-link text-black px-5" asp-controller="Home" asp-action="Index">首頁</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark px-5" asp-controller="Search" asp-action="Product">商品</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark px-5" asp-controller="Search" asp-action="SearchResult">團購</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark px-5" asp-controller="Home" asp-action="Privacy">合作廠商</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark px-5" asp-controller="Home" asp-action="Privacy">關於我們</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark px-5" asp-controller="Home" asp-action="Privacy">F&Q</a>
+        </li>
+        </ul>
+        </div>
+        </div>
         </nav>*@
     </header>
 
@@ -229,7 +255,7 @@
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none mt-3">
             <span class="fs-4 ms-2">
                 @{
-                    string? accountName = Accessor.HttpContext?.Session.GetString("AccountName");
+                    string? accountName = Accessor.HttpContext?.Session.GetString("customerAccountName");
                     if (accountName == null)
                     {
                         <span class="fs-4">Go 菓</span>
@@ -242,7 +268,7 @@
             </span>
         </a>
         <hr>
-        @if (Accessor.HttpContext?.Session.GetString("AccountName") == null)
+        @if (Accessor.HttpContext?.Session.GetString("customerAccountName") == null)
         {
             <div class="text-center fw-bolder">
                 <a class="text-decoration-none py-3 w-100 userLoginBtn d-inline-block" asp-controller="Home" asp-action="Login">
@@ -268,7 +294,7 @@
                 </a>
             </div>
             <div class="text-center fw-bolder ">
-                <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Home" asp-action="Logout">
+                <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Home" asp-action="LogOut">
                     登出
                 </a>
             </div>

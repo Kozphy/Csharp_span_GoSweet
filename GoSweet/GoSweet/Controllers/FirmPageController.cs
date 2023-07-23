@@ -300,9 +300,6 @@ namespace GoSweet.Controllers
         }
 
 
-
-
-
         public IActionResult Login()
         {
             return View();
@@ -417,7 +414,7 @@ namespace GoSweet.Controllers
             return RedirectToAction("Login");
         }
 
-            public IActionResult ResetPassword(string EmailAddress)
+        public IActionResult ResetPassword(string EmailAddress)
         {
             ViewBag.EmailAddress = EmailAddress;
             return View();
@@ -445,8 +442,9 @@ namespace GoSweet.Controllers
 
         public IActionResult Logout() {
             HttpContext.Session.Remove("firmAccountName");
+            HttpContext.Session.Remove("firmAccount");
             //HttpContext.Session.SetString("AccountName", String.Empty);
-            return RedirectToAction("Homepage","FirmPage");
+            return RedirectToAction("Homepage", "FirmPage");
         }
 
     }

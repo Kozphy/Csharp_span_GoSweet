@@ -7,6 +7,7 @@ namespace GoSweet.Models.ViewModels
         public IEnumerable<CategoryViewModel>? categoryViewModel { get; set; }
         public IEnumerable<ProductRankDataViewModel>? productRankDatas { get; set; }
         public IEnumerable<ProductGroupBuyData>? productGroupBuyDatas { get; set; }
+        public BellDropDownVm? bellDropDownVm { get; set; }
     }
 
     public class CategoryViewModel
@@ -35,4 +36,5 @@ namespace GoSweet.Models.ViewModels
         public DateTime GroupEndDate { get; set; }
         public int GroupRemainDate { get; set; }
     }
+
 }
