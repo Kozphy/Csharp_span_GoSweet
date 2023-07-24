@@ -1,0 +1,91 @@
+﻿@model GoSweet.Models.ProductDatatable
+
+@*@{
+    ViewData["Title"] = "Delete";
+}*@
+<div class="page-set" style="margin-left:15%; margin-right:15%; font-size:23px;">
+    <div style="font-size:40px;">
+        <h3>商品下架</h3>
+    </div>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PSpec)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PSpec)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PCategory)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PCategory)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PPrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PPrice)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PDescribe)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PDescribe)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PSavedate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PSavedate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PSaveway)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PSaveway)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PInventory)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PInventory)
+        </dd>
+       @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PShip)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PShip)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PPayment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PPayment)
+        </dd>*@
+       @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FNumberNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FNumberNavigation.FNumber)
+        </dd>*@
+    </dl>
+
+        <div style="margin-left:50%;">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="PNumber" />
+                <input type="submit" value="Delete" class="btn btn-danger" style="color:red" />
+                @*<a asp-action="Index">Back to List</a>*@
+            </form>
+        </div>
+   
+   
+</div>
+</div>
