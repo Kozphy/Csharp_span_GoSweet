@@ -29,7 +29,7 @@
 
 /*營收圖表-圖表設定細項*/
 .RevenuepageChartSetting {
-    font-size:1.2rem;
+    font-size:1.5rem;
 }
 
 /*營收圖表-圖表設定細項*/
@@ -80,6 +80,10 @@ canvas {
 /* 表格用樣式 */
 .SearchList{
   min-height: 910px;
+}
+
+.tab-pane {
+    max-height:600px;
 }
 
 table {

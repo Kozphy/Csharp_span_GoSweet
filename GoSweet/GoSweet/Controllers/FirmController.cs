@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using GoSweet.Models.ViewModels;
 using GoSweet.Models;
 
-namespace Officel.Controllers
+namespace GoSweet.Controllers
 {
     public class FirmController : Controller
     {
@@ -152,7 +153,23 @@ namespace Officel.Controllers
             return View(HomepageModels);
         }
 
-        public IActionResult Revenue()
+        public JsonResult RatingJson() 
+        {
+            var somebody = (from someone in _context.OrderAssesstables
+                            select someone.OCscore).Sum();
+            var something = (from someone in _context.OrderAssesstables
+							 select someone.OCscore).Count();
+            ratingvalue rateValue = new ratingvalue
+            {
+                ratingScore = somebody,
+                ratingQuentity = something
+            };
+
+            return Json(rateValue);
+		}
+
+
+		public IActionResult Revenue()
         {
 
             #region 日期設定
@@ -185,29 +202,29 @@ namespace Officel.Controllers
             ViewData["Expenses"] = Period.Where(Money => Money < 0).Sum().ToString("C0");
             #endregion
 
-            //JsonData();
+            JsonData();
             return View();
         }
 
-        //public JsonResult JsonData()
-        //{
-        //    var somebody = from someone in _context.OrderDatatables
-        //                   join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
-        //                   where someone.OStart >= global.StartDate && someone.OStart < global.EndDate
-        //                   orderby someone.OStart
-        //                   select new RevenueSearch
-        //                   {
-        //                       orderDate = someone.OStart.ToString(),
-        //                       name = something.PName,
-        //                       orderType = someone.OType ? "團購" : "直購",
-        //                       shipState = someone.OShipstatus,
-        //                       categories = something.PCategory,
-        //                       id = someone.ONumber,
-        //                       quentity = someone.OBuynumber,
-        //                       price = someone.OPrice,
-        //                       total = decimal.Round(someone.OBuynumber * someone.OPrice, 2)
-        //                   };
-        //    return Json(somebody.ToList<RevenueSearch>());
-        //}
+        public JsonResult JsonData()
+        {
+            var somebody = from someone in _context.OrderDatatables
+                           join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
+                           where someone.OStart >= global.StartDate && someone.OStart< global.EndDate
+                           orderby someone.OStart
+                           select new RevenueSearch
+                           {
+                               orderDate = someone.OStart.ToString(),
+                               name = something.PName,
+                               orderType = someone.OType?"團購":"直購",
+                               shipState = someone.OShipstatus,
+                               categories = something.PCategory,
+                               id = someone.ONumber,
+                               quentity = someone.OBuynumber,
+                               price = someone.OPrice,
+                               total = decimal.Round(someone.OBuynumber * someone.OPrice, 2)
+                           };
+            return Json(somebody.ToList<RevenueSearch>());
+        }
     }
 }

@@ -11,12 +11,12 @@
 
 			@*廠商商標*@
 			<div class="col-12 col-xl-3 py-2">
-				<div class="row pe-3">
+				<div class="row pe-xl-3">
 					<div class="HomepageStatusBlock col-12 py-2 d-flex justify-content-center align-items-center border rounded bg-white shadow">
 						<a href="./">
 							<figure class="figure">
 								<!-- ★★★★★需要廠商圖片★★★★★ -->
-								<img src="~/img/home/AngleCake.jpg" class="figure-img img-fluid rounded" alt="ManufacturersLogo" id="ManufacturersLogo">
+								<img src="" class="figure-img img-fluid rounded" alt="ManufacturersLogo" id="ManufacturersLogo">
 								<figcaption class="LogoContent figure-caption">歡迎回來!</figcaption>
 							</figure>
 						</a>
@@ -26,7 +26,7 @@
 
 			@*營運簡報*@
 			<div class="col-12 col-xl-9 py-2">
-				<div class="row ps-3">
+				<div class="row ps-xl-3">
 					<div class="HomepageStatusBlock col-12 border rounded bg-white shadow">
 						<div class="row d-flex flex-column">
 							<div class="col-12 my-2">
@@ -43,37 +43,31 @@
 								<span class="HomepageFirmStatusContent">(<span id="NumberOrder">999</span>)</span>
 							</div>
 							<div class="HomepageFirmStatusTitle fw-bold col-12 mt-2">當月表現:</div>
-							<div class="col-12 my-3 text-center">
+							<div class="col-12 my-3">
 								<div class="row d-flex justify-content-around">
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總訂單數:<span class="HomepageFirmStatusContent">@Model.ThisMonthOrdersTotal</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl-2 text-nowrap overflow-hidden">總訂單數:<span class="HomepageFirmStatusContent">@Model.ThisMonthOrdersTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總寄件數:<span class="HomepageFirmStatusContent">@Model.ThisMonthShippedTotal</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl-2 text-nowrap overflow-hidden">總寄件數:<span class="HomepageFirmStatusContent">@Model.ThisMonthShippedTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">未寄件數:<span class="HomepageFirmStatusContent">@Model.ThisMonthunShippedTotal</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl-2 text-nowrap overflow-hidden">未寄件數:<span class="HomepageFirmStatusContent">@Model.ThisMonthunShippedTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl text-nowrap overflow-hidden">總銷售額:<span class="HomepageFirmStatusContent">@Model.ThisMonthReveune</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl-4 text-nowrap overflow-hidden">總銷售額:<span class="HomepageFirmStatusContent">@Model.ThisMonthReveune</span></div>
 								</div>
 							</div>
 							<div class="HomepageFirmStatusTitle fw-bold col-12">前月表現:</div>
-							<div class="col-12 my-3 text-center">
+							<div class="col-12 my-3">
 								<div class="row d-flex justify-content-around">
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總訂單數:<span class="HomepageFirmStatusContent">@Model.LastMonthOrdersTotal</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl-2 text-nowrap overflow-hidden">總訂單數:<span class="HomepageFirmStatusContent">@Model.LastMonthOrdersTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">總寄件數:<span class="HomepageFirmStatusContent">@Model.LastMonthShippedTotal</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl-2 text-nowrap overflow-hidden">總寄件數:<span class="HomepageFirmStatusContent">@Model.LastMonthShippedTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl">未寄件數:<span class="HomepageFirmStatusContent">@Model.LastMonthunShippedTotal</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl-2 text-nowrap overflow-hidden">未寄件數:<span class="HomepageFirmStatusContent">@Model.LastMonthunShippedTotal</span></div>
 									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									<div class="HomepageFirmStatusSubtitle col-12 col-xl text-nowrap overflow-hidden">總銷售額:<span class="HomepageFirmStatusContent">@Model.LastMonthReveune</span></div>
+									<div class="HomepageFirmStatusSubtitle col-12 col-xl-4 text-nowrap overflow-hidden">總銷售額:<span class="HomepageFirmStatusContent">@Model.LastMonthReveune</span></div>
 								</div>
 							</div>
-							<a class="col-12 mt-3 text-end link-underline-light text-secondary">
-								更新日期：<span class="update" onclick="refresh()">
-									<!-- ★★★★★需要廠商訂單數★★★★★ -->
-									2023-06-01 ~ 2023-06-28
-								</span>
-							</a>
 						</div>
 					</div>
 				</div>
@@ -82,8 +76,8 @@
 
 		@*未處理訂單*@
 		<div class="row mx-0 border rounded my-4 bg-white shadow">
-			<div class="col-12 py-2">
-				<div class="HomepageFirmTitle m-1">最近訂單</div>
+			<div class="HomgpageListblock col-12 py-2">
+				<div class="HomepageFirmTitle m-1">未處理訂單</div>
 				<hr>
 				<form>
 					<table class="HomepageTable table table-hover">
@@ -122,7 +116,7 @@
 			<div class="col-6 py-2">
 				<div class="row pe-3">
 					<div class="col-12 border rounded  bg-white shadow">
-						<div class="row py-2">
+						<div class="HomgpageListblock row py-2">
 							<div class="HomepageFirmTitle col-12 m-1">
 								最近評論
 							</div>
@@ -158,7 +152,7 @@
 			<div class="col-6 py-2">
 				<div class="row ps-3">
 					<div class="col-12 border rounded  bg-white shadow">
-						<div class="row py-2">
+						<div class="HomgpageListblock row py-2">
 							<div class="HomepageFirmTitle col-12 m-1">
 								近期熱賣
 							</div>
