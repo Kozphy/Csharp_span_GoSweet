@@ -151,10 +151,13 @@ namespace GoSweet.Controllers
                 HotSale = Hotsale.Take(10).ToList(),
 
                 // bell dropdown message
-                FirmBellDropDownDatas = GetBellDropdownMessage()
+                //FirmBellDropDownDatas = GetBellDropdownMessage()
                 
             };
             #endregion
+
+            ViewBag.notifyMessage = GetBellDropdownMessage();
+
 
 
             return View(HomepageModels);
