@@ -51,7 +51,10 @@
                     <div class="my-auto d-flex align-items-center">
                         <div class="me-3 count-red-circle-parent">
                             <i class="bi bi-bell-fill nav-icon bellIcon p-2"></i>
-                            <span class="count-red-circle">0</span>
+                            @{
+                                int customerBellDropDownCount = Convert.ToInt32(ViewData["customerBellDropDownCount"]);
+                                <span class="count-red-circle">@customerBellDropDownCount</span>
+                            }
                             @*bell dropdown*@
                             <div class="w-340px dropdown-menu bell-dropdown-menu  d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 rounded-3 shadow-lg " data-bs-theme="dark">
                                 <ul class="list-unstyled d-flex flex-column gap-2 flex-grow-1 bellContent">

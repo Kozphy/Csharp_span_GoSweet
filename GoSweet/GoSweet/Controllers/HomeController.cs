@@ -158,6 +158,7 @@ namespace GoSweet.Controllers
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
+            ViewData["customerBellDropDownCount"] = bellDropDownsDatas.Count();
 
 
             return bellDropDownsDatas;
@@ -193,20 +194,8 @@ namespace GoSweet.Controllers
                                                               }).ToList();
 
 
-            //TODO: fix value can't be null
-            //IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
-            //foreach (var item in categoriesDatas!)
-            //{
-            //    Console.WriteLine(item.Category);
-            //}
-            //IEnumerable<ProductGroupBuyData>? productGroupBuyDatas = JsonConvert.DeserializeObject<IEnumerable<ProductGroupBuyData>>(HttpContext.Session.GetString("productGroupBuyDatas")!);
-            //_indexViewModelData.categoryViewModel = categoriesDatas;
-            //_indexViewModelData.productGroupBuyDatas = productGroupBuyDatas;
-            //_indexViewModelData.productRankDatas = productRankData;
             
-            //RedirectToAction("Index", _indexViewModelData);
             return new JsonResult(JsonConvert.SerializeObject(productRankData)); 
-            //return View("Index", _indexViewModelData);
         }
 
         public IActionResult Login()

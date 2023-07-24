@@ -5,11 +5,11 @@ bellIconBtn.addEventListener("click", function (e) {
     bellDropDownContent.classList.toggle("bell-dropdown-menu-show");
 });
 
-let bellRedCount = bellIconBtn.nextElementSibling;
-let bellContent = document.querySelectorAll(".bellContent");
+//let bellRedCount = bellIconBtn.nextElementSibling;
+//let bellContent = document.querySelectorAll(".bellContent");
 //console.log(bellContent.length);
 // TODO: fix if content is default value
-bellRedCount.textContent = bellContent.length;
+//bellRedCount.textContent = bellContent.length;
 //bellIconBtn.textContent =
 //console.log(bellRedCount);
 //bellIconBtn.textContent

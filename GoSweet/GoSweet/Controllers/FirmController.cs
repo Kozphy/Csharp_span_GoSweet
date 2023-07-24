@@ -192,8 +192,8 @@ namespace GoSweet.Controllers
                  });
 
             IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();
-            TempData["NotifyMessagesCount"] = firmNotifyMessages.Count();
-            Console.WriteLine("TempData: {0}", TempData["NotifyMessagesCount"]);
+            ViewData["NotifyMessagesCount"] = firmNotifyMessages.Count();
+            Console.WriteLine("TempData: {0}", ViewData["NotifyMessagesCount"]);
             //ViewBag.NotifyMessagesCount = firmNotifyMessages.Count(); 
 
             return firmNotifyMessages;
