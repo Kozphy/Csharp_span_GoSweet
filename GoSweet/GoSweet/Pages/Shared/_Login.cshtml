@@ -1,0 +1,84 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    string? currentController = @ViewContext.RouteData.Values["controller"]!.ToString();
+}
+
+
+
+<div class="container-fluid px-0 position-relative ">
+    <div class="row g-0 ">
+        <div class="col-6">
+            <img class="img-fluid vh-100 w-100" src="~/img/Login/登入頁面pic.jpg" alt="login pic" />
+        </div>
+        <div class="col-6  d-flex flex-column login-section ">
+            <div class="login-form-section m-auto">
+                <div class="form-title-box bg-mute-2 py-2 text-white rounded mb-2">
+                    @if (currentController == "FirmPage")
+                    {
+                        <h2 class="display-6">Firm Login</h2>
+                    }
+                    else
+                    {
+                        <h2 class="display-6">Login</h2>
+                    }
+                </div>
+                <form class="login-form" method="post" asp-action="Login">
+                    <div class="py-2">
+                        <label for="UserEmail" class="form-label">Email</label>
+                        <input type="email" name="UserEmail" id="UserEmail" class="form-control" required />
+                    </div>
+                    <div class="py-2">
+                        <label for="UserPassword" class="form-label">Password</label>
+                        <span role="button" class="ms-2 text-mute-3 fw-bolder text-decoration-underline " data-bs-toggle="modal" data-bs-target="#ForgetPasswordModal">Forget?</span>
+                        <input type="password" name="UserPassword" id="UserPassword" class="form-control" required />
+                    </div>
+                    <div class="mb-2" id="html_recaptcha" onclick="onClick" required></div>
+                    @*<div class="mb-2">驗證</div>*@
+                    <div class="row">
+                        <div class="col-12 mb-2 mb-md-0 col-md-6">
+                            <button type="submit" class="loginBtn w-100 btn btn-mute-2  text-dark">登入</button>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            @if (currentController == "FirmPage")
+                            {
+                                <a asp-controller="FirmPage" asp-action="SignUp" class="signUpBtn w-100 btn btn-mute-5  text-dark">
+                                    註冊
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Home" asp-action="SignUp" class="signUpBtn w-100 btn btn-mute-5  text-dark">
+                                    註冊
+                                </a>
+                            }
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="home-icon-section">
+                <div class="d-flex justify-content-end">
+                    @if (currentController == "FirmPage")
+                    {
+                        <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="FirmPage" asp-action="Homepage">
+                            <i class="bi bi-house-door-fill"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-house-door-fill"></i>
+                        </a>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Pages/Shared/_ForgetPasswordModal.cshtml");
+

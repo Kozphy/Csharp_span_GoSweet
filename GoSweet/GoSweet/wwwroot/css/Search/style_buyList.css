@@ -26,7 +26,7 @@
     padding: 20px;
 }
 
-.buyCheck a{
+.buyCheck input{
     padding: 20px 40px;
     text-decoration:none;
     background-color: #A15C38;
@@ -34,9 +34,9 @@
     /* background-color: #F7F1F0; */
 }
 
-.buyCheck a:hover{
-    background-color: #c3a6a0;
-}
+    .buyCheck input:hover {
+        background-color: #c3a6a0;
+    }
 
 .buyCheck span{
     text-align: center;

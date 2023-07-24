@@ -1,50 +1,48 @@
-﻿@*
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Newtonsoft.Json;
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     Layout = "_LayoutLoginSignUp";
 }
 
-<link rel="stylesheet" href="~/css//SignUp/SignUp.css"/>
-<link rel="stylesheet" href="~/css/SignUp/GoToAnother.css" />
+@section Head{
+    <link rel="stylesheet" href="~/css/SignUp/SignUp.css"/>
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css"/>
+}
 
-<div class="container-fluid px-0 position-relative">
-    <div class="row g-0">
-        <div class="col-6">
-            <img class="img-fluid vh-100 w-100" src="~/img/SignUp/註冊頁面pic.jpg" alt="SignUp pic" />
-        </div>
-        <div class="col-6  d-flex flex-column SignUp-section ">
-            <div class="signUp-form m-auto">
-                <div class="form-title-box bg-mute-2 py-2 text-white rounded mb-2">
-                    <h2 class="display-6">SignUp</h2>
-                </div>
-                <form method="post">
-                    <div class="py-2">
-                        <label for="AccountName" class="form-label">帳戶名稱</label>
-                        <input type="text" id="AccountName" class="form-control" required />
-                    </div>
-                    <div class="py-2">
-                        <label for="UserEmail" class="form-label" >Email</label>
-                        <input type="email" id="UserEmail" class="form-control" pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required />
-                    </div>
-                    <div class="py-2">
-                        <label for="UserPassword" class="form-label">密碼</label>
-                        <input type="password" id="UserPassword" class="form-control"  required/>
-                    </div>
-                    <div class="py-2">
-                        <label for="UserPasswordCheck" class="form-label">再次確認密碼</label>
-                        <input type="password" id="UserPasswordCheck" class="form-control"  required/>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 mb-2 mb-md-0 col-md-12">
-                            <button type="submit" class="SignUpBtn w-100 btn btn-mute-2  text-dark">註冊</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            @await Html.PartialAsync("~/Pages/Shared/_SignUpNavigation.cshtml");
-        </div>
-    </div>
 
-</div>
 
+@await Html.PartialAsync("~/Pages/Shared/_SignUp.cshtml");
+
+@section Scripts{
+    <script src="~/lib/sweetalert2/sweetalert2.js"></script>
+    <script src="~/js/PasswordCheck.js"></script>
+
+
+    @if (TempData["customerAccountExistMessage"] != null)
+    {
+        <script>
+            let customerAccountExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountExistMessage"]));
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: customerAccountExistMessage,
+            });
+        </script>
+    }
+
+    @if (TempData["customerSignUpSuccessMessage"] != null)
+    {
+        <script>
+            let customerSignUpSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerSignUpSuccessMessage"]));
+            Swal.fire({
+                icon: 'success',
+                title: 'SignUp Success...',
+                text: customerSignUpSuccessMessage,
+            });
+
+        </script>
+    }
+}

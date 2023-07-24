@@ -43,6 +43,14 @@
         "dist/browser/signalr.js.map",
         "dist/browser/signalr.min.js.map"
       ]
+    },
+    {
+      "library": "sweetalert2@11.7.18",
+      "destination": "wwwroot/lib/sweetalert2/"
+    },
+    {
+      "library": "axios@1.4.0",
+      "destination": "wwwroot/lib/axios/"
     }
   ]
 }

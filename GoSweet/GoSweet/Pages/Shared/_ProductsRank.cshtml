@@ -1,0 +1,44 @@
+@model GoSweet.Models.ViewModels.HomeIndexVm;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*商品排行內容*@
+<div class="container product-rank px-3 ">
+    <h2 class="text-muted py-2 product-rank-small-title">XX種類熱銷排行(下方滑鼠可左右拖曳)</h2>
+    @*splide js*@
+    <section class="splide2 splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                @foreach (var item in Model.ProductRankDatas!)
+                {
+                    <li class="splide__slide">
+                        <div class="splide__slide__container">
+                            <div class="product-rank-card card">
+                                <div class="position-relative">
+                                    <div class="product-rank-hover-content d-flex">
+                                        <button class="btn btn-outline-light rounded-0 m-auto ">GO >></button>
+                                    </div>
+                                    <img class="card-img-top" src="@item.ProductPicture" />
+                                </div>
+                                <div class="card-title mb-0 py-2 text-center product-card-title">
+                                    @item.ProductName
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center card-text multiline-ellipsis-3">
+                                        @item.ProductDescription
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    大約 @item.ProductTotalBuyNumber 人購買
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+</div>
+

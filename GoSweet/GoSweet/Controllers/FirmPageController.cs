@@ -1,21 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using GoSweet.Models;
+﻿using GoSweet.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.IO.Pipelines;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Json;
+using System.Linq;
+using Microsoft.IdentityModel.Tokens;
+using GoSweet.Controllers.feature;
+using GoSweet.Models.ViewModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace GoSweet.Controllers {
-    public class FirmPageController : Controller {
+namespace GoSweet.Controllers
+{
+    public class FirmPageController : Controller
+    {
 
         private readonly ShopwebContext _context;
-        public FirmPageController(ShopwebContext context)
+        private readonly IConfiguration _config;
+
+        public FirmPageController(ShopwebContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
+
         }
         public IActionResult ProductSale()
         {
@@ -389,18 +399,157 @@ namespace GoSweet.Controllers {
         }
 
 
-
-
-
         public IActionResult Login()
         {
-
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Login(FirmAccountVm firmLoginData)
+        {
+            if (ModelState.IsValid == false) return View();
+
+            // get database firm account data
+            var firmAccountQuery = _context.FirmAccounttables.Where((f) =>
+                f.FAccount.Equals(firmLoginData.FAccount) &&
+                f.FPassword.Equals(firmLoginData.FPassword)
+            ).Select((f) =>
+            new
+            {
+                Account = f.FAccount,
+                AccountName = f.FNickname,
+                f_number = f.FNumber,
+            });
+
+            bool accountNotExist = firmAccountQuery.IsNullOrEmpty();
+
+            if (accountNotExist.Equals(true))
+            {
+                TempData["firmAccountNotExistMessage"] = "帳號不存在";
+                return RedirectToAction("Login");
+            }
+
+            var firmAccount = firmAccountQuery.First();
+
+            HttpContext.Session.SetString("firmAccount", firmAccount.AccountName);
+            HttpContext.Session.SetString("firmAccountName", firmAccount.AccountName);
+            HttpContext.Session.SetString("f_number", Convert.ToString(firmAccount.f_number));
+            TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
+
+            return RedirectToAction("Homepage","FirmPage");
+        }
+
 
         public IActionResult SignUp()
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult SignUp(FirmAccountVm firmAccountData)
+        {
+            if (ModelState.IsValid == false) return View();
+
+            bool accountNotExist = _context.FirmAccounttables.Where((f) =>
+                f.FNickname.Equals(firmAccountData.FNickname) &&
+                f.FAccount.Equals(firmAccountData.FAccount) &&
+                f.FPassword.Equals(firmAccountData.FPassword)
+            ).IsNullOrEmpty();
+
+            if (accountNotExist.Equals(false))
+            {
+                TempData["firmAccountExistMessage"] = "此帳號已被註冊";
+                RedirectToAction("SignUp");
+                return View();
+            }
+
+            try
+            {
+                CreateFirmAccount(firmAccountData);
+                TempData["firmSignUpSuccessMessage"] = "帳號註冊成功";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return RedirectToAction("SignUp");
+        }
+
+        private void CreateFirmAccount(FirmAccountVm firmAccountData)
+        {
+            FirmAccounttable firmAccount = new FirmAccounttable()
+            {
+                FNickname = firmAccountData.FNickname,
+                FAccount = firmAccountData.FAccount,
+                FPassword = firmAccountData.FPassword,
+                FMailpass = firmAccountData.FMailpass,
+            };
+            _context.FirmAccounttables.Add(firmAccount);
+            _context.SaveChanges();
+        }
+
+        [HttpPost]
+        public IActionResult SendMail(string EmailAddress)
+        {
+            if (ModelState.IsValid == false) return View();
+
+            if (EmailAddress.IsNullOrEmpty())
+            {
+                return RedirectToAction("Login");
+            }
+
+            // 寄送 email 之前先檢查 email 是否存在
+            bool frimAccountNotExist = _context.FirmAccounttables.Where(
+                c => c.FAccount.Equals(EmailAddress)).IsNullOrEmpty();
+
+            if (frimAccountNotExist.Equals(true))
+            {
+                TempData["firmAccountNotExistMessage"] = "帳號不存在";
+                return RedirectToAction("Login");
+            }
+
+
+            Mail mailHandler = new Mail(EmailAddress, "FirmPage");
+            string sendEmailResult = mailHandler.SendMail();
+            TempData["sendEmailResultMessage"] = sendEmailResult;
+
+
+            return RedirectToAction("Login");
+        }
+
+        public IActionResult ResetPassword(string EmailAddress)
+        {
+            ViewBag.EmailAddress = EmailAddress;
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult ResetPassword(string EmailAddress, string oldPassword, string newPassword)
+        {
+
+            var account = _context.FirmAccounttables.Where((c) => c.FAccount.Equals(EmailAddress)).First();
+
+            try
+            {
+                account.FPassword = newPassword;
+                _context.SaveChanges();
+                TempData["resetPasswordSuccessMessage"] = "密碼重置成功";
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction("Homepage","FirmPage");
+        }
+
+        public IActionResult Logout() {
+            HttpContext.Session.Remove("firmAccountName");
+            HttpContext.Session.Remove("firmAccount");
+            //HttpContext.Session.SetString("AccountName", String.Empty);
+            return RedirectToAction("Homepage", "FirmPage");
+        }
+
     }
 }

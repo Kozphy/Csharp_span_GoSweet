@@ -1,6 +1,6 @@
 ﻿{
    "CodeGenerationMode": 2,
-   "ContextClassName": "shopwebContext",
+   "ContextClassName": "ShopwebContext",
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
@@ -13,13 +13,10 @@
    "Schemas": null,
    "SelectedHandlebarsLanguage": 0,
    "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
    "Tables": [
       {
          "Name": "[dbo].[Customer_accounttable]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Customer_datatable]",
          "ObjectType": 0
       },
       {
@@ -27,23 +24,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Firm_datatable]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Firm_pagetable]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Firm_picturetable]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Group_datatable]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Lock_datatable]",
          "ObjectType": 0
       },
       {
@@ -63,6 +48,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Payment_datatable]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Product_datatable]",
          "ObjectType": 0
       },
@@ -71,7 +60,23 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Product_to_Payment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_to_Ship]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Ship_datatable]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Talk_datatable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Talk_membertable]",
          "ObjectType": 0
       },
       {
@@ -79,10 +84,10 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "desktop-ch3gmm4.shopweb.dbo",
+   "UiHint": "desktop-bo1njfv.shopweb.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
-   "UseDatabaseNames": true,
+   "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
@@ -96,6 +101,7 @@
    "UseNodaTime": false,
    "UseNullableReferences": false,
    "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
    "UseSpatial": false,
    "UseT4": false
 }

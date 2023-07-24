@@ -18,9 +18,9 @@
 						<div class="RevenuepageChartSet row p-2">
 							<!-- ★★★★★查詢設定★★★★★ -->
 							<form class="col-12 p-2 d-flex justify-content-around align-items-center">
-								<input type="date" placeholder="開始日期" name="StartDate">
+								<input type="date" placeholder="開始日期" name="StartDate" value=@ViewData["Start"]>
 								~
-								<input type="date" placeholder="結束日期" name="EndDate">
+								<input type="date" placeholder="結束日期" name="EndDate" value=@ViewData["End"]>
 								<button type="submit" class="RevenuepageChartSetting py-0 px-3 btn btn-outline-secondary btn-sm">搜索</button>
 							</form>
 							<div class="btn-group p-2 d-flex align-items-center" role="group"
@@ -32,7 +32,7 @@
 								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="X-axis-Product">產品</label>
 								<input type="radio" class="btn-check" name="X-axis" id="X-axis-Type" autocomplete="off" value="categories">
 								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="X-axis-Type">種類</label>
-								<input type="radio" class="btn-check" name="X-axis" id="X-axis-Group" autocomplete="off" value="id">
+								<input type="radio" class="btn-check" name="X-axis" id="X-axis-Group" autocomplete="off" value="orderType">
 								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="X-axis-Group">直購/團購</label>
 							</div>
 							<div class="btn-group p-2 d-flex align-items-center" role="group"
@@ -60,16 +60,16 @@
 						<div class="row p-2">
 							<div class="RevenuepageSubtitle col-6 text-center my-1">
 								<!-- ★★★★★收入相加★★★★★ -->
-								收入<span class="RevenuepageExplain">(A)</span>: <span id="Revenue" class="RevenuepageContent">999,999</span>
+								收入<span class="RevenuepageExplain">(A)</span>: <span id="Revenue" class="RevenuepageContent">@ViewData["Income"]</span>
 							</div>
 							<div class="RevenuepageSubtitle col-6 text-center my-1">
 								<!-- ★★★★★支出相加★★★★★ -->
-								支出<span class="RevenuepageExplain">(B)</span>: <span id="Expenses" class="RevenuepageContent">999,999</span>
+								支出<span class="RevenuepageExplain">(B)</span>: <span id="Expenses" class="RevenuepageContent">@ViewData["Expenses"]</span>
 							</div>
 							<hr />
 							<div class="RevenuepageSubtitle col fw-bold text-end">
 								<!-- ★★★★★收入+支出★★★★★ -->
-								結餘<span class="RevenuepageExplain">(A-B)</span>: <span id="Balance" class="RevenuepageContent">999,999</span>
+								結餘<span class="RevenuepageExplain">(A-B)</span>: <span id="Balance" class="RevenuepageContent">@ViewData["Revenue"]</span>
 							</div>
 						</div>
 					</div>

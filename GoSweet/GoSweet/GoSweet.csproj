@@ -2580,6 +2580,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -2914,6 +2915,12 @@
     <TypeScriptCompile Include="jit_init\node_modules\yaml\dist\util.d.ts" />
     <TypeScriptCompile Include="jit_init\node_modules\yaml\dist\visit.d.ts" />
     <TypeScriptCompile Include="jit_init\node_modules\yargs\browser.d.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
+    <Folder Include="wwwroot\img\ProductUrl\" />
+    <Folder Include="wwwroot\js\Firm\" />
   </ItemGroup>
 
 </Project>
