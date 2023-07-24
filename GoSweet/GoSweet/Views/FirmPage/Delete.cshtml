@@ -1,14 +1,13 @@
 ﻿@model GoSweet.Models.ProductDatatable
 
-@{
+@*@{
     ViewData["Title"] = "Delete";
-}
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+}*@
+<div class="page-set" style="margin-left:15%; margin-right:15%; font-size:23px;">
+    <div style="font-size:40px;">
+        <h3>確定要下架嗎?</h3>
+    </div>
 <div>
-    <h4>ProductDatatable</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -59,7 +58,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PInventory)
         </dd>
-        <dt class = "col-sm-2">
+       @* <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PShip)
         </dt>
         <dd class = "col-sm-10">
@@ -70,18 +69,23 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PPayment)
-        </dd>
-        <dt class = "col-sm-2">
+        </dd>*@
+       @* <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FNumberNavigation)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FNumberNavigation.FNumber)
-        </dd>
+        </dd>*@
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="PNumber" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+
+        <div style="margin-left:50%;">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="PNumber" />
+                <input type="submit" value="Delete" class="btn btn-danger" style="color:red" />
+                @*<a asp-action="Index">Back to List</a>*@
+            </form>
+        </div>
+   
+   
+</div>
 </div>
