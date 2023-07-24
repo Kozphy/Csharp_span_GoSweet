@@ -158,7 +158,8 @@ namespace GoSweet.Controllers
             };
             #endregion
 
-            ViewBag.notifyMessage = GetBellDropdownMessage();
+            // 廠商通知到 _LayoutFirm
+            ViewBag.NotifyMessages = GetBellDropdownMessage(); 
 
 
 
@@ -173,7 +174,8 @@ namespace GoSweet.Controllers
                 return null;
             }
 
-            IEnumerable<FirmBellDropDownVm> firmNotifyMessage =
+            // 取得廠商通知
+            IEnumerable<FirmBellDropDownVm> firmNotifyMessageQuery =
                 (from notify in _context.NotifyDatatables
                  join order in _context.OrderDatatables
                      on notify.ONumber equals order.ONumber
@@ -187,26 +189,14 @@ namespace GoSweet.Controllers
                      OrderNumber = notify.ONumber,
                      ProductName = product.PName,
                      OrderStatus = order.OStatus,
-                 }).ToList();
+                 });
 
+            IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();
+            TempData["NotifyMessagesCount"] = firmNotifyMessages.Count();
+            Console.WriteLine("TempData: {0}", TempData["NotifyMessagesCount"]);
+            //ViewBag.NotifyMessagesCount = firmNotifyMessages.Count(); 
 
-            //IEnumerable<FirmBellDropDownVm> notifyAlreadyPickUpMessage =
-            //                (from notify in _context.NotifyDatatables
-            //                 join order in _context.OrderDatatables
-            //                     on notify.ONumber equals order.ONumber
-            //                 join firm in _context.FirmAccounttables
-            //                     on notify.FNumber equals firm.FNumber
-            //                 join product in _context.ProductDatatables
-            //                     on order.PNumber equals product.PNumber
-            //                 where notify.OStatus == "已取貨" && firm.FAccount == firmAccount
-            //                 select new FirmBellDropDownVm
-            //                 {
-            //                     OrderNumber = notify.ONumber,
-            //                     ProductName = product.PName,
-            //                     OrderStatus = order.OStatus,
-            //                 }).ToList();
-
-            return firmNotifyMessage;
+            return firmNotifyMessages;
         }
 
 
