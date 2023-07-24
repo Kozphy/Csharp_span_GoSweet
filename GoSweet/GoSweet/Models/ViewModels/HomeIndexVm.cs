@@ -4,9 +4,11 @@ namespace GoSweet.Models.ViewModels
 {
     public class HomeIndexVm
     {
-        public IEnumerable<CategoryViewModel>? categoryViewModel { get; set; }
-        public IEnumerable<ProductRankDataViewModel>? productRankDatas { get; set; }
-        public IEnumerable<ProductGroupBuyData>? productGroupBuyDatas { get; set; }
+        public IEnumerable<CategoryViewModel>? CategoryDatas { get; set; }
+        public IEnumerable<ProductRankDataViewModel>? ProductRankDatas { get; set; }
+        public IEnumerable<ProductGroupBuyData>? ProductGroupBuyDatas { get; set; }
+        public IEnumerable<CustomerBellDropDownVm>? CustomerBellDropDownDatas { get; set; }
+        public IEnumerable<FirmBellDropDownVm>? FirmBellDropDownDatas { get; set; }
     }
 
     public class CategoryViewModel
@@ -35,4 +37,5 @@ namespace GoSweet.Models.ViewModels
         public DateTime GroupEndDate { get; set; }
         public int GroupRemainDate { get; set; }
     }
+
 }

@@ -6,12 +6,13 @@ sendResetEmailBtn.addEventListener("click", function (e) {
     if (resetEmailInputBox.value == "") {
         e.preventDefault();
         alert("Please input email");
+    } else {
+        // 顯示 loading
+        sendResetEmailBtn.classList.add("d-none");
+        let spinner = sendResetEmailBtn.nextElementSibling;
+        spinner.classList.remove("d-none");
     }
 
-    // 顯示 loading
-    sendResetEmailBtn.classList.add("d-none");
-    let spinner = sendResetEmailBtn.nextElementSibling;
-    spinner.classList.remove("d-none");
 
 
 });

@@ -7,5 +7,11 @@
 console.log(document.URL);
 console.log(localStorage['scrollTop']);
 $(document).ready(function (e) {
-    window.scrollTo(localStorage['scrollTop'], { duration: 0 });
+    console.log(1);
+    position = {
+        top: localStorage['scrollTop'],
+        left: 0,
+        behavior: "instant"
+    }
+    window.scrollTo(position);
 });

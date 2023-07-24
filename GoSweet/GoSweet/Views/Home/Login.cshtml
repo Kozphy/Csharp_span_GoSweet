@@ -19,6 +19,7 @@
 
 @await Html.PartialAsync("~/Pages/Shared/_ForgetPasswordModal.cshtml");
 
+
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/EmailCheck.js"></script>
@@ -28,6 +29,7 @@
     {
         <script>
             let customerAccountNotExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountNotExistMessage"]));
+            console.log(customerAccountNotExistMessage);
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -42,6 +44,7 @@
     {
         <script>
             let customerAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountLoginSuccessMessage"]));
+            console.log(customerAccountLoginSuccessMessage);
             Swal.fire({
                 icon: 'success',
                 title: 'LoginSuccess...',
@@ -80,4 +83,6 @@
             });
         };
     </script>
+
+    
 };
