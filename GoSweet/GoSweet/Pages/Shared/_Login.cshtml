@@ -25,7 +25,7 @@
                         <h2 class="display-6">Login</h2>
                     }
                 </div>
-                <form class="login-form" method="post" asp-action="Login">
+                <form class="login-form" method="post" asp-controller="@currentController" asp-action="Login">
                     <div class="py-2">
                         <label for="UserEmail" class="form-label">Email</label>
                         <input type="email" name="UserEmail" id="UserEmail" class="form-control" required />
