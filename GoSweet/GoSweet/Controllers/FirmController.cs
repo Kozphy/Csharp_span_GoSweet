@@ -8,6 +8,7 @@ namespace Officel.Controllers
     public class FirmController : Controller
     {
         private   readonly ShopwebContext _context;
+        private HomeIndexVm? _homeIndexVm = new();
 
         public FirmController(ShopwebContext context)
         {
@@ -27,13 +28,7 @@ namespace Officel.Controllers
             public static DateTime EndDate { get; set; }
         }
 
-        private readonly  ShopwebContext _context;
-        private HomeIndexVm? _homeIndexVm = new();
 
-        public FirmpageController(ShopwebContext context)
-        {
-            _context = context;
-        }
 
         public IActionResult Homepage()
         {

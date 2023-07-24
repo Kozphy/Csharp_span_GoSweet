@@ -74,13 +74,11 @@ namespace GoSweet.Controllers
 			int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
 			int? group = Convert.ToInt32(HttpContext.Request.Query["group"]);
 
-		public IActionResult Product([FromQuery] string? pid) {
             Console.WriteLine(pid);
             Console.WriteLine(1);
 			return Content("this is Product Page");
             //int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
             //int? group = Convert.ToInt32(HttpContext.Request.Query["group"]);
-			return View();
 
 			//var xx = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
 			//			pdt => pdt.PNumber,
