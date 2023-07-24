@@ -1,14 +1,12 @@
 ﻿using GoSweet.Models;
 using GoSweet.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using GoSweet.Models;
 
 namespace Officel.Controllers
 {
     public class FirmController : Controller
     {
         private   readonly ShopwebContext _context;
-        private HomeIndexVm? _homeIndexVm = new();
 
         public FirmController(ShopwebContext context)
         {
@@ -124,7 +122,7 @@ namespace Officel.Controllers
             #endregion 預計也是使用Model
 
             #region 建立Model存放資料
-            FirmHomepageModel HomepageModels = new FirmHomepageModel 
+            FirmHomepageModel HomepageModels = new FirmHomepageModel
             {
                 //類別賦值-當月訂單
                 ThisMonthOrdersTotal = TotalOrders,
@@ -150,15 +148,17 @@ namespace Officel.Controllers
                 RecentlyComments = Comment.Take(10).ToList(),
 
                 //類別賦值-熱門商品-取前十
-                HotSale = Hotsale.Take(10).ToList()
+                HotSale = Hotsale.Take(10).ToList(),
+
+                // bell dropdown message
+                //FirmBellDropDownDatas = GetBellDropdownMessage()
+                
             };
             #endregion
 
+
+            //HomepageModels.FirmBellDropDownDatas = GetBellDropdownMessage();
             return View(HomepageModels);
-            //IEnumerable<BellContentVm>? bellContents = BellDropdownMessage();
-            //_homeIndexVm.bellContentDatas = bellContents;
-            _homeIndexVm!.FirmBellDropDownDatas = GetBellDropdownMessage();
-            return View(_homeIndexVm);
         }
 
         private IEnumerable<FirmBellDropDownVm>? GetBellDropdownMessage()

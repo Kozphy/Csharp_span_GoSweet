@@ -1,4 +1,4 @@
-﻿namespace GoSweet.Models
+﻿namespace GoSweet.Models.ViewModels
 {
     public class FirmRevenueModels
     {
@@ -22,7 +22,7 @@
 
         public string? orderType { get; set; }
 
-        public string? shipState{ get; set; }
+        public string? shipState { get; set; }
 
         public string? categories { get; set; }
 
