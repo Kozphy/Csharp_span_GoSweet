@@ -81,7 +81,6 @@
 /*首頁表格*/
 .HomepageTable {
     table-layout: fixed;
-    min-height: 350px;
     align-content:center ;
     vertical-align:middle;
 }
@@ -105,4 +104,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.HomgpageListblock {
+    min-height:350px;
 }

@@ -71,4 +71,12 @@
 
         public int Quentity { get; set; }
     }
+
+    //Json用類型
+    public class ratingvalue {
+
+        public double? ratingScore { get; set; }
+
+        public int? ratingQuentity { get; set; }
+    }
 }

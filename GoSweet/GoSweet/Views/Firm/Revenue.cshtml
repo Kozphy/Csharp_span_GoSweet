@@ -1,0 +1,117 @@
+﻿<!-- CSS引用 -->
+<link href="~/css/Revenue-Manufacturers.css" rel="stylesheet" asp-append-version="true">
+<!-- Js引用 -->
+<script src="~/js/Revenue-Manufacturers.js" asp-append-version="true"></script>
+<!-- Chart.js引用 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="FirmBackground">
+	<section class="container my-3">
+
+		@*期間營收情況*@
+		<div class="row mx-0 border rounded p-2 my-4 bg-white">
+			@*營收檢表*@
+			<div class="col-12 col-xl-5">
+				<div class="row p-2">
+					@*圖表設定*@
+					<div class="col-12 border shadow rounded p-2 mb-3">
+						<div class="RevenuepageChartSet row p-2">
+							<!-- ★★★★★查詢設定★★★★★ -->
+							<form class="col-12 p-2 my-2 d-flex justify-content-around align-items-center">
+								<input type="date" placeholder="開始日期" name="StartDate" value=@ViewData["Start"]>
+								~
+								<input type="date" placeholder="結束日期" name="EndDate" value=@ViewData["End"]>
+								<button type="submit" class="RevenuepageChartSetting py-0 px-3 btn btn-outline-secondary btn-sm">搜索</button>
+							</form>
+							<div class="btn-group p-2 my-2 d-flex align-items-center" role="group"
+								aria-label="Basic radio toggle button group">
+								<div class="col-2">X軸: </div>
+								<input type="radio" class="btn-check" name="X-axis" id="X-axis-Date" autocomplete="off" checked value="orderDate">
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="X-axis-Date">日期</label>
+								<input type="radio" class="btn-check" name="X-axis" id="X-axis-Product" autocomplete="off" value="name">
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="X-axis-Product">產品</label>
+								<input type="radio" class="btn-check" name="X-axis" id="X-axis-Type" autocomplete="off" value="categories">
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="X-axis-Type">種類</label>
+								<input type="radio" class="btn-check" name="X-axis" id="X-axis-Group" autocomplete="off" value="orderType">
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="X-axis-Group">直購/團購</label>
+							</div>
+							<div class="btn-group p-2 my-2 d-flex align-items-center" role="group"
+								 aria-label="Basic radio toggle button group">
+								<div class="col-2">Y軸: </div>
+								<input type="radio" class="btn-check" name="Y-axis" id="Y-axis-Quantity" autocomplete="off" value="quentity">
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="Y-axis-Quantity">數量</label>
+								<input type="radio" class="btn-check" name="Y-axis" id="Y-axis-Total" autocomplete="off" value="total" checked>
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="Y-axis-Total">總額</label>
+							</div>
+							<div class="btn-group p-2 my-2 d-flex align-items-center" role="group"
+								 aria-label="Basic radio toggle button group">
+								<div class="col-2">圖型: </div>
+								<input type="radio" class="btn-check" name="Chart_type" id="BarChart" autocomplete="off" checked value="bar">
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="BarChart">長條圖</label>
+								<input type="radio" class="btn-check" name="Chart_type" id="LineChart" autocomplete="off" value="line">
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="LineChart">折線圖</label>
+								<input type="radio" class="btn-check" name="Chart_type" id="pieChart" autocomplete="off" value="pie">
+								<label class="RevenuepageChartSetting p-0 btn btn-outline-secondary" for="pieChart">圓餅圖</label>
+							</div>
+						</div>
+					</div>
+					@*營收數字*@
+					<div class="col-12 border shadow rounded p-2">
+						<div class="row p-2">
+							<div class="RevenuepageSubtitle col fw-bold text-end">
+								<!-- ★★★★★收入+支出★★★★★ -->
+								結餘: <span id="Balance" class="RevenuepageContent">@ViewData["Revenue"]</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			@*營收圖表*@
+			<div class="col-12 col-xl-7">
+				<div class="row p-2">
+					<div class="col d-flex flex-column border rounded shadow p-2">
+						<div class="RevenuepageSubtitle">統計圖表</div>
+						<canvas id="chart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		@*詳細列表*@
+		<div class="row mx-0 border rounded p-2 my-4 bg-white">
+			<div class="col-12">
+				<div class="row p-2 d-flex justify-content-center">
+					<div class="RevenuepageSubtitle col-12">詳細列表</div>
+					<hr />
+
+					@*列表*@
+					<div class="tab-content" id="myTabContent">
+
+						@*全部*@
+						<!-- ★★★★★需要廠商訂單數★★★★★ -->
+						<div class="tab-pane fade show active table-responsive overflow-y-scroll" id="home" role="tabpanel" aria-labelledby="home-tab">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th class="RevenuepageTableNumber" scope="col">#</th>
+										<th class="RevenuepageTableTitle" scope="col">日期</th>
+										<th class="RevenuepageTableTitle" scope="col">事項</th>
+										<th class="RevenuepageTableTitle" scope="col">訂單編號</th>
+										<th class="RevenuepageTableTitle" scope="col">訂單狀態</th>
+										<th class="RevenuepageTableTitle" scope="col">單價(A)</th>
+										<th class="RevenuepageTableTitle" scope="col">數量(B)</th>
+										<th class="RevenuepageTableTitle" scope="col">小計(A*B)</th>
+									</tr>
+								</thead>
+								<tbody>								
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+</div>

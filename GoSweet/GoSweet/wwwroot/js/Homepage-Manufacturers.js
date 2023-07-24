@@ -1,14 +1,34 @@
 window.onload=function(){
 
     //評價估算
-    var Rating = 3997;
-    var NumberTotal = 996;
-    $(".star").children().eq(Math.round(Rating/NumberTotal)-1).prop('checked',true)
-    $("#NumberOrder").text(NumberTotal)
-    
+    var Rating = 0;
+    var NumberTotal = 0;
+    var RatingData = GetRatingData();
+
     //更新日期設定
     Now = $(".update").text(NowTime())
+
+    //#region 接收RatingJson
+    async function GetRatingData() {
+        return JsonData = await $.ajax({
+            url: "/Firm/RatingJson",
+            dataType: "json",
+            success: function (item) {
+                Rating = item.ratingScore;
+                NumberTotal = item.ratingQuentity;
+                $(".star").children().eq(Math.round(Rating / NumberTotal) - 1).prop('checked', true)
+                $("#NumberOrder").text(NumberTotal)
+            },
+            error: function (error) {
+                Rating = 0;
+                NumberTotal = error;
+            }
+        })
+    }
+    //#endregion 
+
 }
+
 
 //#region 現在時間的方法
 function NowTime(){
