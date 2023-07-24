@@ -1,8 +1,6 @@
 ﻿using GoSweet.Models;
 using GoSweet.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using GoSweet.Models.ViewModels;
-using GoSweet.Models;
 
 namespace GoSweet.Controllers
 {
@@ -153,13 +151,12 @@ namespace GoSweet.Controllers
                 HotSale = Hotsale.Take(10).ToList(),
 
                 // bell dropdown message
-                //FirmBellDropDownDatas = GetBellDropdownMessage()
+                FirmBellDropDownDatas = GetBellDropdownMessage()
                 
             };
             #endregion
 
 
-            //HomepageModels.FirmBellDropDownDatas = GetBellDropdownMessage();
             return View(HomepageModels);
         }
 
