@@ -6,10 +6,11 @@ namespace Datafor0704.Controllers
 {
     public class FirmpageController : Controller
     {
-        readonly private ShopwebContext _context;
-        private HomeIndexVm? _homeIndexVm = new HomeIndexVm();
+        private readonly  ShopwebContext _context;
+        private HomeIndexVm? _homeIndexVm = new();
 
-        public FirmpageController(ShopwebContext context) { 
+        public FirmpageController(ShopwebContext context)
+        {
             _context = context;
         }
 
@@ -17,35 +18,53 @@ namespace Datafor0704.Controllers
         {
             //IEnumerable<BellContentVm>? bellContents = BellDropdownMessage();
             //_homeIndexVm.bellContentDatas = bellContents;
-            return View();
+            _homeIndexVm!.FirmBellDropDownDatas = GetBellDropdownMessage();
+            return View(_homeIndexVm);
         }
 
-        //private IEnumerable<BellContentVm>? BellDropdownMessage() 
-        //{
+        private IEnumerable<FirmBellDropDownVm>? GetBellDropdownMessage()
+        {
+            string firmAccount = HttpContext.Session.GetString("frimAccount")!;
+            if (firmAccount == null)
+            {
+                return null;
+            }
 
-        //    string firmAccount = HttpContext.Session.GetString("frimAccount")!;
-        //    if (firmAccount == null) {
-        //        return null;
-        //    }
+            IEnumerable<FirmBellDropDownVm> firmNotifyMessage =
+                (from notify in _context.NotifyDatatables
+                 join order in _context.OrderDatatables
+                     on notify.ONumber equals order.ONumber
+                 join firm in _context.FirmAccounttables
+                     on notify.FNumber equals firm.FNumber
+                 join product in _context.ProductDatatables
+                     on order.PNumber equals product.PNumber
+                 where (notify.OStatus == "已下單" || notify.OStatus == "已取貨") && firm.FAccount == firmAccount
+                 select new FirmBellDropDownVm
+                 {
+                     OrderNumber = notify.ONumber,
+                     ProductName = product.PName,
+                     OrderStatus = order.OStatus,
+                 }).ToList();
 
-        //    IEnumerable<BellContentVm> notifyMessage = (from notify in _context.NotifyDatatables
-        //                                   join order in _context.OrderDatatables
-        //                                       on notify.ONumber equals order.ONumber
-        //                                   join customer in _context.CustomerAccounttables
-        //                                       on notify.CNumber equals customer.CNumber
-        //                                   join product in _context.ProductDatatables
-        //                                       on order.PNumber equals product.PNumber
-        //                                   where (notify.OStatus == "已成團" || notify.OStatus == "已寄出") && customer.CAccount == firmAccount
-        //                                   select new BellContentVm
-        //                                   {
-        //                                       OrderNumber = notify.ONumber,
-        //                                       //Account = customer.CAccount,
-        //                                       ProductName = product.PName,
-        //                                       OrderStatus = notify.OStatus,
-        //                                   }).ToList();
 
-        //    return notifyMessage;
-        //}
+            //IEnumerable<FirmBellDropDownVm> notifyAlreadyPickUpMessage =
+            //                (from notify in _context.NotifyDatatables
+            //                 join order in _context.OrderDatatables
+            //                     on notify.ONumber equals order.ONumber
+            //                 join firm in _context.FirmAccounttables
+            //                     on notify.FNumber equals firm.FNumber
+            //                 join product in _context.ProductDatatables
+            //                     on order.PNumber equals product.PNumber
+            //                 where notify.OStatus == "已取貨" && firm.FAccount == firmAccount
+            //                 select new FirmBellDropDownVm
+            //                 {
+            //                     OrderNumber = notify.ONumber,
+            //                     ProductName = product.PName,
+            //                     OrderStatus = order.OStatus,
+            //                 }).ToList();
+
+            return firmNotifyMessage;
+        }
 
         public IActionResult Revenue()
         {

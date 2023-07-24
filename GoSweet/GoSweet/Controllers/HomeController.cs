@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks.Dataflow;
 using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Crypto.Agreement;
 
 namespace GoSweet.Controllers
 {
@@ -31,6 +29,7 @@ namespace GoSweet.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("HomeIndexStart");
 
             List<CategoryViewModel> categoriesDatas = (from product in _context.ProductDatatables
                                                        select new CategoryViewModel
@@ -89,14 +88,11 @@ namespace GoSweet.Controllers
                                                                  GroupPeoplePercent = Math.Floor((double)member.MNowpeople / groupbuy.GMaxpeople * 100.0),
                                                                  GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
                                                              }).Take(4).ToList();
-            // belldropdown message
-            IEnumerable<BellDropDownVm>?  bellDropDownDatas = GetBellDropdownMessage();
 
-            //Console.WriteLine(productGroupBuyData);
-            _indexViewModelData.categoryViewModel = categoriesDatas;
-            _indexViewModelData.productRankDatas = productRankData;
-            _indexViewModelData.productGroupBuyDatas = productGroupBuyData;
-            _indexViewModelData.bellDropDownVm = bellDropDownDatas;
+            _indexViewModelData.CategoryDatas = categoriesDatas;
+            _indexViewModelData.ProductRankDatas = productRankData;
+            _indexViewModelData.ProductGroupBuyDatas = productGroupBuyData;
+            _indexViewModelData.CustomerBellDropDownDatas = GetBellDropdownMessage();
             //_indexViewModelData.bellContentDatas = bellContentsDatas;
             HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
@@ -114,14 +110,14 @@ namespace GoSweet.Controllers
             return View(_indexViewModelData);
         }
 
-        private IEnumerable<BellDropDownVm>? GetBellDropdownMessage() {
+        private IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage() {
 
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;
             if (customerAccount == null) {
                 return null;
             }
 
-            IEnumerable<BellDropDownVm> notifyMessageAlreadyGroup =  
+            IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup =  
                                            (from notify in _context.NotifyDatatables
                                            join order in _context.OrderDatatables
                                                on notify.ONumber equals order.ONumber
@@ -132,7 +128,7 @@ namespace GoSweet.Controllers
                                            join groups in _context.GroupDatatables 
                                                on  product.PNumber equals groups.PNumber
                                             where (notify.OStatus == "已成團") && customer.CAccount == customerAccount && notify.NRead == false
-                                            select new BellDropDownVm 
+                                            select new CustomerBellDropDownVm
                                             {
                                                 //OrderNumber = notify.ONumber,
                                                 GroupNumber = groups.PNumber,
@@ -143,7 +139,7 @@ namespace GoSweet.Controllers
 
             //IEnumerable<BellContentVm> notifyMessage
 
-            IEnumerable<BellDropDownVm> notifyMessageAlreadySend =
+            IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadySend =
             (from notify in _context.NotifyDatatables
              join order in _context.OrderDatatables
                  on notify.ONumber equals order.ONumber
@@ -152,7 +148,7 @@ namespace GoSweet.Controllers
              join product in _context.ProductDatatables
                  on order.PNumber equals product.PNumber
              where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
-             select new BellDropDownVm 
+             select new CustomerBellDropDownVm
              {
                  OrderNumber = notify.ONumber,
                  //Account = customer.CAccount,
@@ -161,7 +157,7 @@ namespace GoSweet.Controllers
              }).ToList();
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
-            IEnumerable<BellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
+            IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
 
 
             return bellDropDownsDatas;

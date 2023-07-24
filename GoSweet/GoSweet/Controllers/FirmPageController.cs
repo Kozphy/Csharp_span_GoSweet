@@ -311,25 +311,30 @@ namespace GoSweet.Controllers
             if (ModelState.IsValid == false) return View();
 
             // get database firm account data
-            var firmAccount = _context.FirmAccounttables.Where((f) =>
+            var firmAccountQuery = _context.FirmAccounttables.Where((f) =>
                 f.FAccount.Equals(firmLoginData.FAccount) &&
                 f.FPassword.Equals(firmLoginData.FPassword)
             ).Select((f) =>
             new
             {
+                Account = f.FAccount,
                 AccountName = f.FNickname,
                 f_number = f.FNumber,
             });
 
-            bool accountNotExist = firmAccount.IsNullOrEmpty();
+            bool accountNotExist = firmAccountQuery.IsNullOrEmpty();
 
             if (accountNotExist.Equals(true))
             {
                 TempData["firmAccountNotExistMessage"] = "帳號不存在";
                 return RedirectToAction("Login");
             }
-            HttpContext.Session.SetString("firmAccountName", firmAccount.First().AccountName);
-            HttpContext.Session.SetString("f_number", Convert.ToString(firmAccount.First().f_number));
+
+            var firmAccount = firmAccountQuery.First();
+
+            HttpContext.Session.SetString("firmAccount", firmAccount.AccountName);
+            HttpContext.Session.SetString("firmAccountName", firmAccount.AccountName);
+            HttpContext.Session.SetString("f_number", Convert.ToString(firmAccount.f_number));
             TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
 
             return RedirectToAction("Homepage","FirmPage");
