@@ -1,0 +1,84 @@
+﻿@model GoSweet.Models.ProductDatatable
+ 
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="page-set" style="margin-left:15%; margin-right:15%; font-size:23px;">
+    <div style="font-size:40px">  
+<h1>商品編輯</h1>
+	</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           @* <div class="form-group">
+                <label asp-for="FNumber" class="control-label"></label>
+                <select asp-for="FNumber" class="form-control" asp-items="ViewBag.FNumber"></select>
+                <span asp-validation-for="FNumber" class="text-danger"></span>
+            </div>*@
+            <input type="hidden" asp-for="PNumber" />
+            <div class="form-group">
+                <label asp-for="PName" class="control-label"></label>
+                <input asp-for="PName" class="form-control" />
+                <span asp-validation-for="PName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PSpec" class="control-label"></label>
+                <input asp-for="PSpec" class="form-control" />
+                <span asp-validation-for="PSpec" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PCategory" class="control-label"></label>
+                <input asp-for="PCategory" class="form-control" />
+                <span asp-validation-for="PCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PPrice" class="control-label"></label>
+                <input asp-for="PPrice" class="form-control" />
+                <span asp-validation-for="PPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PDescribe" class="control-label"></label>
+                <input asp-for="PDescribe" class="form-control" />
+                <span asp-validation-for="PDescribe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PSavedate" class="control-label"></label>
+                <input asp-for="PSavedate" class="form-control" />
+                <span asp-validation-for="PSavedate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PSaveway" class="control-label"></label>
+                <input asp-for="PSaveway" class="form-control" />
+                <span asp-validation-for="PSaveway" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PInventory" class="control-label"></label>
+                <input asp-for="PInventory" class="form-control" />
+                <span asp-validation-for="PInventory" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="PShip" class="control-label"></label>
+                <input asp-for="PShip" class="form-control" />
+                <span asp-validation-for="PShip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PPayment" class="control-label"></label>
+                <input asp-for="PPayment" class="form-control" />
+                <span asp-validation-for="PPayment" class="text-danger"></span>
+            </div>*@
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" style=" color:deepskyblue;" />
+                </div>
+        </form>
+    </div>
+</div>
+</div>
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
