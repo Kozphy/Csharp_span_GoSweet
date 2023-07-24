@@ -6,8 +6,8 @@ namespace GoSweet.Controllers.feature
 {
     public class Mail
     {
-        private string? _mailAddress = null;
-        private string? _controllerName = null;
+        private readonly string? _mailAddress = null;
+        private readonly string? _controllerName = null;
 
         public Mail(string address, string controllerName)
         {
@@ -26,34 +26,34 @@ namespace GoSweet.Controllers.feature
             message.Subject = "check for reset password'?";
 
             // email 內容
-            var builder = new BodyBuilder();
-
-            // TODO: change port number to application port
-            builder.HtmlBody = $@"<h1>點擊下方連結重置密碼: </h1> 
-                <a href=http://localhost:5183/{_controllerName}/ResetPassword>
+            var builder = new BodyBuilder
+            {
+                // TODO: change port number to application port
+                HtmlBody = $@"<h1>點擊下方連結重置密碼: </h1> 
+                <a href=http://localhost:5183/{_controllerName}/ResetPassword?EmailAddress={_mailAddress}>
                     click here to reset password 
-                </a>";
+                </a>"
+            };
             message.Body = builder.ToMessageBody();
 
 
-            using (var client = new SmtpClient())
+            using var client = new SmtpClient();
+
+            try
             {
-                try
-                {
-                    string smtpServer = "smtp.gmail.com";
-                    client.Connect(smtpServer, 465, true);
+                string smtpServer = "smtp.gmail.com";
+                client.Connect(smtpServer, 465, true);
 
-                    // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("dbdf0147@gmail.com", "lojqyqxyyhewnjrf");
+                // Note: only needed if the SMTP server requires authentication
+                client.Authenticate("dbdf0147@gmail.com", "lojqyqxyyhewnjrf");
 
-                    client.Send(message);
-                    client.Disconnect(true);
-                    return $"Send Email To {_mailAddress} Success";
-                }
-                catch (Exception ex)
-                {
-                    return ex.Message;
-                }
+                client.Send(message);
+                client.Disconnect(true);
+                return $"Send Email To {_mailAddress} Success";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
 
         }

@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Linq;
 using Microsoft.IdentityModel.Tokens;
 using GoSweet.Controllers.feature;
+using GoSweet.Models.ViewModels;
 
 namespace GoSweet.Controllers
 {
@@ -299,43 +300,44 @@ namespace GoSweet.Controllers
         }
 
 
-
-
-
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(FirmAccounttable firmLoginData)
+        public IActionResult Login(FirmAccountVm firmLoginData)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false) return View();
+
+            // get database firm account data
+            var firmAccountQuery = _context.FirmAccounttables.Where((f) =>
+                f.FAccount.Equals(firmLoginData.FAccount) &&
+                f.FPassword.Equals(firmLoginData.FPassword)
+            ).Select((f) =>
+            new
             {
-                Console.WriteLine(firmLoginData);
-                // get database firm account data
-                var firmAccount = _context.CustomerAccounttables.Where((c) =>
-                    c.CAccount.Equals(firmLoginData.FAccount) &&
-                    c.CPassword.Equals(firmLoginData.FPassword)
-                ).Select((c) =>
-                new
-                {
-                    AccountName = c.CNickname,
-                    c_number = c.CNumber,
-                });
+                Account = f.FAccount,
+                AccountName = f.FNickname,
+                f_number = f.FNumber,
+            });
 
-                bool accountNotExist = firmAccount.IsNullOrEmpty();
+            bool accountNotExist = firmAccountQuery.IsNullOrEmpty();
 
-                if (accountNotExist.Equals(true))
-                {
-                    TempData["firmAccountNotExistMessage"] = "帳號不存在";
-                    return RedirectToAction("Login");
-                }
-                HttpContext.Session.SetString("AccountName", firmAccount.First().AccountName);
-                HttpContext.Session.SetString("c_number", Convert.ToString(firmAccount.First().c_number));
-                TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
+            if (accountNotExist.Equals(true))
+            {
+                TempData["firmAccountNotExistMessage"] = "帳號不存在";
+                return RedirectToAction("Login");
             }
-            return RedirectToAction("Login");
+
+            var firmAccount = firmAccountQuery.First();
+
+            HttpContext.Session.SetString("firmAccount", firmAccount.AccountName);
+            HttpContext.Session.SetString("firmAccountName", firmAccount.AccountName);
+            HttpContext.Session.SetString("f_number", Convert.ToString(firmAccount.f_number));
+            TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
+
+            return RedirectToAction("Homepage","FirmPage");
         }
 
 
@@ -345,55 +347,110 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(FirmAccounttable firmAccountData)
+        public IActionResult SignUp(FirmAccountVm firmAccountData)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false) return View();
+
+            bool accountNotExist = _context.FirmAccounttables.Where((f) =>
+                f.FNickname.Equals(firmAccountData.FNickname) &&
+                f.FAccount.Equals(firmAccountData.FAccount) &&
+                f.FPassword.Equals(firmAccountData.FPassword)
+            ).IsNullOrEmpty();
+
+            if (accountNotExist.Equals(false))
             {
-                bool accountNotExist = _context.FirmAccounttables.Where((f) =>
-                    f.FNickname.Equals(firmAccountData.FNickname) &&
-                    f.FAccount.Equals(firmAccountData.FAccount) &&
-                    f.FPassword.Equals(firmAccountData.FPassword)
-                ).IsNullOrEmpty();
+                TempData["firmAccountExistMessage"] = "此帳號已被註冊";
+                RedirectToAction("SignUp");
+                return View();
+            }
 
-                if (accountNotExist.Equals(false))
-                {
-                    TempData["firmAccountExistMessage"] = "此帳號已被註冊";
-                    RedirectToAction("SignUp");
-                    return View();
-                }
-
-                try
-                {
-                    _context.FirmAccounttables.Add(firmAccountData);
-                    _context.SaveChanges();
-                    TempData["firmSignUpSuccessMessage"] = "帳號註冊成功";
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            try
+            {
+                CreateFirmAccount(firmAccountData);
+                TempData["firmSignUpSuccessMessage"] = "帳號註冊成功";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
 
             return RedirectToAction("SignUp");
         }
 
-        [HttpPost]
-        public IActionResult SendMail(string emailAddress) {
-
-            if (ModelState.IsValid)
+        private void CreateFirmAccount(FirmAccountVm firmAccountData)
+        {
+            FirmAccounttable firmAccount = new FirmAccounttable()
             {
-                if (emailAddress.IsNullOrEmpty())
-                {
-                    return RedirectToAction("Login");
-                }
+                FNickname = firmAccountData.FNickname,
+                FAccount = firmAccountData.FAccount,
+                FPassword = firmAccountData.FPassword,
+                FMailpass = firmAccountData.FMailpass,
+            };
+            _context.FirmAccounttables.Add(firmAccount);
+            _context.SaveChanges();
+        }
 
-                Mail mailHandler = new Mail(emailAddress, "FirmPage");
-                string sendEmailResult = mailHandler.SendMail();
-                TempData["sendEmailResultMessage"] = sendEmailResult;
+        [HttpPost]
+        public IActionResult SendMail(string EmailAddress)
+        {
+            if (ModelState.IsValid == false) return View();
 
-
+            if (EmailAddress.IsNullOrEmpty())
+            {
+                return RedirectToAction("Login");
             }
+
+            // 寄送 email 之前先檢查 email 是否存在
+            bool frimAccountNotExist = _context.FirmAccounttables.Where(
+                c => c.FAccount.Equals(EmailAddress)).IsNullOrEmpty();
+
+            if (frimAccountNotExist.Equals(true))
+            {
+                TempData["firmAccountNotExistMessage"] = "帳號不存在";
+                return RedirectToAction("Login");
+            }
+
+
+            Mail mailHandler = new Mail(EmailAddress, "FirmPage");
+            string sendEmailResult = mailHandler.SendMail();
+            TempData["sendEmailResultMessage"] = sendEmailResult;
+
+
             return RedirectToAction("Login");
         }
+
+        public IActionResult ResetPassword(string EmailAddress)
+        {
+            ViewBag.EmailAddress = EmailAddress;
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult ResetPassword(string EmailAddress, string oldPassword, string newPassword)
+        {
+
+            var account = _context.FirmAccounttables.Where((c) => c.FAccount.Equals(EmailAddress)).First();
+
+            try
+            {
+                account.FPassword = newPassword;
+                _context.SaveChanges();
+                TempData["resetPasswordSuccessMessage"] = "密碼重置成功";
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction("Homepage","FirmPage");
+        }
+
+        public IActionResult Logout() {
+            HttpContext.Session.Remove("firmAccountName");
+            HttpContext.Session.Remove("firmAccount");
+            //HttpContext.Session.SetString("AccountName", String.Empty);
+            return RedirectToAction("Homepage", "FirmPage");
+        }
+
     }
 }

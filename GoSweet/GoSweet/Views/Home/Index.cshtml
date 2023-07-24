@@ -1,4 +1,6 @@
-﻿﻿@model GoSweet.Models.ViewModels.HomeIndexVm;
+﻿@model GoSweet.Models.ViewModels.HomeIndexVm;
+@using Newtonsoft.Json;
+
 @{
     ViewData["Title"] = "Home Page";
     string? currentController = @ViewContext.RouteData.Values["controller"]!.ToString();
@@ -11,6 +13,9 @@
     <link rel="stylesheet" href="~/css/Home/news.css" />
     <link rel="stylesheet" href="~/css/Home/decoratorIcon.css" />
     <link rel="stylesheet" href="~/css/Home/feature.css" />
+
+    @*third party*@
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
 }
 
 
@@ -36,16 +41,16 @@
                 <hr />
                 <div class="splide__track">
                     <ul class="splide__list">
-                        @foreach (var item in Model.categoryViewModel!)
+                        @foreach (var item in Model.CategoryDatas!)
                         {
                             <li class="splide__slide">
                                 <div class="text-center">
-                                    <form method="post" asp-action="HandleProductCategory">
-                                        <input type="hidden" name="Category" value="@item.Category" />
-                                        <button type="submit" class="px-5 btn btn-hover-bg ">
+                                    @*<form method="post" asp-action="HandleProductCategory">*@
+                                        <input type="hidden" class="productCategory" name="Category" value="@item.Category" />
+                                        <button type="button" class="px-5 btn btn-hover-bg productCategoryBtn">
                                             <span class="product-category-title">@item.Category</span>
                                         </button>
-                                    </form>
+                                    @*</form>*@
                                 </div>
                             </li>
                         }
@@ -61,7 +66,7 @@
                 <section class="splide splideProducts">
                     <div class="splide__track">
                         <ul class="splide__list">
-                            @foreach (var item in Model.productRankDatas!)
+                            @foreach (var item in Model.ProductRankDatas!)
                             {
                                 <li class="splide__slide">
                                     <div class="splide__slide__container">
@@ -106,7 +111,7 @@
         </div>
         <div class="popular-buy-content px-3">
             <div class="row">
-                @foreach (var item in Model.productGroupBuyDatas!)
+                @foreach (var item in Model.ProductGroupBuyDatas!)
                 {
                     <div class="col-md-6">
                         <div class="card mb-3 groupbuy-segment">
@@ -325,6 +330,29 @@
 
 
 @section Scripts{
+
+    @*third party*@ 
+    <script src="~/lib/sweetalert2/sweetalert2.js"></script>
+    <script src="~/js/messageAlert.js"></script>
+    <script src="~/lib/splidejs/splide-extension-grid/dist/js/splide-extension-grid.js"></script>
+
+    @if (TempData["customerAccountLoginSuccessMessage"] != null) { 
+        <script>
+            let customerAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountLoginSuccessMessage"]));
+            showSwal('success', 'Login Success Status', customerAccountLoginSuccessMessage)
+        </script>
+    }
+
+
+    @if (TempData["resetPasswordSuccessMessage"] != null)
+    {
+        <script>
+            let resetPasswordSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["resetPasswordSuccessMessage"]));
+            showSwal('success', 'Reset Password Status', resetPasswordSuccessMessage);
+        </script>
+    }
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             let splide = new Splide('.splideCategory', {
@@ -390,5 +418,5 @@
 
     <script src="~/lib/d3/d3.js"></script>
     <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>
-    <script src="~/js/Home/FixScrollPosition.js"></script>
+    <script src="~/js/Home/productCategorySwitch.js"></script>
     }
