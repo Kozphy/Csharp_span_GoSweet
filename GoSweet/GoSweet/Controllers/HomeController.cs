@@ -90,7 +90,7 @@ namespace GoSweet.Controllers
                                                                  GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
                                                              }).Take(4).ToList();
             // belldropdown message
-            BellDropDownVm?  bellDropDownDatas = GetBellDropdownMessage();
+            IEnumerable<BellDropDownVm>?  bellDropDownDatas = GetBellDropdownMessage();
 
             //Console.WriteLine(productGroupBuyData);
             _indexViewModelData.categoryViewModel = categoriesDatas;
@@ -114,14 +114,14 @@ namespace GoSweet.Controllers
             return View(_indexViewModelData);
         }
 
-        private BellDropDownVm? GetBellDropdownMessage() {
+        private IEnumerable<BellDropDownVm>? GetBellDropdownMessage() {
 
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;
             if (customerAccount == null) {
                 return null;
             }
 
-            IEnumerable<notifyMessageAlreadyGroupVm> notifyMessageAlreadyGroup =  
+            IEnumerable<BellDropDownVm> notifyMessageAlreadyGroup =  
                                            (from notify in _context.NotifyDatatables
                                            join order in _context.OrderDatatables
                                                on notify.ONumber equals order.ONumber
@@ -131,8 +131,8 @@ namespace GoSweet.Controllers
                                                on order.PNumber equals product.PNumber
                                            join groups in _context.GroupDatatables 
                                                on  product.PNumber equals groups.PNumber
-                                            where (notify.OStatus == "已成團") && customer.CAccount == customerAccount
-                                            select new notifyMessageAlreadyGroupVm
+                                            where (notify.OStatus == "已成團") && customer.CAccount == customerAccount && notify.NRead == false
+                                            select new BellDropDownVm 
                                             {
                                                 //OrderNumber = notify.ONumber,
                                                 GroupNumber = groups.PNumber,
@@ -143,7 +143,7 @@ namespace GoSweet.Controllers
 
             //IEnumerable<BellContentVm> notifyMessage
 
-            IEnumerable<notifyMessageAlreadySendVm> notifyMessageAlreadySend =
+            IEnumerable<BellDropDownVm> notifyMessageAlreadySend =
             (from notify in _context.NotifyDatatables
              join order in _context.OrderDatatables
                  on notify.ONumber equals order.ONumber
@@ -151,8 +151,8 @@ namespace GoSweet.Controllers
                  on notify.CNumber equals customer.CNumber
              join product in _context.ProductDatatables
                  on order.PNumber equals product.PNumber
-             where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount
-             select new notifyMessageAlreadySendVm
+             where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
+             select new BellDropDownVm 
              {
                  OrderNumber = notify.ONumber,
                  //Account = customer.CAccount,
@@ -160,12 +160,11 @@ namespace GoSweet.Controllers
                  OrderStatus = notify.OStatus,
              }).ToList();
 
-            BellDropDownVm bellDropDownVm = new BellDropDownVm();
+            //BellDropDownVm bellDropDownVm = new BellDropDownVm();
+            IEnumerable<BellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
 
-            bellDropDownVm.notifyMessage.Append(notifyMessageAlreadyGroup);
-            bellDropDownVm.notifyMessage = notifyMessageAlreadySend;
 
-            return bellDropDownVm;
+            return bellDropDownsDatas;
         }
 
         [HttpGet]
