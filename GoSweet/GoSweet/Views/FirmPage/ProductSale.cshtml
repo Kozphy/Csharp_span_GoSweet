@@ -155,7 +155,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.min.css
                             </div>
                             <br />
 
-
                         </div>
                         <br>
                         <div style="border: 1px solid #ccc; box-shadow: 0 0 10px #ddd; padding: 3%; padding-left:5%; padding-right:6%; background-color: #ffff;">
@@ -206,7 +205,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.min.css
                                 <div class="col-9">
                                     <input type="number" min="0" name="GMaxpeople">
                                 </div>
-
                             </div>
                             <br />
 
@@ -240,7 +238,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.min.css
                             </div>
                             <br />
 
-
                             <br>
                             <div class="row">
                                 <div class="col-3 m-auto" style="line-height:25px;">
@@ -263,16 +260,15 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.min.css
         </div>
     </div>
     <br>
-    @if (ViewBag.SuccessFlag != null)
+    @if (TempData["SuccessFlag"] != null && (bool)TempData["SuccessFlag"] == true)
     {
         <script>
             $(document).ready(function () {
-                swal({
+                Swal.fire({
                     title: '商品上架完成',
-            @*text: 'Hello World!',*@
-                    type: 'success'
-                            });
-                        });
+                    icon: 'success'
+                });
+            });
         </script>
     }
 

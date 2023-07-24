@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Json;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GoSweet.Controllers {
     public class FirmPageController : Controller {
@@ -146,10 +147,9 @@ namespace GoSweet.Controllers {
                         // 將 Group 物件加入資料庫內容
                         _context.Add(group);
 
-
                         // 設置一個標誌值，表示成功寫入資料庫
                         ViewBag.SuccessFlag = true;
-                        //}
+                        TempData["SuccessFlag"] = true;
                     }
                     await _context.SaveChangesAsync();
                 }
@@ -164,8 +164,9 @@ namespace GoSweet.Controllers {
             }
             // 在前端彈出提示視窗
             //return Content("<script>alert('商品上架完成!'); window.location.href = '/ProductSale';</script>");
-            return RedirectToAction("ProductSale", "FirmPage");
-            // return View();
+            //return RedirectToAction("ProductSale", "FirmPage");
+            return RedirectToAction("ProductSearch", "FirmPage");
+            //return View();
         }
 
 
@@ -297,6 +298,96 @@ namespace GoSweet.Controllers {
 
             return Content(JsonSerializer.Serialize(soldlist));
         }
+        // GET: ProductDatatables/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.ProductDatatables == null)
+            {
+                return NotFound();
+            }
+
+            var productDatatable = await _context.ProductDatatables.FindAsync(id);
+            if (productDatatable == null)
+            {
+                return NotFound();
+            }
+            ViewData["FNumber"] = new SelectList(_context.FirmAccounttables, "FNumber", "FNumber", productDatatable.FNumber);
+            return View(productDatatable);
+        }
+
+        // POST: ProductDatatables/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("FNumber,PNumber,PName,PSpec,PCategory,PPrice,PDescribe,PSavedate,PSaveway,PInventory,PShip,PPayment")] ProductDatatable productDatatable)
+        {
+            if (id != productDatatable.PNumber)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(productDatatable);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //if (!ProductDatatableExists(productDatatable.PNumber))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["FNumber"] = new SelectList(_context.FirmAccounttables, "FNumber", "FNumber", productDatatable.FNumber);
+            return View(productDatatable);
+        }
+
+        // GET: ProductDatatables/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.ProductDatatables == null)
+            {
+                return NotFound();
+            }
+
+            var productDatatable = await _context.ProductDatatables
+                .Include(p => p.FNumberNavigation)
+                .FirstOrDefaultAsync(m => m.PNumber == id);
+            if (productDatatable == null)
+            {
+                return NotFound();
+            }
+
+            return View(productDatatable);
+        }
+        // POST: ProductDatatables/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.ProductDatatables == null)
+            {
+                return Problem("Entity set 'ShopwebContext.ProductDatatables'  is null.");
+            }
+            var productDatatable = await _context.ProductDatatables.FindAsync(id);
+            if (productDatatable != null)
+            {
+                _context.ProductDatatables.Remove(productDatatable);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
 
 
 
