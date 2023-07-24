@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using GoSweet.Models;
+﻿using GoSweet.Models;
+using GoSweet.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Officel.Controllers
+namespace GoSweet.Controllers
 {
     public class FirmController : Controller
     {
@@ -24,6 +25,8 @@ namespace Officel.Controllers
 
             public static DateTime EndDate { get; set; }
         }
+
+
 
         public IActionResult Homepage()
         {
@@ -119,7 +122,7 @@ namespace Officel.Controllers
             #endregion 預計也是使用Model
 
             #region 建立Model存放資料
-            FirmHomepageModel HomepageModels = new FirmHomepageModel 
+            FirmHomepageModel HomepageModels = new FirmHomepageModel
             {
                 //類別賦值-當月訂單
                 ThisMonthOrdersTotal = TotalOrders,
@@ -145,14 +148,82 @@ namespace Officel.Controllers
                 RecentlyComments = Comment.Take(10).ToList(),
 
                 //類別賦值-熱門商品-取前十
-                HotSale = Hotsale.Take(10).ToList()
+                HotSale = Hotsale.Take(10).ToList(),
+
+                // bell dropdown message
+                //FirmBellDropDownDatas = GetBellDropdownMessage()
+                
             };
             #endregion
+
+            ViewBag.notifyMessage = GetBellDropdownMessage();
+
+
 
             return View(HomepageModels);
         }
 
-        public IActionResult Revenue()
+        private IEnumerable<FirmBellDropDownVm>? GetBellDropdownMessage()
+        {
+            string firmAccount = HttpContext.Session.GetString("frimAccount")!;
+            if (firmAccount == null)
+            {
+                return null;
+            }
+
+            IEnumerable<FirmBellDropDownVm> firmNotifyMessage =
+                (from notify in _context.NotifyDatatables
+                 join order in _context.OrderDatatables
+                     on notify.ONumber equals order.ONumber
+                 join firm in _context.FirmAccounttables
+                     on notify.FNumber equals firm.FNumber
+                 join product in _context.ProductDatatables
+                     on order.PNumber equals product.PNumber
+                 where (notify.OStatus == "已下單" || notify.OStatus == "已取貨") && firm.FAccount == firmAccount
+                 select new FirmBellDropDownVm
+                 {
+                     OrderNumber = notify.ONumber,
+                     ProductName = product.PName,
+                     OrderStatus = order.OStatus,
+                 }).ToList();
+
+
+            //IEnumerable<FirmBellDropDownVm> notifyAlreadyPickUpMessage =
+            //                (from notify in _context.NotifyDatatables
+            //                 join order in _context.OrderDatatables
+            //                     on notify.ONumber equals order.ONumber
+            //                 join firm in _context.FirmAccounttables
+            //                     on notify.FNumber equals firm.FNumber
+            //                 join product in _context.ProductDatatables
+            //                     on order.PNumber equals product.PNumber
+            //                 where notify.OStatus == "已取貨" && firm.FAccount == firmAccount
+            //                 select new FirmBellDropDownVm
+            //                 {
+            //                     OrderNumber = notify.ONumber,
+            //                     ProductName = product.PName,
+            //                     OrderStatus = order.OStatus,
+            //                 }).ToList();
+
+            return firmNotifyMessage;
+        }
+
+        public JsonResult RatingJson() 
+        {
+            var somebody = (from someone in _context.OrderAssesstables
+                            select someone.OCscore).Sum();
+            var something = (from someone in _context.OrderAssesstables
+							 select someone.OCscore).Count();
+            ratingvalue rateValue = new ratingvalue
+            {
+                ratingScore = somebody,
+                ratingQuentity = something
+            };
+
+            return Json(rateValue);
+		}
+
+
+		public IActionResult Revenue()
         {
 
             #region 日期設定
@@ -185,29 +256,29 @@ namespace Officel.Controllers
             ViewData["Expenses"] = Period.Where(Money => Money < 0).Sum().ToString("C0");
             #endregion
 
-            //JsonData();
+            JsonData();
             return View();
         }
 
-        //public JsonResult JsonData()
-        //{
-        //    var somebody = from someone in _context.OrderDatatables
-        //                   join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
-        //                   where someone.OStart >= global.StartDate && someone.OStart < global.EndDate
-        //                   orderby someone.OStart
-        //                   select new RevenueSearch
-        //                   {
-        //                       orderDate = someone.OStart.ToString(),
-        //                       name = something.PName,
-        //                       orderType = someone.OType ? "團購" : "直購",
-        //                       shipState = someone.OShipstatus,
-        //                       categories = something.PCategory,
-        //                       id = someone.ONumber,
-        //                       quentity = someone.OBuynumber,
-        //                       price = someone.OPrice,
-        //                       total = decimal.Round(someone.OBuynumber * someone.OPrice, 2)
-        //                   };
-        //    return Json(somebody.ToList<RevenueSearch>());
-        //}
+        public JsonResult JsonData()
+        {
+            var somebody = from someone in _context.OrderDatatables
+                           join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
+                           where someone.OStart >= global.StartDate && someone.OStart< global.EndDate
+                           orderby someone.OStart
+                           select new RevenueSearch
+                           {
+                               orderDate = someone.OStart.ToString(),
+                               name = something.PName,
+                               orderType = someone.OType?"團購":"直購",
+                               shipState = someone.OShipstatus,
+                               categories = something.PCategory,
+                               id = someone.ONumber,
+                               quentity = someone.OBuynumber,
+                               price = someone.OPrice,
+                               total = decimal.Round(someone.OBuynumber * someone.OPrice, 2)
+                           };
+            return Json(somebody.ToList<RevenueSearch>());
+        }
     }
 }

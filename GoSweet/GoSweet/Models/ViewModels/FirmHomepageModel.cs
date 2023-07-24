@@ -1,4 +1,4 @@
-﻿namespace GoSweet.Models
+﻿namespace GoSweet.Models.ViewModels
 {
     public class FirmHomepageModel
     {
@@ -37,6 +37,8 @@
 
         //熱門品項
         public List<HotSales>? HotSale { get; set; }
+
+        public IEnumerable<FirmBellDropDownVm>? FirmBellDropDownDatas { get; set; }
     }
 
     public class WaitingLists
@@ -70,5 +72,13 @@
         public string? ProductName { get; set; }
 
         public int Quentity { get; set; }
+    }
+
+    //Json用類型
+    public class ratingvalue {
+
+        public double? ratingScore { get; set; }
+
+        public int? ratingQuentity { get; set; }
     }
 }

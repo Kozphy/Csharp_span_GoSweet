@@ -19,33 +19,52 @@
 
 @await Html.PartialAsync("~/Pages/Shared/_ForgetPasswordModal.cshtml");
 
+
+
+
+
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/EmailCheck.js"></script>
 
-    @if (TempData["firmAccountNotExistMessage"] != null)
+    <script>
+        function showSwal(icon, title, message) {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: message,
+            });
+        }
+    </script>
+
+
+    @*帳號不存在訊息*@
+   @if (TempData["firmAccountNotExistMessage"] != null)
     {
         <script>
             let firmAccountNotExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmAccountNotExistMessage"]));
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: firmAccountNotExistMessage,
-            });
+            showSwal('error', 'Oops...', firmAccountNotExistMessage);
         </script>
     }
 
+    @*帳號成功登入訊息*@
     @if (TempData["firmAccountLoginSuccessMessage"] != null)
     {
         <script>
             let firmAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmAccountLoginSuccessMessage"]));
-            Swal.fire({
-                icon: 'success',
-                title: 'LoginSuccess...',
-                text: firmAccountLoginSuccessMessage,
-            });
+            showSwal('success', 'LoginSuccess...', firmAccountLoginSuccessMessage);
         </script>
     }
+
+    @*成功記送 Email 訊息*@
+    @if (TempData["sendEmailResultMessage"] != null)
+    {
+        <script>
+            let sendEmailResultMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["sendEmailResultMessage"]));
+            showSwal('', 'Send Email Status...', sendEmailResultMessage);
+        </script>
+    }
+
 
     <script type="text/javascript">
         var onloadCallback = function () {
@@ -65,4 +84,5 @@
         };
     </script>
 };
+
 

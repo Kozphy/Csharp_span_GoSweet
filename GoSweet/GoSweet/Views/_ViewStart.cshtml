@@ -5,15 +5,20 @@
 
     Layout = "_Layout";
 
-    
+    // 套用廠商的 Layout 
     Dictionary<string, List<string>> BelongFirm = new Dictionary<string, List<string>>()
     {
         { "Order_datatable", new List<string>(){ "f_order" } },
-        { "Firmpage", new List<string>(){ "Homepage", "Revenue" } },
+        { "Firm", new List<string>(){ "Homepage", "Revenue" } },
         { "FirmPage", new List<string>(){ "FirmData", "ProductSale", "ProductSearch" } },
     };
 
     if (BelongFirm.ContainsKey(currentController!) && BelongFirm[currentController!].Contains(currentAction!))
+    {
+        Layout = "_LayoutFirm";
+    }
+
+    if (BelongFirm.ContainsKey(currentController!))
     {
         Layout = "_LayoutFirm";
     }

@@ -9,6 +9,9 @@ using System.Text.Json;
 using System.Linq;
 using Microsoft.IdentityModel.Tokens;
 using GoSweet.Controllers.feature;
+using GoSweet.Models.ViewModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GoSweet.Controllers
 {
@@ -40,6 +43,7 @@ namespace GoSweet.Controllers
             // 圖片路徑 Start
             // 儲存路徑參數
             var filePath = "";
+            string mypath = "";
             ArrayList pathtest = new ArrayList();
             //List<IFormFile>拿出file
             foreach (var file in files)
@@ -47,16 +51,17 @@ namespace GoSweet.Controllers
                 if (file != null && file.Length > 0)
                 {
                     //設定儲存路徑及檔案名稱
-                    filePath = Path.Combine("/img/" + file.FileName);
+                    filePath = Path.Combine("./wwwroot/img/ProductUrl" + file.FileName);
                     System.Diagnostics.Debug.WriteLine(filePath);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         //執行檔案複製到本地
                         file.CopyTo(stream);
                         //System.Diagnostics.Debug.WriteLine("wrtie file");
-                        stream.Close();
                     }
-                    pathtest.Add(filePath);
+                    // 可以在此处进行进一步的处理或保存文件路径到数据库等
+                    mypath = filePath.Substring(9, filePath.Length - 9);
+                    pathtest.Add(mypath);
                 }
             }
             // 產生要顯示的string
@@ -123,7 +128,7 @@ namespace GoSweet.Controllers
 
                     var proNum = _context.ProductDatatables.Where(y => y.PName == data.PName).Select(data => data.PNumber).Single();
 
-                    int i = 0;
+                    int i = 1;
                     foreach (var valueitem in values)
                     {
                         ProductPicturetable newpic = new ProductPicturetable();
@@ -132,7 +137,6 @@ namespace GoSweet.Controllers
                             newpic.PUrl = valueitem;
                             newpic.PNumber = (int)proNum;
                             newpic.PPicnumber = i++;
-                            //System.Diagnostics.Debug.WriteLine("write pic");
                             _context.Add(newpic);
                         }
                     }
@@ -153,10 +157,9 @@ namespace GoSweet.Controllers
                         // 將 Group 物件加入資料庫內容
                         _context.Add(group);
 
-
                         // 設置一個標誌值，表示成功寫入資料庫
                         ViewBag.SuccessFlag = true;
-                        //}
+                        TempData["SuccessFlag"] = true;
                     }
                     await _context.SaveChangesAsync();
                 }
@@ -171,8 +174,9 @@ namespace GoSweet.Controllers
             }
             // 在前端彈出提示視窗
             //return Content("<script>alert('商品上架完成!'); window.location.href = '/ProductSale';</script>");
-            return RedirectToAction("ProductSale", "FirmPage");
-            // return View();
+            //return RedirectToAction("ProductSale", "FirmPage");
+            return RedirectToAction("ProductSearch", "FirmPage");
+            //return View();
         }
 
 
@@ -195,111 +199,204 @@ namespace GoSweet.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult ProductSearch(IFormCollection form)
-        //{
-        //    string PName = form["PName"];
-        //    string PInventorymin = form["PInventory"];
-        //    string PInventorymax = form["PInventory[1]"];
-        //    string PCategory = form["PCategory"];
-        //    //string gobuy = form["gobuy"];
-        //    string OBuynumberMin = form["OBuynumber[0]"];
-        //    string OBuynumberMax = form["OBuynumber[1]"];
-
-        // 正常可動的
-        //var result = (_context.ProductDatatables)
-        //   .Where(p => p.PInventory >= int.Parse(PInventorymin) && p.PInventory <= int.Parse(PInventorymax)
-        //       && p.PCategory == PCategory)
-        //   .Select(p => new {
-        //       p.PName,
-        //       p.PInventory,
-        //       p.PCategory,
-        //       p.PPrice
-        //   })
-        //   .ToList();
-        //ViewBag.resultdata = result;
-
-        //var result = (from product in _context.ProductDatatables
-        //              //join groupData in _context.GroupDatatables on product.PNumber equals groupData.PNumber
-        //              join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
-        //              //join salenum in _context.OrderDatatables on product.PNumber equals salenum.PNumber
-        //              where product.FNumber == 60000 && pic.PPicnumber == 1
-        //              //product.PInventory >= int.Parse(PInventorymin) && product.PInventory <= int.Parse(PInventorymax)
-        //              //      && product.PCategory == PCategory && pic.PPicnumber == 0
-        //              select new
-        //              {
-        //                  //FirstPUrl = pic.PUrl.First(),
-        //                  pic.PUrl,
-        //                  product.PName,
-        //                  product.PInventory,
-        //                  product.PCategory,
-        //                  product.PPrice,
-        //                  //salenum.OBuynumber,
-        //                  //groupData.GStart
-        //              });
-
-
-
-        //ViewBag.resultdata = result.ToList();
-
-
-
-        //var result = (
-        //    from p in _context.ProductDatatables
-        //    join pic in _context.ProductPicturetables on p.PNumber equals pic.PNumber
-        //    join salenum in _context.OrderDatatables on p.PNumber equals salenum.PNumber
-        //    where p.PInventory >= int.Parse(PInventorymin) && p.PInventory <= int.Parse(PInventorymax)
-        //        && p.PCategory == PCategory
-        //        //|| p.PName == PName
-        //    select new { 
-        //    p.PName,p.PInventory, p.PCategory,p.PPrice
-        //    })
-        //    .ToList();
-        //ViewBag.resultdata = result;
-
-        //return PartialView("ProductSearch", result);
-        //}
         public IActionResult Index(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
         {
             var result = (from product in _context.ProductDatatables
-                              //join groupData in _context.GroupDatatables on product.PNumber equals groupData.PNumber
+                          join groupData in _context.GroupDatatables on product.PNumber equals groupData.PNumber
                           join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
-                          //join salenum in _context.OrderDatatables on product.PNumber equals salenum.PNumber
                           where product.FNumber == 60000 && pic.PPicnumber == 1
-                          //product.PInventory >= int.Parse(PInventorymin) && product.PInventory <= int.Parse(PInventorymax)
-                          //      && product.PCategory == PCategory && pic.PPicnumber == 0
                           select new
                           {
-                              //FirstPUrl = pic.PUrl.First(),
                               pic.PUrl,
                               product.PName,
                               product.PInventory,
                               product.PCategory,
                               product.PPrice,
-                              //salenum.OBuynumber,
-                              //groupData.GStart
+                              pnumber = product.PNumber,
+                              soldnumber = 0,
+                              groupData.GPrice,
+                              groupData.GStart,
+                              groupData.GEnd,
                           });
+
+            // 根據填寫的欄位內容構造 where 條件
+            if (!string.IsNullOrEmpty(pname))
+            {
+                result = result.Where(product => product.PName.Contains(pname));
+            }
+
+            if (pmin >= 0 && pmax > 0)
+            {
+                result = result.Where(product => product.PInventory >= pmin && product.PInventory <= pmax);
+            }
+
+            if (!string.IsNullOrEmpty(pCategory) && pCategory != "全部")
+            {
+                result = result.Where(product => product.PCategory == pCategory);
+            }
 
             if (orderby == 2)
             {
-                result = from r in result
-                         orderby r.PInventory
-                         select r;
+                result = result.OrderBy(product => product.PInventory);
+            }
+            else if (orderby == 3)
+            {
+                result = result.OrderBy(product => product.soldnumber).ThenBy(product => product.PPrice);
             }
             else
             {
-                result = from r in result
-                         orderby r.PPrice
-                         select r;
+                result = result.OrderBy(product => product.PPrice);
             }
-
-
 
             return Content(JsonSerializer.Serialize(result));
         }
 
+        public IActionResult IndexWithoutJoin(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
+        {
+            var result = (from product in _context.ProductDatatables
+                          join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
+                          where product.FNumber == 60000 && pic.PPicnumber == 1
+                          select new
+                          {
+                              pic.PUrl,
+                              product.PName,
+                              product.PInventory,
+                              product.PCategory,
+                              product.PPrice,
+                              pnumber = product.PNumber,
+                              soldnumber = 0
+                          });
 
+            // 根據填寫的欄位內容構造 where 條件
+            if (!string.IsNullOrEmpty(pname))
+            {
+                result = result.Where(product => product.PName.Contains(pname));
+            }
 
+            if (pmin >= 0 && pmax > 0)
+            {
+                result = result.Where(product => product.PInventory >= pmin && product.PInventory <= pmax);
+            }
+
+            if (!string.IsNullOrEmpty(pCategory) && pCategory != "全部")
+            {
+                result = result.Where(product => product.PCategory == pCategory);
+            }
+
+            if (orderby == 2)
+            {
+                result = result.OrderBy(product => product.PInventory);
+            }
+            else if (orderby == 3)
+            {
+                result = result.OrderBy(product => product.soldnumber).ThenBy(product => product.PPrice);
+            }
+            else
+            {
+                result = result.OrderBy(product => product.PPrice);
+            }
+
+            return Content(JsonSerializer.Serialize(result));
+        }
+
+        public IActionResult index2()
+        {
+            var soldlist = from o in _context.OrderDatatables
+                           where o.FNumber == 60000
+                           group o by o.PNumber into o2
+                           select new { pnumber = o2.Key, soldnumber = o2.Sum(x => x.OBuynumber) };
+
+            return Content(JsonSerializer.Serialize(soldlist));
+        }
+        // GET: ProductDatatables/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.ProductDatatables == null)
+            {
+                return NotFound();
+            }
+
+            var productDatatable = await _context.ProductDatatables.FindAsync(id);
+            if (productDatatable == null)
+            {
+                return NotFound();
+            }
+            ViewData["FNumber"] = new SelectList(_context.FirmAccounttables, "FNumber", "FNumber", productDatatable.FNumber);
+            return View(productDatatable);
+        }
+
+        // POST: ProductDatatables/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("FNumber,PNumber,PName,PSpec,PCategory,PPrice,PDescribe,PSavedate,PSaveway,PInventory,PShip,PPayment")] ProductDatatable productDatatable)
+        {
+            if (id != productDatatable.PNumber)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(productDatatable);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //if (!ProductDatatableExists(productDatatable.PNumber))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["FNumber"] = new SelectList(_context.FirmAccounttables, "FNumber", "FNumber", productDatatable.FNumber);
+            return View(productDatatable);
+        }
+
+        // GET: ProductDatatables/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.ProductDatatables == null)
+            {
+                return NotFound();
+            }
+
+            var productDatatable = await _context.ProductDatatables
+                .Include(p => p.FNumberNavigation)
+                .FirstOrDefaultAsync(m => m.PNumber == id);
+            if (productDatatable == null)
+            {
+                return NotFound();
+            }
+
+            return View(productDatatable);
+        }
+        // POST: ProductDatatables/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.ProductDatatables == null)
+            {
+                return Problem("Entity set 'ShopwebContext.ProductDatatables'  is null.");
+            }
+            var productDatatable = await _context.ProductDatatables.FindAsync(id);
+            if (productDatatable != null)
+            {
+                _context.ProductDatatables.Remove(productDatatable);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
 
         public IActionResult Login()
@@ -308,34 +405,38 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(FirmAccounttable firmLoginData)
+        public IActionResult Login(FirmAccountVm firmLoginData)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false) return View();
+
+            // get database firm account data
+            var firmAccountQuery = _context.FirmAccounttables.Where((f) =>
+                f.FAccount.Equals(firmLoginData.FAccount) &&
+                f.FPassword.Equals(firmLoginData.FPassword)
+            ).Select((f) =>
+            new
             {
-                Console.WriteLine(firmLoginData);
-                // get database firm account data
-                var firmAccount = _context.CustomerAccounttables.Where((c) =>
-                    c.CAccount.Equals(firmLoginData.FAccount) &&
-                    c.CPassword.Equals(firmLoginData.FPassword)
-                ).Select((c) =>
-                new
-                {
-                    AccountName = c.CNickname,
-                    c_number = c.CNumber,
-                });
+                Account = f.FAccount,
+                AccountName = f.FNickname,
+                f_number = f.FNumber,
+            });
 
-                bool accountNotExist = firmAccount.IsNullOrEmpty();
+            bool accountNotExist = firmAccountQuery.IsNullOrEmpty();
 
-                if (accountNotExist.Equals(true))
-                {
-                    TempData["firmAccountNotExistMessage"] = "帳號不存在";
-                    return RedirectToAction("Login");
-                }
-                HttpContext.Session.SetString("AccountName", firmAccount.First().AccountName);
-                HttpContext.Session.SetString("c_number", Convert.ToString(firmAccount.First().c_number));
-                TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
+            if (accountNotExist.Equals(true))
+            {
+                TempData["firmAccountNotExistMessage"] = "帳號不存在";
+                return RedirectToAction("Login");
             }
-            return RedirectToAction("Login");
+
+            var firmAccount = firmAccountQuery.First();
+
+            HttpContext.Session.SetString("firmAccount", firmAccount.AccountName);
+            HttpContext.Session.SetString("firmAccountName", firmAccount.AccountName);
+            HttpContext.Session.SetString("f_number", Convert.ToString(firmAccount.f_number));
+            TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
+
+            return RedirectToAction("Homepage","FirmPage");
         }
 
 
@@ -345,55 +446,110 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(FirmAccounttable firmAccountData)
+        public IActionResult SignUp(FirmAccountVm firmAccountData)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false) return View();
+
+            bool accountNotExist = _context.FirmAccounttables.Where((f) =>
+                f.FNickname.Equals(firmAccountData.FNickname) &&
+                f.FAccount.Equals(firmAccountData.FAccount) &&
+                f.FPassword.Equals(firmAccountData.FPassword)
+            ).IsNullOrEmpty();
+
+            if (accountNotExist.Equals(false))
             {
-                bool accountNotExist = _context.FirmAccounttables.Where((f) =>
-                    f.FNickname.Equals(firmAccountData.FNickname) &&
-                    f.FAccount.Equals(firmAccountData.FAccount) &&
-                    f.FPassword.Equals(firmAccountData.FPassword)
-                ).IsNullOrEmpty();
+                TempData["firmAccountExistMessage"] = "此帳號已被註冊";
+                RedirectToAction("SignUp");
+                return View();
+            }
 
-                if (accountNotExist.Equals(false))
-                {
-                    TempData["firmAccountExistMessage"] = "此帳號已被註冊";
-                    RedirectToAction("SignUp");
-                    return View();
-                }
-
-                try
-                {
-                    _context.FirmAccounttables.Add(firmAccountData);
-                    _context.SaveChanges();
-                    TempData["firmSignUpSuccessMessage"] = "帳號註冊成功";
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            try
+            {
+                CreateFirmAccount(firmAccountData);
+                TempData["firmSignUpSuccessMessage"] = "帳號註冊成功";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
 
             return RedirectToAction("SignUp");
         }
 
-        [HttpPost]
-        public IActionResult SendMail(string emailAddress) {
-
-            if (ModelState.IsValid)
+        private void CreateFirmAccount(FirmAccountVm firmAccountData)
+        {
+            FirmAccounttable firmAccount = new FirmAccounttable()
             {
-                if (emailAddress.IsNullOrEmpty())
-                {
-                    return RedirectToAction("Login");
-                }
+                FNickname = firmAccountData.FNickname,
+                FAccount = firmAccountData.FAccount,
+                FPassword = firmAccountData.FPassword,
+                FMailpass = firmAccountData.FMailpass,
+            };
+            _context.FirmAccounttables.Add(firmAccount);
+            _context.SaveChanges();
+        }
 
-                Mail mailHandler = new Mail(emailAddress, "FirmPage");
-                string sendEmailResult = mailHandler.SendMail();
-                TempData["sendEmailResultMessage"] = sendEmailResult;
+        [HttpPost]
+        public IActionResult SendMail(string EmailAddress)
+        {
+            if (ModelState.IsValid == false) return View();
 
-
+            if (EmailAddress.IsNullOrEmpty())
+            {
+                return RedirectToAction("Login");
             }
+
+            // 寄送 email 之前先檢查 email 是否存在
+            bool frimAccountNotExist = _context.FirmAccounttables.Where(
+                c => c.FAccount.Equals(EmailAddress)).IsNullOrEmpty();
+
+            if (frimAccountNotExist.Equals(true))
+            {
+                TempData["firmAccountNotExistMessage"] = "帳號不存在";
+                return RedirectToAction("Login");
+            }
+
+
+            Mail mailHandler = new Mail(EmailAddress, "FirmPage");
+            string sendEmailResult = mailHandler.SendMail();
+            TempData["sendEmailResultMessage"] = sendEmailResult;
+
+
             return RedirectToAction("Login");
         }
+
+        public IActionResult ResetPassword(string EmailAddress)
+        {
+            ViewBag.EmailAddress = EmailAddress;
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult ResetPassword(string EmailAddress, string oldPassword, string newPassword)
+        {
+
+            var account = _context.FirmAccounttables.Where((c) => c.FAccount.Equals(EmailAddress)).First();
+
+            try
+            {
+                account.FPassword = newPassword;
+                _context.SaveChanges();
+                TempData["resetPasswordSuccessMessage"] = "密碼重置成功";
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction("Homepage","FirmPage");
+        }
+
+        public IActionResult Logout() {
+            HttpContext.Session.Remove("firmAccountName");
+            HttpContext.Session.Remove("firmAccount");
+            //HttpContext.Session.SetString("AccountName", String.Empty);
+            return RedirectToAction("Homepage", "FirmPage");
+        }
+
     }
 }

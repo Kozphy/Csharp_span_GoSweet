@@ -74,54 +74,54 @@ namespace GoSweet.Controllers
 			int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
 			int? group = Convert.ToInt32(HttpContext.Request.Query["group"]);
 
-			var xx = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
-						pdt => pdt.PNumber,
-						ppt => ppt.PNumber,
-						(pdt, ppt) => new
-						{
-							ProductData2 = pdt,
-							ProductPic2 = ppt
-						}).ToList().GroupJoin(_shopwebContext.OrderDatatables,
-						XXX => XXX.ProductData2.PNumber,
-						odt => odt.PNumber, (pdtPpt, odt) =>
-						new
-						{
-							pdtPpt.ProductData2,
-							pdtPpt.ProductPic2,
-							odt
-						}).ToList().GroupJoin(_shopwebContext.OrderAssesstables,
-						zzz => zzz.ProductData2.PNumber,
-						oat => oat.PNumber, (zzz, oat) => new
-						{
-							ProductData = zzz.ProductData2,
-							ProductPic = zzz.ProductPic2,
-							ProductOdt = zzz.odt,
-							ProductOat = oat.Select(x => x.OCscore).Average()
-						}).ToList();
-			var y = _shopwebContext.FirmPagetables.FirstOrDefault();
-			if (pid != null)
-			{
-				xx = xx.Where(x => x.ProductData.PNumber == pid).ToList();
-			}
-			var yy = _shopwebContext.FirmPagetables.Where(x => x.FNumber == xx[0].ProductData.FNumber).FirstOrDefault();
-			var zzz = _shopwebContext.GroupDatatables.Select(x => x.PNumber).ToList();
-			int aaa = 0;
-			for (int i = 0; i < zzz.Count; i++)
-			{
-				if (zzz[i] == pid)
-				{
-					aaa = 1;
-				}
-			}
-			var mm = _shopwebContext.GroupDatatables.GroupJoin(_shopwebContext.MemberMembertables,
-				gdt => gdt.GNumber,
-				mmt => mmt.GNumber, (gdt, mmt) => new
-				{
-					GroupDatatable = gdt,
-					MemberMembertable = mmt.Select(x => x.MNumber).Single()
-				}).ToList();
-			mm = mm.Where(x => x.GroupDatatable.PNumber == pid).ToList();
+            Console.WriteLine(pid);
+            Console.WriteLine(1);
+			return Content("this is Product Page");
+            //int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
+            //int? group = Convert.ToInt32(HttpContext.Request.Query["group"]);
 
+			//var xx = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
+			//			pdt => pdt.PNumber,
+			//			ppt => ppt.PNumber,
+			//			(pdt, ppt) => new {
+			//				ProductData2 = pdt,
+			//				ProductPic2 = ppt
+			//			}).ToList().GroupJoin(_shopwebContext.OrderDatatables,
+			//			XXX => XXX.ProductData2.PNumber,
+			//			odt => odt.PNumber, (pdtPpt, odt) =>
+			//			new {
+			//				pdtPpt.ProductData2,
+			//				pdtPpt.ProductPic2,
+			//				odt
+			//			}).ToList().GroupJoin(_shopwebContext.OrderAssesstables,
+			//			zzz => zzz.ProductData2.PNumber,
+			//			oat => oat.PNumber, (zzz, oat) => new {
+			//				ProductData = zzz.ProductData2,
+			//				ProductPic = zzz.ProductPic2,
+			//				ProductOdt = zzz.odt,
+			//				ProductOat = oat.Select(x => x.OCscore).Average()
+			//			}).ToList();
+			//var y = _shopwebContext.FirmPagetables.FirstOrDefault();
+			//if (pid != null) {
+			//	xx = xx.Where(x => x.ProductData.PNumber == pid).ToList();
+			//}
+			//var yy = _shopwebContext.FirmPagetables.Where(x => x.FNumber == xx[0].ProductData.FNumber).FirstOrDefault();
+			//var zzz = _shopwebContext.GroupDatatables.Select(x=>x.PNumber).ToList();
+			//int aaa = 0;
+			//for (int i = 0; i < zzz.Count; i++) {
+   //             if (zzz[i] == pid)
+   //             {
+   //                 aaa = 1;
+   //             }           
+			//}
+			//var mm = _shopwebContext.GroupDatatables.GroupJoin(_shopwebContext.MemberMembertables,
+			//	gdt => gdt.GNumber,
+			//	mmt => mmt.GNumber, (gdt, mmt) => new {
+			//		GroupDatatable = gdt,
+			//		MemberMembertable = mmt.Select(x=>x.MNumber).Single()
+			//	}).ToList();
+			//mm = mm.Where(x => x.GroupDatatable.PNumber == pid).ToList();
+			
 			//ViewBag.ProductData = xx;
 			//ViewBag.FirmData = yy?.FPagename;
 			//ViewBag.GroupTF = aaa;
@@ -129,7 +129,7 @@ namespace GoSweet.Controllers
 			//ViewBag.MMT = 10000;
 
 
-			return View();
+			//return View();
 		}
 	}
 }
