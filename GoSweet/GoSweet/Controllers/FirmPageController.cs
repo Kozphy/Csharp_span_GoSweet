@@ -23,7 +23,7 @@ namespace GoSweet.Controllers
         }
         public IActionResult ProductSale()
         {
-            HttpContext.Session.SetInt32("firmNumber", 60000);
+            //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
             var data = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPagename).Single();
@@ -38,7 +38,7 @@ namespace GoSweet.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductSale(ProductDatatable data, GroupDatatable groupdata, List<IFormFile> files, IFormCollection form, FirmPagetable firm, ProductPicturetable picture)
         {
-            HttpContext.Session.SetInt32("firmNumber", 60000);
+            //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
             // 圖片路徑 Start
@@ -182,7 +182,7 @@ namespace GoSweet.Controllers
 
         public IActionResult FirmData()
         {
-            HttpContext.Session.SetInt32("firmNumber", 60000);
+            //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
             var data = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPagename).Single();
@@ -205,7 +205,7 @@ namespace GoSweet.Controllers
         //團購table要用的
         public IActionResult Index(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
         {
-            HttpContext.Session.SetInt32("firmNumber", 60000);
+            //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
             var result = (from product in _context.ProductDatatables
@@ -261,7 +261,7 @@ namespace GoSweet.Controllers
         //一般全部商品table要用的
         public IActionResult IndexWithoutJoin(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
         {
-            HttpContext.Session.SetInt32("firmNumber", 60000);
+            //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
             var result = (from product in _context.ProductDatatables
@@ -313,7 +313,7 @@ namespace GoSweet.Controllers
         //售出數量要用的
         public IActionResult index2()
         {
-            HttpContext.Session.SetInt32("firmNumber", 60000);
+            //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
             var soldlist = from o in _context.OrderDatatables

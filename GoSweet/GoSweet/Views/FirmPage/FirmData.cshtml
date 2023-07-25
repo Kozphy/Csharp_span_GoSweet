@@ -8,7 +8,6 @@
 <body>
     <div class="container" id="firmDataContent">
         <p id="marketdata">廠商資料</p>
-
         <div id="content" style="border: none solid #ccc; box-shadow: 0 0 10px #ddd;">
             <div style="float:right">
 @*                <button id="editdata">
@@ -37,7 +36,7 @@
                     </div>
                     <div class="col-10">
                         <img src="@ViewBag.FirmPic"
-                             style="width:250px;">
+                             style="width:230px;">
                     </div>
                 </div>
                 <br />
@@ -46,17 +45,40 @@
                         <label>廠商介紹 </label>
                     </div>
                     <div class="col-10">
-                        <textarea style="overflow:hidden; resize:none; border:0px;" class="form-control" cols="80" rows="5" name="FMessage">@ViewBag.FirmMes"
+                        <textarea style="overflow:hidden; resize:none; " class="form-control" cols="80" rows="5" name="FMessage">@ViewBag.FirmMes"
             </textarea>
                     </div>
-                </div>
-                    <div style="padding-left:47%; padding-top:2%;">
-                    <button class="editButton">修改</button>
-                    </div>
-                <br />
+                </div>                   
             </form>
+            <div style="padding-left:47%; padding-top:2.2%;">
+                <button onclick="showAlert()" class="editButton" style="font-size:25px;">修改</button>
+            </div>
+            <br />
         </div>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+    <script>
+        const showAlert = () => {
+            Swal.fire({
+                icon: 'warning',
+                title: '確定要修改嗎?',
+                showCancelButton:true,
+                cancelButtonText:'取消',
+                confirmButtonText:'確認',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User clicked "確認", show the second SweetAlert prompt
+                    showSecondAlert();
+                }
+            });
+        };
+        const showSecondAlert = () => {
+            Swal.fire({
+                icon: 'success',
+                title: '修改完成!',
+                confirmButtonText: '確認',
+            });
+        };
+    </script>
 </body>
