@@ -80,25 +80,25 @@
                                             else
                                             {
                                                 // TODO: fix null here.
-                                                IEnumerable<FirmBellDropDownVm>? notifyMessages = ViewData["NotifyMessages"] as IEnumerable<FirmBellDropDownVm>;
-                                                foreach (var item in notifyMessages)
+                                                //IEnumerable<FirmBellDropDownVm>? notifyMessages = ViewData["NotifyMessages"] as IEnumerable<FirmBellDropDownVm>;
+                                                //foreach (var item in notifyMessages)
                                                 //foreach (var item in Model.FirmBellDropDownDatas!)
-                                                {
-                                                    <li>
-                                                        <a href="#" class="d-block btn btn-hover-light rounded-2  align-items-start gap-2 py-2 px-3 lh-sm text-start">
-                                                            <div class="row justify-content-center align-items-center flex-grow-1">
-                                                                <div class="col-3 text-center">
-                                                                    <i class="bi bi-info-square info-icon"></i>
-                                                                </div>
-                                                                <div class="col-9 ">
-                                                                    <p>訂單編號: @item.OrderNumber</p>
-                                                                    <string>@item.ProductName</string>
-                                                                    <string>@item.OrderStatus</string>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                }
+                                                //{
+                                                //    <li>
+                                                //        <a href="#" class="d-block btn btn-hover-light rounded-2  align-items-start gap-2 py-2 px-3 lh-sm text-start">
+                                                //            <div class="row justify-content-center align-items-center flex-grow-1">
+                                                //                <div class="col-3 text-center">
+                                                //                    <i class="bi bi-info-square info-icon"></i>
+                                                //                </div>
+                                                //                <div class="col-9 ">
+                                                //                    <p>訂單編號: @item.OrderNumber</p>
+                                                //                    <string>@item.ProductName</string>
+                                                //                    <string>@item.OrderStatus</string>
+                                                //                </div>
+                                                //            </div>
+                                                //        </a>
+                                                //    </li>
+                                                //}
                                             }
                                         }
 
@@ -250,7 +250,7 @@
                     </a>
                 </div>
                 <div class="text-center fw-bolder ">
-                    <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Order_datatable" asp-action="f_order">
+                    <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Order_datatable" asp-action="order_f">
                         訂單紀錄
                     </a>
                 </div>
