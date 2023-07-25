@@ -9,10 +9,12 @@ namespace GoSweet.Controllers
     public class FirmController : Controller
     {
         private   readonly ShopwebContext _context;
+        private readonly ILogger<FirmController> _logger;
 
-        public FirmController(ShopwebContext context)
+        public FirmController(ShopwebContext context, ILogger<FirmController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public class global
@@ -159,8 +161,7 @@ namespace GoSweet.Controllers
             #endregion
 
             // 廠商通知到 _LayoutFirm
-            ViewBag.NotifyMessages = GetBellDropdownMessage(); 
-
+            ViewData["NotifyMessages"] = GetBellDropdownMessage();
 
 
             return View(HomepageModels);
@@ -303,7 +304,7 @@ namespace GoSweet.Controllers
 
             if (accountNotExist.Equals(true))
             {
-                TempData["firmAccountNotExistMessage"] = "帳號不存在";
+                TempData["firmAccountNotExistMessage"] = "帳號不存在或密碼錯誤";
                 return RedirectToAction("Login");
             }
 
@@ -351,7 +352,7 @@ namespace GoSweet.Controllers
                 Console.WriteLine(e.Message);
             }
 
-            return RedirectToAction("SignUp");
+            return RedirectToAction("Login");
         }
         private void CreateFirmAccount(FirmAccountVm firmAccountData)
         {
@@ -387,7 +388,8 @@ namespace GoSweet.Controllers
             }
 
 
-            Mail mailHandler = new Mail(EmailAddress, "FirmPage");
+            _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
+            Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
             string sendEmailResult = mailHandler.SendMail();
             TempData["sendEmailResultMessage"] = sendEmailResult;
 

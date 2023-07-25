@@ -281,7 +281,7 @@ namespace GoSweet.Controllers
             }
             //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
-            return RedirectToAction("SignUp");
+            return RedirectToAction("Login");
         }
 
         private void CreateCustomerAccount(CustomerAccountVm customerAccountData)
@@ -316,8 +316,9 @@ namespace GoSweet.Controllers
                 return RedirectToAction("Login");
             }
 
+            _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
             // send email
-            Mail mailHandler = new Mail(EmailAddress, "Home");
+            Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
             string sendEmailResult = mailHandler.SendMail();
             TempData["sendEmailResultMessage"] = sendEmailResult;
             return RedirectToAction("Login");

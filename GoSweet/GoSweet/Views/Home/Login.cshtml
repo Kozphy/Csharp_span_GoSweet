@@ -54,6 +54,15 @@
         </script>
     }
 
+    @if (TempData["customerSignUpSuccessMessage"] != null)
+    {
+        <script>
+            let customerSignUpSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerSignUpSuccessMessage"]));
+            showSwal('success', 'SignUp Success...', customerSignUpSuccessMessage);
+        </script>
+    }
+
+
     <script type="text/javascript">
         var onloadCallback = function () {
             grecaptcha.enterprise.render('html_recaptcha', {
