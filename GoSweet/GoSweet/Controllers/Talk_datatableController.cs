@@ -33,11 +33,11 @@ namespace GoSweet.Controllers
         public IActionResult talk()
         {
 
-            if (HttpContext.Session.GetInt32("mycnumber") != null)
+            if (HttpContext.Session.GetInt32("cnumber") != null)
             {
                 return RedirectToAction("talk_c", "Talk_datatable");
             }
-            else if (HttpContext.Session.GetInt32("myfnumber") != null)
+            else if (HttpContext.Session.GetInt32("fnumber") != null)
             {
                 return RedirectToAction("talk_f", "Talk_datatable");
             }
