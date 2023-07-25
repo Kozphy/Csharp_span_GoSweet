@@ -55,11 +55,16 @@ body {
 }
 
 /* 內容顯示在 navbar 高度下*/
-.body-section {
+.customer-body-section {
 	margin-top:185px;
 }
 
 
 .active {
     background-color: rgba(0,0,0,0.2);
+}
+
+/**/
+.firm-body-section {
+	margin-top:146px;
 }

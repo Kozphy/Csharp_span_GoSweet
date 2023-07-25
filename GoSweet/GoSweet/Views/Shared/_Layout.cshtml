@@ -25,7 +25,6 @@
     @if (IsSectionDefined("Head"))
     {
         @await RenderSectionAsync("Head", required:true)
-        ;
     }
     @*
     third party package
@@ -189,7 +188,7 @@
             <form method="get" class="search-bar" role="search">
                 <div class="row">
                     <div class="col-12 col-md-10">
-                        <input class="form-control me-2" type="search" placeholder="Search">
+                        <input class="form-control me-2" name="keyWord" type="search" placeholder="Search">
                     </div>
 
                     <div class="col-6 col-md-1 mt-2 mt-md-0 px-0 d-flex justify-content-center">
@@ -339,7 +338,7 @@
 
 
 
-    <div class="body-section ">
+    <div class="customer-body-section ">
         <main role="main" class=" bg-body-tertiary">
             @RenderBody()
         </main>

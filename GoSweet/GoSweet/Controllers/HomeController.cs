@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks.Dataflow;
 using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
+using System.Linq;
 
 namespace GoSweet.Controllers
 {
@@ -43,26 +44,23 @@ namespace GoSweet.Controllers
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
                                                               where product_pic.PPicnumber == 1
-                                                              group order by
+                                                              group new { product, product_pic, order } by
                                                               new
                                                               {
                                                                   product.PName,
                                                                   product.PCategory,
                                                                   product_pic.PUrl,
-                                                                  product.PPrice,
                                                                   product.PDescribe,
-                                                                  order.OBuynumber
                                                               }
-                                  into grouped
-                                                              orderby grouped.Sum((g) => g.OBuynumber) descending
+                                  into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
-                                                                  ProductName = grouped.Key.PName,
-                                                                  ProductCategory = grouped.Key.PCategory,
-                                                                  ProductPicture = grouped.Key.PUrl,
-                                                                  ProductPrice = grouped.Key.PPrice,
-                                                                  ProductDescription = grouped.Key.PDescribe,
-                                                                  ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber)
+                                                                  ProductName = groupedData.Key.PName,
+                                                                  ProductCategory = groupedData.Key.PCategory,
+                                                                  ProductPicture = groupedData.Key.PUrl,
+                                                                  ProductPrice = Convert.ToInt32(groupedData.Average(x => x.product.PPrice)),
+                                                                  ProductDescription = groupedData.Key.PDescribe,
+                                                                  ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
                                                               }).ToList();
 
             //foreach (var group in productRankData)
@@ -170,31 +168,30 @@ namespace GoSweet.Controllers
         [HttpGet]
         public JsonResult HandleProductCategory([FromQuery] string Category)
         {
+            // TODO: fix group issue
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
                                                               where product_pic.PPicnumber == 1 && product.PCategory == Category
-                                                              group order by
+                                                              group new { product, product_pic, order } by
                                                               new
                                                               {
                                                                   product.PName,
                                                                   product.PCategory,
                                                                   product_pic.PUrl,
-                                                                  product.PPrice,
                                                                   product.PDescribe,
-                                                                  order.OBuynumber
                                                               }
-                              into grouped
-                                                              orderby grouped.Sum((g) => g.OBuynumber) descending
+                                  into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
-                                                                  ProductName = grouped.Key.PName,
-                                                                  ProductCategory = grouped.Key.PCategory,
-                                                                  ProductPicture = grouped.Key.PUrl,
-                                                                  ProductPrice = grouped.Key.PPrice,
-                                                                  ProductDescription = grouped.Key.PDescribe,
-                                                                  ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber)
+                                                                  ProductName = groupedData.Key.PName,
+                                                                  ProductCategory = groupedData.Key.PCategory,
+                                                                  ProductPicture = groupedData.Key.PUrl,
+                                                                  ProductPrice = Convert.ToInt32(groupedData.Average(x => x.product.PPrice)),
+                                                                  ProductDescription = groupedData.Key.PDescribe,
+                                                                  ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
                                                               }).ToList();
+
 
                         
             return new JsonResult(JsonConvert.SerializeObject(productRankData)); 
