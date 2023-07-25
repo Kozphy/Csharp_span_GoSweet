@@ -72,19 +72,28 @@ namespace GoSweet.Controllers {
                      };
 
 
-            var groups = xx.GroupBy(item => item.PName)
-             .Select(group => group.FirstOrDefault())
-             .ToList().ToList();
+            //var groups = xx.GroupBy(item => item.PName)
+            // .Select(group => group.FirstOrDefault())
+            // .ToList();
 
-            //var groups = _context.ProductGroupViews.ToList();
-            groups = groups.Where(x => x.PPicnumber == 1).ToList();
+            var groups = xx.GroupBy(item => item.PName)
+               .Select(group => new {
+                   PName = group.Key,
+                   FirstResult = group.FirstOrDefault(),
+                   AverageOCscore = group.Average(item => item.OCscore)
+               }).ToList();
+
+
+
+			//var groups = _context.ProductGroupViews.ToList();
+			groups = groups.Where(x => x.FirstResult.PPicnumber == 1).ToList();
 
             if (keyWord != null) {
-                groups = groups.Where(x => x.PName.Contains(keyWord) && x.PPicnumber == 1).ToList();
+                groups = groups.Where(x => x.PName.Contains(keyWord) && x.FirstResult.PPicnumber == 1).ToList();
             }
-            var gpl = groups.OrderBy(p => p?.PPrice).ToList();
-            var gph = groups.OrderByDescending(p => p?.PPrice).ToList();
-            var gpp = groups.OrderByDescending(p => p.OCscore).ToList();
+            var gpl = groups.OrderBy(p => p?.FirstResult.PPrice).ToList();
+            var gph = groups.OrderByDescending(p => p?.FirstResult.PPrice).ToList();
+            var gpp = groups.OrderByDescending(p => p.FirstResult.OCscore).ToList();
             ViewBag.ProductDatatablesJoin = groups;
             ViewBag.ProductDatatablesLow = gpl;
             ViewBag.ProductDatatablesHigh = gph;
@@ -124,20 +133,13 @@ namespace GoSweet.Controllers {
             }
             var fpt = _context.FirmPagetables.Where(x => x.FNumber == groups[0].ProductData.FNumber).FirstOrDefault();
             var gdt = _context.GroupDatatables.Select(x => x.PNumber).ToList();
+
             int gp = 0;
             for (int i = 0; i < gdt.Count; i++) {
                 if (gdt[i] == pid) {
                     gp = 1;
                 }
             }
-            //var mm = _context.GroupDatatables.GroupJoin(_context.MemberMembertables,
-            //	gdt => gdt.GNumber,
-            //	mmt => mmt.GNumber, (gdt, mmt) => new {
-            //		GroupDatatable = gdt,
-            //		MemberMembertable = mmt.Select(x=>x.MNumber).Single()
-            //	}).ToList();
-            //mm = mm.Where(x => x.GroupDatatable.PNumber == pid).ToList();
-
             ViewBag.ProductData = groups;
             ViewBag.FirmData = fpt?.FPagename;
             ViewBag.GroupTF = gp;

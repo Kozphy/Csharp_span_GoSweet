@@ -38,12 +38,16 @@ namespace GoSweet.Controllers {
         [HttpPost]
         public ActionResult BuyList(IFormCollection form) {
 
+			HttpContext.Session.SetInt32("mycnumber", 10000);
 
-            if (form != null) {
+			int id = Convert.ToInt32(HttpContext.Session.GetInt32("mycnumber")); ;
+
+			if (form != null) {
                 var result = new OrderDatatable();
                 result.OStart = DateTime.Now;
-                result.CNumber = Convert.ToInt32(form["CNumber"]);
-                result.FNumber = Convert.ToInt32(form["FNumber"]);
+                //result.CNumber = Convert.ToInt32(form["CNumber"]);
+				result.CNumber = id;
+				result.FNumber = Convert.ToInt32(form["FNumber"]);
                 result.PNumber = Convert.ToInt32(form["PNumber"]);
                 result.OBuynumber = Convert.ToInt32(form["OBuynumber"]);
                 result.OType = false;
@@ -67,7 +71,11 @@ namespace GoSweet.Controllers {
             int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
             int num = Convert.ToInt32(HttpContext.Request.Query["num"]);
             int mmt = Convert.ToInt32(HttpContext.Request.Query["mmt"]);
-            var groups = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
+
+			HttpContext.Session.SetInt32("mycnumber", 10000);
+			int id = Convert.ToInt32(HttpContext.Session.GetInt32("mycnumber"));
+
+			var groups = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
                         pdt => pdt.PNumber,
                         ppt => ppt.PNumber,
                         (pdt, ppt) => new {
@@ -131,7 +139,7 @@ namespace GoSweet.Controllers {
 
             var result2 = new OrderDatatable();
             result2.OStart = DateTime.Now;
-            result2.CNumber = 10000;
+            result2.CNumber = id;
             result2.FNumber = groups[0].ProductData.FNumber;
             result2.PNumber = groups[0].ProductData.PNumber;
             result2.OBuynumber = num;
@@ -180,11 +188,16 @@ namespace GoSweet.Controllers {
 
         [HttpPost]
         public ActionResult BuyListgp(IFormCollection form) {
-            if (form != null) {
+			HttpContext.Session.SetInt32("mycnumber", 10000);
+
+			int id =Convert.ToInt32(HttpContext.Session.GetInt32("mycnumber"));
+
+			if (form != null) {
                 var result = new OrderDatatable();
                 result.OStart = DateTime.Now;
-                result.CNumber = Convert.ToInt32(form["CNumber"]);
-                result.FNumber = Convert.ToInt32(form["FNumber"]);
+                //result.CNumber = Convert.ToInt32(form["CNumber"]);
+				result.CNumber = id;
+				result.FNumber = Convert.ToInt32(form["FNumber"]);
                 result.PNumber = Convert.ToInt32(form["PNumber"]);
                 result.OBuynumber = Convert.ToInt32(form["OBuynumber"]);
                 result.OType = true;
