@@ -6,8 +6,6 @@ namespace GoSweet.Hubs
     public class ChatHub : Hub
     {
 
-
-
         // 用戶連線 ID 列表
         public static List<string> ConnIDList = new List<string>();
 

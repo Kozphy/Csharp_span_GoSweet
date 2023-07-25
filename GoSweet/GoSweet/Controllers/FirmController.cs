@@ -36,7 +36,7 @@ namespace GoSweet.Controllers
 
         public IActionResult Homepage()
         {
-			int id = (int)HttpContext.Session.GetInt32("fnumber")!;
+			int id = Convert.ToInt32(HttpContext.Session.GetInt32("fnumber"));
 
 			#region 日期參數
 			DateTime MonthBegin = global.Now.AddDays(1 - global.Now.Day);
