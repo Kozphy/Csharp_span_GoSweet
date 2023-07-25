@@ -24,7 +24,7 @@ namespace GoSweet.Controllers
 
         //訂單搜尋 客戶用
         [HttpPost]
-        public IActionResult search_c(DateTime start ,DateTime end, string o_status , string o_type, string ship_status, int orderby)
+        public IActionResult search_c(DateTime start ,DateTime end, string o_status , string o_type, string ship_status, int orderby,int? onumber,string fname)
         {
 
             var id = HttpContext.Session.GetInt32("mycnumber");
@@ -96,6 +96,21 @@ namespace GoSweet.Controllers
             {
                 orderdata = from o in orderdata
                             where o.oshipstatus == ship_status
+                            select o;
+            }
+
+
+            if (onumber != null)
+            {
+                orderdata = from o in orderdata
+                            where o.onumber == onumber
+                            select o;
+            }
+
+            if (fname != null)
+            {
+                orderdata = from o in orderdata
+                            where o.fname == fname
                             select o;
             }
 
@@ -365,7 +380,7 @@ namespace GoSweet.Controllers
 
         //訂單搜尋 廠商用
         [HttpPost]
-        public IActionResult search_f(DateTime start, DateTime end, string o_status, string o_type, string ship_status, int orderby)
+        public IActionResult search_f(DateTime start, DateTime end, string o_status, string o_type, string ship_status, int orderby,int? onumber,string cname)
         {
 
             var id = HttpContext.Session.GetInt32("myfnumber");
@@ -398,7 +413,8 @@ namespace GoSweet.Controllers
                                 oprice = o.OPrice,
                                 onumber = o.ONumber,
                                 oship = s.ShipName,
-                                opay = pay.PaymentName
+                                opay = pay.PaymentName,
+                        
                             };
 
             orderdata = from o in orderdata
@@ -440,6 +456,20 @@ namespace GoSweet.Controllers
                             where o.oshipstatus == ship_status
                             select o;
             }
+
+            if (onumber != null) {
+                orderdata = from o in orderdata
+                            where o.onumber == onumber
+                            select o;
+            }
+
+            if (cname != null)
+            {
+                    orderdata = from o in orderdata
+                                where o.cname == cname
+                                select o;            
+            }               
+
 
 
             if (orderby == 1)
@@ -600,8 +630,8 @@ namespace GoSweet.Controllers
             var membermax = from m in _context.MemberMembertables
                             where m.MNumber == mymnumber && m.GMaxpeople == m.MNowpeople
                             select m;
-            if ((membermax.FirstOrDefault() != null)&&(membermax.FirstOrDefault().MStatus == false)) {
-                membermax.FirstOrDefault().MStatus = true;
+            if ((membermax.FirstOrDefault() != null)&&(membermax.First().MStatus == false)) {
+                membermax.First().MStatus = true;
                 _context.Update(membermax.First());
                 _context.SaveChanges();
                 var orderlist = from o in _context.OrderDatatables
