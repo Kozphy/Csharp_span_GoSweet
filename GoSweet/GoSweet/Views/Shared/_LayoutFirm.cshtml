@@ -1,5 +1,6 @@
 ﻿@using GoSweet.Models.ViewModels;
 @using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
 @inject IHttpContextAccessor Accessor
 @*@model GoSweet.Models.ViewModels.FirmHomepageModel;*@
 
@@ -52,7 +53,7 @@
                             <i class="bi bi-bell-fill nav-icon bellIcon p-2"></i>
                             @*bell dropdown message counter*@
                             @{
-                                int notifyMessagesCount = Convert.ToInt32(ViewData["NotifyMessagesCount"]);
+                                int notifyMessagesCount = Convert.ToInt32(Accessor.HttpContext!.Session.GetInt32("NotifyMessagesCount"));
                                 <span class="count-red-circle">@notifyMessagesCount</span>
                             }
                             @*bell dropdown*@
@@ -61,7 +62,6 @@
                                     <ul class="list-unstyled d-flex flex-column gap-2">
                                         @{
                                             string firmAccount = Accessor.HttpContext?.Session.GetString("firmAccount")!;
-                                            IEnumerable<FirmBellDropDownVm>? notifyMessages = ViewData["NotifyMessages"] as IEnumerable<FirmBellDropDownVm>;
                                             if (firmAccount == null || notifyMessagesCount == 0)
 
                                             {
@@ -80,7 +80,9 @@
                                             }
                                             else
                                             {
-                                                foreach (var item in notifyMessages!)
+                                                string notifyMessageJson = Accessor.HttpContext!.Session.GetString("NotifyMessages")!;
+                                                IEnumerable<FirmBellDropDownVm> notifyMessages = JsonConvert.DeserializeObject<IEnumerable<FirmBellDropDownVm>>(notifyMessageJson)!;
+                                                foreach (var item in notifyMessages)
                                                 {
                                                     <li>
                                                         <a href="#" class="d-block btn btn-hover-light rounded-2  align-items-start gap-2 py-2 px-3 lh-sm text-start">

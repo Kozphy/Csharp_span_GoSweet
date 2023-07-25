@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using GoSweet.Models.ViewModels;
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
 @inject IHttpContextAccessor Accessor
 @model GoSweet.Models.ViewModels.HomeIndexVm;
 @{
@@ -52,7 +54,7 @@
                         <div class="me-3 count-red-circle-parent">
                             <i class="bi bi-bell-fill nav-icon bellIcon p-2"></i>
                             @{
-                                int customerBellDropDownCount = Convert.ToInt32(ViewData["customerBellDropDownCount"]);
+                                int customerBellDropDownCount = Convert.ToInt32(Accessor.HttpContext!.Session.GetInt32("NotfiyMessagesCount"));
                                 <span class="count-red-circle">@customerBellDropDownCount</span>
                             }
                             @*bell dropdown*@
@@ -77,7 +79,9 @@
                                         }
                                         else
                                         {
-                                            foreach (var item in Model.CustomerBellDropDownDatas!)
+                                            string bellDropDownDatasJson = Accessor.HttpContext.Session.GetString("NotfiyMessages")!;
+                                            IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = JsonConvert.DeserializeObject<IEnumerable<CustomerBellDropDownVm>>(bellDropDownDatasJson)!;
+                                            foreach (var item in bellDropDownsDatas)
                                             {
                                                 <li>
                                                     <a href="#" class="d-block btn btn-hover-light rounded-2  align-items-start gap-2 py-2 px-3 lh-sm text-start">

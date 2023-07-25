@@ -3,6 +3,8 @@ using GoSweet.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using GoSweet.Controllers.feature;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace GoSweet.Controllers
 {
@@ -161,7 +163,7 @@ namespace GoSweet.Controllers
             #endregion
 
             // 廠商通知到 _LayoutFirm
-            ViewData["NotifyMessages"] = GetBellDropdownMessage();
+            GetBellDropdownMessage();
 
 
             return View(HomepageModels);
@@ -193,8 +195,8 @@ namespace GoSweet.Controllers
                  });
 
             IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();
-            ViewData["NotifyMessagesCount"] = firmNotifyMessages.Count();
-            //Console.WriteLine("TempData: {0}", ViewData["NotifyMessagesCount"]);
+            HttpContext.Session.SetString("NotifyMessages", JsonConvert.SerializeObject(firmNotifyMessages));
+            HttpContext.Session.SetInt32("NotifyMessagesCount", firmNotifyMessages.Count());
 
             return firmNotifyMessages;
         }
