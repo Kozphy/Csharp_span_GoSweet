@@ -134,17 +134,19 @@ namespace GoSweet.Controllers {
             var fpt = _context.FirmPagetables.Where(x => x.FNumber == groups[0].ProductData.FNumber).FirstOrDefault();
             var gdt = _context.GroupDatatables.Select(x => x.PNumber).ToList();
 
+            var test = _context.GroupDatatables.Where(x=>x.PNumber==pid).Select(x=>x.GPrice).FirstOrDefault();
+
             int gp = 0;
             for (int i = 0; i < gdt.Count; i++) {
                 if (gdt[i] == pid) {
                     gp = 1;
-                }
+				}
             }
             ViewBag.ProductData = groups;
             ViewBag.FirmData = fpt?.FPagename;
             ViewBag.GroupTF = gp;
             ViewBag.lastPic = groups[0].ProductPic.LastOrDefault();
-
+            ViewBag.GPrice = test;
             return View();
         }
     }

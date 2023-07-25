@@ -35,7 +35,10 @@
 				@ViewBag.ProductData[0].ProductData.PDescribe
 			</p>
 			<p class="text-center" style="font-size: 22px;">
-				價格 : @ViewBag.ProductData[0].ProductData.PPrice 元
+				價格 : @ViewBag.ProductData[0].ProductData.PPrice 元<br />
+			</p>
+			<p class="text-center" style="font-size: 22px;" id="GPrice">
+				團購價格 : @ViewBag.GPrice 元
 			</p>
 			<p class="text-center">
 				<label for="buyNum" style="font-size: 22px;"> 購買數量 : </label>
@@ -137,6 +140,13 @@
 			Swal.fire('此商品無法團購')
 			}
 	})
+
+	var pp = parseInt(@ViewBag.GPrice)
+
+	if(pp == 0){
+		$("#GPrice").text("此商品無團購 !!")
+	}
+	//alert(pp)
 	
 </script>
 
