@@ -38,7 +38,7 @@ namespace GoSweet.Controllers
                                                        }).Distinct().ToList();
 
 
-            // fix group issue
+            // TODO: fix group issue
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
@@ -356,6 +356,8 @@ namespace GoSweet.Controllers
         public IActionResult LogOut() {
             HttpContext.Session.Remove("customerAccountName");
             HttpContext.Session.Remove("customerAccount");
+             HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
         }
