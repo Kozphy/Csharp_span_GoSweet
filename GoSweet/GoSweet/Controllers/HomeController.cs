@@ -337,6 +337,8 @@ namespace GoSweet.Controllers
 
             var account = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(EmailAddress)).First();
 
+            
+
             try
             {
                 account.CPassword = newPassword;
@@ -346,14 +348,14 @@ namespace GoSweet.Controllers
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
             }
-
             return RedirectToAction("Index");
         }
 
         public IActionResult LogOut() {
             HttpContext.Session.Remove("customerAccountName");
             HttpContext.Session.Remove("customerAccount");
-             HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+            HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+            
 
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
