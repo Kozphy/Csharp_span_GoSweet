@@ -354,7 +354,10 @@ namespace GoSweet.Controllers
         public IActionResult LogOut() {
             HttpContext.Session.Remove("customerAccountName");
             HttpContext.Session.Remove("customerAccount");
+            HttpContext.Session.Remove("cnumber");
+            HttpContext.Session.Remove("mycnumber");
             HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+
             
 
             //HttpContext.Session.SetString("AccountName", String.Empty);

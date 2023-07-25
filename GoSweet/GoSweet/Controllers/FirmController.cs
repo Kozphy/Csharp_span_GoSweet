@@ -459,6 +459,9 @@ namespace GoSweet.Controllers
         public IActionResult LogOut() {
             HttpContext.Session.Remove("firmAccountName");
             HttpContext.Session.Remove("firmAccount");
+            HttpContext.Session.Remove("fnumber");
+            HttpContext.Session.Remove("firmNumber");
+            HttpContext.Session.Remove("fnickname");
             HttpContext.Session.SetInt32("NotifyMessagesCount", 0);
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
