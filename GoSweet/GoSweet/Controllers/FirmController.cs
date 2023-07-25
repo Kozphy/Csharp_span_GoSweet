@@ -466,6 +466,5 @@ namespace GoSweet.Controllers
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
         }
-
     }
 }
