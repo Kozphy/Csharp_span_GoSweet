@@ -53,6 +53,7 @@
                     <div class="my-auto d-flex align-items-center">
                         <div class="me-3 count-red-circle-parent">
                             <i class="bi bi-bell-fill nav-icon bellIcon p-2"></i>
+                            @*bell dropdown message counter*@
                             @{
                                 int customerBellDropDownCount = Convert.ToInt32(Accessor.HttpContext!.Session.GetInt32("NotfiyMessagesCount"));
                                 <span class="count-red-circle">@customerBellDropDownCount</span>
