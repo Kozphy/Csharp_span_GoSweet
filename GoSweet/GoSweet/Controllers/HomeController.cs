@@ -38,6 +38,7 @@ namespace GoSweet.Controllers
                                                        }).Distinct().ToList();
 
 
+            // fix group issue
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
