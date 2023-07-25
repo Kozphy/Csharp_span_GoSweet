@@ -38,7 +38,7 @@ namespace GoSweet.Controllers
                                                        }).Distinct().ToList();
 
 
-            // fix group issue
+            // TODO: fix group issue
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
@@ -93,7 +93,7 @@ namespace GoSweet.Controllers
             _indexViewModelData.CategoryDatas = categoriesDatas;
             _indexViewModelData.ProductRankDatas = productRankData;
             _indexViewModelData.ProductGroupBuyDatas = productGroupBuyData;
-            _indexViewModelData.CustomerBellDropDownDatas = GetBellDropdownMessage();
+            GetBellDropdownMessage();
             //_indexViewModelData.bellContentDatas = bellContentsDatas;
             HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
@@ -159,7 +159,9 @@ namespace GoSweet.Controllers
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
-            ViewData["customerBellDropDownCount"] = bellDropDownsDatas.Count();
+            HttpContext.Session.SetString("NotfiyMessages", JsonConvert.SerializeObject(bellDropDownsDatas));
+            HttpContext.Session.SetInt32("NotfiyMessagesCount", bellDropDownsDatas.Count());
+
 
 
             return bellDropDownsDatas;
@@ -194,8 +196,7 @@ namespace GoSweet.Controllers
                                                                   ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber)
                                                               }).ToList();
 
-
-            
+                        
             return new JsonResult(JsonConvert.SerializeObject(productRankData)); 
         }
 
@@ -355,6 +356,8 @@ namespace GoSweet.Controllers
         public IActionResult LogOut() {
             HttpContext.Session.Remove("customerAccountName");
             HttpContext.Session.Remove("customerAccount");
+             HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
         }

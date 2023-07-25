@@ -3,6 +3,8 @@ using GoSweet.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using GoSweet.Controllers.feature;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace GoSweet.Controllers
 {
@@ -34,64 +36,66 @@ namespace GoSweet.Controllers
 
         public IActionResult Homepage()
         {
-            #region 日期參數
-            DateTime MonthBegin = global.Now.AddDays(1 - global.Now.Day);
+			int id = (int)HttpContext.Session.GetInt32("fnumber")!;
+
+			#region 日期參數
+			DateTime MonthBegin = global.Now.AddDays(1 - global.Now.Day);
             DateTime LastMonthEnd = global.Now.AddDays(1 - global.Now.Day).AddDays(-1);
             DateTime LastMonthBegin = global.Now.AddDays(1 - global.Now.Day).AddMonths(-1);
             #endregion
 
             #region 當月訂單數
             string TotalOrders = (from someone in _context.OrderDatatables
-                                 where someone.OStart <= global.Now && someone.OStart>=MonthBegin
+                                 where someone.OStart <= global.Now && someone.OStart>=MonthBegin && someone.FNumber==id
                                  select someone.ONumber).Count().ToString("N0");
             #endregion
 
             #region 當月出貨數
             string TotalShipped = (from someone in _context.OrderDatatables
-                                   where someone.OStart<=global.Now && someone.OStart>=MonthBegin && someone.OShipstatus.Contains("已")
-                                   select someone.ONumber).Count().ToString("N0");
+                                   where someone.OStart<=global.Now && someone.OStart>=MonthBegin && someone.OShipstatus.Contains("已") && someone.FNumber == id
+								   select someone.ONumber).Count().ToString("N0");
             #endregion
 
             #region 當月未出貨數
             string TotalunShipped = (from someone in _context.OrderDatatables
-                                     where someone.OStart <= global.Now && someone.OStart >= MonthBegin && someone.OShipstatus.Contains("未")
-                                     select someone.ONumber).Count().ToString("N0");
+                                     where someone.OStart <= global.Now && someone.OStart >= MonthBegin && someone.OShipstatus.Contains("未") && someone.FNumber == id
+									 select someone.ONumber).Count().ToString("N0");
             #endregion
 
             #region 當月總收入
             string TotalThisMonth = (from someone in _context.OrderDatatables
-                                     where someone.OStart <= global.Now && someone.OStart >= MonthBegin
-                                     select (someone.OBuynumber * someone.OPrice)).Sum().ToString("C0");
+                                     where someone.OStart <= global.Now && someone.OStart >= MonthBegin && someone.FNumber == id
+									 select (someone.OBuynumber * someone.OPrice)).Sum().ToString("C0");
             #endregion
 
             #region 上月訂單數
             string LastMonthTotalOrders = (from someone in _context.OrderDatatables
-                                 where someone.OStart <= LastMonthEnd && someone.OStart >= LastMonthBegin
-                                 select someone.ONumber).Count().ToString("N0");
+                                    where someone.OStart <= LastMonthEnd && someone.OStart >= LastMonthBegin && someone.FNumber == id
+								    select someone.ONumber).Count().ToString("N0");
             #endregion
 
             #region 上月出貨數
             string LastMonthTotalShipped = (from someone in _context.OrderDatatables
-                                   where someone.OStart <= LastMonthEnd && someone.OStart >= LastMonthBegin && someone.OShipstatus.Contains("已")
-                                   select someone.ONumber).Count().ToString("N0");
+                                            where someone.OStart <= LastMonthEnd && someone.OStart >= LastMonthBegin && someone.OShipstatus.Contains("已") && someone.FNumber == id
+											select someone.ONumber).Count().ToString("N0");
             #endregion
 
             #region 上月未出貨數
             string LastMonthTotalunShipped = (from someone in _context.OrderDatatables
-                                     where someone.OStart <= LastMonthEnd && someone.OStart >= LastMonthBegin && someone.OShipstatus.Contains("未")
-                                     select someone.ONumber).Count().ToString("N0");
+                                                where someone.OStart <= LastMonthEnd && someone.OStart >= LastMonthBegin && someone.OShipstatus.Contains("未") && someone.FNumber == id
+											    select someone.ONumber).Count().ToString("N0");
             #endregion
 
             #region 上月總收入
             string TotalLastMonth = (from someone in _context.OrderDatatables
-                                     where someone.OStart <= LastMonthEnd && someone.OStart >= LastMonthBegin
-                                     select (someone.OBuynumber * someone.OPrice)).Sum().ToString("C0");
+                                     where someone.OStart <= LastMonthEnd && someone.OStart >= LastMonthBegin && someone.FNumber == id
+									 select (someone.OBuynumber * someone.OPrice)).Sum().ToString("C0");
             #endregion
 
             #region 待處理訂單
             var Waitinglist = from O in _context.OrderDatatables
                               join P in _context.ProductDatatables on O.PNumber equals P.PNumber
-                              where O.OShipstatus.Contains("未")
+                              where O.OShipstatus.Contains("未") && O.FNumber == id
                               orderby O.OStart
                               select new WaitingLists
                               {
@@ -104,6 +108,7 @@ namespace GoSweet.Controllers
             #region 熱門評論
             var Comment = from someone in _context.OrderAssesstables
                           join something in _context.OrderDatatables on someone.ONumber equals something.ONumber
+                          where something.FNumber == id
                           orderby something.OStart descending
                           select new RecentlyComment
                           {
@@ -115,7 +120,8 @@ namespace GoSweet.Controllers
             #region 熱門商品
             var Hotsale = from someone in _context.OrderDatatables
                           join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
-                          select new { something, someone } into tempTable
+						  where someone.FNumber == id
+						  select new { something, someone } into tempTable
                           group tempTable by tempTable.something.PName into TempTable
                           select new HotSales
                           {
@@ -161,7 +167,7 @@ namespace GoSweet.Controllers
             #endregion
 
             // 廠商通知到 _LayoutFirm
-            ViewData["NotifyMessages"] = GetBellDropdownMessage();
+            GetBellDropdownMessage();
 
 
             return View(HomepageModels);
@@ -193,9 +199,8 @@ namespace GoSweet.Controllers
                  });
 
             IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();
-            ViewData["NotifyMessagesCount"] = firmNotifyMessages.Count();
-            Console.WriteLine("TempData: {0}", ViewData["NotifyMessagesCount"]);
-            //ViewBag.NotifyMessagesCount = firmNotifyMessages.Count(); 
+            HttpContext.Session.SetString("NotifyMessages", JsonConvert.SerializeObject(firmNotifyMessages));
+            HttpContext.Session.SetInt32("NotifyMessagesCount", firmNotifyMessages.Count());
 
             return firmNotifyMessages;
         }
@@ -206,9 +211,15 @@ namespace GoSweet.Controllers
 
         public JsonResult RatingJson() 
         {
-            var somebody = (from someone in _context.OrderAssesstables
+			int id = (int)HttpContext.Session.GetInt32("fnumber")!;
+
+			var somebody = (from someone in _context.OrderAssesstables
+                           join someelse in _context.OrderDatatables on someone.ONumber equals someelse.ONumber
+                           where someelse.FNumber==id
                             select someone.OCscore).Sum();
             var something = (from someone in _context.OrderAssesstables
+							 join someelse in _context.OrderDatatables on someone.ONumber equals someelse.ONumber
+							 where someelse.FNumber == id
 							 select someone.OCscore).Count();
             ratingvalue rateValue = new ratingvalue
             {
@@ -222,9 +233,10 @@ namespace GoSweet.Controllers
 
 		public IActionResult Revenue()
         {
+			int id = (int)HttpContext.Session.GetInt32("fnumber")!;
 
-            #region 日期設定
-            global.StartDateString = HttpContext.Request.Query["StartDate"];
+			#region 日期設定
+			global.StartDateString = HttpContext.Request.Query["StartDate"];
             global.EndDateString = HttpContext.Request.Query["EndDate"];
             if (global.StartDateString is null && global.EndDateString is null)
             {
@@ -241,7 +253,7 @@ namespace GoSweet.Controllers
 
             #region 期間帳務
             var Period = from someone in _context.OrderDatatables
-                         where someone.OStart >= global.StartDate && someone.OStart <= global.EndDate
+                         where someone.OStart >= global.StartDate && someone.OStart <= global.EndDate && someone.FNumber==id
                          select someone.OPrice * someone.OBuynumber;
             //期間結餘
             ViewData["Revenue"] = Period.Sum().ToString("C0");
@@ -259,9 +271,11 @@ namespace GoSweet.Controllers
 
         public JsonResult JsonData()
         {
-            var somebody = from someone in _context.OrderDatatables
+			int id = (int)HttpContext.Session.GetInt32("fnumber")!;
+
+			var somebody = from someone in _context.OrderDatatables
                            join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
-                           where someone.OStart >= global.StartDate && someone.OStart< global.EndDate
+                           where someone.OStart >= global.StartDate && someone.OStart< global.EndDate && someone.FNumber == id
                            orderby someone.OStart
                            select new RevenueSearch
                            {
@@ -428,6 +442,7 @@ namespace GoSweet.Controllers
         public IActionResult Logout() {
             HttpContext.Session.Remove("firmAccountName");
             HttpContext.Session.Remove("firmAccount");
+            HttpContext.Session.SetInt32("NotifyMessagesCount", 0);
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Homepage", "Firm");
         }
