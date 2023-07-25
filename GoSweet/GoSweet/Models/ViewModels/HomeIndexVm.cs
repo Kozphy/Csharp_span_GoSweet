@@ -7,7 +7,6 @@ namespace GoSweet.Models.ViewModels
         public IEnumerable<CategoryViewModel>? CategoryDatas { get; set; }
         public IEnumerable<ProductRankDataViewModel>? ProductRankDatas { get; set; }
         public IEnumerable<ProductGroupBuyData>? ProductGroupBuyDatas { get; set; }
-        public IEnumerable<CustomerBellDropDownVm>? CustomerBellDropDownDatas { get; set; }
 
     }
 
@@ -18,6 +17,7 @@ namespace GoSweet.Models.ViewModels
 
     public class ProductRankDataViewModel
     {
+        public int ProductId { get; set; }
         public string? ProductName { get; set; }
         public string? ProductCategory { get; set; }
         public string? ProductPicture { get; set; }

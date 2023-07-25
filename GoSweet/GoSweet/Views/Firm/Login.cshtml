@@ -47,21 +47,31 @@
         </script>
     }
 
-    @*帳號成功登入訊息*@
-    @if (TempData["firmAccountLoginSuccessMessage"] != null)
-    {
-        <script>
-            let firmAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmAccountLoginSuccessMessage"]));
-            showSwal('success', 'LoginSuccess...', firmAccountLoginSuccessMessage);
-        </script>
-    }
 
     @*成功記送 Email 訊息*@
     @if (TempData["sendEmailResultMessage"] != null)
     {
         <script>
             let sendEmailResultMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["sendEmailResultMessage"]));
-            showSwal('', 'Send Email Status...', sendEmailResultMessage);
+            showSwal(false, 'Send Email Status', sendEmailResultMessage);
+        </script>
+    }
+
+    @*帳號成功註冊訊息*@
+    @if (TempData["firmSignUpSuccessMessage"] != null)
+    {
+        <script>
+            let firmSignUpSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmSignUpSuccessMessage"]));
+            showSwal('success', 'SignUp Status', firmSignUpSuccessMessage);
+        </script>
+    }
+
+    @*重置密碼成功*@
+    @if (TempData["resetPasswordSuccessMessage"] != null)
+    {
+        <script>
+            let resetPasswordSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["resetPasswordSuccessMessage"]));
+			showSwal('success', 'Reset Password Status', resetPasswordSuccessMessage);
         </script>
     }
 

@@ -5,24 +5,24 @@
     void test3(dynamic vv) {
         double vvv = 0;
         for (int i = 0; i < vv.Count; i++) {  
-            vvv = (Convert.ToDouble(@vv[i].OCscore) / 5) * 100;
+            vvv = (Convert.ToDouble(@vv[i].AverageOCscore) / 5) * 100;
             <div class="card col-lg-4 col-md-2 col-sm-1 proCard p-0 " style="width: 20rem;">
-                    <img src=@vv[i].PUrl class="card-img-top"
+                <img src=@vv[i].FirstResult.PUrl class="card-img-top"
                          alt="...">
                     <div class="card-body">
-                        <h5 class="card-title padd">@vv[i].PName</h5>
-                        <p class="card-text padd">$ @vv[i].PPrice 元</p>
+                    <h5 class="card-title padd">@vv[i].FirstResult.PName</h5>
+                    <p class="card-text padd">$ @vv[i].FirstResult.PPrice 元</p>
                         <div class="d-flex justify-content-between padd">
-                            <span class="card-text padd">售出數量 : @vv[i].PInventory</span>
+                        <span class="card-text padd">售出數量 : @vv[i].FirstResult.PInventory</span>
                         <div class="evaluate pe-5">
                             <div class="ratings">
                                 <div class="empty_star">★★★★★</div>
                                 <div class="full_star" style="width :@vvv% ">★★★★★</div>
                             </div>
-                            &nbsp;<span>@vv[i].OCscore</span>
+                            &nbsp;<span>@vv[i].AverageOCscore</span>
                         </div>
                         </div>
-                    <a href="./Product?pid=@vv[i].PNumber" class="btn result mt-3 ">
+                    <a href="./Product?pid=@vv[i].FirstResult.PNumber" class="btn result mt-3 ">
                             前往購買
                         </a>
                     </div>

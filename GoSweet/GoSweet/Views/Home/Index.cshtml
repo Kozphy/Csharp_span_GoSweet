@@ -46,10 +46,10 @@
                             <li class="splide__slide">
                                 <div class="text-center">
                                     @*<form method="post" asp-action="HandleProductCategory">*@
-                                        <input type="hidden" class="productCategory" name="Category" value="@item.Category" />
-                                        <button type="button" class="px-5 btn btn-hover-bg productCategoryBtn">
-                                            <span class="product-category-title">@item.Category</span>
-                                        </button>
+                                    <input type="hidden" class="productCategory" name="Category" value="@item.Category" />
+                                    <button type="button" class="px-5 btn btn-hover-bg productCategoryBtn">
+                                        <span class="product-category-title">@item.Category</span>
+                                    </button>
                                     @*</form>*@
                                 </div>
                             </li>
@@ -73,9 +73,9 @@
                                         <div class="product-rank-card card">
                                             <div class="position-relative">
                                                 <div class="product-rank-hover-content d-flex">
-                                                   @*TODO: fix get or post*@
+                                                    @*TODO: fix get or post*@
                                                     <form method="get" class="m-auto" asp-controller="Search" asp-action="Product">
-                                                        <input type="hidden" name="pid" value="@item.ProductName">
+                                                        <input type="hidden" name="pid" value="@item.ProductId">
                                                         <button type="submit" class="btn btn-outline-light rounded-0 btnGo">GO >></button>
                                                     </form>
                                                 </div>
@@ -116,10 +116,14 @@
                     <div class="col-md-6">
                         <div class="card mb-3 groupbuy-segment">
                             <div class="position-relative">
-                                <img src="@item.ProductPicture" class="card-img-top" alt="咕咕霍夫">
-                                <div class="groupbuy-segment-hover-content">
-                                    <button type="button" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
-                                </div>
+                                @*TODO: fix submit btn*@
+                                <form method="get" asp-controller="Search" asp-action="SearchResultGroup">
+                                    <input type="hidden" name="keyWord" value="@item.ProductName">
+                                    <img src="@item.ProductPicture" class="card-img-top" alt="咕咕霍夫">
+                                    <div class="groupbuy-segment-hover-content">
+                                        <button type="submit"  class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
+                                    </div>
+                                </form>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -169,9 +173,11 @@
                         </h3>
                         <span class="badge rounded-pill bg-mute-2 fs-6">新品</span>
                     </div>
-                    <div class="news-paragraph-content  p-5">
+                    <div class="news-paragraph-content  py-3 px-5">
                         <p class="lh-base">
-                            咕咕霍夫就是一種法國阿爾薩斯地區特產的皇冠型甜點👑，看那具有花紋的外表以及中空特色的樣子，的確和皇冠有幾分相似呢
+                            咕咕霍夫（Kugelhopf）是一款來自歐洲的傳統甜點，源自奧地利和德國等地。
+                            它是一種圓形或螺旋形的鬆軟麵包，以奶油、杏仁和水果為特色。咕咕霍夫的製作過程獨具匠心，使用特殊的烤模烘焙，讓其外表光滑、內部綿密。它散發著迷人的香氣，吃起來香甜醇厚，令人愛不釋口。無論是做為早餐的伴侶，或是下午茶時的美味點心，
+                            咕咕霍夫都能為您帶來一份獨特的愉悅享受。讓咕咕霍夫成為您生活中的甜蜜驚喜，品味傳統的美味滋味。
                         </p>
                     </div>
                 </div>
@@ -183,8 +189,13 @@
                         </h3>
                         <span class="badge rounded-pill bg-mute-2 fs-6">新品</span>
                     </div>
-                    <div class="news-paragraph-content p-5">
-                        <p class="lh-base">小熊泡芙的外觀可愛俏皮，形狀像一隻小熊，因此得名。它通常由蓬鬆的泡芙皮製成，外層金黃酥脆，內部鬆軟且濕潤。泡芙皮充滿了空氣，使得整個甜點輕盈可口</p>
+                    <div class="news-paragraph-content py-3 px-5">
+                        <p class="lh-base">
+                            小熊泡芙是一款可愛迷人的甜點，其外形如小熊造型，深受大眾喜愛。
+                            它由鬆軟的泡芙皮包裹著香甜的內餡，內餡口味豐富多樣，可選擇巧克力、草莓、抹茶等口味，
+                            每一口都令人驚艷。小熊泡芙以精湛的製作工藝和優質的食材而聞名，咬下一口，口感綿密滑順，讓人忍不住一口接一口。無論是單獨享用，還是搭配咖啡或茶，
+                            小熊泡芙都能為您帶來甜蜜的美味時光。讓這可愛的小熊泡芙陪伴您，帶來無盡的味蕾享受和幸福感。
+                            </p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -331,12 +342,13 @@
 
 @section Scripts{
 
-    @*third party*@ 
+    @*third party*@
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/messageAlert.js"></script>
     <script src="~/lib/splidejs/splide-extension-grid/dist/js/splide-extension-grid.js"></script>
 
-    @if (TempData["customerAccountLoginSuccessMessage"] != null) { 
+    @if (TempData["customerAccountLoginSuccessMessage"] != null)
+    {
         <script>
             let customerAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountLoginSuccessMessage"]));
             showSwal('success', 'Login Success Status', customerAccountLoginSuccessMessage)

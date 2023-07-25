@@ -1,22 +1,33 @@
 #firmDataContent {
     font-size: 22px;
     background-color: #f7f1f0;
-    padding: 2%;
+    padding-top: 0.7%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-bottom: 2%;
 }
 
 #marketdata {
     font-size: 40px;
 }
 
-#content{
+#content {
     padding: 2%;
     padding-left: 5%;
     background-color: #ffff;
-
+    border:none;
 }
 
 /* 廠商資料文字 設定 */
 #editdata {
     background-color: #ffff;
+}
+
+/*修改按鈕*/
+.editButton {
+    position:center;
     border: none;
+    background-color: #c3a6a0e1;
+    border-radius: 5%;
+    padding: 0.8%;
 }

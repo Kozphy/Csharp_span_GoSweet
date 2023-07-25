@@ -23,18 +23,14 @@
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/EmailCheck.js"></script>
+    <script src="~/js/messageAlert.js"></script>
 
     @*check account exist*@
     @if (TempData["customerAccountNotExistMessage"] != null)
     {
         <script>
             let customerAccountNotExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountNotExistMessage"]));
-            console.log(customerAccountNotExistMessage);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: customerAccountNotExistMessage,
-            });
+            showSwal('error', 'Oops...', customerAccountNotExistMessage);
         </script>
     }
 
@@ -44,12 +40,7 @@
     {
         <script>
             let customerAccountLoginSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerAccountLoginSuccessMessage"]));
-            console.log(customerAccountLoginSuccessMessage);
-            Swal.fire({
-                icon: 'success',
-                title: 'LoginSuccess...',
-                text: customerAccountLoginSuccessMessage,
-            });
+            showSwal('success', 'Login Status', customerAccountLoginSuccessMessage);
         </script>
     }
 
@@ -59,12 +50,18 @@
     {
         <script>
             let sendEmailResultMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["sendEmailResultMessage"]));
-            Swal.fire({
-                title: 'SendEmailStatus',
-                text: sendEmailResultMessage,
-            });
+            showSwal(false, 'SendEmail Status', sendEmailResultMessage);
         </script>
     }
+
+    @if (TempData["customerSignUpSuccessMessage"] != null)
+    {
+        <script>
+            let customerSignUpSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["customerSignUpSuccessMessage"]));
+            showSwal('success', 'SignUp Status', customerSignUpSuccessMessage);
+        </script>
+    }
+
 
     <script type="text/javascript">
         var onloadCallback = function () {

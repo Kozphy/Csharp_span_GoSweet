@@ -1,135 +1,153 @@
+
 using GoSweet.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GoSweet.Controllers
-{
-	public class SearchController : Controller
-	{
-		private readonly ShopwebContext _shopwebContext;
-		public SearchController(ShopwebContext shopwebContext)
-		{
-			_shopwebContext = shopwebContext;
-		}
-		public IActionResult SearchResult()
-		{
-			string? keyWord = HttpContext.Request.Query["keyWord"];
-			var xx = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
-						pdt => pdt.PNumber,
-						ppt => ppt.PNumber,
-						(pdt, ppt) => new
-						{
-							ProductData2 = pdt,
-							ProductPic2 = ppt
-						}).ToList().GroupJoin(_shopwebContext.OrderDatatables,
-						XXX => XXX.ProductData2.PNumber,
-						odt => odt.PNumber, (pdtPpt, odt) =>
-						new
-						{
-							pdtPpt.ProductData2,
-							pdtPpt.ProductPic2,
-							odt
-						}).ToList().GroupJoin(_shopwebContext.OrderAssesstables,
-						zzz => zzz.ProductData2.PNumber,
-						oat => oat.PNumber, (zzz, oat) => new
-						{
-							ProductData = zzz.ProductData2,
-							ProductPic = zzz.ProductPic2,
-							ProductOdt = zzz.odt,
-							ProductOat = oat.Select(x => x.OCscore).Average()
-						}).ToList();
+namespace GoSweet.Controllers {
+    public class SearchController : Controller {
+        private readonly ShopwebContext _context;
+        public SearchController(ShopwebContext shopwebContext) {
+            _context = shopwebContext;
+        }
+        public IActionResult SearchResult() {
+            string? keyWord = HttpContext.Request.Query["keyWord"];
+            var groups = _context.ProductDatatables.GroupJoin(_context.ProductPicturetables,
+                        pdt => pdt.PNumber,
+                        ppt => ppt.PNumber,
+                        (pdt, ppt) => new {
+                            ProductData2 = pdt,
+                            ProductPic2 = ppt
+                        }).ToList().GroupJoin(_context.OrderDatatables,
+                        pdtPpt => pdtPpt.ProductData2.PNumber,
+                        odt => odt.PNumber, (pdtPpt, odt) =>
+                        new {
+                            pdtPpt.ProductData2,
+                            pdtPpt.ProductPic2,
+                            odt
+                        }).ToList().GroupJoin(_context.OrderAssesstables,
+                        zzz => zzz.ProductData2.PNumber,
+                        oat => oat.PNumber, (zzz, oat) => new {
+                            ProductData = zzz.ProductData2,
+                            ProductPic = zzz.ProductPic2,
+                            ProductOdt = zzz.odt,
+                            ProductOat = oat.Select(x => x.OCscore).Average()
+                        }).ToList();
 
-			//	if (keyWord != null) {
-			//		xx = xx.Where(x => x.ProductData.PName.Contains(keyWord)).ToList();
-			//	}
+            if (keyWord != null) {
+                groups = groups.Where(x => x.ProductData.PName.Contains(keyWord)).ToList();
+            }
 
-			//	var z = xx.OrderBy(p => p.ProductData?.PPrice).ToList();
-			//	var zz = xx.OrderByDescending(p => p.ProductData?.PPrice).ToList();
-			//	var zzz = xx.OrderByDescending(p => p.ProductOat).ToList();
-			//	ViewBag.ProductDatatablesJoin = xx;
-			//	ViewBag.ProductDatatablesLow = z;
-			//	ViewBag.ProductDatatablesHigh = zz;
-			//	ViewBag.ProductDatatablesPT = zzz;
-			//	return View();
-			//}
+            var gpl = groups.OrderBy(p => p.ProductData?.PPrice).ToList();
+            var gph = groups.OrderByDescending(p => p.ProductData?.PPrice).ToList();
+            var gpp = groups.OrderByDescending(p => p.ProductOat).ToList();
+            ViewBag.ProductDatatablesJoin = groups;
+            ViewBag.ProductDatatablesLow = gpl;
+            ViewBag.ProductDatatablesHigh = gph;
+            ViewBag.ProductDatatablesPT = gpp;
+            return View();
+        }
 
+        public IActionResult SearchResultGroup() {
+            string? keyWord = HttpContext.Request.Query["keyWord"];
 
-			//var xx = _shopwebContext.ProductGroupViews.ToList();
-			//xx = xx.Where(x => x.PPicnumber == 1).ToList();
-			//if (keyWord != null) {
-			//	xx = xx.Where(x => x.PName.Contains(keyWord) && x.PPicnumber == 1).ToList();
-			//}
-			//var z = xx.OrderBy(p => p?.PPrice).ToList();
-			//var zz = xx.OrderByDescending(p => p?.PPrice).ToList();
-			//var zzz = xx.OrderByDescending(p => p.OCscore).ToList();
-			//ViewBag.ProductDatatablesJoin = xx;
-			//ViewBag.ProductDatatablesLow = z;
-			//ViewBag.ProductDatatablesHigh = zz;
-			//ViewBag.ProductDatatablesPT = zzz;
-			return View();
-		}
-
-		public IActionResult Product()
-		{
-			int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
-			int? group = Convert.ToInt32(HttpContext.Request.Query["group"]);
-
-            Console.WriteLine(pid);
-            Console.WriteLine(1);
-			return Content("this is Product Page");
-            //int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
-            //int? group = Convert.ToInt32(HttpContext.Request.Query["group"]);
-
-			//var xx = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
-			//			pdt => pdt.PNumber,
-			//			ppt => ppt.PNumber,
-			//			(pdt, ppt) => new {
-			//				ProductData2 = pdt,
-			//				ProductPic2 = ppt
-			//			}).ToList().GroupJoin(_shopwebContext.OrderDatatables,
-			//			XXX => XXX.ProductData2.PNumber,
-			//			odt => odt.PNumber, (pdtPpt, odt) =>
-			//			new {
-			//				pdtPpt.ProductData2,
-			//				pdtPpt.ProductPic2,
-			//				odt
-			//			}).ToList().GroupJoin(_shopwebContext.OrderAssesstables,
-			//			zzz => zzz.ProductData2.PNumber,
-			//			oat => oat.PNumber, (zzz, oat) => new {
-			//				ProductData = zzz.ProductData2,
-			//				ProductPic = zzz.ProductPic2,
-			//				ProductOdt = zzz.odt,
-			//				ProductOat = oat.Select(x => x.OCscore).Average()
-			//			}).ToList();
-			//var y = _shopwebContext.FirmPagetables.FirstOrDefault();
-			//if (pid != null) {
-			//	xx = xx.Where(x => x.ProductData.PNumber == pid).ToList();
-			//}
-			//var yy = _shopwebContext.FirmPagetables.Where(x => x.FNumber == xx[0].ProductData.FNumber).FirstOrDefault();
-			//var zzz = _shopwebContext.GroupDatatables.Select(x=>x.PNumber).ToList();
-			//int aaa = 0;
-			//for (int i = 0; i < zzz.Count; i++) {
-   //             if (zzz[i] == pid)
-   //             {
-   //                 aaa = 1;
-   //             }           
-			//}
-			//var mm = _shopwebContext.GroupDatatables.GroupJoin(_shopwebContext.MemberMembertables,
-			//	gdt => gdt.GNumber,
-			//	mmt => mmt.GNumber, (gdt, mmt) => new {
-			//		GroupDatatable = gdt,
-			//		MemberMembertable = mmt.Select(x=>x.MNumber).Single()
-			//	}).ToList();
-			//mm = mm.Where(x => x.GroupDatatable.PNumber == pid).ToList();
-			
-			//ViewBag.ProductData = xx;
-			//ViewBag.FirmData = yy?.FPagename;
-			//ViewBag.GroupTF = aaa;
-
-			//ViewBag.MMT = 10000;
+            var xx = from groupTable in _context.GroupDatatables
+                     join productTable in _context.ProductDatatables on groupTable.PNumber equals productTable.PNumber
+                     join pictureTable in _context.ProductPicturetables on productTable.PNumber equals pictureTable.PNumber
+                     join orderTable in _context.OrderAssesstables on productTable.PNumber equals orderTable.PNumber
+                     select new {
+                         groupTable.PNumber,
+                         productTable.PName,
+                         productTable.PSpec,
+                         productTable.PCategory,
+                         productTable.PPrice,
+                         productTable.PDescribe,
+                         productTable.PInventory,
+                         productTable.PPayment,
+                         pictureTable.PPicnumber,
+                         pictureTable.PUrl,
+                         groupTable.GPrice,
+                         groupTable.GNumber,
+                         orderTable.ONumber,
+                         orderTable.OCscore
+                     };
 
 
-			//return View();
-		}
-	}
+            //var groups = xx.GroupBy(item => item.PName)
+            // .Select(group => group.FirstOrDefault())
+            // .ToList();
+
+            var groups = xx.GroupBy(item => item.PName)
+               .Select(group => new {
+                   PName = group.Key,
+                   FirstResult = group.FirstOrDefault(),
+                   AverageOCscore = group.Average(item => item.OCscore)
+               }).ToList();
+
+
+
+			//var groups = _context.ProductGroupViews.ToList();
+			groups = groups.Where(x => x.FirstResult.PPicnumber == 1).ToList();
+
+            if (keyWord != null) {
+                groups = groups.Where(x => x.PName.Contains(keyWord) && x.FirstResult.PPicnumber == 1).ToList();
+            }
+            var gpl = groups.OrderBy(p => p?.FirstResult.PPrice).ToList();
+            var gph = groups.OrderByDescending(p => p?.FirstResult.PPrice).ToList();
+            var gpp = groups.OrderByDescending(p => p.FirstResult.OCscore).ToList();
+            ViewBag.ProductDatatablesJoin = groups;
+            ViewBag.ProductDatatablesLow = gpl;
+            ViewBag.ProductDatatablesHigh = gph;
+            ViewBag.ProductDatatablesPT = gpp;
+            return View();
+        }
+
+        public IActionResult Product() {
+            int? pid = Convert.ToInt32(HttpContext.Request.Query["pid"]);
+            int? group = Convert.ToInt32(HttpContext.Request.Query["group"]);
+
+            var groups = _context.ProductDatatables.GroupJoin(_context.ProductPicturetables,
+                        pdt => pdt.PNumber,
+                        ppt => ppt.PNumber,
+                        (pdt, ppt) => new {
+                            ProductData2 = pdt,
+                            ProductPic2 = ppt
+                        }).ToList().GroupJoin(_context.OrderDatatables,
+                        pdtPpt => pdtPpt.ProductData2.PNumber,
+                        odt => odt.PNumber, (pdtPpt, odt) =>
+                        new {
+                            pdtPpt.ProductData2,
+                            pdtPpt.ProductPic2,
+                            odt
+                        }).ToList().GroupJoin(_context.OrderAssesstables,
+                        zzz => zzz.ProductData2.PNumber,
+                        oat => oat.PNumber, (zzz, oat) => new {
+                            ProductData = zzz.ProductData2,
+                            ProductPic = zzz.ProductPic2,
+                            ProductOdt = zzz.odt,
+                            ProductOat = oat.Select(x => x.OCscore).Average()
+                        }).ToList();
+
+            //var y = _context.FirmPagetables.FirstOrDefault();
+            if (pid != null) {
+                groups = groups.Where(x => x.ProductData.PNumber == pid).ToList();
+            }
+            var fpt = _context.FirmPagetables.Where(x => x.FNumber == groups[0].ProductData.FNumber).FirstOrDefault();
+            var gdt = _context.GroupDatatables.Select(x => x.PNumber).ToList();
+
+            var test = _context.GroupDatatables.Where(x=>x.PNumber==pid).Select(x=>x.GPrice).FirstOrDefault();
+
+            int gp = 0;
+            for (int i = 0; i < gdt.Count; i++) {
+                if (gdt[i] == pid) {
+                    gp = 1;
+				}
+            }
+            ViewBag.ProductData = groups;
+            ViewBag.FirmData = fpt?.FPagename;
+            ViewBag.GroupTF = gp;
+            ViewBag.lastPic = groups[0].ProductPic.LastOrDefault();
+            ViewBag.GPrice = test;
+            return View();
+        }
+    }
 }

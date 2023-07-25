@@ -8,8 +8,9 @@
     // 套用廠商的 Layout 
     Dictionary<string, List<string>> BelongFirm = new Dictionary<string, List<string>>()
     {
-        { "Order_datatable", new List<string>(){ "f_order" } },
-        { "Firm", new List<string>(){ "Homepage", "Revenue" } },
+        { "Talk_datatable", new List<string>(){ "talk_f" } },
+        { "Order_datatable", new List<string>(){ "order_f" } },
+        { "Firm", new List<string>(){ "Homepage", "Revenue", "ResetPassword" } },
         { "FirmPage", new List<string>(){ "FirmData", "ProductSale", "ProductSearch","Delete", "Edit"} },
     };
 
@@ -18,10 +19,10 @@
         Layout = "_LayoutFirm";
     }
 
-    if (BelongFirm.ContainsKey(currentController!))
-    {
-        Layout = "_LayoutFirm";
-    }
+    //if (BelongFirm.ContainsKey(currentController!))
+    //{
+    //    Layout = "_LayoutFirm";
+    //}
 
 }
 

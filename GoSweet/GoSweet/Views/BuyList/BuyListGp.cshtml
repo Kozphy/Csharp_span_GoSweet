@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="~/css/Search/style_buyList.css">
 <link rel="stylesheet" href="~/css/Search/style_star.css">
 <div class="container pt-5">
-	<h1 class="text-center" style="font-size:40px">直接購買</h1>
+	<h1 class="text-center" style="font-size:40px">團購結帳</h1>
 	<div class="row d-flex productBox">
 		<img src=@ViewBag.ProductData[0].ProductPic[0].PUrl alt="" class="m-md-auto m-lg-0 ps-5">
 		<div class="col-8">
@@ -31,7 +31,7 @@
 				@ViewBag.ProductData[0].ProductData.PDescribe
 			</p>
 			<p class="text-center">購買數量 : <input type="number" id="buyNum" min="1" value="@ViewBag.buyNum" style="text-align:center"></p>
-			<p class="text-center">價格 : @ViewBag.ProductData[0].ProductData.PPrice 元</p>
+			<p class="text-center">價格 : @ViewBag.GPrice 元</p>
 		</div>
 	</div>
 	<div class="m-auto mt-5 sendWay">
@@ -53,27 +53,29 @@
 			<input type="hidden" name="FNumber" value="@ViewBag.ProductData[0].ProductData.FNumber" />
 			<input type="hidden" name="PNumber" value="@ViewBag.ProductData[0].ProductData.PNumber" />
 			<input id="buyNum2" type="hidden" name="OBuynumber" value="@ViewBag.buyNum" />
-			<input id="OPrice" type="hidden" name="OPrice"/>
+			<input id="OPrice" type="hidden" name="OPrice" />
 			<br />
 			<label>地址 : </label>
 			<input type="text" name="OPlace" style="border:solid,1px ,black" placeholder="請輸入地址" />
 			<div class="buyCheck d-flex justify-content-around" style="padding: 20px;">
-		<input type="submit" href="" style="font-size: 30px;" value="結帳">
-		<span class="mt-auto" style="font-size: 40px;">總價 : <span id="totalPrice" style="font-size: 40px;">1000</span> 元</span>
-	</div>
-	</form>
+				<input type="submit" href="" style="font-size: 30px;" value="結帳">
+				<span class="mt-auto" style="font-size: 40px;">總價 : <span id="totalPrice" style="font-size: 40px;">1000</span> 元</span>
+			</div>
+		</form>
 	</div>
 </div>
 <script>
-	var x = @ViewBag.ProductData[0].ProductData.PPrice
-		var y = $("#buyNum").val();
+	var x = @ViewBag.GPrice
+			var y = $("#buyNum").val();
 	$("#totalPrice").text(`${x * y}`);
 	$("#OPrice").val(x * y);
 	$("#buyNum").change(() => {
-		x = @ViewBag.ProductData[0].ProductData.PPrice
-		y = $("#buyNum").val();
+		x = @ViewBag.GPrice
+			y = $("#buyNum").val();
 		$("#buyNum2").val(y);
 		$("#OPrice").val(x * y);
 		$("#totalPrice").text(`${x * y}`);
 	})
+
+
 </script>

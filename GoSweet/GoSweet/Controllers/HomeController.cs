@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks.Dataflow;
 using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
+using System.Linq;
 
 namespace GoSweet.Controllers
 {
@@ -38,31 +39,31 @@ namespace GoSweet.Controllers
                                                        }).Distinct().ToList();
 
 
+            // TODO: fix group issue
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
                                                               where product_pic.PPicnumber == 1
-                                                              group order by
+                                                              group new { product, product_pic, order } by
                                                               new
                                                               {
+                                                                  product.PNumber,
                                                                   product.PName,
                                                                   product.PCategory,
                                                                   product_pic.PUrl,
-                                                                  product.PPrice,
                                                                   product.PDescribe,
-                                                                  order.OBuynumber
                                                               }
-                                  into grouped
-                                                              orderby grouped.Sum((g) => g.OBuynumber) descending
+                                  into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
-                                                                  ProductName = grouped.Key.PName,
-                                                                  ProductCategory = grouped.Key.PCategory,
-                                                                  ProductPicture = grouped.Key.PUrl,
-                                                                  ProductPrice = grouped.Key.PPrice,
-                                                                  ProductDescription = grouped.Key.PDescribe,
-                                                                  ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber)
-                                                              }).ToList();
+                                                                  ProductId = groupedData.Key.PNumber,
+                                                                  ProductName = groupedData.Key.PName,
+                                                                  ProductCategory = groupedData.Key.PCategory,
+                                                                  ProductPicture = groupedData.Key.PUrl,
+                                                                  ProductPrice = Convert.ToInt32(groupedData.Average(x => x.product.PPrice)),
+                                                                  ProductDescription = groupedData.Key.PDescribe,
+                                                                  ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
+                                                              }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
             //foreach (var group in productRankData)
             //{
@@ -92,7 +93,7 @@ namespace GoSweet.Controllers
             _indexViewModelData.CategoryDatas = categoriesDatas;
             _indexViewModelData.ProductRankDatas = productRankData;
             _indexViewModelData.ProductGroupBuyDatas = productGroupBuyData;
-            _indexViewModelData.CustomerBellDropDownDatas = GetBellDropdownMessage();
+            GetBellDropdownMessage();
             //_indexViewModelData.bellContentDatas = bellContentsDatas;
             HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
@@ -158,7 +159,9 @@ namespace GoSweet.Controllers
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
-            ViewData["customerBellDropDownCount"] = bellDropDownsDatas.Count();
+            HttpContext.Session.SetString("NotfiyMessages", JsonConvert.SerializeObject(bellDropDownsDatas));
+            HttpContext.Session.SetInt32("NotfiyMessagesCount", bellDropDownsDatas.Count());
+
 
 
             return bellDropDownsDatas;
@@ -167,34 +170,34 @@ namespace GoSweet.Controllers
         [HttpGet]
         public JsonResult HandleProductCategory([FromQuery] string Category)
         {
+            // TODO: fix group issue
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
                                                               where product_pic.PPicnumber == 1 && product.PCategory == Category
-                                                              group order by
+                                                              group new { product, product_pic, order } by
                                                               new
                                                               {
+                                                                  product.PNumber,
                                                                   product.PName,
                                                                   product.PCategory,
                                                                   product_pic.PUrl,
-                                                                  product.PPrice,
                                                                   product.PDescribe,
-                                                                  order.OBuynumber
                                                               }
-                              into grouped
-                                                              orderby grouped.Sum((g) => g.OBuynumber) descending
+                                  into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
-                                                                  ProductName = grouped.Key.PName,
-                                                                  ProductCategory = grouped.Key.PCategory,
-                                                                  ProductPicture = grouped.Key.PUrl,
-                                                                  ProductPrice = grouped.Key.PPrice,
-                                                                  ProductDescription = grouped.Key.PDescribe,
-                                                                  ProductTotalBuyNumber = grouped.Sum(o => o.OBuynumber)
-                                                              }).ToList();
+                                                                  ProductId = groupedData.Key.PNumber,
+                                                                  ProductName = groupedData.Key.PName,
+                                                                  ProductCategory = groupedData.Key.PCategory,
+                                                                  ProductPicture = groupedData.Key.PUrl,
+                                                                  ProductPrice = Convert.ToInt32(groupedData.Average(x => x.product.PPrice)),
+                                                                  ProductDescription = groupedData.Key.PDescribe,
+                                                                  ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
+                                                              }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
 
-            
+                        
             return new JsonResult(JsonConvert.SerializeObject(productRankData)); 
         }
 
@@ -232,7 +235,8 @@ namespace GoSweet.Controllers
             var userAccount = userAccountQuery.First();
             HttpContext.Session.SetString("customerAccountName", userAccount.AccountName);
             HttpContext.Session.SetString("customerAccount", userAccount.CustomerAccount);
-            HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.c_number));
+            HttpContext.Session.SetInt32("cnumber", userAccount.c_number);
+            HttpContext.Session.SetInt32("mycnumber", userAccount.c_number);
             TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
             return RedirectToAction("Index");
         }
@@ -281,7 +285,7 @@ namespace GoSweet.Controllers
             }
             //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
-            return RedirectToAction("SignUp");
+            return RedirectToAction("Login");
         }
 
         private void CreateCustomerAccount(CustomerAccountVm customerAccountData)
@@ -316,8 +320,9 @@ namespace GoSweet.Controllers
                 return RedirectToAction("Login");
             }
 
+            _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
             // send email
-            Mail mailHandler = new Mail(EmailAddress, "Home");
+            Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
             string sendEmailResult = mailHandler.SendMail();
             TempData["sendEmailResultMessage"] = sendEmailResult;
             return RedirectToAction("Login");
@@ -336,6 +341,8 @@ namespace GoSweet.Controllers
 
             var account = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(EmailAddress)).First();
 
+            
+
             try
             {
                 account.CPassword = newPassword;
@@ -345,13 +352,18 @@ namespace GoSweet.Controllers
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
             }
-
             return RedirectToAction("Index");
         }
 
         public IActionResult LogOut() {
             HttpContext.Session.Remove("customerAccountName");
             HttpContext.Session.Remove("customerAccount");
+            HttpContext.Session.Remove("cnumber");
+            HttpContext.Session.Remove("mycnumber");
+            HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+
+            
+
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
         }
