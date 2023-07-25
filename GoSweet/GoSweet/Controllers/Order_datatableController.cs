@@ -630,8 +630,8 @@ namespace GoSweet.Controllers
             var membermax = from m in _context.MemberMembertables
                             where m.MNumber == mymnumber && m.GMaxpeople == m.MNowpeople
                             select m;
-            if ((membermax.FirstOrDefault() != null)&&(membermax.FirstOrDefault().MStatus == false)) {
-                membermax.FirstOrDefault().MStatus = true;
+            if ((membermax.FirstOrDefault() != null)&&(membermax.First().MStatus == false)) {
+                membermax.First().MStatus = true;
                 _context.Update(membermax.First());
                 _context.SaveChanges();
                 var orderlist = from o in _context.OrderDatatables

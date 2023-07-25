@@ -37,18 +37,18 @@
 	<div class="m-auto mt-5 sendWay">
 		<label>配送方式 : </label>
 		<form action="" method="post">
-			<input class="ms-3" type="radio" name="Delivery" id="sevenEleven" value="2"> <label for="sevenEleven">7-11</label>
-			<input class="ms-3" type="radio" name="Delivery" id="family" value="1"> <label for="family">全家</label>
-			<input class="ms-3" type="radio" name="Delivery" id="ok" value="3"> <label for="ok">OK</label>
-			<input class="ms-3" type="radio" name="Delivery" id="Hi_Life" value="4"> <label for="Hi_Life">萊爾富</label>
+			<input class="ms-3" type="radio" name="Delivery" id="sevenEleven" value="2" required> <label for="sevenEleven">7-11</label>
+			<input class="ms-3" type="radio" name="Delivery" id="family" value="1" required> <label for="family">全家</label>
+			<input class="ms-3" type="radio" name="Delivery" id="ok" value="3" required> <label for="ok">OK</label>
+			<input class="ms-3" type="radio" name="Delivery" id="Hi_Life" value="4" required> <label for="Hi_Life">萊爾富</label>
 			<br>
-			<input class="ms-3" type="radio" name="Delivery" id="blackCat" value="5"> <label for="blackCat">宅配 --黑貓</label>
-			<input class="ms-3" type="radio" name="Delivery" id="post_office" value="6"> <label for="post_office">宅配 --郵局</label>
+			<input class="ms-3" type="radio" name="Delivery" id="blackCat" value="5" required> <label for="blackCat">宅配 --黑貓</label>
+			<input class="ms-3" type="radio" name="Delivery" id="post_office" value="6" required> <label for="post_office">宅配 --郵局</label>
 			<br>
 			<label>付款方式 : </label>
-			<input class="ms-3" type="radio" name="Payment" id="credit" value="2"> <label for="credit">信用卡</label>
-			<input class="ms-3" type="radio" name="Payment" id="cod" value="1"> <label for="cod">貨到付款</label>
-			<input class="ms-3" type="radio" name="Payment" id="linePay" value="3"> <label for="linePay">Line Pay</label>
+			<input class="ms-3" type="radio" name="Payment" id="credit" value="2" required> <label for="credit">信用卡</label>
+			<input class="ms-3" type="radio" name="Payment" id="cod" value="1" required> <label for="cod">貨到付款</label>
+			<input class="ms-3" type="radio" name="Payment" id="linePay" value="3" required> <label for="linePay">Line Pay</label>
 			<input type="hidden" name="CNumber" value="10000" />
 			<input type="hidden" name="FNumber" value="@ViewBag.ProductData[0].ProductData.FNumber" />
 			<input type="hidden" name="PNumber" value="@ViewBag.ProductData[0].ProductData.PNumber" />
@@ -56,7 +56,7 @@
 			<input id="OPrice" type="hidden" name="OPrice"/>
 			<br />
 			<label>地址 : </label>
-			<input type="text" name="OPlace" style="border:solid,1px ,black" placeholder="請輸入地址" />
+			<input type="text" name="OPlace" style="border:solid,1px ,black" placeholder="請輸入地址" required />
 			<div class="buyCheck d-flex justify-content-around" style="padding: 20px;">
 		<input type="submit" href="" style="font-size: 30px;" value="結帳">
 		<span class="mt-auto" style="font-size: 40px;">總價 : <span id="totalPrice" style="font-size: 40px;">1000</span> 元</span>
