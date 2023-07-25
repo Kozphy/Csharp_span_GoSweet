@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json;
+@inject IHttpContextAccessor Accessor
 
 @*引用*@
 @section Head{
@@ -21,7 +22,18 @@
 							<figure class="figure">
 								<!-- ★★★★★需要廠商圖片★★★★★ -->
 								<img src="" class="figure-img img-fluid rounded" alt="ManufacturersLogo" id="ManufacturersLogo">
-								<figcaption class="LogoContent figure-caption">歡迎回來!</figcaption>
+									@*Session處理*@
+									@{
+										string firmAccountName = Accessor.HttpContext?.Session.GetString("firmAccountName")!;
+										if (firmAccountName is null)
+										{
+											<figcaption class="LogoContent figure-caption">歡迎回來!</figcaption>
+										}
+										else
+										{
+											<figcaption class="LogoContent figure-caption">歡迎回來!@firmAccountName</figcaption>	
+										}
+									}			
 							</figure>
 						</a>
 					</div>
