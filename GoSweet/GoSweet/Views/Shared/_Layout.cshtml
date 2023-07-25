@@ -60,7 +60,7 @@
                                 <ul class="list-unstyled d-flex flex-column gap-2 flex-grow-1 bellContent">
                                     @{
                                         //<h1>@Model.CustomerBellDropDownDatas</h1>
-                                        if (Accessor.HttpContext?.Session.GetString("customerAccount") == null || Model.CustomerBellDropDownDatas == null)
+                                        if (Accessor.HttpContext?.Session.GetString("customerAccount") == null || customerBellDropDownCount == 0)
                                         {
                                             <li>
                                                 <a href="#" class="d-block btn btn-hover-light rounded-2 d-flex align-items-start gap-2 py-2 px-3 lh-sm text-start">
@@ -74,7 +74,9 @@
                                                     </div>
                                                 </a>
                                             </li>
-                                        }else{
+                                        }
+                                        else
+                                        {
                                             foreach (var item in Model.CustomerBellDropDownDatas!)
                                             {
                                                 <li>
@@ -84,11 +86,13 @@
                                                                 <i class="bi bi-info-square info-icon"></i>
                                                             </div>
                                                             <div class="col-9 ">
-                                                                @if (item.OrderNumber != null) { 
+                                                                @if (item.OrderNumber != null)
+                                                                {
                                                                     <p>訂單編號: @item.OrderNumber</p>
                                                                 }
 
-                                                                @if (item.GroupNumber != null) { 
+                                                                @if (item.GroupNumber != null)
+                                                                {
                                                                     <p>成團編號: @item.GroupNumber</p>
                                                                 }
                                                                 <string>@item.ProductName</string>
@@ -344,87 +348,87 @@
         </div>
         <div class="mt-3 count-red-circle-parent">
             @*chat panel*@
-@*            <div class="chat-section p-3 rounded-5 bg-white">
-                <div class="chat-title  mb-1">
-                    <div class="row">
-                        <div class="col-md-6 text-left">
-                            <span>Chat</span>
-                        </div>
-                        <div class="col-md-6 d-flex justify-content-end">
-                            <i class="bi bi-x-lg btn btn-hover-light chat-close"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center">
-                    <div class="col-md-6 chat-left">
-                        <div class="d-flex flex-column">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Recipient's username">
-                                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </div>
-                            <div class="search-remote-user-list">
-                                <a class="btn btn-hover-light d-inline-block w-100">
-                                    <div class="row ">
-                                        <div class="col-md-4">
-                                            <div class="remote-user">
-                                                <img src="~/img/190708-9267-0-YUH4l.jpg" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="user-title text-start">
-                                                <h5>
-                                                    who
-                                                </h5>
-                                            </div>
-                                            <div class="user-content mt-2">
-                                                lorem
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 chat-right ">
-                        <div class="card" id="chat1">
-                            <div class="card-body  chat-panel">
-                                <div class="d-flex flex-row justify-content-start mb-4 remote-user">
-                                    <img src="~/img/190708-9267-0-YUH4l.jpg"
-                                         class="rounded-5"
-                                         alt="avatar 1" style="width: 45px; height: 100%;">
-                                    <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
-                                        <p class="small mb-0 chat-text">
-                                            Hello and thank you for visiting MDBootstrap. Please click the video
-                                            below.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-row justify-content-end mb-4 local-user">
-                                    <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
-                                        <p class="small mb-0 chat-text">Thank you, I really like your product.</p>
-                                    </div>
-                                    <img src="~/img/download (2).jpg" class="rounded-5"
-                                         alt="avatar 1" style="width: 45px; height: 100%;">
-                                </div>
-                                <div class="d-flex flex-row justify-content-end mb-4">
-                                    <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
-                                        <p class="small mb-0 chat-text">Thank you, I really like your product.</p>
-                                    </div>
-                                    <img src="~/img/download (2).jpg" class="rounded-5"
-                                         alt="avatar 1" style="width: 45px; height: 100%;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 align-items-center chat-bottom mt-2">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-                            <button class="btn btn-outline-secondary" type="button" id="chatMessageSendBtn"><i class="bi bi-send-fill"></i></button>
-                        </div>
-                    </div>
-                </div>
+            @*            <div class="chat-section p-3 rounded-5 bg-white">
+            <div class="chat-title  mb-1">
+            <div class="row">
+            <div class="col-md-6 text-left">
+            <span>Chat</span>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+            <i class="bi bi-x-lg btn btn-hover-light chat-close"></i>
+            </div>
+            </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+            <div class="col-md-6 chat-left">
+            <div class="d-flex flex-column">
+            <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Recipient's username">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+            <i class="bi bi-search"></i>
+            </button>
+            </div>
+            <div class="search-remote-user-list">
+            <a class="btn btn-hover-light d-inline-block w-100">
+            <div class="row ">
+            <div class="col-md-4">
+            <div class="remote-user">
+            <img src="~/img/190708-9267-0-YUH4l.jpg" />
+            </div>
+            </div>
+            <div class="col-md-8">
+            <div class="user-title text-start">
+            <h5>
+            who
+            </h5>
+            </div>
+            <div class="user-content mt-2">
+            lorem
+            </div>
+            </div>
+            </div>
+            </a>
+            </div>
+            </div>
+            </div>
+            <div class="col-md-6 chat-right ">
+            <div class="card" id="chat1">
+            <div class="card-body  chat-panel">
+            <div class="d-flex flex-row justify-content-start mb-4 remote-user">
+            <img src="~/img/190708-9267-0-YUH4l.jpg"
+            class="rounded-5"
+            alt="avatar 1" style="width: 45px; height: 100%;">
+            <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+            <p class="small mb-0 chat-text">
+            Hello and thank you for visiting MDBootstrap. Please click the video
+            below.
+            </p>
+            </div>
+            </div>
+            <div class="d-flex flex-row justify-content-end mb-4 local-user">
+            <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+            <p class="small mb-0 chat-text">Thank you, I really like your product.</p>
+            </div>
+            <img src="~/img/download (2).jpg" class="rounded-5"
+            alt="avatar 1" style="width: 45px; height: 100%;">
+            </div>
+            <div class="d-flex flex-row justify-content-end mb-4">
+            <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+            <p class="small mb-0 chat-text">Thank you, I really like your product.</p>
+            </div>
+            <img src="~/img/download (2).jpg" class="rounded-5"
+            alt="avatar 1" style="width: 45px; height: 100%;">
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="col-md-12 align-items-center chat-bottom mt-2">
+            <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="button" id="chatMessageSendBtn"><i class="bi bi-send-fill"></i></button>
+            </div>
+            </div>
+            </div>
             </div>*@
             @*chat end*@
             @*chat icon*@
