@@ -38,6 +38,7 @@ namespace GoSweet.Controllers
                                                        }).Distinct().ToList();
 
 
+            // fix group issue
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
@@ -158,6 +159,7 @@ namespace GoSweet.Controllers
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
+            ViewData["customerBellDropDownCount"] = bellDropDownsDatas.Count();
 
 
             return bellDropDownsDatas;
@@ -193,20 +195,8 @@ namespace GoSweet.Controllers
                                                               }).ToList();
 
 
-            //TODO: fix value can't be null
-            //IEnumerable<CategoryViewModel>? categoriesDatas = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(HttpContext.Session.GetString("categoriesDatas")!);
-            //foreach (var item in categoriesDatas!)
-            //{
-            //    Console.WriteLine(item.Category);
-            //}
-            //IEnumerable<ProductGroupBuyData>? productGroupBuyDatas = JsonConvert.DeserializeObject<IEnumerable<ProductGroupBuyData>>(HttpContext.Session.GetString("productGroupBuyDatas")!);
-            //_indexViewModelData.categoryViewModel = categoriesDatas;
-            //_indexViewModelData.productGroupBuyDatas = productGroupBuyDatas;
-            //_indexViewModelData.productRankDatas = productRankData;
             
-            //RedirectToAction("Index", _indexViewModelData);
             return new JsonResult(JsonConvert.SerializeObject(productRankData)); 
-            //return View("Index", _indexViewModelData);
         }
 
         public IActionResult Login()
@@ -243,7 +233,8 @@ namespace GoSweet.Controllers
             var userAccount = userAccountQuery.First();
             HttpContext.Session.SetString("customerAccountName", userAccount.AccountName);
             HttpContext.Session.SetString("customerAccount", userAccount.CustomerAccount);
-            HttpContext.Session.SetString("c_number", Convert.ToString(userAccount.c_number));
+            HttpContext.Session.SetInt32("cnumber", userAccount.c_number);
+            HttpContext.Session.SetInt32("mycnumber", userAccount.c_number);
             TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
             return RedirectToAction("Index");
         }
@@ -292,7 +283,7 @@ namespace GoSweet.Controllers
             }
             //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
-            return RedirectToAction("SignUp");
+            return RedirectToAction("Login");
         }
 
         private void CreateCustomerAccount(CustomerAccountVm customerAccountData)
@@ -327,8 +318,9 @@ namespace GoSweet.Controllers
                 return RedirectToAction("Login");
             }
 
+            _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
             // send email
-            Mail mailHandler = new Mail(EmailAddress, "Home");
+            Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
             string sendEmailResult = mailHandler.SendMail();
             TempData["sendEmailResultMessage"] = sendEmailResult;
             return RedirectToAction("Login");

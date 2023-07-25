@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using GoSweet.Models.ViewModels;
+@using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor Accessor
 @*@model GoSweet.Models.ViewModels.FirmHomepageModel;*@
 
@@ -49,7 +50,11 @@
                     <div class="my-auto d-flex align-items-center">
                         <div class="me-3 count-red-circle-parent">
                             <i class="bi bi-bell-fill nav-icon bellIcon p-2"></i>
-                            <span class="count-red-circle">0</span>
+
+                            @{
+                                int notifyMessagesCount = Convert.ToInt32(ViewData["NotifyMessagesCount"]);
+                                <span class="count-red-circle">@notifyMessagesCount</span>
+                            }
                             @*bell dropdown*@
 
                             <div class="w-340px dropdown-menu bell-dropdown-menu  d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 rounded-3 shadow-lg" data-bs-theme="dark">
@@ -75,23 +80,25 @@
                                             else
                                             {
                                                 // TODO: fix null here.
-                                                foreach (var item in ViewBag.notifyMessage!)
-                                                {
-                                                    <li>
-                                                        <a href="#" class="d-block btn btn-hover-light rounded-2  align-items-start gap-2 py-2 px-3 lh-sm text-start">
-                                                            <div class="row justify-content-center align-items-center flex-grow-1">
-                                                                <div class="col-3 text-center">
-                                                                    <i class="bi bi-info-square info-icon"></i>
-                                                                </div>
-                                                                <div class="col-9 ">
-                                                                    <p>訂單編號: @item.OrderNumber</p>
-                                                                    <string>@item.ProductName</string>
-                                                                    <string>@item.OrderStatus</string>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                }
+                                                //IEnumerable<FirmBellDropDownVm>? notifyMessages = ViewData["NotifyMessages"] as IEnumerable<FirmBellDropDownVm>;
+                                                //foreach (var item in notifyMessages)
+                                                //foreach (var item in Model.FirmBellDropDownDatas!)
+                                                //{
+                                                //    <li>
+                                                //        <a href="#" class="d-block btn btn-hover-light rounded-2  align-items-start gap-2 py-2 px-3 lh-sm text-start">
+                                                //            <div class="row justify-content-center align-items-center flex-grow-1">
+                                                //                <div class="col-3 text-center">
+                                                //                    <i class="bi bi-info-square info-icon"></i>
+                                                //                </div>
+                                                //                <div class="col-9 ">
+                                                //                    <p>訂單編號: @item.OrderNumber</p>
+                                                //                    <string>@item.ProductName</string>
+                                                //                    <string>@item.OrderStatus</string>
+                                                //                </div>
+                                                //            </div>
+                                                //        </a>
+                                                //    </li>
+                                                //}
                                             }
                                         }
 
@@ -225,12 +232,12 @@
             if (Accessor.HttpContext?.Session.GetString("firmAccountName") == null)
             {
                 <div class="text-center fw-bolder">
-                    <a class="text-decoration-none py-3 w-100 userLoginBtn d-inline-block" asp-controller="FirmPage" asp-action="Login">
+                    <a class="text-decoration-none py-3 w-100 userLoginBtn d-inline-block" asp-controller="Firm" asp-action="Login">
                         廠商登入
                     </a>
                 </div>
                 <div class="text-center fw-bolder ">
-                    <a class="text-decoration-none py-3 w-100 userSignUpBtn d-inline-block" asp-controller="FirmPage" asp-action="SignUp">
+                    <a class="text-decoration-none py-3 w-100 userSignUpBtn d-inline-block" asp-controller="Firm" asp-action="SignUp">
                         註冊
                     </a>
                 </div>
@@ -243,12 +250,12 @@
                     </a>
                 </div>
                 <div class="text-center fw-bolder ">
-                    <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Order_datatable" asp-action="f_order">
+                    <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Order_datatable" asp-action="order_f">
                         訂單紀錄
                     </a>
                 </div>
                 <div class="text-center fw-bolder ">
-                    <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="FirmPage" asp-action="Logout">
+                    <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Firm" asp-action="Logout">
                         登出
                     </a>
                 </div>
