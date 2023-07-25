@@ -37,10 +37,12 @@ namespace GoSweet.Controllers
         public IActionResult Homepage()
         {
 
+
 			int? id = HttpContext.Session.GetInt32("fnumber")!;
             if (id is null) {
                 return RedirectToAction("Login", "Home");
             }
+
 
 
 			#region 日期參數
@@ -216,7 +218,9 @@ namespace GoSweet.Controllers
 
         public JsonResult RatingJson() 
         {
+
 			int? id = HttpContext.Session.GetInt32("fnumber")!;
+
 
 			var somebody = (from someone in _context.OrderAssesstables
                            join someelse in _context.OrderDatatables on someone.ONumber equals someelse.ONumber
@@ -238,11 +242,13 @@ namespace GoSweet.Controllers
 
 		public IActionResult Revenue()
         {
+
 			int? id = HttpContext.Session.GetInt32("fnumber")!;
 			if (id is null)
 			{
 				return RedirectToAction("Login", "Home");
 			}
+
 
 			#region 日期設定
 			global.StartDateString = HttpContext.Request.Query["StartDate"];
@@ -280,7 +286,9 @@ namespace GoSweet.Controllers
 
         public JsonResult JsonData()
         {
+
 			int? id = HttpContext.Session.GetInt32("fnumber")!;
+
 
 			var somebody = from someone in _context.OrderDatatables
                            join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
