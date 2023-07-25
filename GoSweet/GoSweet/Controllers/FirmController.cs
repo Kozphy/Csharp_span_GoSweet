@@ -40,7 +40,7 @@ namespace GoSweet.Controllers
 
 			int? id = HttpContext.Session.GetInt32("fnumber")!;
             if (id is null) {
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("Login", "Firm");
             }
 
 
@@ -246,7 +246,7 @@ namespace GoSweet.Controllers
 			int? id = HttpContext.Session.GetInt32("fnumber")!;
 			if (id is null)
 			{
-				return RedirectToAction("Login", "Home");
+				return RedirectToAction("Login", "Firm");
 			}
 
 
