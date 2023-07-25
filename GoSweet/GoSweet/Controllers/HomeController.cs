@@ -47,6 +47,7 @@ namespace GoSweet.Controllers
                                                               group new { product, product_pic, order } by
                                                               new
                                                               {
+                                                                  product.PNumber,
                                                                   product.PName,
                                                                   product.PCategory,
                                                                   product_pic.PUrl,
@@ -55,13 +56,14 @@ namespace GoSweet.Controllers
                                   into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
+                                                                  ProductId = groupedData.Key.PNumber,
                                                                   ProductName = groupedData.Key.PName,
                                                                   ProductCategory = groupedData.Key.PCategory,
                                                                   ProductPicture = groupedData.Key.PUrl,
                                                                   ProductPrice = Convert.ToInt32(groupedData.Average(x => x.product.PPrice)),
                                                                   ProductDescription = groupedData.Key.PDescribe,
                                                                   ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
-                                                              }).ToList();
+                                                              }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
             //foreach (var group in productRankData)
             //{
@@ -176,6 +178,7 @@ namespace GoSweet.Controllers
                                                               group new { product, product_pic, order } by
                                                               new
                                                               {
+                                                                  product.PNumber,
                                                                   product.PName,
                                                                   product.PCategory,
                                                                   product_pic.PUrl,
@@ -184,13 +187,14 @@ namespace GoSweet.Controllers
                                   into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
+                                                                  ProductId = groupedData.Key.PNumber,
                                                                   ProductName = groupedData.Key.PName,
                                                                   ProductCategory = groupedData.Key.PCategory,
                                                                   ProductPicture = groupedData.Key.PUrl,
                                                                   ProductPrice = Convert.ToInt32(groupedData.Average(x => x.product.PPrice)),
                                                                   ProductDescription = groupedData.Key.PDescribe,
                                                                   ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
-                                                              }).ToList();
+                                                              }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
 
                         
