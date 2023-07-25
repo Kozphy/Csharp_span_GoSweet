@@ -66,6 +66,16 @@
         </script>
     }
 
+    @*重置密碼成功*@
+    @if (TempData["resetPasswordSuccessMessage"] != null)
+    {
+        <script>
+            let resetPasswordSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["resetPasswordSuccessMessage"]));
+			showSwal('success', 'Reset Password Status', resetPasswordSuccessMessage);
+        </script>
+    }
+
+
     
 
 

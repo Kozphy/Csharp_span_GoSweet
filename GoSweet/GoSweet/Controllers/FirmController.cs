@@ -453,7 +453,7 @@ namespace GoSweet.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-            return RedirectToAction("Homepage","Firm");
+            return RedirectToAction("Login","Firm");
         }
 
         public IActionResult LogOut() {
