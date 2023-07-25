@@ -49,7 +49,7 @@ namespace GoSweet.Controllers
         //聊天室網頁  客戶用  
         public IActionResult talk_c()
         {
-            HttpContext.Session.SetInt32("cnumber",10000);
+            //HttpContext.Session.SetInt32("cnumber",10000);
             return View();
         }
 
@@ -222,7 +222,7 @@ namespace GoSweet.Controllers
         //聊天室網頁  廠商用 
         public IActionResult talk_f()
         {
-            HttpContext.Session.SetInt32("fnumber", 60000);
+            //HttpContext.Session.SetInt32("fnumber", 60000);
             return View();
         }
 
