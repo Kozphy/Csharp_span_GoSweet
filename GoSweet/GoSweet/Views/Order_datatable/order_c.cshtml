@@ -383,7 +383,7 @@
     function gotobuy(pnumber,buynumber){
         console.log("go to buy "+pnumber+buynumber)
         //$.get(`/Search/Product?pid=${pnumber}&num=${buynumber}`)
-        window.open(`/BuyList/BuyListgp?pid=${pnumber}&num=${buynumber}`)
+        window.location.replace(`/BuyList/BuyListgp?pid=${pnumber}&num=${buynumber}`)
     }
 
 
