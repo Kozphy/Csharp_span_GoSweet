@@ -29,17 +29,24 @@ namespace GoSweet.Controllers
         }
         public IActionResult ProductSale()
         {
-            var data = _context.FirmPagetables.Where(x => x.FNumber == 60000).Select(x => x.FPagename).Single();
-            var data3 = _context.FirmPagetables.Where(x => x.FNumber == 60000).Select(x => x.FPicurl).Single();
+            HttpContext.Session.SetInt32("firmNumber", 60000);
+            var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
+
+            var data = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPagename).Single();
+            var data3 = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPicurl).Single();
 
             ViewBag.FirmName = data;
             ViewBag.FirmPic = data3;
 
             return View();
         }
+        //商品上架要用的
         [HttpPost]
         public async Task<ActionResult> ProductSale(ProductDatatable data, GroupDatatable groupdata, List<IFormFile> files, IFormCollection form, FirmPagetable firm, ProductPicturetable picture)
         {
+            HttpContext.Session.SetInt32("firmNumber", 60000);
+            var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
+
             // 圖片路徑 Start
             // 儲存路徑參數
             var filePath = "";
@@ -86,7 +93,7 @@ namespace GoSweet.Controllers
             using (var dbContext = new ShopwebContext())
             {
                 // 獲取對應的 FirmPagetables 記錄
-                var firmAccount = _context.FirmPagetables.SingleOrDefault(x => x.FNumber == 60000);
+                var firmAccount = _context.FirmPagetables.SingleOrDefault(x => x.FNumber == FirmNumber);
                 if (firmAccount == null)
                 {
                     // 處理找不到 Firm_accounttable 記錄的邏輯
@@ -179,12 +186,14 @@ namespace GoSweet.Controllers
             //return View();
         }
 
-
         public IActionResult FirmData()
         {
-            var data = _context.FirmPagetables.Where(x => x.FNumber == 60000).Select(x => x.FPagename).Single();
-            var data2 = _context.FirmPagetables.Where(x => x.FNumber == 60000).Select(x => x.FMessage).Single();
-            var data3 = _context.FirmPagetables.Where(x => x.FNumber == 60000).Select(x => x.FPicurl).Single();
+            HttpContext.Session.SetInt32("firmNumber", 60000);
+            var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
+
+            var data = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPagename).Single();
+            var data2 = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FMessage).Single();
+            var data3 = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPicurl).Single();
 
             ViewBag.FirmName = data;
             ViewBag.FirmMes = data2;
@@ -199,12 +208,16 @@ namespace GoSweet.Controllers
             return View();
         }
 
+        //團購table要用的
         public IActionResult Index(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
         {
+            HttpContext.Session.SetInt32("firmNumber", 60000);
+            var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
+
             var result = (from product in _context.ProductDatatables
                           join groupData in _context.GroupDatatables on product.PNumber equals groupData.PNumber
                           join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
-                          where product.FNumber == 60000 && pic.PPicnumber == 1
+                          where product.FNumber == FirmNumber && pic.PPicnumber == 1
                           select new
                           {
                               pic.PUrl,
@@ -251,11 +264,15 @@ namespace GoSweet.Controllers
             return Content(JsonSerializer.Serialize(result));
         }
 
+        //一般全部商品table要用的
         public IActionResult IndexWithoutJoin(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
         {
+            HttpContext.Session.SetInt32("firmNumber", 60000);
+            var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
+
             var result = (from product in _context.ProductDatatables
                           join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
-                          where product.FNumber == 60000 && pic.PPicnumber == 1
+                          where product.FNumber == FirmNumber && pic.PPicnumber == 1
                           select new
                           {
                               pic.PUrl,
@@ -299,10 +316,14 @@ namespace GoSweet.Controllers
             return Content(JsonSerializer.Serialize(result));
         }
 
+        //售出數量要用的
         public IActionResult index2()
         {
+            HttpContext.Session.SetInt32("firmNumber", 60000);
+            var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
+
             var soldlist = from o in _context.OrderDatatables
-                           where o.FNumber == 60000
+                           where o.FNumber == FirmNumber
                            group o by o.PNumber into o2
                            select new { pnumber = o2.Key, soldnumber = o2.Sum(x => x.OBuynumber) };
 

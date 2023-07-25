@@ -5,57 +5,57 @@
 }*@
 <div class="page-set" style="margin-left:15%; margin-right:15%; font-size:23px;">
     <div style="font-size:40px;">
-        <h3>商品下架</h3>
+        <h1>商品下架</h1>
     </div>
-<div>
-    <hr />
+<div style="margin:2%;">
+@*    <hr />*@
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class = "col-sm-2" style="padding:1%;">
                 商品名稱
         </dt>
-        <dd class = "col-sm-10">
+            <dd class="col-sm-10" style="padding:1%;">
             @Html.DisplayFor(model => model.PName)
         </dd>
-        <dt class = "col-sm-2">
+            <dt class="col-sm-2" style="padding:1%;">
                 商品規格
         </dt>
-        <dd class = "col-sm-10">
+            <dd class="col-sm-10" style="padding:1%;">
             @Html.DisplayFor(model => model.PSpec)
         </dd>
-        <dt class = "col-sm-2">
+            <dt class="col-sm-2" style="padding:1%;">
                 商品種類
         </dt>
-        <dd class = "col-sm-10">
+            <dd class="col-sm-10" style="padding:1%;">
             @Html.DisplayFor(model => model.PCategory)
         </dd>
-        <dt class = "col-sm-2">
+            <dt class="col-sm-2" style="padding:1%;">
                 商品價格
         </dt>
-        <dd class = "col-sm-10">
+            <dd class="col-sm-10" style="padding:1%;">
             @Html.DisplayFor(model => model.PPrice)
         </dd>
-        <dt class = "col-sm-2">
+            <dt class="col-sm-2" style="padding:1%;">
                 商品描述
         </dt>
-        <dd class = "col-sm-10">
+            <dd class="col-sm-10" style="padding:1%;">
             @Html.DisplayFor(model => model.PDescribe)
         </dd>
-        <dt class = "col-sm-2">
+            <dt class="col-sm-2" style="padding:1%;">
                 保存期限
         </dt>
-        <dd class = "col-sm-10">
+            <dd class="col-sm-10" style="padding:1%;">
             @Html.DisplayFor(model => model.PSavedate)
         </dd>
-        <dt class = "col-sm-2">
+            <dt class="col-sm-2" style="padding:1%;">
                 保存方式
         </dt>
-        <dd class = "col-sm-10">
+            <dd class="col-sm-10" style="padding:1%;">
             @Html.DisplayFor(model => model.PSaveway)
         </dd>
-        <dt class = "col-sm-2">
+            <dt class="col-sm-2" style="padding:1%;">
                 商品庫存
         </dt>
-        <dd class = "col-sm-10">
+            <dd class="col-sm-10" style="padding:1%;">
             @Html.DisplayFor(model => model.PInventory)
         </dd>
        @* <dt class = "col-sm-2">
@@ -78,10 +78,10 @@
         </dd>*@
     </dl>
 
-        <div style="margin-left:50%;">
+        <div style="margin-left:50%; padding:1%;">
             <form asp-action="Delete">
                 <input type="hidden" asp-for="PNumber" />
-                <input type="submit" value="Delete" class="btn btn-danger" style="color:red" />
+                <input type="submit" value="下架" class="btn btn-danger" style="color:floralwhite; background-color:#c3a6a0e1;border:none; font-size:20px;" />
                 @*<a asp-action="Index">Back to List</a>*@
             </form>
         </div>
