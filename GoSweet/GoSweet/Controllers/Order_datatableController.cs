@@ -140,7 +140,7 @@ namespace GoSweet.Controllers
         //取得訂單列表
         public IActionResult order_c()
         {
-            HttpContext.Session.SetInt32("mycnumber",10000);
+            //HttpContext.Session.SetInt32("mycnumber",10000);
 
             var id = HttpContext.Session.GetInt32("mycnumber");
 
