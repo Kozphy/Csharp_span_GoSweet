@@ -4,8 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 <div class="page-set" style="margin-left:15%; margin-right:15%; font-size:23px;">
-    <div style="font-size:40px; padding-bottom:1%;">  
-<h1>商品編輯</h1>
+    <div style="font-size:40px; padding-bottom:1%; padding:1%;">
+        <h1>商品編輯</h1>
 	</div>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -77,10 +77,11 @@
                   
            </div>
                 <div style="margin-left:50%; padding:1%;">
-                    <input type="submit" value="Save" class="btn btn-primary" style=" color:floralwhite;background-color:#c3a6a0e1;border:none; font-size:20px;" />
+                    <input type="submit" value="保存" class="btn btn-primary" style=" color:floralwhite;background-color:#c3a6a0e1;border:none; font-size:20px;" />
                 </div>
-        </form>  
+        </form>        
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

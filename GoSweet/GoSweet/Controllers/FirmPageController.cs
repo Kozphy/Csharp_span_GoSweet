@@ -52,7 +52,7 @@ namespace GoSweet.Controllers
                 if (file != null && file.Length > 0)
                 {
                     //設定儲存路徑及檔案名稱
-                    filePath = Path.Combine("./wwwroot/img/ProductUrl" + file.FileName);
+                    filePath = Path.Combine("./wwwroot/img/ProductUrl/" + file.FileName);
                     System.Diagnostics.Debug.WriteLine(filePath);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
