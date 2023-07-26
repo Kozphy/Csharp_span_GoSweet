@@ -36,23 +36,26 @@ namespace GoSweet.Controllers
 
         public IActionResult Homepage()
         {
-
-
 			int? id = HttpContext.Session.GetInt32("fnumber")!;
             if (id is null) {
                 return RedirectToAction("Login", "Firm");
             }
 
-
-
 			#region 日期參數
 			DateTime MonthBegin = global.Now.AddDays(1 - global.Now.Day);
             DateTime LastMonthEnd = global.Now.AddDays(1 - global.Now.Day).AddDays(-1);
             DateTime LastMonthBegin = global.Now.AddDays(1 - global.Now.Day).AddMonths(-1);
-            #endregion
+			#endregion
 
-            #region 當月訂單數
-            string TotalOrders = (from someone in _context.OrderDatatables
+			#region 廠商圖片
+			var Firmpic = _context.FirmPagetables.Where(x => x.FNumber == id).Select(x => x.FPicurl).Single();
+            if (Firmpic is null) {
+                Firmpic = "~/img/No pic.jpg";
+            }
+			#endregion
+
+			#region 當月訂單數
+			string TotalOrders = (from someone in _context.OrderDatatables
                                  where someone.OStart <= global.Now && someone.OStart>=MonthBegin && someone.FNumber==id
                                  select someone.ONumber).Count().ToString("N0");
             #endregion
@@ -141,8 +144,9 @@ namespace GoSweet.Controllers
             #region 建立Model存放資料
             FirmHomepageModel HomepageModels = new FirmHomepageModel
             {
-                //類別賦值-當月訂單
-                ThisMonthOrdersTotal = TotalOrders,
+                PicturePath = Firmpic,
+				//類別賦值-當月訂單
+				ThisMonthOrdersTotal = TotalOrders,
                 //類別賦值-當月出貨
                 ThisMonthShippedTotal = TotalShipped,
                 //類別賦值-當月未出貨
@@ -249,7 +253,6 @@ namespace GoSweet.Controllers
 				return RedirectToAction("Login", "Firm");
 			}
 
-
 			#region 日期設定
 			global.StartDateString = HttpContext.Request.Query["StartDate"];
             global.EndDateString = HttpContext.Request.Query["EndDate"];
@@ -286,9 +289,7 @@ namespace GoSweet.Controllers
 
         public JsonResult JsonData()
         {
-
 			int? id = HttpContext.Session.GetInt32("fnumber")!;
-
 
 			var somebody = from someone in _context.OrderDatatables
                            join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
