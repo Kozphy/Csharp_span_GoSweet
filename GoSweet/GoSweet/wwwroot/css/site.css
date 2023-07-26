@@ -54,17 +54,17 @@ body {
     font-family: ‘Noto Sans TC’, sans-serif;
 }
 
-/* 內容顯示在 navbar 高度下*/
+/* customer 內容顯示在 navbar 高度下*/
 .customer-body-section {
 	margin-top:185px;
 }
 
+/* firm 內容顯示在 navbar 高度下*/
+.firm-body-section {
+	margin-top:146px;
+}
 
 .active {
     background-color: rgba(0,0,0,0.2);
 }
 
-/**/
-.firm-body-section {
-	margin-top:146px;
-}

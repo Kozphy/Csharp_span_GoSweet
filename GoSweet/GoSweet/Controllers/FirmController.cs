@@ -453,16 +453,18 @@ namespace GoSweet.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-            return RedirectToAction("Homepage","Firm");
+            return RedirectToAction("Login","Firm");
         }
 
-        public IActionResult Logout() {
+        public IActionResult LogOut() {
             HttpContext.Session.Remove("firmAccountName");
             HttpContext.Session.Remove("firmAccount");
+            HttpContext.Session.Remove("fnumber");
+            HttpContext.Session.Remove("firmNumber");
+            HttpContext.Session.Remove("fnickname");
             HttpContext.Session.SetInt32("NotifyMessagesCount", 0);
             //HttpContext.Session.SetString("AccountName", String.Empty);
-            return RedirectToAction("Homepage", "Firm");
+            return RedirectToAction("Index", "Home");
         }
-
     }
 }

@@ -27,7 +27,7 @@ namespace GoSweet.Controllers
             _config = config;
             _webHost = webHost;
         }
-
+        
         public IActionResult Index()
         {
             _logger.LogInformation("HomeIndexStart");
@@ -47,6 +47,7 @@ namespace GoSweet.Controllers
                                                               group new { product, product_pic, order } by
                                                               new
                                                               {
+                                                                  product.PNumber,
                                                                   product.PName,
                                                                   product.PCategory,
                                                                   product_pic.PUrl,
@@ -55,13 +56,14 @@ namespace GoSweet.Controllers
                                   into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
+                                                                  ProductId = groupedData.Key.PNumber,
                                                                   ProductName = groupedData.Key.PName,
                                                                   ProductCategory = groupedData.Key.PCategory,
                                                                   ProductPicture = groupedData.Key.PUrl,
                                                                   ProductPrice = Convert.ToInt32(groupedData.Average(x => x.product.PPrice)),
                                                                   ProductDescription = groupedData.Key.PDescribe,
                                                                   ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
-                                                              }).ToList();
+                                                              }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
             //foreach (var group in productRankData)
             //{
@@ -109,6 +111,7 @@ namespace GoSweet.Controllers
             return View(_indexViewModelData);
         }
 
+        // 取得通知訊息
         private IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage() {
 
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;
@@ -165,6 +168,7 @@ namespace GoSweet.Controllers
             return bellDropDownsDatas;
         }
 
+        // 首頁熱門產品切換種類
         [HttpGet]
         public JsonResult HandleProductCategory([FromQuery] string Category)
         {
@@ -176,6 +180,7 @@ namespace GoSweet.Controllers
                                                               group new { product, product_pic, order } by
                                                               new
                                                               {
+                                                                  product.PNumber,
                                                                   product.PName,
                                                                   product.PCategory,
                                                                   product_pic.PUrl,
@@ -184,13 +189,14 @@ namespace GoSweet.Controllers
                                   into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
+                                                                  ProductId = groupedData.Key.PNumber,
                                                                   ProductName = groupedData.Key.PName,
                                                                   ProductCategory = groupedData.Key.PCategory,
                                                                   ProductPicture = groupedData.Key.PUrl,
                                                                   ProductPrice = Convert.ToInt32(groupedData.Average(x => x.product.PPrice)),
                                                                   ProductDescription = groupedData.Key.PDescribe,
                                                                   ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
-                                                              }).ToList();
+                                                              }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
 
                         
@@ -233,6 +239,7 @@ namespace GoSweet.Controllers
             HttpContext.Session.SetString("customerAccount", userAccount.CustomerAccount);
             HttpContext.Session.SetInt32("cnumber", userAccount.c_number);
             HttpContext.Session.SetInt32("mycnumber", userAccount.c_number);
+            _logger.LogInformation("userAccount c_number: {0}", userAccount.c_number.ToString());
             TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
             return RedirectToAction("Index");
         }
@@ -337,6 +344,8 @@ namespace GoSweet.Controllers
 
             var account = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(EmailAddress)).First();
 
+            
+
             try
             {
                 account.CPassword = newPassword;
@@ -346,14 +355,22 @@ namespace GoSweet.Controllers
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
             }
-
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult CooperateFirm() {
+            return View();
         }
 
         public IActionResult LogOut() {
             HttpContext.Session.Remove("customerAccountName");
             HttpContext.Session.Remove("customerAccount");
-             HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+            HttpContext.Session.Remove("cnumber");
+            HttpContext.Session.Remove("mycnumber");
+            HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+
+            
 
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");

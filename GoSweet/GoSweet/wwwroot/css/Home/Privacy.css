@@ -1,0 +1,20 @@
+﻿.AboutUsBackground {
+    background-color: rgba(33,37,41,0.03);
+}
+
+.AboutUsLogo {
+    font-size: 2.5rem;
+    color:#A15C38;
+}
+
+.AboutUsText {
+    font-size:1.5rem;
+}
+
+.AboutUsContent {
+    text-align: justify;
+}
+
+.PrivacyText {
+    font-size:1.2rem;
+}
