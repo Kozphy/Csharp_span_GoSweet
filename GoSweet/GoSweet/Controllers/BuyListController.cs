@@ -141,7 +141,41 @@ namespace GoSweet.Controllers {
 					updateNewMMT.MNowpeople++;
 					_shopwebContext.Update(updateNewMMT);
 					await _shopwebContext.SaveChangesAsync();
-				}			
+
+                    //member滿人判斷 後 修改訂單狀態 並新增 notify
+                    int mymnumber = gdtg[0].MemberMembertable.Select(x => x.MNumber)
+                        .FirstOrDefault();
+                    var membermax = from m in _shopwebContext.MemberMembertables
+                                    where m.MNumber == mymnumber && m.GMaxpeople == m.MNowpeople
+                                    select m;
+                    if ((membermax.FirstOrDefault() != null) && (membermax.First().MStatus == false))
+                    {
+                        membermax.First().MStatus = true;
+                        _shopwebContext.Update(membermax.First());
+                        _shopwebContext.SaveChanges();
+                        var orderlist = from o in _shopwebContext.OrderDatatables
+                                        where o.MNumber == mymnumber
+                                        select o;
+
+                        foreach (var item in orderlist)
+                        {
+                            item.OStatus = "已成團";
+                            _shopwebContext.Update(item);
+
+                            NotifyDatatable notify = new NotifyDatatable();
+                            notify.CNumber = item.CNumber;
+                            notify.ONumber = item.ONumber;
+                            notify.OStatus = item.OStatus;
+                            notify.NRead = false;
+                            _shopwebContext.Update(notify);
+
+                        }
+                        _shopwebContext.SaveChanges();
+
+                    }
+                    //member滿人判斷 後 修改訂單狀態 並新增 notify 完畢	
+
+                }
             } else {
 				var addNewMMT = new MemberMembertable();
 				addNewMMT.GNumber = gdtg[0].GroupDatatable.GNumber;
@@ -159,7 +193,7 @@ namespace GoSweet.Controllers {
 
 
 
-            }
+           
 
 
             var result2 = new OrderDatatable();
