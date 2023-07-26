@@ -14,7 +14,16 @@
         { "FirmPage", new List<string>(){ "FirmData", "ProductSale", "ProductSearch","Delete", "Edit"} },
     };
 
-    if (BelongFirm.ContainsKey(currentController!) && BelongFirm[currentController!].Contains(currentAction!))
+    bool isFirmController = BelongFirm.ContainsKey(currentController!);
+    bool isFirmAction = false;
+
+    if (BelongFirm.ContainsKey(currentController!))
+    {
+         isFirmAction = BelongFirm[currentController!].Contains(currentAction!);
+    }
+
+    //Console.WriteLine("{0}: {1}, {2}: {3}",currentController, isFirmController, currentAction, isFirmAction);
+    if (isFirmController && isFirmAction)
     {
         Layout = "_LayoutFirm";
     }
