@@ -11,21 +11,23 @@
         int firmImgsLen = Directory.GetFiles(firmImgFolder).Length;
         int startFirmImgNum = 60000;
 
-        for (int i = startFirmImgNum; i < startFirmImgNum + firmImgsLen; i++)
-        {
-            string firmImgsPath = $"/img/firmpage/{i}.jpg";
-            <div class="card" style="width: 18rem;">
-                <img src="@firmImgsPath" class="card-img-top" alt="@i">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <ul>
-                <li>@i</li>
-            </ul>
-        }
+        <div class="row gap-1">
+            @{
+                for (int i = startFirmImgNum; i < startFirmImgNum + firmImgsLen; i++)
+                {
+                    string firmImgsPath = $"/img/firmpage/{i}.jpg";
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="@firmImgsPath" class="card-img-top" alt="@i">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
     }
-    <h1>This is Cooperate Firm</h1>
 </div>
