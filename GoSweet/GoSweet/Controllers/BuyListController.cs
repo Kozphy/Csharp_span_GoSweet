@@ -1,5 +1,6 @@
 ﻿using GoSweet.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Numerics;
@@ -9,8 +10,10 @@ namespace GoSweet.Controllers {
     public class BuyListController : Controller {
 
         private readonly ShopwebContext _shopwebContext;
+
         public BuyListController(ShopwebContext shopwebContext) {
             _shopwebContext = shopwebContext;
+
         }
         [HttpGet]
         public IActionResult BuyList() {
@@ -59,6 +62,21 @@ namespace GoSweet.Controllers {
                 result.OShipstatus = "未寄出";
                 _shopwebContext.Add(result);
                 _shopwebContext.SaveChanges();
+
+
+                //下單成功後 加入notify通知給廠商
+                var getneworder = from o in _shopwebContext.OrderDatatables
+                                  orderby o.ONumber descending
+                                  select o;
+
+                NotifyDatatable notify = new NotifyDatatable();
+                notify.FNumber = getneworder.First().FNumber;
+                notify.ONumber = getneworder.First().ONumber;
+                notify.OStatus = getneworder.First().OStatus;
+                notify.NRead = false;
+                _shopwebContext.Update(notify);
+                _shopwebContext.SaveChanges();
+
 
                 return Redirect("/home/index");
             }
@@ -123,6 +141,9 @@ namespace GoSweet.Controllers {
                 addNewMMT.MStatus = false;
                 _shopwebContext.Add(addNewMMT);
                 _shopwebContext.SaveChanges();
+
+                
+
             } else {
                 MemberMembertable? updateNewMMT = _shopwebContext.MemberMembertables
                     .FirstOrDefault(qqq => qqq.MNumber == gdtg[0].MemberMembertable.Select(x => x.MNumber)
@@ -135,6 +156,46 @@ namespace GoSweet.Controllers {
                     _shopwebContext.Update(updateNewMMT);
                     await _shopwebContext.SaveChangesAsync();
                 }
+
+                //member滿人判斷 後 修改訂單狀態 並新增 notify
+                int mymnumber = gdtg[0].MemberMembertable.Select(x => x.MNumber)
+                    .FirstOrDefault();
+                var membermax = from m in _shopwebContext.MemberMembertables
+                                where m.MNumber == mymnumber && m.GMaxpeople == m.MNowpeople
+                                select m;
+                if ((membermax.FirstOrDefault() != null) && (membermax.First().MStatus == false))
+                {
+                    membermax.First().MStatus = true;
+                    _shopwebContext.Update(membermax.First());
+                    _shopwebContext.SaveChanges();
+                    var orderlist = from o in _shopwebContext.OrderDatatables
+                                    where o.MNumber == mymnumber
+                                    select o;
+
+                    foreach (var item in orderlist)
+                    {
+                        item.OStatus = "已成團";
+                        _shopwebContext.Update(item);
+
+                        NotifyDatatable notify = new NotifyDatatable();
+                        notify.CNumber = item.CNumber;
+                        notify.ONumber = item.ONumber;
+                        notify.OStatus = item.OStatus;
+                        notify.NRead = false;
+                        _shopwebContext.Update(notify);
+
+                    }
+                    _shopwebContext.SaveChanges();
+
+                    
+
+
+                }
+
+
+
+
+
             }
 
             var result2 = new OrderDatatable();
