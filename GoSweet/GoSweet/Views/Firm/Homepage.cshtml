@@ -18,10 +18,10 @@
 			<div class="col-12 col-xl-3 py-2">
 				<div class="row pe-xl-3">
 					<div class="HomepageStatusBlock col-12 py-2 d-flex justify-content-center align-items-center border rounded bg-white shadow">
-						<a href="./">
+						<a asp-area="" asp-controller="Firmpage" asp-action="FirmData">
 							<figure class="figure">
 								<!-- ★★★★★需要廠商圖片★★★★★ -->
-								<img src="" class="figure-img img-fluid rounded" alt="ManufacturersLogo" id="ManufacturersLogo">
+								<img src="@Model.PicturePath" class="figure-img img-fluid rounded" alt="ManufacturersLogo" id="ManufacturersLogo">
 									@*Session處理*@
 									@{
 										string firmAccountName = Accessor.HttpContext?.Session.GetString("firmAccountName")!;
@@ -114,7 +114,7 @@
 									<tr>
 										<th scope="row">@(i++)</th>
 										<td class="HomepageTableData">@WL.OrderDate</td>
-										<td class="HomepageTableData"><a href="./">@WL.OrderID</a></td>
+										<td class="HomepageTableData">@WL.OrderID</td>
 										<td class="HomepageTableData">@WL.Products</td>
 									</tr>
 								}
