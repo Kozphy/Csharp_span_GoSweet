@@ -137,8 +137,7 @@
                                         <div class="row getrow" style="margin: 20px;">
 										<div class="col-3 mb-1">
                                                 <a href=""><img src="${item.pic}" style="width: 100%;" class="o_ppic" alt=""></a>
-												<label for="" style="display: none;" class="o_ship">${item.oship}</label>
-												<label for="" style="display: none;" class="o_place">${item.oplace}</label>
+                                                        <label for="" style="display: none;" class="o_place">${item.oplace}</label>
 										</div>
 
 
@@ -362,12 +361,16 @@
     // 動態取貨結單
     function shipget(listnumber, onumber) {
         olistnumber = listnumber
-        $('#s_fname').text($('.o_fname').eq(listnumber).text())
-        $('#s_pname').text($('.o_pname').eq(listnumber).text())
-        $('#s_buynumber').text($('.o_pbuynumber').eq(listnumber).text())
-        $('#s_onumber').text(onumber)
-        $('#s_ship').text($('.o_ship').eq(listnumber).text())
-        $('#s_place').text($('.o_place').eq(listnumber).text())
+        $.post('/Order_datatable/getship', { onumber: onumber })
+        .done(function(data){
+            data2 = JSON.parse(data)
+            $('#s_fname').text($('.o_fname').eq(listnumber).text())
+            $('#s_pname').text($('.o_pname').eq(listnumber).text())
+            $('#s_buynumber').text($('.o_pbuynumber').eq(listnumber).text())
+            $('#s_onumber').text(onumber)
+            $('#s_ship').text(data2[0].ship)
+            $('#s_place').text($('.o_place').eq(listnumber).text())
+        })
 
     }
 
@@ -495,7 +498,7 @@
                         <div class="row getrow" style="margin: 20px;">
                             <div class="col-3 mb-1">
                                 <a href=""><img src="@item.pic" style="width: 100%;" class="o_ppic" alt=""></a>
-                                <label for="" style="display: none;" class="o_ship">@item.oship</label>
+                                @*<label for="" style="display: none;" class="o_ship">@item.oship</label>*@
                                 <label for="" style="display: none;" class="o_place">@item.oplace</label>
                             </div>
 
