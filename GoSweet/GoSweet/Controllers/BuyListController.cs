@@ -41,10 +41,9 @@ namespace GoSweet.Controllers {
         [HttpPost]
         public ActionResult BuyList(IFormCollection form) {
 
-			
 
 			int id = Convert.ToInt32(HttpContext.Session.GetInt32("mycnumber")); ;
-
+            
 			if (form != null) {
                 var result = new OrderDatatable();
                 result.OStart = DateTime.Now;
@@ -133,70 +132,35 @@ namespace GoSweet.Controllers {
                 .OrderByDescending(x => x.MNumber).
                 Select(x => x).ToList();
 
-            if (x[0].MStatus) {
-                var addNewMMT = new MemberMembertable();
-                addNewMMT.GNumber = gdtg[0].GroupDatatable.GNumber;
-                addNewMMT.GMaxpeople = x[0].GMaxpeople;
-                addNewMMT.MNowpeople = 1;
-                addNewMMT.MStatus = false;
-                _shopwebContext.Add(addNewMMT);
-                _shopwebContext.SaveChanges();
+
+            if (x[0].MStatus == false) {
+				MemberMembertable? updateNewMMT = _shopwebContext.MemberMembertables
+					.FirstOrDefault(qqq => qqq.MNumber == gdtg[0].MemberMembertable.Select(x => x.MNumber)
+					.LastOrDefault());
+				if (updateNewMMT != null) {
+					updateNewMMT.MNowpeople++;
+					_shopwebContext.Update(updateNewMMT);
+					await _shopwebContext.SaveChangesAsync();
+				}			
+            } else {
+				var addNewMMT = new MemberMembertable();
+				addNewMMT.GNumber = gdtg[0].GroupDatatable.GNumber;
+				addNewMMT.GMaxpeople = x[0].GMaxpeople;
+				addNewMMT.MNowpeople = 1;
+				addNewMMT.MStatus = false;
+				_shopwebContext.Add(addNewMMT);
+				_shopwebContext.SaveChanges();
+			}
+
 
                 
-
-            } else {
-                MemberMembertable? updateNewMMT = _shopwebContext.MemberMembertables
-                    .FirstOrDefault(qqq => qqq.MNumber == gdtg[0].MemberMembertable.Select(x => x.MNumber)
-                    .FirstOrDefault());
-                if (updateNewMMT != null) {
-                    //if (updateNewMMT.GMaxpeople >= updateNewMMT.MNowpeople) {
-                    //    updateNewMMT.MStatus = true;
-                    //}
-                    updateNewMMT.MNowpeople++;
-                    _shopwebContext.Update(updateNewMMT);
-                    await _shopwebContext.SaveChangesAsync();
-                }
-
-                //member滿人判斷 後 修改訂單狀態 並新增 notify
-                int mymnumber = gdtg[0].MemberMembertable.Select(x => x.MNumber)
-                    .FirstOrDefault();
-                var membermax = from m in _shopwebContext.MemberMembertables
-                                where m.MNumber == mymnumber && m.GMaxpeople == m.MNowpeople
-                                select m;
-                if ((membermax.FirstOrDefault() != null) && (membermax.First().MStatus == false))
-                {
-                    membermax.First().MStatus = true;
-                    _shopwebContext.Update(membermax.First());
-                    _shopwebContext.SaveChanges();
-                    var orderlist = from o in _shopwebContext.OrderDatatables
-                                    where o.MNumber == mymnumber
-                                    select o;
-
-                    foreach (var item in orderlist)
-                    {
-                        item.OStatus = "已成團";
-                        _shopwebContext.Update(item);
-
-                        NotifyDatatable notify = new NotifyDatatable();
-                        notify.CNumber = item.CNumber;
-                        notify.ONumber = item.ONumber;
-                        notify.OStatus = item.OStatus;
-                        notify.NRead = false;
-                        _shopwebContext.Update(notify);
-
-                    }
-                    _shopwebContext.SaveChanges();
-
-                    
-
-
-                }
 
 
 
 
 
             }
+
 
             var result2 = new OrderDatatable();
             result2.OStart = DateTime.Now;
