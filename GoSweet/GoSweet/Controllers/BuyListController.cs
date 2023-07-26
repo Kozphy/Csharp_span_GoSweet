@@ -38,7 +38,7 @@ namespace GoSweet.Controllers {
         [HttpPost]
         public ActionResult BuyList(IFormCollection form) {
 
-			HttpContext.Session.SetInt32("mycnumber", 10000);
+			
 
 			int id = Convert.ToInt32(HttpContext.Session.GetInt32("mycnumber")); ;
 
@@ -72,7 +72,7 @@ namespace GoSweet.Controllers {
             int num = Convert.ToInt32(HttpContext.Request.Query["num"]);
             int mmt = Convert.ToInt32(HttpContext.Request.Query["mmt"]);
 
-			HttpContext.Session.SetInt32("mycnumber", 10000);
+			
 			int id = Convert.ToInt32(HttpContext.Session.GetInt32("mycnumber"));
 
 			var groups = _shopwebContext.ProductDatatables.GroupJoin(_shopwebContext.ProductPicturetables,
@@ -188,7 +188,7 @@ namespace GoSweet.Controllers {
 
         [HttpPost]
         public ActionResult BuyListgp(IFormCollection form) {
-			HttpContext.Session.SetInt32("mycnumber", 10000);
+			
 
 			int id =Convert.ToInt32(HttpContext.Session.GetInt32("mycnumber"));
 
