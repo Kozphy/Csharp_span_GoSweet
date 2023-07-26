@@ -38,10 +38,9 @@ namespace GoSweet.Controllers {
         [HttpPost]
         public ActionResult BuyList(IFormCollection form) {
 
-			
 
 			int id = Convert.ToInt32(HttpContext.Session.GetInt32("mycnumber")); ;
-
+            
 			if (form != null) {
                 var result = new OrderDatatable();
                 result.OStart = DateTime.Now;
@@ -115,27 +114,24 @@ namespace GoSweet.Controllers {
                 .OrderByDescending(x => x.MNumber).
                 Select(x => x).ToList();
 
-            if (x[0].MStatus) {
-                var addNewMMT = new MemberMembertable();
-                addNewMMT.GNumber = gdtg[0].GroupDatatable.GNumber;
-                addNewMMT.GMaxpeople = x[0].GMaxpeople;
-                addNewMMT.MNowpeople = 1;
-                addNewMMT.MStatus = false;
-                _shopwebContext.Add(addNewMMT);
-                _shopwebContext.SaveChanges();
+            if (x[0].MStatus == false) {
+				MemberMembertable? updateNewMMT = _shopwebContext.MemberMembertables
+					.FirstOrDefault(qqq => qqq.MNumber == gdtg[0].MemberMembertable.Select(x => x.MNumber)
+					.LastOrDefault());
+				if (updateNewMMT != null) {
+					updateNewMMT.MNowpeople++;
+					_shopwebContext.Update(updateNewMMT);
+					await _shopwebContext.SaveChangesAsync();
+				}			
             } else {
-                MemberMembertable? updateNewMMT = _shopwebContext.MemberMembertables
-                    .FirstOrDefault(qqq => qqq.MNumber == gdtg[0].MemberMembertable.Select(x => x.MNumber)
-                    .FirstOrDefault());
-                if (updateNewMMT != null) {
-                    //if (updateNewMMT.GMaxpeople >= updateNewMMT.MNowpeople) {
-                    //    updateNewMMT.MStatus = true;
-                    //}
-                    updateNewMMT.MNowpeople++;
-                    _shopwebContext.Update(updateNewMMT);
-                    await _shopwebContext.SaveChangesAsync();
-                }
-            }
+				var addNewMMT = new MemberMembertable();
+				addNewMMT.GNumber = gdtg[0].GroupDatatable.GNumber;
+				addNewMMT.GMaxpeople = x[0].GMaxpeople;
+				addNewMMT.MNowpeople = 1;
+				addNewMMT.MStatus = false;
+				_shopwebContext.Add(addNewMMT);
+				_shopwebContext.SaveChanges();
+			}
 
             var result2 = new OrderDatatable();
             result2.OStart = DateTime.Now;
