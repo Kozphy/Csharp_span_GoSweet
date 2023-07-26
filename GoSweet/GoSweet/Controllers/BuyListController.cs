@@ -56,7 +56,7 @@ namespace GoSweet.Controllers {
                 result.OShip = Convert.ToInt32(form["Delivery"]);
                 result.OPayment = Convert.ToInt32(form["Payment"]);
                 result.OPlace = form["OPlace"];
-                result.OShipstatus = "未出貨";
+                result.OShipstatus = "未寄出";
                 _shopwebContext.Add(result);
                 _shopwebContext.SaveChanges();
 
@@ -147,7 +147,7 @@ namespace GoSweet.Controllers {
             result2.MNumber = Convert.ToInt32(gdtg[0].MemberMembertable.Select(x => x.MNumber).FirstOrDefault());
             result2.OPrice = groups[0].ProductData.PNumber;
             result2.OStatus = "待成團";
-            result2.OShipstatus = "未出貨";
+            result2.OShipstatus = "未寄出";
             _shopwebContext.Add(result2);
             _shopwebContext.SaveChanges();
 
@@ -206,7 +206,7 @@ namespace GoSweet.Controllers {
                 result.OShip = Convert.ToInt32(form["Delivery"]);
                 result.OPayment = Convert.ToInt32(form["Payment"]);
                 result.OPlace = form["OPlace"];
-                result.OShipstatus = "未出貨";
+                result.OShipstatus = "未寄出";
                 _shopwebContext.Add(result);
                 _shopwebContext.SaveChanges();
 
