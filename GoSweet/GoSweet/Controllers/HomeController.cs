@@ -239,6 +239,7 @@ namespace GoSweet.Controllers
             HttpContext.Session.SetString("customerAccount", userAccount.CustomerAccount);
             HttpContext.Session.SetInt32("cnumber", userAccount.c_number);
             HttpContext.Session.SetInt32("mycnumber", userAccount.c_number);
+            _logger.LogInformation("userAccount c_number: {0}", userAccount.c_number.ToString());
             TempData["customerAccountLoginSuccessMessage"] = "帳號登入成功";
             return RedirectToAction("Index");
         }
