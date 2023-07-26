@@ -4,6 +4,7 @@ let productCategoryTitles = document.querySelectorAll(".product-category-title")
 
 productCategoryBtns.forEach((element, index) => {
     element.addEventListener("click", async function (e) {
+        e.preventDefault();
         let category = productCategoryTitles[index].textContent;
 
 
@@ -26,6 +27,8 @@ productCategoryBtns.forEach((element, index) => {
                 <div class="splide__track">
                     <ul class="splide__list">`];
 
+
+
         data.forEach((el, index) => {
             let htmlstr =
                 `<li class="splide__slide">
@@ -33,8 +36,8 @@ productCategoryBtns.forEach((element, index) => {
                         <div class="product-rank-card card">
                             <div class="position-relative">
                                 <div class="product-rank-hover-content d-flex">
-                                    <form method="get" class="m-auto" asp-controller="Search" asp-action="Product">
-                                        <input type="hidden" name="pid" value="${el.ProductName}">
+                                    <form method="get" action="/Search/Product" class="m-auto">
+                                        <input type="hidden" name="pid" value="${el.ProductId}">
                                         <button type="submit" class="btn btn-outline-light rounded-0 btnGo">GO >></button>
                                     </form>
                                 </div>

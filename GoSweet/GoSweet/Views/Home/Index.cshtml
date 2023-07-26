@@ -37,8 +37,7 @@
             </div>
 
             @*商品排行種類*@
-            <section class="splide splideCategory">
-                <hr />
+            <section class="splide splideCategory  border-top border-bottom">
                 <div class="splide__track">
                     <ul class="splide__list">
                         @foreach (var item in Model.CategoryDatas!)
@@ -56,7 +55,6 @@
                         }
                     </ul>
                 </div>
-                <hr />
             </section>
 
             @*商品排行內容*@
@@ -121,7 +119,7 @@
                                     <input type="hidden" name="keyWord" value="@item.ProductName">
                                     <img src="@item.ProductPicture" class="card-img-top" alt="咕咕霍夫">
                                     <div class="groupbuy-segment-hover-content">
-                                        <button type="submit"  class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
+                                        <button type="submit" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
                                     </div>
                                 </form>
                             </div>
@@ -195,7 +193,7 @@
                             它由鬆軟的泡芙皮包裹著香甜的內餡，內餡口味豐富多樣，可選擇巧克力、草莓、抹茶等口味，
                             每一口都令人驚艷。小熊泡芙以精湛的製作工藝和優質的食材而聞名，咬下一口，口感綿密滑順，讓人忍不住一口接一口。無論是單獨享用，還是搭配咖啡或茶，
                             小熊泡芙都能為您帶來甜蜜的美味時光。讓這可愛的小熊泡芙陪伴您，帶來無盡的味蕾享受和幸福感。
-                            </p>
+                        </p>
                     </div>
                 </div>
                 <div class="col-md-4">
