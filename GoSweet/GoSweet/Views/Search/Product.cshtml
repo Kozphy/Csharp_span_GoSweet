@@ -134,7 +134,7 @@
 		$("#group_buy").prop("href", "../BuyList/BuyListGroup?pid=@ViewBag.ProductData[0].ProductData.PNumber" + "&num=" + buyNum)
 	})
 
-	$("#group_buy").click(function (e) {
+	$("#group_buy").click(function (event) {
 		if (@ViewBag.GroupTF == 0){
 			event.preventDefault()
 			Swal.fire('此商品無法團購')
