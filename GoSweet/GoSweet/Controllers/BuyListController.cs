@@ -189,13 +189,6 @@ namespace GoSweet.Controllers {
 
                 
 
-
-
-
-
-           
-
-
             var result2 = new OrderDatatable();
             result2.OStart = DateTime.Now;
             result2.CNumber = id;
