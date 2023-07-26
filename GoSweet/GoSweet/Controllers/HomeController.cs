@@ -27,7 +27,7 @@ namespace GoSweet.Controllers
             _config = config;
             _webHost = webHost;
         }
-
+        
         public IActionResult Index()
         {
             _logger.LogInformation("HomeIndexStart");
@@ -111,6 +111,7 @@ namespace GoSweet.Controllers
             return View(_indexViewModelData);
         }
 
+        // 取得通知訊息
         private IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage() {
 
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;
@@ -167,6 +168,7 @@ namespace GoSweet.Controllers
             return bellDropDownsDatas;
         }
 
+        // 首頁熱門產品切換種類
         [HttpGet]
         public JsonResult HandleProductCategory([FromQuery] string Category)
         {
@@ -353,6 +355,11 @@ namespace GoSweet.Controllers
                 Console.WriteLine(ex.Message);
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult CooperateFirm() {
+            return View();
         }
 
         public IActionResult LogOut() {
