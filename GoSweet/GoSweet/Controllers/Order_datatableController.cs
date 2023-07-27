@@ -335,7 +335,7 @@ namespace GoSweet.Controllers
         //取得廠商訂單資料  訂單網頁使用者為廠商
         public IActionResult order_f()
         {
-            HttpContext.Session.SetInt32("myfnumber",60000);
+            
 
             var id = HttpContext.Session.GetInt32("myfnumber");
 
@@ -384,7 +384,7 @@ namespace GoSweet.Controllers
         {
 
             var id = HttpContext.Session.GetInt32("myfnumber");
-
+            System.Diagnostics.Debug.WriteLine("my fnumberrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"+id);
             var orderdata = from o in _context.OrderDatatables
                             join pic in _context.ProductPicturetables
                             on o.PNumber equals pic.PNumber
@@ -457,7 +457,8 @@ namespace GoSweet.Controllers
                             select o;
             }
 
-            if (onumber != null) {
+            if (onumber != null)
+            {
                 orderdata = from o in orderdata
                             where o.onumber == onumber
                             select o;
@@ -465,10 +466,10 @@ namespace GoSweet.Controllers
 
             if (cname != null)
             {
-                    orderdata = from o in orderdata
-                                where o.cname == cname
-                                select o;            
-            }               
+                orderdata = from o in orderdata
+                            where o.cname == cname
+                            select o;
+            }
 
 
 
