@@ -50,33 +50,49 @@ namespace GoSweet.Controllers {
         public IActionResult SearchResultGroup() {
             string? keyWord = HttpContext.Request.Query["keyWord"];
 
-            var xx = from groupTable in _context.GroupDatatables
-                     join productTable in _context.ProductDatatables on groupTable.PNumber equals productTable.PNumber
-                     join pictureTable in _context.ProductPicturetables on productTable.PNumber equals pictureTable.PNumber
-                     join orderTable in _context.OrderAssesstables on productTable.PNumber equals orderTable.PNumber
-                     select new {
-                         groupTable.PNumber,
-                         productTable.PName,
-                         productTable.PSpec,
-                         productTable.PCategory,
-                         productTable.PPrice,
-                         productTable.PDescribe,
-                         productTable.PInventory,
-                         productTable.PPayment,
-                         pictureTable.PPicnumber,
-                         pictureTable.PUrl,
-                         groupTable.GPrice,
-                         groupTable.GNumber,
-                         orderTable.ONumber,
-                         orderTable.OCscore
-                     };
+			//      var xx = from groupTable in _context.GroupDatatables
+			//               join productTable in _context.ProductDatatables on groupTable.PNumber equals productTable.PNumber
+			//               join pictureTable in _context.ProductPicturetables on productTable.PNumber equals pictureTable.PNumber
+			//               join orderTable in _context.OrderAssesstables on productTable.PNumber equals orderTable.PNumber
+			//select new {
+			//                   groupTable.PNumber,
+			//                   productTable.PName,
+			//                   productTable.PSpec,
+			//                   productTable.PCategory,
+			//                   productTable.PPrice,
+			//                   productTable.PDescribe,
+			//                   productTable.PInventory,
+			//                   productTable.PPayment,
+			//                   pictureTable.PPicnumber,
+			//                   pictureTable.PUrl,
+			//                   groupTable.GPrice,
+			//                   groupTable.GNumber,						
+			// orderTable.ONumber,
+			// orderTable.OCscore
+			//};
+			var xx = from groupTable in _context.GroupDatatables
+					 join productTable in _context.ProductDatatables on groupTable.PNumber equals productTable.PNumber
+					 join pictureTable in _context.ProductPicturetables on productTable.PNumber equals pictureTable.PNumber
+					 join orderTable in _context.OrderAssesstables on productTable.PNumber equals orderTable.PNumber into orderJoin
+					 from orderTable in orderJoin.DefaultIfEmpty() // Perform LEFT JOIN
+					 select new {
+						 groupTable.PNumber,
+						 productTable.PName,
+						 productTable.PSpec,
+						 productTable.PCategory,
+						 productTable.PPrice,
+						 productTable.PDescribe,
+						 productTable.PInventory,
+						 productTable.PPayment,
+						 pictureTable.PPicnumber,
+						 pictureTable.PUrl,
+						 groupTable.GPrice,
+						 groupTable.GNumber,
+						 ONumber = orderTable.ONumber>0? orderTable.ONumber :0, // Use nullable type for value types
+						 OCscore = orderTable.OCscore>0? orderTable.OCscore :0 // Use nullable type for value types
+					 };
 
-
-            //var groups = xx.GroupBy(item => item.PName)
-            // .Select(group => group.FirstOrDefault())
-            // .ToList();
-
-            var groups = xx.GroupBy(item => item.PName)
+			var groups = xx.GroupBy(item => item.PName)
                .Select(group => new {
                    PName = group.Key,
                    FirstResult = group.FirstOrDefault(),
@@ -85,8 +101,8 @@ namespace GoSweet.Controllers {
 
 
 
-			//var groups = _context.ProductGroupViews.ToList();
-			groups = groups.Where(x => x.FirstResult.PPicnumber == 1).ToList();
+            //var groups = _context.ProductGroupViews.ToList();
+            groups = groups.Where(x => x.FirstResult.PPicnumber == 1).ToList();
 
             if (keyWord != null) {
                 groups = groups.Where(x => x.PName.Contains(keyWord) && x.FirstResult.PPicnumber == 1).ToList();
