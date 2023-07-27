@@ -346,6 +346,7 @@ namespace GoSweet.Controllers
             HttpContext.Session.SetString("firmAccountName", firmAccount.AccountName);
             HttpContext.Session.SetInt32("firmNumber", firmAccount.f_number); 
             HttpContext.Session.SetInt32("fnumber", firmAccount.f_number);
+            HttpContext.Session.SetInt32("myfnumber", firmAccount.f_number);
             HttpContext.Session.SetString("fnickname", firmAccount.AccountName);
             TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
 
