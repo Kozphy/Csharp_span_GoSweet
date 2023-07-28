@@ -364,6 +364,12 @@ namespace GoSweet.Controllers
         {
             if (ModelState.IsValid == false) return View();
 
+            // create hashPassword with salt
+            HashPassword hashPasswordBuilder = new HashPassword();
+            string hashPassword = hashPasswordBuilder.CreateSha256Password(firmAccountData.FPassword!);
+            firmAccountData.FPassword = hashPassword;
+
+
             bool accountNotExist = _context.FirmAccounttables.Where((f) =>
                 f.FNickname.Equals(firmAccountData.FNickname) &&
                 f.FAccount.Equals(firmAccountData.FAccount) &&

@@ -56,12 +56,12 @@ body {
 
 /* customer 內容顯示在 navbar 高度下*/
 .customer-body-section {
-	margin-top:185px;
+	padding-top:185px;
 }
 
 /* firm 內容顯示在 navbar 高度下*/
 .firm-body-section {
-	margin-top:146px;
+	padding-top:146px;
 }
 
 .active {
