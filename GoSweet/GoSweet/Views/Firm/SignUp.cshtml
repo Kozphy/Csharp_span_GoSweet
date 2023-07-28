@@ -1,5 +1,6 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Newtonsoft.Json;
+@model GoSweet.Models.ViewModels.FirmAccountVm;
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,9 +14,53 @@
     <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css"/>
 }
 
+<div class="container-fluid px-0 position-relative">
+    <div class="row g-0">
+        <div class="col-6">
+            <img class="img-fluid vh-100 w-100" src="~/img/SignUp/註冊頁面pic.jpg" alt="SignUp pic" />
+        </div>
+        <div class="col-6  d-flex flex-column SignUp-section ">
+            <div class="signUp-form-section m-auto">
+                <div class="form-title-box bg-mute-2 py-2 text-white rounded mb-2">
+                    <h2 class="display-6">SignUp</h2>
+                </div>
+                <form class="signUp-form" method="post" asp-action="FirmSignUp">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="py-2">
+                        <label asp-for="FNickname" class="form-label">帳戶名稱</label>
+                        <input asp-for="FNickname" type="text" id="AccountName" class="form-control" />
+                        <span asp-validation-for="FNickname" class="text-danger"></span>
+                    </div>
+                    <div class="py-2">
+                        <label asp-for="FAccount" class="form-label">Email</label>
+                        <input asp-for="FAccount" type="email" class="form-control" />
+                        <span asp-validation-for="FAccount" class="text-danger"></span>
+                    </div>
+                    <div class="py-2">
+                        <label asp-for="FPassword" class="form-label">密碼</label>
+                        <input asp-for="FPassword" type="password" class="form-control" />
+                        <span asp-validation-for="FPassword" class="text-danger"></span> 
+                    </div>
+                    <div class="py-2">
+                        <label asp-for="FPasswordCheck" class="form-label">再次確認密碼</label>
+                        <input asp-for="FPasswordCheck" type="password" class="form-control" />
+                        <span asp-validation-for="FPasswordCheck" class="text-danger"></span> 
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-2 mb-md-0 col-md-12">
+                            <button type="submit" class="SignUpBtn w-100 btn btn-mute-2  text-dark">註冊</button>
+                        </div>
+                    </div>
+                    <p class="text-center mt-2">繼續進行代表您同意<a class="text-decoration-underline text-primary">服務條款</a>。</p>
+                </form>
+            </div>
+            @await Html.PartialAsync("~/Pages/Shared/_SignUpNavigation.cshtml");
+        </div>
+    </div>
+</div>
 
 
-@await Html.PartialAsync("~/Pages/Shared/_SignUp.cshtml");
+
 
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>

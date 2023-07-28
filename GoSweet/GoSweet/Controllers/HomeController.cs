@@ -9,6 +9,7 @@ using System.Threading.Tasks.Dataflow;
 using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
 using System.Linq;
+using System.Data;
 
 namespace GoSweet.Controllers
 {
@@ -27,7 +28,7 @@ namespace GoSweet.Controllers
             _config = config;
             _webHost = webHost;
         }
-        
+
         public IActionResult Index()
         {
             _logger.LogInformation("HomeIndexStart");
@@ -112,23 +113,25 @@ namespace GoSweet.Controllers
         }
 
         // 取得通知訊息
-        private IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage() {
+        private IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage()
+        {
 
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;
-            if (customerAccount == null) {
+            if (customerAccount == null)
+            {
                 return null;
             }
 
-            IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup =  
+            IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup =
                                            (from notify in _context.NotifyDatatables
-                                           join order in _context.OrderDatatables
-                                               on notify.ONumber equals order.ONumber
-                                           join customer in _context.CustomerAccounttables
-                                               on notify.CNumber equals customer.CNumber
-                                           join product in _context.ProductDatatables
-                                               on order.PNumber equals product.PNumber
-                                           join groups in _context.GroupDatatables 
-                                               on  product.PNumber equals groups.PNumber
+                                            join order in _context.OrderDatatables
+                                                on notify.ONumber equals order.ONumber
+                                            join customer in _context.CustomerAccounttables
+                                                on notify.CNumber equals customer.CNumber
+                                            join product in _context.ProductDatatables
+                                                on order.PNumber equals product.PNumber
+                                            join groups in _context.GroupDatatables
+                                                on product.PNumber equals groups.PNumber
                                             where (notify.OStatus == "已成團") && customer.CAccount == customerAccount && notify.NRead == false
                                             select new CustomerBellDropDownVm
                                             {
@@ -160,6 +163,7 @@ namespace GoSweet.Controllers
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
+            ViewData["bellDropDownMessage"] = bellDropDownsDatas; 
             HttpContext.Session.SetString("NotfiyMessages", JsonConvert.SerializeObject(bellDropDownsDatas));
             HttpContext.Session.SetInt32("NotfiyMessagesCount", bellDropDownsDatas.Count());
 
@@ -199,8 +203,8 @@ namespace GoSweet.Controllers
                                                               }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
 
-                        
-            return new JsonResult(JsonConvert.SerializeObject(productRankData)); 
+
+            return new JsonResult(JsonConvert.SerializeObject(productRankData));
         }
 
         public IActionResult Login()
@@ -209,9 +213,15 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(CustomerAccountVm customerLoginData)
         {
-            if (ModelState.IsValid == false) return View();
+            if (ModelState.IsValid == false) return View(customerLoginData);
+
+            // create hashPassword with salt
+            HashPassword hashPasswordBuilder = new HashPassword();
+            string hashPassword = hashPasswordBuilder.CreateSha256Password(customerLoginData.CPassword!);
+            customerLoginData.CPassword = hashPassword;
 
             var userAccountQuery = _context.CustomerAccounttables.Where((c) =>
                 c.CAccount.Equals(customerLoginData.CAccount) &&
@@ -259,7 +269,7 @@ namespace GoSweet.Controllers
             // create hashPassword with salt
             HashPassword hashPasswordBuilder = new HashPassword();
             string hashPassword = hashPasswordBuilder.CreateSha256Password(customerAccountData.CPassword!);
-            customerAccountData.CPassword = hashPassword; 
+            customerAccountData.CPassword = hashPassword;
 
             // check account whether exist
             bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
@@ -326,55 +336,80 @@ namespace GoSweet.Controllers
             _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
             // send email
             Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
-            string sendEmailResult = mailHandler.SendMail();
-            TempData["sendEmailResultMessage"] = sendEmailResult;
+            try
+            {
+                mailHandler.SendMail();
+                TempData["sendEmailSuccessMessage"] = $"Send Email to {EmailAddress} Success";
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                TempData["sendEmailFailMessage"] = $"Send Email to {EmailAddress} fail";
+            }
+
             return RedirectToAction("Login");
         }
 
         public IActionResult ResetPassword(string EmailAddress)
         {
-            ViewBag.EmailAddress = EmailAddress;
-            return View();
+            ResetPasswordVm resetPasswordVm = new ResetPasswordVm() { EmailAddress = EmailAddress };
+            //ViewBag.EmailAddress = EmailAddress;
+            return View(nameof(ResetPassword), resetPasswordVm);
         }
 
 
         [HttpPost]
-        public IActionResult ResetPassword(string EmailAddress, string oldPassword, string newPassword)
+        public IActionResult ResetPassword(ResetPasswordVm resetPasswordVm)
         {
 
-            var account = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(EmailAddress)).First();
+            if (ModelState.IsValid == false) { return View(resetPasswordVm); }
 
-            
+            HashPassword hashPasswordBuilder = new HashPassword();
+
+            var accountQuery = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(resetPasswordVm.EmailAddress));
+            var account = accountQuery.First();
+            var accountPassword = account.CPassword;
+            string userInputOldPassword =  hashPasswordBuilder.CreateSha256Password(resetPasswordVm.oldPassword);
+            if (accountPassword != userInputOldPassword) { 
+                TempData["PasswordNotEqual"] = "舊密碼不相符";
+                return RedirectToAction("ResetPassword","Home", new { EmailAddress = resetPasswordVm.EmailAddress });
+            }
+
+            // create hashPassword with salt
+            string hashPassword = hashPasswordBuilder.CreateSha256Password(resetPasswordVm.newPassword);
+            account.CPassword = hashPassword;
+
 
             try
             {
-                account.CPassword = newPassword;
                 _context.SaveChanges();
                 TempData["resetPasswordSuccessMessage"] = "密碼重置成功";
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
             return RedirectToAction("Index");
         }
 
-        public IActionResult CooperateFirm() {
+        public IActionResult CooperateFirm()
+        {
             return View();
         }
 
-        public IActionResult LogOut() {
+        public IActionResult LogOut()
+        {
             HttpContext.Session.Remove("customerAccountName");
             HttpContext.Session.Remove("customerAccount");
             HttpContext.Session.Remove("cnumber");
             HttpContext.Session.Remove("mycnumber");
             HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
 
-            
+
 
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
         }
-        
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

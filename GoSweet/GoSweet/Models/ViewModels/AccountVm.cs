@@ -8,25 +8,35 @@ namespace GoSweet.Models.ViewModels
     {
        public CustomerAccountVm? customerAccountVm { get; set; }
        public FirmAccountVm? firmAccountVm { get; set; }
+
+        public AccountVm(CustomerAccountVm? customerAccountVm, FirmAccountVm? firmAccountVm)
+        {
+            this.customerAccountVm = customerAccountVm;
+            this.firmAccountVm = firmAccountVm;
+        }
     }
 
+   
     public class CustomerAccountVm
     {
         [DisplayName("帳號名稱")]
-        [BindProperty(Name = "AccountName")]
+        [Required(ErrorMessage ="帳號名稱必填")]
         public string? CNickname { get; set; }
         public int CNumber { get; set; }
 
 
         [DisplayName("Email")]
+        [EmailAddress(ErrorMessage ="Invalid Email format")]
         [Required(ErrorMessage ="帳號必填")]
-        [BindProperty(Name = "UserEmail")]
         public string? CAccount { get; set; }
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "密碼必填")]
-        [BindProperty(Name = "UserPassword")]
         public string? CPassword { get; set; }
+
+        [DisplayName("確認密碼")]
+        [Required(ErrorMessage = "確認密碼必填")]
+        public string? CPasswordCheck { get; set; }
         public bool CMailpass { get; set; }
     }
 
@@ -35,20 +45,40 @@ namespace GoSweet.Models.ViewModels
         public int FNumber { get; set; }
 
         [DisplayName("帳號名稱")]
-        [BindProperty(Name = "AccountName")]
+        [Required(ErrorMessage ="帳號名稱必填")]
         public string? FNickname { get; set; }
 
         [DisplayName("Email")]
+        [EmailAddress(ErrorMessage = "Invalid Email format")]
         [Required(ErrorMessage ="帳號必填")]
-        [BindProperty(Name = "UserEmail")]
         public string? FAccount { get; set; }
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "密碼必填")]
-        [BindProperty(Name = "UserPassword")]
         public string? FPassword { get; set; }
-        public bool FMailpass { get; set; }
 
+
+        [DisplayName("確認密碼")]
+        [Required(ErrorMessage = "確認密碼必填")]
+        public string? FPasswordCheck { get; set; }
+        public bool FMailpass { get; set; }
+    }
+
+    public class ResetPasswordVm
+    {
+        public string? EmailAddress { get; set; }
+
+        [DisplayName("舊密碼")]
+        [Required(ErrorMessage = "old Password required")]
+        public string? oldPassword { get; set; }
+
+        [DisplayName("新密碼")]
+        [Required(ErrorMessage = "newPassword required")]
+        public string? newPassword { get; set; }
+
+        [DisplayName("確認新密碼")]
+        [Required(ErrorMessage = "check newPassword required")]
+        public string? checkNewPassword { get; set; }
     }
 
 }

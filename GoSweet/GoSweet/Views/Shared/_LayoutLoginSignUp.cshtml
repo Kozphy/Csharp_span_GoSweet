@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="~/css/Layout/LoginSignUp/homeIcon.css" asp-append-version="true" />
     @if (IsSectionDefined("Head"))
     {
-        @await RenderSectionAsync("Head", required:true);
+        @await RenderSectionAsync("Head", required:true)
+        ;
     }
 
 
@@ -24,16 +25,19 @@
 
 </head>
 <style>
-    body{
-        overflow:hidden;
+    body {
+        overflow: hidden;
     }
 </style>
 
 <body>
-    <main role="main" >
+    <main role="main">
         @RenderBody()
     </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+
     @if (IsSectionDefined("Scripts"))
     {
         @await RenderSectionAsync("Scripts", required: false)
