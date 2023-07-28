@@ -4,29 +4,25 @@
 *@
 @{
 }
-<div class="container">
+<div class="container pt-4">
+    <h1 class="display-6 mb-2 fw-bold row-gap-1">合作廠商</h1>
     @{
         string wwwRootPath = WebHostEnvironment.WebRootPath;
         string firmImgFolder = System.IO.Path.Combine(wwwRootPath, "img", "firmpage");
         int firmImgsLen = Directory.GetFiles(firmImgFolder).Length;
         int startFirmImgNum = 60000;
+        List<string> firmsName = new List<string>() { "祈麟手作", "澎湖黑妞", "超品起司烘焙工坊",
+    "超比食品", "MENIPPE媚力泊", "雅＋達藤原", "麥之鄉", "穀王烘焙","亞尼克", "巴特里"};
 
-        <div class="row gap-1">
-            @{
-                for (int i = startFirmImgNum; i < startFirmImgNum + firmImgsLen; i++)
-                {
-                    string firmImgsPath = $"/img/firmpage/{i}.jpg";
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
-                            <img src="@firmImgsPath" class="card-img-top" alt="@i">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-                }
+        <div class="row g-2">
+            @for (int i = startFirmImgNum; i < startFirmImgNum + firmImgsLen; i++)
+            {
+            string firmImgsPath = $"/img/firmpage/{i}.jpg";
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="@firmImgsPath" class="card-img-top" alt="@i">
+                </div>
+            </div>
             }
         </div>
     }

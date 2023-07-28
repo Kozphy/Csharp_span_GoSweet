@@ -358,7 +358,6 @@ namespace GoSweet.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
         public IActionResult CooperateFirm() {
             return View();
         }
