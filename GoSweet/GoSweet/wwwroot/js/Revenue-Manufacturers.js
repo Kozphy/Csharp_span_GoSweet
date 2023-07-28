@@ -158,7 +158,7 @@ window.onload =function () {
         return JsonData = await $.ajax({
             url: "/Firm/JsonData",
             success: function (item) {
-
+                if (item.length > 0) { $("#home tbody").empty();}
                 //全部列表
                 $.each(item, function (Index, Data) {
                     $("#home tbody").append(

@@ -21,7 +21,7 @@
 						<a asp-area="" asp-controller="Firmpage" asp-action="FirmData">
 							<figure class="figure">
 								<!-- ★★★★★需要廠商圖片★★★★★ -->
-								<img src="@Model.PicturePath" class="figure-img img-fluid rounded" alt="ManufacturersLogo" id="ManufacturersLogo">
+								<img src=@Model.PicturePath class="figure-img img-fluid rounded" alt="ManufacturersLogo" id="ManufacturersLogo">
 									@*Session處理*@
 									@{
 										string firmAccountName = Accessor.HttpContext?.Session.GetString("firmAccountName")!;
@@ -108,15 +108,26 @@
 						</thead>
 						<tbody>
 							@{
-								int i = 1;
-								foreach (var WL in Model.WaitingList)
+								if (Model.WaitingList.Count > 0)
+								{
+									int i = 1;
+									foreach (var WL in Model.WaitingList)
+									{
+										<tr>
+											<th scope="row">@(
+										i++
+										)</th>
+											<td class="HomepageTableData">@WL.OrderDate</td>
+											<td class="HomepageTableData">@WL.OrderID</td>
+											<td class="HomepageTableData">@WL.Products</td>
+										</tr>
+									}
+								}
+								else
 								{
 									<tr>
-										<th scope="row">@(i++)</th>
-										<td class="HomepageTableData">@WL.OrderDate</td>
-										<td class="HomepageTableData">@WL.OrderID</td>
-										<td class="HomepageTableData">@WL.Products</td>
-									</tr>
+										<td colspan="4" class="HomepageTableData text-center h3">暫無資料</td>
+									</tr>	
 								}
 							}
 						</tbody>
@@ -143,17 +154,30 @@
 										<th scope="col" class="HomepageTableNumber">#</th>
 										<th scope="col" class="HomepageTableTitle">日期</th>
 										<th scope="col" class="HomepageTableTitle">內容</th>
+										<th scope="col" class="HomepageTableTitle">評分</th>
 									</tr>
 								</thead>
 								<tbody>
 									@{
-										int j = 1;
-										foreach (var RC in Model.RecentlyComments)
+										if (Model.RecentlyComments.Count > 0)
 										{
-										<tr>
-											<th class="HomepageTableNumber" scope="row">@(j++)</th>
-											<td class="HomepageTableData">@RC.CommentDate</td>
-											<td class="HomepageTableData">@RC.Content</td>
+											int j = 1;
+											foreach (var RC in Model.RecentlyComments)
+											{
+												<tr>
+													<th class="HomepageTableNumber" scope="row">@(
+												j++
+												)</th>
+													<td class="HomepageTableData">@RC.CommentDate</td>
+													<td class="HomepageTableData">@RC.Content</td>
+													<td class="HomepageTableData">@RC.Rating</td>
+												</tr>
+											}
+										}
+										else
+										{
+											<tr>
+												<td colspan="4" class="HomepageTableData text-center h3">暫無資料</td>
 											</tr>
 										}
 									}
@@ -183,14 +207,25 @@
 								</thead>
 								<tbody>
 									@{
-										int k = 1;
-										foreach (var HS in Model.HotSale)
+										if (Model.HotSale.Count > 0)
+										{
+											int k = 1;
+											foreach (var HS in Model.HotSale)
+											{
+												<tr>
+													<th class="HomepageTableNumber" scope="row">@(
+												k++
+												)</th>
+													<td class="HomepageTableData">@HS.ProductName</td>
+													<td class="HomepageTableData">@HS.Quentity</td>
+												</tr>
+											}
+										}
+										else
 										{
 											<tr>
-												<th class="HomepageTableNumber" scope="row">@(k++)</th>
-												<td class="HomepageTableData">@HS.ProductName</td>
-												<td class="HomepageTableData">@HS.Quentity</td>
-											</tr>											
+												<td colspan="3" class="HomepageTableData text-center h3">暫無資料</td>
+											</tr>
 										}
 									}
 								</tbody>
