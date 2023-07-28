@@ -36,10 +36,10 @@ namespace GoSweet.Controllers
                             on o.FNumber equals f.FNumber
                             join p in _context.ProductDatatables
                             on o.PNumber equals p.PNumber
-                            join s in _context.ShipDatatables
-                            on o.OShip equals s.ShipNumber
-                            join pay in _context.PaymentDatatables
-                            on o.OPayment equals pay.PaymentNumber
+                            //join s in _context.ShipDatatables
+                            //on o.OShip equals s.ShipNumber
+                            //join pay in _context.PaymentDatatables
+                            //on o.OPayment equals pay.PaymentNumber
                             where pic.PPicnumber == 1 && o.CNumber == id
                             orderby o.OStart descending
                             select new
@@ -57,8 +57,8 @@ namespace GoSweet.Controllers
                                 ostart = o.OStart.ToString("yyyy-MM-dd"),
                                 oprice = o.OPrice,
                                 onumber = o.ONumber,
-                                oship = s.ShipName,
-                                opay = pay.PaymentName
+                                //oship = s.ShipName,
+                                //opay = pay.PaymentName
                             };
 
             orderdata = from o in orderdata
@@ -151,10 +151,10 @@ namespace GoSweet.Controllers
                             on o.FNumber equals f.FNumber
                             join p in _context.ProductDatatables
                             on o.PNumber equals p.PNumber
-                            join s in _context.ShipDatatables
-                            on o.OShip equals s.ShipNumber
-                            join pay in _context.PaymentDatatables
-                            on o.OPayment equals pay.PaymentNumber
+                            //join s in _context.ShipDatatables
+                            //on o.OShip equals s.ShipNumber
+                            //join pay in _context.PaymentDatatables
+                            //on o.OPayment equals pay.PaymentNumber
                             where pic.PPicnumber == 1 && o.CNumber == id
                             orderby o.OStart descending
                             select new
@@ -171,8 +171,8 @@ namespace GoSweet.Controllers
                                 ostart = o.OStart.ToString("yyyy-MM-dd"),
                                 oprice = o.OPrice,
                                 onumber = o.ONumber,
-                                oship = s.ShipName,
-                                opay = pay.PaymentName
+                                //oship = s.ShipName,
+                                //opay = pay.PaymentName
                             };
 
             
@@ -335,7 +335,7 @@ namespace GoSweet.Controllers
         //取得廠商訂單資料  訂單網頁使用者為廠商
         public IActionResult order_f()
         {
-            HttpContext.Session.SetInt32("myfnumber",60000);
+            
 
             var id = HttpContext.Session.GetInt32("myfnumber");
 
@@ -346,10 +346,10 @@ namespace GoSweet.Controllers
                             on o.CNumber equals c.CNumber
                             join p in _context.ProductDatatables
                             on o.PNumber equals p.PNumber
-                            join s in _context.ShipDatatables
-                            on o.OShip equals s.ShipNumber
-                            join pay in _context.PaymentDatatables
-                            on o.OPayment equals pay.PaymentNumber
+                            //join s in _context.ShipDatatables
+                            //on o.OShip equals s.ShipNumber
+                            //join pay in _context.PaymentDatatables
+                            //on o.OPayment equals pay.PaymentNumber
                             where  o.FNumber == id && pic.PPicnumber == 1 && (o.OStatus == "已下單" || o.OStatus == "已結單")
                             orderby o.OStart descending
                             select new
@@ -365,8 +365,8 @@ namespace GoSweet.Controllers
                                 ostart = o.OStart.ToString("yyyy-MM-dd"),
                                 oprice = o.OPrice,
                                 onumber = o.ONumber,
-                                oship = s.ShipName,
-                                opay = pay.PaymentName
+                                //oship = s.ShipName,
+                                //opay = pay.PaymentName
                             };
 
 
@@ -384,7 +384,7 @@ namespace GoSweet.Controllers
         {
 
             var id = HttpContext.Session.GetInt32("myfnumber");
-
+            System.Diagnostics.Debug.WriteLine("my fnumberrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"+id);
             var orderdata = from o in _context.OrderDatatables
                             join pic in _context.ProductPicturetables
                             on o.PNumber equals pic.PNumber
@@ -392,10 +392,10 @@ namespace GoSweet.Controllers
                             on o.CNumber equals c.CNumber
                             join p in _context.ProductDatatables
                             on o.PNumber equals p.PNumber
-                            join s in _context.ShipDatatables
-                            on o.OShip equals s.ShipNumber
-                            join pay in _context.PaymentDatatables
-                            on o.OPayment equals pay.PaymentNumber
+                            //join s in _context.ShipDatatables
+                            //on o.OShip equals s.ShipNumber
+                            //join pay in _context.PaymentDatatables
+                            //on o.OPayment equals pay.PaymentNumber
                             where o.FNumber == id && pic.PPicnumber == 1 && (o.OStatus == "已下單" || o.OStatus == "已結單")
                             orderby o.OStart descending
                             select new
@@ -412,8 +412,8 @@ namespace GoSweet.Controllers
                                 ostart = o.OStart.ToString("yyyy-MM-dd"),
                                 oprice = o.OPrice,
                                 onumber = o.ONumber,
-                                oship = s.ShipName,
-                                opay = pay.PaymentName,
+                                //oship = s.ShipName,
+                                //opay = pay.PaymentName,
                         
                             };
 
@@ -457,7 +457,8 @@ namespace GoSweet.Controllers
                             select o;
             }
 
-            if (onumber != null) {
+            if (onumber != null)
+            {
                 orderdata = from o in orderdata
                             where o.onumber == onumber
                             select o;
@@ -465,10 +466,10 @@ namespace GoSweet.Controllers
 
             if (cname != null)
             {
-                    orderdata = from o in orderdata
-                                where o.cname == cname
-                                select o;            
-            }               
+                orderdata = from o in orderdata
+                            where o.cname == cname
+                            select o;
+            }
 
 
 
@@ -616,7 +617,17 @@ namespace GoSweet.Controllers
 
 
 
+        //
+        public IActionResult getship(int onumber) 
+        {
+            var ship = from o in _context.OrderDatatables
+                       join s in _context.ShipDatatables
+                       on o.OShip equals s.ShipNumber
+                       where o.ONumber == onumber
+                       select new { ship = s.ShipName};
 
+            return Content(JsonSerializer.Serialize(ship));
+        }
 
 
 

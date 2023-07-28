@@ -40,6 +40,7 @@ background-color: rgba(0,0,0,0.2);
 /*圖表設定*/
 canvas {
     min-height: 311px;
+    max-height:348px;
 }
 
 /*列表標籤*/
