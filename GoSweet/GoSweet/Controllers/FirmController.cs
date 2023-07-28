@@ -45,13 +45,15 @@ namespace GoSweet.Controllers
 			DateTime MonthBegin = global.Now.AddDays(1 - global.Now.Day);
             DateTime LastMonthEnd = global.Now.AddDays(1 - global.Now.Day).AddDays(-1);
             DateTime LastMonthBegin = global.Now.AddDays(1 - global.Now.Day).AddMonths(-1);
-			#endregion
+            #endregion
 
-			#region 廠商圖片
-			var Firmpic = _context.FirmPagetables.Where(x => x.FNumber == id).Select(x => x.FPicurl).Single();
-            if (Firmpic is null) {
-                Firmpic = "~/img/No pic.jpg";
+            #region 廠商圖片
+            string? Firmpic =  "/img/Nopic.jpg";
+            try { Firmpic = _context.FirmPagetables.Where(x => x.FNumber == id).Select(x => x.FPicurl).Single();
+                if (Firmpic is null) { Firmpic = "/img/Nopic.jpg"; }    
             }
+            catch (InvalidOperationException ex) { Console.WriteLine(ex.ToString()); }
+
 			#endregion
 
 			#region 當月訂單數
@@ -123,7 +125,8 @@ namespace GoSweet.Controllers
                           select new RecentlyComment
                           {
                               CommentDate = something.OStart.ToString(),
-                              Content = someone.OCcomment
+                              Content = someone.OCcomment,
+                              Rating = someone.OCscore
                           };
             #endregion 預計也是使用Model
 

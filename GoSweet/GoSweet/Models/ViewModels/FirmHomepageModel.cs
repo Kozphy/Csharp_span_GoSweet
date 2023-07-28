@@ -65,7 +65,9 @@
         }
 
         public string? Content { get; set; }
-    }
+
+		public double? Rating { get; set; }
+	}
 
     public class HotSales
     {
