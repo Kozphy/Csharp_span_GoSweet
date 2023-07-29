@@ -22,14 +22,15 @@
             </a>
         }
 
-        @if (!currentController!.Equals("Home")) { 
-            <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Firm" asp-action="HomePage">
+        @if (currentController!.Equals("Home"))
+        {
+            <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Home" asp-action="Index">
                 <i class="bi bi-house-door-fill"></i>
             </a>
         }
-        @if (!currentController.Equals("Firm"))
+        else
         {
-            <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Home" asp-action="Index">
+            <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Firm" asp-action="HomePage">
                 <i class="bi bi-house-door-fill"></i>
             </a>
         }

@@ -1,13 +1,14 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject IHttpContextAccessor Accessor
 @using Microsoft.AspNetCore.Http;
+@model GoSweet.Models.ViewModels.AccountVm;
+
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     string? currentController = @ViewContext.RouteData.Values["controller"]!.ToString();
 }
-
 
 
 <div class="container-fluid px-0 position-relative ">
@@ -28,14 +29,38 @@
                     }
                 </div>
                 <form class="login-form" method="post" asp-controller="@currentController" asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="py-2">
-                        <label for="UserEmail" class="form-label">Email</label>
-                        <input type="email" name="UserEmail" id="UserEmail" class="form-control" required />
+                        @{
+                            if (currentController == "Home")
+                            {
+                                <label asp-for="customerAccountVm!.CAccount" class="control-label">Email</label>
+                                <input asp-for="customerAccountVm!.CAccount" type="email" name="UserEmail" class="form-control" />
+                                <span asp-validation-for="customerAccountVm!.CAccount" class="text-danger"></span>
+                            }
+                            else
+                            {
+                                <label asp-for="firmAccountVm!.FAccount" class="control-label">Email</label>
+                                <input asp-for="firmAccountVm!.FAccount" type="email" name="UserEmail" class="form-control" />
+                                <span asp-validation-for="firmAccountVm!.FAccount" class="text-danger"></span>
+                            }
+                        }
                     </div>
                     <div class="py-2">
-                        <label for="UserPassword" class="form-label">Password</label>
-                        <span role="button" class="ms-2 text-mute-3 fw-bolder text-decoration-underline " data-bs-toggle="modal" data-bs-target="#ForgetPasswordModal">Forget?</span>
-                        <input type="password" name="UserPassword" id="UserPassword" class="form-control" required />
+                        @if (currentController == "Home")
+                        {
+                            <label asp-for="customerAccountVm!.CAccount" class="control-label">Password</label>
+                            <span role="button" class="ms-2 text-mute-3 fw-bolder text-decoration-underline " data-bs-toggle="modal" data-bs-target="#ForgetPasswordModal">Forget?</span>
+                            <input asp-for="customerAccountVm!.CAccount" type="password" name="UserPassword" class="form-control" />
+                            <span asp-validation-for="customerAccountVm!.CAccount" class="text-danger"></span>
+                        }
+                        else
+                        {
+                            <label asp-for="firmAccountVm!.FAccount" class="control-label">Password</label>
+                            <span role="button" class="ms-2 text-mute-3 fw-bolder text-decoration-underline " data-bs-toggle="modal" data-bs-target="#ForgetPasswordModal">Forget?</span>
+                            <input asp-for="firmAccountVm!.FAccount" type="password" name="UserPassword" class="form-control" />
+                            <span asp-validation-for="firmAccountVm!.FAccount" class="text-danger"></span>
+                        }
                     </div>
                     @*<div class="mb-2" id="html_recaptcha" onclick="onClick" required></div>*@
                     <div class="mb-2">驗證</div>
@@ -94,3 +119,11 @@
 
 @await Html.PartialAsync("~/Pages/Shared/_ForgetPasswordModal.cshtml");
 
+@await Html.PartialAsync("_ValidationScriptsPartial");
+
+@*
+    @section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+*@

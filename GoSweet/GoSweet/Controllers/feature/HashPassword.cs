@@ -10,7 +10,7 @@ namespace GoSweet.Controllers.feature
            using(SHA256 sha256 = SHA256.Create())
             {
                 // create salt password
-                string saltPassword = salt + password;
+                string saltPassword = password;
 
                 // Compute hash
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltPassword));

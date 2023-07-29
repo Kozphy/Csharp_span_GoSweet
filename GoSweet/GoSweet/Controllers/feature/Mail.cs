@@ -15,7 +15,7 @@ namespace GoSweet.Controllers.feature
             _controllerName = controllerName;
         }
 
-        public string SendMail()
+        public void SendMail()
         {
             var message = new MimeMessage();
             // email 季送人
@@ -39,22 +39,15 @@ namespace GoSweet.Controllers.feature
 
             using var client = new SmtpClient();
 
-            try
-            {
-                string smtpServer = "smtp.gmail.com";
-                client.Connect(smtpServer, 465, true);
+            string smtpServer = "smtp.gmail.com";
+            client.Connect(smtpServer, 465, true);
 
-                // Note: only needed if the SMTP server requires authentication
-                client.Authenticate("dbdf0147@gmail.com", "lojqyqxyyhewnjrf");
+            // Note: only needed if the SMTP server requires authentication
+            client.Authenticate("dbdf0147@gmail.com", "lojqyqxyyhewnjrf");
 
-                client.Send(message);
-                client.Disconnect(true);
-                return $"Send Email To {_mailAddress} Success";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            client.Send(message);
+            client.Disconnect(true);
+
 
         }
     }

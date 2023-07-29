@@ -1,20 +1,87 @@
 ﻿@using Newtonsoft.Json;
+@model GoSweet.Models.ViewModels.FirmAccountVm;
+@inject IHttpContextAccessor Accessor
+
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     Layout = "_LayoutLoginSignUp";
+    string? currentController = @ViewContext.RouteData.Values["controller"]!.ToString();
 }
 @section Head{
     <link rel="stylesheet" href="~/css/Login/Login.css" />
     <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
     <script src="https://www.google.com/recaptcha/enterprise.js?onload=onloadCallback&render=explicit"
-        async defer></script>
+            async defer></script>
 }
 
 
 
-@await Html.PartialAsync("~/Pages/Shared/_Login.cshtml");
+<div class="container-fluid px-0 position-relative ">
+    <div class="row g-0 ">
+        <div class="col-6">
+            <img class="img-fluid vh-100 w-100" src="~/img/Login/登入頁面pic.jpg" alt="login pic" />
+        </div>
+        <div class="col-6  d-flex flex-column login-section ">
+            <div class="login-form-section m-auto">
+                <div class="form-title-box bg-mute-2 py-2 text-white rounded mb-2">
+                    <h2 class="display-6">Firm Login</h2>
+                </div>
+                <form class="login-form" method="post" asp-controller="Firm" asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="py-2">
+                        <label asp-for="FAccount" class="form-label">Email</label>
+                        <input asp-for="FAccount" type="email"  class="form-control" />
+                        <span asp-validation-for="FAccount" class="text-danger"></span>
+                    </div>
+                    <div class="py-2">
+                        <label asp-for="FPassword" class="form-label">Password</label>
+                        <span role="button" class="ms-2 text-mute-3 fw-bolder text-decoration-underline " data-bs-toggle="modal" data-bs-target="#ForgetPasswordModal">Forget?</span>
+                        <input asp-for="FPassword" type="password"  class="form-control" />
+                        <span asp-validation-for="FPassword" class="text-danger"></span>
+                    </div>
+                    @*<div class="mb-2" id="html_recaptcha" onclick="onClick" required></div>*@
+                    <div class="mb-2">驗證</div>
+                    <div class="row">
+                        <div class="col-12 mb-2 mb-md-0 col-md-6">
+                            <button type="submit" class="loginBtn w-100 btn btn-mute-2  text-dark">登入</button>
+                        </div>
+                        <div class="col-12 col-md-6">
+
+                            <a asp-controller="Firm" asp-action="SignUp" class="signUpBtn w-100 btn btn-mute-5  text-dark">
+                                註冊
+                            </a>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="home-icon-section">
+                <div class="d-flex justify-content-end">
+                    @{
+                        string? firmAccount = Accessor.HttpContext?.Session.GetString("firmAccount")!;
+                        if (currentController == "Firm" && firmAccount == null)
+                        {
+                            <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door-fill"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="home-icon me-3 mb-3 d-flex justify-content-center align-items-center" asp-controller="Firm" asp-action="Homepage">
+                                <i class="bi bi-house-door-fill"></i>
+                            </a>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 @await Html.PartialAsync("~/Pages/Shared/_ForgetPasswordModal.cshtml");
@@ -26,20 +93,21 @@
 @section Scripts{
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/EmailCheck.js"></script>
+    <script src="~/js/messageAlert.js"></script>
 
-    <script>
-        function showSwal(icon, title, message) {
-            Swal.fire({
-                icon: icon,
-                title: title,
-                text: message,
-            });
-        }
-    </script>
+
+    @*舊密碼不相等訊息*@
+    @if (TempData["CheckPasswordNotEqualMessage"] != null)
+    {
+        <script>
+            let CheckPasswordNotEqualMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["CheckPasswordNotEqualMessage"]));
+            showSwal('error', 'Change Password Status', CheckPasswordNotEqualMessage);
+        </script>
+    }
 
 
     @*帳號不存在訊息*@
-   @if (TempData["firmAccountNotExistMessage"] != null)
+    @if (TempData["firmAccountNotExistMessage"] != null)
     {
         <script>
             let firmAccountNotExistMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["firmAccountNotExistMessage"]));
@@ -49,11 +117,20 @@
 
 
     @*成功記送 Email 訊息*@
-    @if (TempData["sendEmailResultMessage"] != null)
+    @if (TempData["sendEmailSuccessMessage"] != null)
     {
         <script>
-            let sendEmailResultMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["sendEmailResultMessage"]));
-            showSwal(false, 'Send Email Status', sendEmailResultMessage);
+            let sendEmailSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["sendEmailSuccessMessage"]));
+            showSwal('success', 'Send Email Status', sendEmailSuccessMessage);
+        </script>
+    }
+
+    @*寄送 Email 失敗訊息*@
+    @if (TempData["sendEmailFailMessage"] != null)
+    {
+        <script>
+            let sendEmailFailMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["sendEmailFailMessage"]));
+            showSwal('error', 'Send Email Status', sendEmailFailMessage);
         </script>
     }
 
@@ -71,7 +148,7 @@
     {
         <script>
             let resetPasswordSuccessMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["resetPasswordSuccessMessage"]));
-			showSwal('success', 'Reset Password Status', resetPasswordSuccessMessage);
+            showSwal('success', 'Reset Password Status', resetPasswordSuccessMessage);
         </script>
     }
 
