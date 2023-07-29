@@ -12,6 +12,7 @@ namespace GoSweet.Controllers
     {
         private readonly ShopwebContext _context;
         private readonly ILogger<FirmController> _logger;
+        HashPassword _hashPasswordBuilder = new HashPassword();
 
         public FirmController(ShopwebContext context, ILogger<FirmController> logger)
         {
@@ -49,7 +50,7 @@ namespace GoSweet.Controllers
             #endregion
 
             #region 廠商圖片
-            var Firmpic = _context.FirmPagetables.Where(x => x.FNumber == id).Select(x => x.FPicurl).Single();
+            var Firmpic = _context.FirmPagetables.Where(x => x.FNumber == id).Select(x => x.FPicurl).FirstOrDefault();
             if (Firmpic is null)
             {
                 Firmpic = "~/img/No pic.jpg";
@@ -319,13 +320,12 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(FirmAccountVm firmLoginData)
+        public IActionResult Login(FirmAccountLoginVm firmLoginData)
         {
             if (ModelState.IsValid == false) return View();
 
             // create hashPassword with salt
-            HashPassword hashPasswordBuilder = new HashPassword();
-            string hashPassword = hashPasswordBuilder.CreateSha256Password(firmLoginData.FPassword!);
+            string hashPassword = _hashPasswordBuilder.CreateSha256Password(firmLoginData.FPassword!);
             firmLoginData.FPassword = hashPassword;
 
 
@@ -374,15 +374,12 @@ namespace GoSweet.Controllers
             if (ModelState.IsValid == false) return View();
 
             // create hashPassword with salt
-            HashPassword hashPasswordBuilder = new HashPassword();
-            string hashPassword = hashPasswordBuilder.CreateSha256Password(firmAccountData.FPassword!);
+            string hashPassword = _hashPasswordBuilder.CreateSha256Password(firmAccountData.FPassword!);
             firmAccountData.FPassword = hashPassword;
 
 
             bool accountNotExist = _context.FirmAccounttables.Where((f) =>
-                f.FNickname.Equals(firmAccountData.FNickname) &&
-                f.FAccount.Equals(firmAccountData.FAccount) &&
-                f.FPassword.Equals(firmAccountData.FPassword)
+                f.FAccount.Equals(firmAccountData.FAccount)
             ).IsNullOrEmpty();
 
             if (accountNotExist.Equals(false))
@@ -428,8 +425,10 @@ namespace GoSweet.Controllers
             }
 
             // 寄送 email 之前先檢查 email 是否存在
-            bool firmAccountNotExist = _context.FirmAccounttables.Where(
-                c => c.FAccount.Equals(EmailAddress)).IsNullOrEmpty();
+            var firmAccountQuery = _context.FirmAccounttables.Where(
+                c => c.FAccount.Equals(EmailAddress));
+
+            bool firmAccountNotExist = firmAccountQuery.IsNullOrEmpty();
 
             if (firmAccountNotExist.Equals(true))
             {
@@ -463,17 +462,28 @@ namespace GoSweet.Controllers
 
 
         [HttpPost]
-        public IActionResult ResetPassword(string EmailAddress, string oldPassword, string newPassword)
+        public IActionResult ResetPassword(ResetPasswordVm resetPasswordData)
         {
+            ViewBag.EmailAddress = resetPasswordData.EmailAddress;
 
+            if (ModelState.IsValid == false)
+            {
+                return View(resetPasswordData);
+            }
 
+            if (resetPasswordData.NewPassword != resetPasswordData.CheckNewPassword)
+            {
+                TempData["CheckPasswordNotEqualMessage"] = "輸入的密碼不相符";
+                return View(resetPasswordData);
+            }
 
-            var account = _context.FirmAccounttables.Where((c) => c.FAccount.Equals(EmailAddress)).First();
+            var accountQuery = _context.FirmAccounttables.Where((f) =>
+                f.FAccount.Equals(resetPasswordData.EmailAddress));
+            var account = accountQuery.First();
 
             // create hashPassword with salt
-            HashPassword hashPasswordBuilder = new HashPassword();
-            string hashPassword = hashPasswordBuilder.CreateSha256Password(newPassword);
-            account.FPassword = newPassword;
+            string hashPassword = _hashPasswordBuilder.CreateSha256Password(resetPasswordData.NewPassword!);
+            account.FPassword = hashPassword;
 
             try
             {
@@ -496,6 +506,7 @@ namespace GoSweet.Controllers
             HttpContext.Session.Remove("firmNumber");
             HttpContext.Session.Remove("fnickname");
             HttpContext.Session.SetInt32("NotifyMessagesCount", 0);
+            TempData["logOutMessage"] = "登出成功";
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
         }

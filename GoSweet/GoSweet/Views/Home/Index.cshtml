@@ -361,6 +361,15 @@
             showSwal('success', 'Reset Password Status', resetPasswordSuccessMessage);
         </script>
     }
+    
+    @if (TempData["logOutMessage"] != null)
+    {
+        <script>
+            let logOutMessage = @Html.Raw(JsonConvert.SerializeObject(TempData["LogOutMessage"]));
+            showSwal('success', logOutMessage);
+
+        </script>
+    }
 
 
     <script>

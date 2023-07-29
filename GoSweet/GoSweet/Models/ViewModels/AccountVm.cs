@@ -16,7 +16,18 @@ namespace GoSweet.Models.ViewModels
         }
     }
 
-   
+    public class CustomerLoginVm
+    {
+        [DisplayName("Email")]
+        [EmailAddress(ErrorMessage ="Invalid Email format")]
+        [Required(ErrorMessage ="帳號必填")]
+        public string? CAccount { get; set; }
+
+        [DisplayName("密碼")]
+        [Required(ErrorMessage = "密碼必填")]
+        public string? CPassword { get; set; }
+    }
+
     public class CustomerAccountVm
     {
         [DisplayName("帳號名稱")]
@@ -38,6 +49,17 @@ namespace GoSweet.Models.ViewModels
         [Required(ErrorMessage = "確認密碼必填")]
         public string? CPasswordCheck { get; set; }
         public bool CMailpass { get; set; }
+    }
+    public class FirmAccountLoginVm
+    {
+        [DisplayName("Email")]
+        [EmailAddress(ErrorMessage ="Invalid Email format")]
+        [Required(ErrorMessage ="帳號必填")]
+        public string? FAccount { get; set; }
+
+        [DisplayName("密碼")]
+        [Required(ErrorMessage = "密碼必填")]
+        public string? FPassword { get; set; }
     }
 
     public class FirmAccountVm
@@ -68,17 +90,13 @@ namespace GoSweet.Models.ViewModels
     {
         public string? EmailAddress { get; set; }
 
-        [DisplayName("舊密碼")]
-        [Required(ErrorMessage = "old Password required")]
-        public string? oldPassword { get; set; }
-
         [DisplayName("新密碼")]
         [Required(ErrorMessage = "newPassword required")]
-        public string? newPassword { get; set; }
+        public string? NewPassword { get; set; }
 
         [DisplayName("確認新密碼")]
         [Required(ErrorMessage = "check newPassword required")]
-        public string? checkNewPassword { get; set; }
+        public string? CheckNewPassword { get; set; }
     }
 
 }

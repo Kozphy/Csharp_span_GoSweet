@@ -20,6 +20,7 @@ namespace GoSweet.Controllers
         private readonly IConfiguration _config;
         private readonly IWebHostEnvironment _webHost;
         private HomeIndexVm _indexViewModelData = new HomeIndexVm();
+        private HashPassword _hashPasswordBuilder = new HashPassword();
 
         public HomeController(ILogger<HomeController> logger, ShopwebContext context, IConfiguration config, IWebHostEnvironment webHost)
         {
@@ -214,13 +215,12 @@ namespace GoSweet.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(CustomerAccountVm customerLoginData)
+        public IActionResult Login(CustomerLoginVm customerLoginData)
         {
-            if (ModelState.IsValid == false) return View(customerLoginData);
+            if (ModelState.IsValid == false) return View();
 
             // create hashPassword with salt
-            HashPassword hashPasswordBuilder = new HashPassword();
-            string hashPassword = hashPasswordBuilder.CreateSha256Password(customerLoginData.CPassword!);
+            string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerLoginData.CPassword!);
             customerLoginData.CPassword = hashPassword;
 
             var userAccountQuery = _context.CustomerAccounttables.Where((c) =>
@@ -267,15 +267,12 @@ namespace GoSweet.Controllers
             if (ModelState.IsValid == false) return View();
 
             // create hashPassword with salt
-            HashPassword hashPasswordBuilder = new HashPassword();
-            string hashPassword = hashPasswordBuilder.CreateSha256Password(customerAccountData.CPassword!);
+            string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerAccountData.CPassword!);
             customerAccountData.CPassword = hashPassword;
 
             // check account whether exist
             bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
-                c.CNickname.Equals(customerAccountData.CNickname) &&
-                c.CAccount.Equals(customerAccountData.CAccount) &&
-                c.CPassword.Equals(customerAccountData.CPassword)
+                c.CAccount.Equals(customerAccountData.CAccount)
             ).IsNullOrEmpty();
 
 
@@ -334,6 +331,7 @@ namespace GoSweet.Controllers
             }
 
             _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
+
             // send email
             Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
             try
@@ -358,24 +356,23 @@ namespace GoSweet.Controllers
 
 
         [HttpPost]
-        public IActionResult ResetPassword(ResetPasswordVm resetPasswordVm)
+        public IActionResult ResetPassword(ResetPasswordVm resetPasswordData)
         {
 
-            if (ModelState.IsValid == false) { return View(resetPasswordVm); }
+            if (ModelState.IsValid == false) { return View(resetPasswordData);}
 
-            HashPassword hashPasswordBuilder = new HashPassword();
-
-            var accountQuery = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(resetPasswordVm.EmailAddress));
-            var account = accountQuery.First();
-            var accountPassword = account.CPassword;
-            string userInputOldPassword =  hashPasswordBuilder.CreateSha256Password(resetPasswordVm.oldPassword);
-            if (accountPassword != userInputOldPassword) { 
-                TempData["PasswordNotEqual"] = "舊密碼不相符";
-                return RedirectToAction("ResetPassword","Home", new { EmailAddress = resetPasswordVm.EmailAddress });
+            if (resetPasswordData.NewPassword != resetPasswordData.CheckNewPassword)
+            {
+                TempData["CheckPasswordNotEqualMessage"] = "輸入的密碼不相符";
+                return View(resetPasswordData);
             }
 
+
+            var accountQuery = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(resetPasswordData.EmailAddress));
+            var account = accountQuery.First();
+
             // create hashPassword with salt
-            string hashPassword = hashPasswordBuilder.CreateSha256Password(resetPasswordVm.newPassword);
+            string hashPassword = _hashPasswordBuilder.CreateSha256Password(resetPasswordData.NewPassword);
             account.CPassword = hashPassword;
 
 
@@ -403,6 +400,7 @@ namespace GoSweet.Controllers
             HttpContext.Session.Remove("cnumber");
             HttpContext.Session.Remove("mycnumber");
             HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+            TempData["logOutMessage"] = "登出成功";
 
 
 
