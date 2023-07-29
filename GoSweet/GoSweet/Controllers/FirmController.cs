@@ -210,7 +210,7 @@ namespace GoSweet.Controllers
                  {
                      OrderNumber = notify.ONumber,
                      ProductName = product.PName,
-                     OrderStatus = order.OStatus,
+                     OrderStatus = notify.OStatus,
                  });
 
             IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();

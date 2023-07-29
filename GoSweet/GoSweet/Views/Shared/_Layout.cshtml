@@ -58,126 +58,130 @@
                                 <span class="count-red-circle">@customerBellDropDownCount</span>
                             }
                             @*bell dropdown*@
-                            <div class="w-340px dropdown-menu bell-dropdown-menu  d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 rounded-3 shadow-lg " data-bs-theme="dark">
-                                <ul class="list-unstyled d-flex flex-column gap-2 flex-grow-1 bellContent">
-                                    @{
-                                        //<h1>@Model.CustomerBellDropDownDatas</h1>
-                                        if (Accessor.HttpContext?.Session.GetString("customerAccount") == null || customerBellDropDownCount == 0)
+                            <div class="bell-dropdown-menu p-3 z-3 rounded-3" data-bs-theme="dark">
+                                @{
+                                    //<h1>@Model.CustomerBellDropDownDatas</h1>
+                                    if (Accessor.HttpContext?.Session.GetString("customerAccount") == null || customerBellDropDownCount == 0)
+                                    {
+                                        <a href="#" class="btn btn-hover-light rounded-0" style="width:300px">
+                                            <div class="row align-items-center gy-2 gx-0">
+                                                <div class="col-3 text-center">
+                                                    <i class="bi bi-info-square info-icon"></i>
+                                                </div>
+                                                <div class="col-9 ">
+                                                    <string>無信息</string>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        string bellDropDownDatasJson = Accessor.HttpContext.Session.GetString("NotfiyMessages")!;
+                                        IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = JsonConvert.DeserializeObject<IEnumerable<CustomerBellDropDownVm>>(bellDropDownDatasJson)!;
+                                        foreach (var item in bellDropDownsDatas)
                                         {
-                                            <li>
-                                                <a href="#" class="d-block btn btn-hover-light rounded-2 d-flex align-items-start gap-2 py-2 px-3 lh-sm text-start">
-                                                    <div class="row justify-content-center align-items-center flex-grow-1">
-                                                        <div class="col-3 text-center">
-                                                            <i class="bi bi-info-square info-icon"></i>
-                                                        </div>
-                                                        <div class="col-9 ">
-                                                            <string>無信息</string>
-                                                        </div>
+                                            <a href="#" class="btn btn-hover-light rounded-0" style="width: 350px">
+                                                <div class="row align-items-center gy-2 gx-0">
+                                                    <div class="col-2">
+                                                        <i class="bi bi-info-square info-icon"></i>
                                                     </div>
-                                                </a>
-                                            </li>
+                                                    <div class="col-10">
+                                                        @{
+                                                            int? orderNum = item.OrderNumber ?? item.GroupNumber;
+                                                        }
+                                                        <p>訂單編號: @orderNum</p>
+                                                        <string>@item.ProductName</string>
+                                                        <string>@item.OrderStatus</string>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        }
+                                    }
+                                }
+                                <div class="col-12 d-flex mt-2">
+                                    @{
+                                        if (customerBellDropDownCount == 0)
+                                        {
+                                            <button type="submit" class="btn btn-light ms-auto  messageHaveReadBtn" disabled="true">全部已讀</button>
                                         }
                                         else
                                         {
-                                            string bellDropDownDatasJson = Accessor.HttpContext.Session.GetString("NotfiyMessages")!;
-                                            IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = JsonConvert.DeserializeObject<IEnumerable<CustomerBellDropDownVm>>(bellDropDownDatasJson)!;
-                                            foreach (var item in bellDropDownsDatas)
-                                            {
-                                                <li>
-                                                    <a href="#" class="d-block btn btn-hover-light rounded-2  align-items-start gap-2 py-2 px-3 lh-sm text-start">
-                                                        <div class="row justify-content-center align-items-center flex-grow-1">
-                                                            <div class="col-3 text-center">
-                                                                <i class="bi bi-info-square info-icon"></i>
-                                                            </div>
-                                                            <div class="col-9 ">
-                                                                @if (item.OrderNumber != null)
-                                                                {
-                                                                    <p>訂單編號: @item.OrderNumber</p>
-                                                                }
-
-                                                                @if (item.GroupNumber != null)
-                                                                {
-                                                                    <p>成團編號: @item.GroupNumber</p>
-                                                                }
-                                                                <string>@item.ProductName</string>
-                                                                <string>@item.OrderStatus</string>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            }
+                                            <button type="submit" class="btn btn-light ms-auto  messageHaveReadBtn">全部已讀</button>
                                         }
                                     }
-                                </ul>
+                                    <button class="btn btn-light ms-auto d-none" type="button" disabled>
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span role="status">Loading...</span>
+                                    </button>
+                                </div>
                             </div>
                             @*bell dropdown end*@
                         </div>
 
-       @*                 <div class="me-3 count-red-circle-parent">
-                            <i class="bi bi-cart-fill nav-icon shopCartIcon  p-2"></i>
-                            <span class="count-red-circle">0</span>*@
-                            @*shopCart dropdown*@
-@*                            <div class="w-340px dropdown-menu shopCart-dropdown-menu  d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 rounded-3 shadow-lg" data-bs-theme="dark">
-                                <div class="col-lg-12 ">
-                                    <ul class="list-unstyled d-flex flex-column gap-2">
-                                        <li>
-                                            <a href="#" class="d-inline-block w-100 btn btn-hover-light rounded-2 py-2 px-3 lh-sm text-start">
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-3">
-                                                        <img class="d-inline-block" src="~/img/Home/咕咕霍夫.jpg" />
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        <div>
-                                                            <strong class="d-block">Main product</strong>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div>
-                                                            <small>$100</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-inline-block w-100 btn btn-hover-light rounded-2 py-2 px-3 lh-sm text-start">
-                                                <div class="row  align-items-center">
-                                                    <div class="col-3">
-                                                        <img class="d-inline-block" src="~/img/Home/原味麵包.jpg" />
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        <div>
-                                                            <strong class="d-block">Main product</strong>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div>
-                                                            <small>$110</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="d-flex justify-content-end mt-3">
-                                        <a class="btn btn-mute-3" asp-controller="BuyList" asp-action="BuyList">
-                                            結帳
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>*@
-                            @*shopCart end*@
+                        @*                 <div class="me-3 count-red-circle-parent">
+                        <i class="bi bi-cart-fill nav-icon shopCartIcon  p-2"></i>
+                        <span class="count-red-circle">0</span>*@
+                        @*shopCart dropdown*@
+                        @*                            <div class="w-340px dropdown-menu shopCart-dropdown-menu  d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 rounded-3 shadow-lg" data-bs-theme="dark">
+                        <div class="col-lg-12 ">
+                        <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li>
+                        <a href="#" class="d-inline-block w-100 btn btn-hover-light rounded-2 py-2 px-3 lh-sm text-start">
+                        <div class="row align-items-center">
+                        <div class="col-md-3">
+                        <img class="d-inline-block" src="~/img/Home/咕咕霍夫.jpg" />
+                        </div>
+                        <div class="col-md-7">
+                        <div>
+                        <strong class="d-block">Main product</strong>
+                        </div>
+                        </div>
+                        <div class="col-md-2">
+                        <div>
+                        <small>$100</small>
+                        </div>
+                        </div>
+                        </div>
+                        </a>
+                        </li>
+                        <li>
+                        <a href="#" class="d-inline-block w-100 btn btn-hover-light rounded-2 py-2 px-3 lh-sm text-start">
+                        <div class="row  align-items-center">
+                        <div class="col-3">
+                        <img class="d-inline-block" src="~/img/Home/原味麵包.jpg" />
+                        </div>
+                        <div class="col-md-7">
+                        <div>
+                        <strong class="d-block">Main product</strong>
+                        </div>
+                        </div>
+                        <div class="col-md-2">
+                        <div>
+                        <small>$110</small>
+                        </div>
+                        </div>
+                        </div>
+                        </a>
+                        </li>
+                        </ul>
+                        <div class="d-flex justify-content-end mt-3">
+                        <a class="btn btn-mute-3" asp-controller="BuyList" asp-action="BuyList">
+                        結帳
+                        </a>
+                        </div>
+                        </div>
+                        </div>*@
+                        @*shopCart end*@
 
-                        </div>
-                        <div class="me-3">
-                            <i class="bi bi-person-fill nav-icon p-2 btn-customized open-menu"></i>
-                        </div>
-                        <div class="me-3">
-                            <a class="d-inline-block btn btn-outline-secondary LayoutSwitchBtn  text-decoration-none" asp-controller="Firm" asp-action="Homepage">
-                                顧客
-                            </a>
-                            @*<span class="me-4 p-0 nav-icon">顧客</span>*@
-                        </div>
+                    </div>
+                    <div class="me-3">
+                        <i class="bi bi-person-fill nav-icon p-2 btn-customized open-menu"></i>
+                    </div>
+                    <div class="me-3">
+                        <a class="d-inline-block btn btn-outline-secondary LayoutSwitchBtn  text-decoration-none" asp-controller="Firm" asp-action="Homepage">
+                            顧客
+                        </a>
+                        @*<span class="me-4 p-0 nav-icon">顧客</span>*@
                     </div>
                 </div>
             </div>
@@ -224,10 +228,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="Privacy">關於我們</a>
                         </li>
-@*                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="Privacy">F&Q</a>
+                        @*                        <li class="nav-item">
+                        <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="Privacy">F&Q</a>
                         </li>
-*@                    </ul>
+                        *@
+                    </ul>
                 </div>
             </div>
         </nav>

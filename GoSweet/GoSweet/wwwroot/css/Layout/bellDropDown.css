@@ -78,6 +78,7 @@
     transform:scaleY(0);
     transition-duration:0.5s;
     transform-origin:top center;
+    background-color: #212529;
 }
 
 .info-icon {

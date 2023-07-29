@@ -10,6 +10,7 @@ using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
 using System.Linq;
 using System.Data;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace GoSweet.Controllers
 {
@@ -19,29 +20,35 @@ namespace GoSweet.Controllers
         private readonly ShopwebContext _context;
         private readonly IConfiguration _config;
         private readonly IWebHostEnvironment _webHost;
+        private readonly IDbContextTransaction _dbTransaction;
         private HomeIndexVm _indexViewModelData = new HomeIndexVm();
         private HashPassword _hashPasswordBuilder = new HashPassword();
 
         public HomeController(ILogger<HomeController> logger, ShopwebContext context, IConfiguration config, IWebHostEnvironment webHost)
         {
             _logger = logger;
-            _context = context;
+             _context = context;
             _config = config;
             _webHost = webHost;
+            _dbTransaction = _context.Database.BeginTransaction();
         }
 
         public IActionResult Index()
         {
             _logger.LogInformation("HomeIndexStart");
 
+            #region getCategoriesDatas 
             List<CategoryViewModel> categoriesDatas = (from product in _context.ProductDatatables
                                                        select new CategoryViewModel
                                                        {
                                                            Category = product.PCategory
                                                        }).Distinct().ToList();
 
+            #endregion
+
 
             // TODO: fix group issue
+            #region getProductRankData
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
@@ -67,14 +74,9 @@ namespace GoSweet.Controllers
                                                                   ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
                                                               }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
-            //foreach (var group in productRankData)
-            //{
-            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
-            //    {
-            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-            //    }
-            //}
+            #endregion
 
+            #region getProductGroupBuyData
             List<ProductGroupBuyData> productGroupBuyData = (from product in _context.ProductDatatables
                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                              join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
@@ -92,6 +94,8 @@ namespace GoSweet.Controllers
                                                                  GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
                                                              }).Take(4).ToList();
 
+            #endregion
+
             _indexViewModelData.CategoryDatas = categoriesDatas;
             _indexViewModelData.ProductRankDatas = productRankData;
             _indexViewModelData.ProductGroupBuyDatas = productGroupBuyData;
@@ -101,20 +105,11 @@ namespace GoSweet.Controllers
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
 
 
-            //Console.WriteLine(HttpContext.Session.GetString("customerAccountName"));
-            //Console.WriteLine(HttpContext.Session.GetString("c_number"));
-            //foreach (var group in productGroupBuyData)
-            //{
-            //    foreach (PropertyDescriptor desc in TypeDescriptor.GetProperties(group))
-            //    {
-            //        Console.WriteLine("{0}={1}", desc.Name, desc.GetValue(group));
-            //    }
-            //}
             return View(_indexViewModelData);
         }
 
         // 取得通知訊息
-        private IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage()
+        public IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage()
         {
 
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;
@@ -164,13 +159,63 @@ namespace GoSweet.Controllers
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
-            ViewData["bellDropDownMessage"] = bellDropDownsDatas; 
+            ViewData["bellDropDownMessage"] = bellDropDownsDatas;
             HttpContext.Session.SetString("NotfiyMessages", JsonConvert.SerializeObject(bellDropDownsDatas));
             HttpContext.Session.SetInt32("NotfiyMessagesCount", bellDropDownsDatas.Count());
 
-
-
             return bellDropDownsDatas;
+        }
+
+        [HttpPost]
+        public IActionResult BellMessageHaveRead()
+        {
+
+            string customerAccount = HttpContext.Session.GetString("customerAccount")!;
+
+            var notifyMessageAlreadyGroupQuery =
+                from notify in _context.NotifyDatatables
+                join order in _context.OrderDatatables
+                    on notify.ONumber equals order.ONumber
+                join customer in _context.CustomerAccounttables
+                    on notify.CNumber equals customer.CNumber
+                join product in _context.ProductDatatables
+                    on order.PNumber equals product.PNumber
+                join groups in _context.GroupDatatables
+                    on product.PNumber equals groups.PNumber
+                where (notify.OStatus == "已成團") && customer.CAccount == customerAccount && notify.NRead == false
+                select notify;
+
+            foreach (var item in notifyMessageAlreadyGroupQuery)
+            {
+                item.NRead = true;
+            }
+
+            var notifyMessageAlreadySendQuery =
+                from notify in _context.NotifyDatatables
+                join order in _context.OrderDatatables
+                    on notify.ONumber equals order.ONumber
+                join customer in _context.CustomerAccounttables
+                    on notify.CNumber equals customer.CNumber
+                join product in _context.ProductDatatables
+                    on order.PNumber equals product.PNumber
+                where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
+                select notify; 
+            foreach (var item in notifyMessageAlreadySendQuery)
+            {
+                item.NRead = true;
+            }
+
+            try
+            {
+                _context.SaveChanges();
+                _dbTransaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction(nameof(GetBellDropdownMessage));
         }
 
         // 首頁熱門產品切換種類
@@ -339,7 +384,8 @@ namespace GoSweet.Controllers
                 mailHandler.SendMail();
                 TempData["sendEmailSuccessMessage"] = $"Send Email to {EmailAddress} Success";
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
                 TempData["sendEmailFailMessage"] = $"Send Email to {EmailAddress} fail";
             }
@@ -359,7 +405,7 @@ namespace GoSweet.Controllers
         public IActionResult ResetPassword(ResetPasswordVm resetPasswordData)
         {
 
-            if (ModelState.IsValid == false) { return View(resetPasswordData);}
+            if (ModelState.IsValid == false) { return View(resetPasswordData); }
 
             if (resetPasswordData.NewPassword != resetPasswordData.CheckNewPassword)
             {
@@ -415,7 +461,8 @@ namespace GoSweet.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Privacy() {
+        public IActionResult Privacy()
+        {
             return View();
         }
     }

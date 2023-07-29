@@ -8,6 +8,7 @@
          public int? OrderNumber { get; set; }
          public string? ProductName { get; set; }
          public string? OrderStatus { get; set; }
+         public bool? Read { get; set; }
     }
 
     public class FirmBellDropDownVm { 

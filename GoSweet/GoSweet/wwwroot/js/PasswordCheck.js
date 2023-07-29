@@ -11,7 +11,7 @@ signUpBtn.addEventListener("click", function (e) {
         return;
     }
 
-    if (userPassword.value != userCheckPassword.value || userPassword.length != userCheckPassword.length) {
+    if (userPassword.value !== userCheckPassword.value || userPassword.length !== userCheckPassword.length) {
         e.preventDefault(); 
         checkPasswordResult.textContent = "Password is not match";
         return;
