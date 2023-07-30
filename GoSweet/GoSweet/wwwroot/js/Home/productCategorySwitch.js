@@ -2,11 +2,14 @@
 let productCategoryTitles = document.querySelectorAll(".product-category-title");
 
 
+// #region 商品種類點擊 TODO:refactor
 productCategoryBtns.forEach((element, index) => {
     element.addEventListener("click", async function (e) {
         e.preventDefault();
         let category = productCategoryTitles[index].textContent;
-
+        // change small title
+        changeCategorySmallTitle(category);
+        
 
         let res = await axios.get(`http://localhost:5183/Home/HandleProductCategory?Category=${category}`,
             {
@@ -92,4 +95,12 @@ productCategoryBtns.forEach((element, index) => {
 
     })
 });
+// #endregion
 
+// #region 商品種類 title 切換
+function changeCategorySmallTitle(category) {
+    let productRankSmallTitle = document.querySelector(".product-rank-small-title");
+    productRankSmallTitle.textContent = `${category}熱銷排行(下方滑鼠可左右拖曳)`;
+}
+
+// #endregion

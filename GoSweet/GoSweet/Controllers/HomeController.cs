@@ -249,7 +249,6 @@ namespace GoSweet.Controllers
                                                               }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
 
 
-
             return new JsonResult(JsonConvert.SerializeObject(productRankData));
         }
 
