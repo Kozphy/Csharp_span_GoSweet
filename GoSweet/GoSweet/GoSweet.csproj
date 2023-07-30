@@ -13,7 +13,6 @@
   <ItemGroup>
     <Compile Include="obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
     <Compile Include="obj\Debug\net6.0\GoSweet.AssemblyInfo.cs" />
-    <Compile Include="obj\Debug\net6.0\GoSweet.GlobalUsings.g.cs" />
     <Compile Include="obj\Debug\net6.0\GoSweet.RazorAssemblyInfo.cs" />
   </ItemGroup>
 

@@ -11,21 +11,38 @@ bellIconBtn.addEventListener("click", function (e) {
 
 
 let messageHaveReadBtn = document.querySelector(".messageHaveReadBtn");
-let spinnerBtn = messageHaveReadBtn.nextElementSibling;
-console.log(messageHaveReadBtn);
-messageHaveReadBtn.addEventListener("click", async function (e) {
-    let res = await axios.post("http://localhost:5183/Home/BellMessageHaveRead");
-    if (res.status !== 200) {
-        console.log(res.status);
-    }
-    messageHaveReadBtn.classList.add("d-none");
-    spinnerBtn.classList.remove("d-none");
+let firmMessageHaveReadBtn = document.querySelector(".firmMessageHaveReadBtn");
 
-    let notifyMessageArray = res.data;
-    if (notifyMessageArray.length === 0) {
-        messageHaveReadBtn.classList.remove("d-none");
-        spinnerBtn.classList.add("d-none");
-        let htmlStr = `<a href="#" class="btn btn-hover-light rounded-0" style="width:300px">
+if (messageHaveReadBtn) {
+    clearNotifyMessage(messageHaveReadBtn, "Home");
+} else {
+    clearNotifyMessage(firmMessageHaveReadBtn, "Firm");
+}
+
+function clearNotifyMessage(btn, controllerName) {
+    let spinnerBtn = btn.nextElementSibling;
+    btn.addEventListener("click", async function (e) {
+        let res = await axios.post(`http://localhost:5183/${controllerName}/BellMessageHaveRead`);
+        if (res.status !== 200) {
+            console.log(res.status);
+        }
+        btn.classList.add("d-none");
+        spinnerBtn.classList.remove("d-none");
+
+        let notifyMessageArray = res.data;
+
+
+        if (notifyMessageArray.length === 0) {
+            renderDropDownBellMessageToNull(btn, spinnerBtn);
+        }
+    });
+}
+
+function renderDropDownBellMessageToNull(btn, spinnerBtn) {
+
+    btn.classList.remove("d-none");
+    spinnerBtn.classList.add("d-none");
+    let htmlStr = `<a href="#" class="btn btn-hover-light rounded-0" style="width:300px">
                                             <div class="row align-items-center gy-2 gx-0">
                                                 <div class="col-3 text-center">
                                                     <i class="bi bi-info-square info-icon"></i>
@@ -41,13 +58,12 @@ messageHaveReadBtn.addEventListener("click", async function (e) {
                                         </button>
                                         `;
 
-        // remove all child element
-        for (let i = bellDropDownContent.childElementCount - 1; i >= 0; i--) {
-            bellDropDownContent.children[i].remove();
-        }
-
-        bellDropDownContent.insertAdjacentHTML("beforeend", htmlStr);
+    // remove all child element
+    for (let i = bellDropDownContent.childElementCount - 1; i >= 0; i--) {
+        bellDropDownContent.children[i].remove();
     }
 
-});
+    bellDropDownContent.insertAdjacentHTML("beforeend", htmlStr);
+    document.querySelector(".notify-message-counter").textContent = 0;
+}
 

@@ -117,7 +117,7 @@ namespace GoSweet.Controllers
             {
                 return null;
             }
-
+        
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup =
                                            (from notify in _context.NotifyDatatables
                                             join order in _context.OrderDatatables

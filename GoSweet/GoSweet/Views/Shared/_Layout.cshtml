@@ -55,7 +55,7 @@
                             @*bell dropdown message counter*@
                             @{
                                 int customerBellDropDownCount = Convert.ToInt32(Accessor.HttpContext!.Session.GetInt32("NotfiyMessagesCount"));
-                                <span class="count-red-circle">@customerBellDropDownCount</span>
+                                <span class="count-red-circle notify-message-counter">@customerBellDropDownCount</span>
                             }
                             @*bell dropdown*@
                             <div class="bell-dropdown-menu p-3 z-3 rounded-3" data-bs-theme="dark">

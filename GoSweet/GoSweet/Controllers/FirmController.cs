@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using GoSweet.Controllers.feature;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Storage;
 using Newtonsoft.Json;
 
 namespace GoSweet.Controllers
@@ -12,12 +13,14 @@ namespace GoSweet.Controllers
     {
         private readonly ShopwebContext _context;
         private readonly ILogger<FirmController> _logger;
-        HashPassword _hashPasswordBuilder = new HashPassword();
+        private readonly HashPassword _hashPasswordBuilder = new HashPassword();
+        private readonly IDbContextTransaction _dbTransaction;
 
         public FirmController(ShopwebContext context, ILogger<FirmController> logger)
         {
             _context = context;
             _logger = logger;
+            _dbTransaction = _context.Database.BeginTransaction();
         }
 
         public class global
@@ -188,7 +191,7 @@ namespace GoSweet.Controllers
             return View(HomepageModels);
         }
 
-        private IEnumerable<FirmBellDropDownVm>? GetBellDropdownMessage()
+        public  IEnumerable<FirmBellDropDownVm>? GetBellDropdownMessage()
         {
             string firmAccount = HttpContext.Session.GetString("firmAccount")!;
             if (firmAccount == null)
@@ -205,12 +208,13 @@ namespace GoSweet.Controllers
                      on notify.FNumber equals firm.FNumber
                  join product in _context.ProductDatatables
                      on order.PNumber equals product.PNumber
-                 where (notify.OStatus == "已下單" || notify.OStatus == "已取貨") && firm.FAccount == firmAccount
+                 where (notify.OStatus == "已下單" || notify.OStatus == "已取貨") && firm.FAccount == firmAccount && notify.NRead == false
                  select new FirmBellDropDownVm
                  {
                      OrderNumber = notify.ONumber,
                      ProductName = product.PName,
                      OrderStatus = notify.OStatus,
+                     NotifyRead = notify.NRead,
                  });
 
             IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();
@@ -219,6 +223,47 @@ namespace GoSweet.Controllers
 
             return firmNotifyMessages;
         }
+
+        [HttpPost]
+        public IActionResult BellMessageHaveRead()
+        {
+
+            string firmAccount = HttpContext.Session.GetString("firmAccount")!;
+
+            // 取得廠商通知
+            var firmNotifyMessageQuery =
+                from notify in _context.NotifyDatatables
+                join order in _context.OrderDatatables
+                    on notify.ONumber equals order.ONumber
+                join firm in _context.FirmAccounttables
+                    on notify.FNumber equals firm.FNumber
+                join product in _context.ProductDatatables
+                    on order.PNumber equals product.PNumber
+                where (notify.OStatus == "已下單" || notify.OStatus == "已取貨") 
+                      && firm.FAccount == firmAccount
+                select notify;
+
+
+            
+            foreach (var item in firmNotifyMessageQuery)
+            {
+                item.NRead = true;
+            }
+
+           
+            try
+            {
+                _context.SaveChanges();
+                _dbTransaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction(nameof(GetBellDropdownMessage));
+        }
+
 
 
 
