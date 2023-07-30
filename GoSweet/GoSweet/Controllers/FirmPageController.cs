@@ -26,8 +26,8 @@ namespace GoSweet.Controllers
             //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
-            var data = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPagename).Single();
-            var data3 = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPicurl).Single();
+            var data = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPagename).FirstOrDefault();
+            var data3 = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPicurl).FirstOrDefault();
 
             ViewBag.FirmName = data;
             ViewBag.FirmPic = data3;
