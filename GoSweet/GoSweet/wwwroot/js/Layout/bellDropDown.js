@@ -1,13 +1,13 @@
-﻿// Layout 通知欄顯示與隱藏
+﻿// #region Layout 通知欄顯示與隱藏
 let bellIconBtn = document.querySelector(".bellIcon");
 let bellDropDownContent = document.querySelector(".bell-dropdown-menu");
 bellIconBtn.addEventListener("click", function (e) {
     bellIconBtn.classList.toggle("active");
     bellDropDownContent.classList.toggle("bell-dropdown-menu-show");
 });
+// #endregion Layout 通知欄顯示與隱藏
 
-
-// Layout 通知欄清除資訊
+// #region Layout 通知欄清除資訊
 let messageHaveReadBtn = document.querySelector(".messageHaveReadBtn");
 let firmMessageHaveReadBtn = document.querySelector(".firmMessageHaveReadBtn");
 
@@ -17,16 +17,21 @@ if (messageHaveReadBtn) {
     clearNotifyMessage(firmMessageHaveReadBtn, "Firm");
 }
 
+async function sendClearInfo( controllerName) {
+    let res = await axios.post(`http://localhost:5183/${controllerName}/BellMessageHaveRead`);
+    if (res.status !== 200) {
+        console.log(res.status);
+    }
+    return res;
+}
+
 function clearNotifyMessage(btn, controllerName) {
     let spinnerBtn = btn.nextElementSibling;
     btn.addEventListener("click", async function (e) {
-        let res = await axios.post(`http://localhost:5183/${controllerName}/BellMessageHaveRead`);
-        if (res.status !== 200) {
-            console.log(res.status);
-        }
         btn.classList.add("d-none");
         spinnerBtn.classList.remove("d-none");
 
+        let res = await sendClearInfo(controllerName);
         let notifyMessageArray = res.data;
 
 
@@ -40,7 +45,6 @@ function clearNotifyMessage(btn, controllerName) {
     });
 }
 
-// Layout 通知欄渲染
 function renderDropDownBellMessageToNull(btn, spinnerBtn) {
 
     btn.classList.remove("d-none");
@@ -67,4 +71,4 @@ function renderDropDownBellMessageToNull(btn, spinnerBtn) {
     bellDropDownContent.insertAdjacentHTML("beforeend", htmlStr);
     document.querySelector(".notify-message-counter").textContent = 0;
 }
-
+// #endregion  Layout 通知欄清除資訊
