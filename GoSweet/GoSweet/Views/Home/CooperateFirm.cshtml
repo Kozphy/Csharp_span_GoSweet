@@ -5,7 +5,7 @@
 @{
 }
 <div class="container pt-4">
-    <h1 class="display-6 mb-2 fw-bold row-gap-1">合作廠商</h1>
+    <h1 class="display-6 mb-2 fw-bold">合作廠商</h1>
     @{
         string wwwRootPath = WebHostEnvironment.WebRootPath;
         string firmImgFolder = System.IO.Path.Combine(wwwRootPath, "img", "firmpage");
@@ -19,7 +19,7 @@
             {
             string firmImgsPath = $"/img/firmpage/{i}.jpg";
             <div class="col-md-3">
-                <div class="card" style="width: 18rem;">
+                <div class="card">
                     <img src="@firmImgsPath" class="card-img-top" alt="@i">
                 </div>
             </div>
