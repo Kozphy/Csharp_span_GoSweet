@@ -33,7 +33,7 @@
                     <div class="py-2">
                         <label asp-for="FAccount" class="form-label">Email</label>
                         <input asp-for="FAccount" type="email"  class="form-control" />
-                        <span asp-validation-for="FAccount" class="text-danger"></span>
+                        <span  asp-validation-for="FAccount" class="text-danger"></span>
                     </div>
                     <div class="py-2">
                         <label asp-for="FPassword" class="form-label">Password</label>
@@ -41,8 +41,8 @@
                         <input asp-for="FPassword" type="password"  class="form-control" />
                         <span asp-validation-for="FPassword" class="text-danger"></span>
                     </div>
-                    @*<div class="mb-2" id="html_recaptcha" onclick="onClick" required></div>*@
-                    <div class="mb-2">驗證</div>
+                    <div class="mb-2" id="html_recaptcha" onclick="onClick" required></div>
+                    @*<div class="mb-2">驗證</div>*@
                     <div class="row">
                         <div class="col-12 mb-2 mb-md-0 col-md-6">
                             <button type="submit" class="loginBtn w-100 btn btn-mute-2  text-dark">登入</button>
