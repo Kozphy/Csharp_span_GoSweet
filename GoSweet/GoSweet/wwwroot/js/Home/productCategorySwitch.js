@@ -3,34 +3,26 @@ let productCategoryTitles = document.querySelectorAll(".product-category-title")
 
 
 // #region 商品種類點擊 TODO:refactor
-productCategoryBtns.forEach((element, index) => {
-    element.addEventListener("click", async function (e) {
-        e.preventDefault();
-        let category = productCategoryTitles[index].textContent;
-        // change small title
-        changeCategorySmallTitle(category);
-        
+async function sendCategoryInfo(category) {
+    let res = await axios.get(`http://localhost:5183/Home/HandleProductCategory?Category=${category}`,
+        {
+            headers: {
+                "content-type": "application/x-www-form-urlencoded"
+            },
+        })
+    if (res.status !== 200) {
+        console.log(res.status);
+    }
+    return res;
+}
 
-        let res = await axios.get(`http://localhost:5183/Home/HandleProductCategory?Category=${category}`,
-            {
-                headers: {
-                    "content-type": "application/x-www-form-urlencoded"
-                },
-            })
-        if (res.status != 200) {
-            console.log(res.status);
-        }
+function renderCategoryProducts(data) {
         let splideProducts = document.querySelector(".splideProducts");
         splideProducts.remove();
-
-        let data = JSON.parse(res.data);
-
 
         let allhtml = [`<section class="splide splideProducts">
                 <div class="splide__track">
                     <ul class="splide__list">`];
-
-
 
         data.forEach((el, index) => {
             let htmlstr =
@@ -68,7 +60,7 @@ productCategoryBtns.forEach((element, index) => {
 
         let productRank = document.querySelector(".product-rank");
         productRank.insertAdjacentHTML('beforeend', allhtml);
-        
+
         let splide = new Splide('.splideProducts', {
             mediaQuery: 'min',
             grid: false,
@@ -93,7 +85,22 @@ productCategoryBtns.forEach((element, index) => {
         splide.mount(window.splide.Extensions);
 
 
-    })
+}
+
+productCategoryBtns.forEach((element, index) => {
+    element.addEventListener("click",
+        async function(e) {
+            e.preventDefault();
+            let category = productCategoryTitles[index].textContent;
+            // change small title
+            changeCategorySmallTitle(category);
+
+            // send category to controller
+            let res = await sendCategoryInfo(category);
+
+            let data = JSON.parse(res.data);
+            renderCategoryProducts(data);
+        });
 });
 // #endregion
 

@@ -23,7 +23,7 @@ namespace GoSweet.Controllers.feature
             // email 收件者與位置
             message.To.Add(new MailboxAddress("Mrs. Chanandler Bong", _mailAddress));
             // email 主題
-            message.Subject = "GoSweet 忘記密碼重置'";
+            message.Subject = "GoSweet 忘記密碼重置";
 
             // email css
             string cssContent = @"
