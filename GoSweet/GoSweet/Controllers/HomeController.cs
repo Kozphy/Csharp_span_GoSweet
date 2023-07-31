@@ -20,7 +20,6 @@ namespace GoSweet.Controllers
         private readonly ShopwebContext _context;
         private readonly IConfiguration _config;
         private readonly IWebHostEnvironment _webHost;
-        private readonly IDbContextTransaction _dbTransaction;
         private HomeIndexVm _indexViewModelData = new HomeIndexVm();
         private HashPassword _hashPasswordBuilder = new HashPassword();
 
@@ -30,7 +29,6 @@ namespace GoSweet.Controllers
              _context = context;
             _config = config;
             _webHost = webHost;
-            _dbTransaction = _context.Database.BeginTransaction();
         }
 
         public IActionResult Index()
@@ -208,7 +206,6 @@ namespace GoSweet.Controllers
             try
             {
                 _context.SaveChanges();
-                _dbTransaction.Commit();
             }
             catch (Exception ex)
             {

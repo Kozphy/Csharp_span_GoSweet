@@ -14,13 +14,11 @@ namespace GoSweet.Controllers
         private readonly ShopwebContext _context;
         private readonly ILogger<FirmController> _logger;
         private readonly HashPassword _hashPasswordBuilder = new HashPassword();
-        private readonly IDbContextTransaction _dbTransaction;
 
         public FirmController(ShopwebContext context, ILogger<FirmController> logger)
         {
             _context = context;
             _logger = logger;
-            _dbTransaction = _context.Database.BeginTransaction();
         }
 
         public class global
@@ -254,7 +252,6 @@ namespace GoSweet.Controllers
             try
             {
                 _context.SaveChanges();
-                _dbTransaction.Commit();
             }
             catch (Exception ex)
             {
