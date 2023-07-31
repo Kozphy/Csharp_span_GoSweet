@@ -414,7 +414,7 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult SignUp(FirmAccountVm firmAccountData)
         {
-            if (ModelState.IsValid == false) return View();
+            if (ModelState.IsValid == false) return View(firmAccountData);
 
             // create hashPassword with salt
             string hashPassword = _hashPasswordBuilder.CreateSha256Password(firmAccountData.FPassword!);
