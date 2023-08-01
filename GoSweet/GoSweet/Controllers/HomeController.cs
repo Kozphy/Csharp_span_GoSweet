@@ -82,7 +82,7 @@ namespace GoSweet.Controllers
                                                              where product_pic.PPicnumber == 1
                                                              select new ProductGroupBuyData
                                                              {
-                                                                 GroupNumber = member.MNumber,
+                                                                 GroupNumber = groupbuy.GNumber,
                                                                  ProductName = product.PName,
                                                                  ProductPicture = product_pic.PUrl,
                                                                  ProductDescription = product.PDescribe,
@@ -91,7 +91,7 @@ namespace GoSweet.Controllers
                                                                  GroupEndDate = groupbuy.GEnd,
                                                                  GroupPeoplePercent = Math.Floor(decimal.ToDouble(member.MNowpeople) / decimal.ToDouble(groupbuy.GMaxpeople) * 100.0), 
                                                                  GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
-                                                             }).OrderByDescending(x  => x.GroupNowPeople).Take(4).ToList();
+                                                             }).OrderByDescending(x  => x.GroupNowPeople).ThenBy(x => x.GroupEndDate).Take(4).ToList();
 
             #endregion
 
