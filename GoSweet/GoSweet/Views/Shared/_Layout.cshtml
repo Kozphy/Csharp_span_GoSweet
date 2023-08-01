@@ -305,11 +305,13 @@
         }
         else
         {
-            <div class="text-center fw-bolder ">
-                <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Customer_datatable" asp-action="data">
-                    個人資料
-                </a>
-            </div>
+            @*
+        <div class="text-center fw-bolder ">
+        <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Customer_datatable" asp-action="data">
+        個人資料
+        </a>
+        </div>
+        *@
             <div class="text-center fw-bolder ">
                 <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Order_datatable" asp-action="order_c">
                     訂單紀錄
@@ -441,7 +443,7 @@
             </div>*@
             @*chat end*@
             @*chat icon*@
-            <a class="d-inline-block text-dark" asp-controller="Talk_datatable" asp-action="talk">
+            <a class="d-inline-block text-dark" asp-controller="Talk_datatable" asp-action="talk_c">
                 <i class="bi bi-chat-dots chatBtn"></i>
             </a>
             @*<span class="count-red-circle" style="width:15px; height:15px">0</span>*@

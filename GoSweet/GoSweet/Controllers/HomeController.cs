@@ -51,7 +51,7 @@ namespace GoSweet.Controllers
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
                                                               where product_pic.PPicnumber == 1
-                                                              group new { product, product_pic, order } by
+                                                              group new { product, order } by
                                                               new
                                                               {
                                                                   product.PNumber,
@@ -79,18 +79,19 @@ namespace GoSweet.Controllers
                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                              join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
                                                              join member in _context.MemberMembertables on groupbuy.GNumber equals member.GNumber
-                                                             orderby member.MNowpeople descending
+                                                             where product_pic.PPicnumber == 1
                                                              select new ProductGroupBuyData
                                                              {
+                                                                 GroupNumber = member.MNumber,
                                                                  ProductName = product.PName,
                                                                  ProductPicture = product_pic.PUrl,
                                                                  ProductDescription = product.PDescribe,
                                                                  GroupMaxPeople = groupbuy.GMaxpeople,
                                                                  GroupNowPeople = member.MNowpeople,
                                                                  GroupEndDate = groupbuy.GEnd,
-                                                                 GroupPeoplePercent = Math.Floor((double)member.MNowpeople / groupbuy.GMaxpeople * 100.0),
+                                                                 GroupPeoplePercent = Math.Floor(decimal.ToDouble(member.MNowpeople) / decimal.ToDouble(groupbuy.GMaxpeople) * 100.0), 
                                                                  GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
-                                                             }).Take(4).ToList();
+                                                             }).OrderByDescending(x  => x.GroupNowPeople).Take(4).ToList();
 
             #endregion
 
