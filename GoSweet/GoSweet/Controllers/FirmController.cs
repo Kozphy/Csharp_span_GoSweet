@@ -54,7 +54,7 @@ namespace GoSweet.Controllers
             var Firmpic = _context.FirmPagetables.Where(x => x.FNumber == id).Select(x => x.FPicurl).FirstOrDefault();
             if (Firmpic is null)
             {
-                Firmpic = "~/img/No pic.jpg";
+                Firmpic = "/img/Nopic.jpg";
             }
             #endregion
 
