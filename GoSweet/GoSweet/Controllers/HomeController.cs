@@ -80,6 +80,8 @@ namespace GoSweet.Controllers
                                                              join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
                                                              join member in _context.MemberMembertables on groupbuy.GNumber equals member.GNumber
                                                              where product_pic.PPicnumber == 1
+                                                             let percent = Math.Floor((double)member.MNowpeople / (double)groupbuy.GMaxpeople * 100.0)
+                                                             let remainDays = groupbuy.GEnd.Day - DateTime.Now.Day
                                                              select new ProductGroupBuyData
                                                              {
                                                                  GroupNumber = groupbuy.GNumber,
@@ -89,9 +91,9 @@ namespace GoSweet.Controllers
                                                                  GroupMaxPeople = groupbuy.GMaxpeople,
                                                                  GroupNowPeople = member.MNowpeople,
                                                                  GroupEndDate = groupbuy.GEnd,
-                                                                 GroupPeoplePercent = Math.Floor(decimal.ToDouble(member.MNowpeople) / decimal.ToDouble(groupbuy.GMaxpeople) * 100.0), 
-                                                                 GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
-                                                             }).OrderBy(x  => x.GroupRemainDate).ThenByDescending(x => x.GroupPeoplePercent).Take(4).ToList();
+                                                                 GroupPeoplePercent = percent, 
+                                                                 GroupRemainDate = remainDays,
+                                                             }).OrderBy(x  => x.GroupRemainDate).ThenByDescending(x => (int)x.GroupPeoplePercent).Take(4).ToList();
 
             #endregion
 
