@@ -91,7 +91,7 @@ namespace GoSweet.Controllers
                                                                  GroupEndDate = groupbuy.GEnd,
                                                                  GroupPeoplePercent = Math.Floor(decimal.ToDouble(member.MNowpeople) / decimal.ToDouble(groupbuy.GMaxpeople) * 100.0), 
                                                                  GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
-                                                             }).OrderBy(x  => x.GroupRemainDate).ThenByDescending(x => x.GroupNowPeople).Take(4).ToList();
+                                                             }).OrderBy(x  => x.GroupRemainDate).ThenByDescending(x => x.GroupPeoplePercent).Take(4).ToList();
 
             #endregion
 
