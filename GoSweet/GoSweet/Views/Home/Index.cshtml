@@ -125,7 +125,12 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h5 class="card-title mb-0 groupbuy-title">@item.ProductName</h5>
+                                    <h5 class="card-title mb-0 groupbuy-title">
+                                        @item.ProductName
+                                        <span class="text-muted fs-6">
+                                            團購編號: @item.GroupNumber
+                                        </span>
+                                    </h5>
                                     <span class="badge text-bg-primary bg-mute-3">剩餘時間 @item.GroupRemainDate 天</span>
                                 </div>
                                 <div class="p-2">
