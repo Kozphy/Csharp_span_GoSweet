@@ -262,10 +262,6 @@ namespace GoSweet.Controllers
         }
 
 
-
-
-
-
         public JsonResult RatingJson()
         {
 

@@ -79,15 +79,17 @@
     transition-duration:0.5s;
     transform-origin:top center;
     background-color: #212529;
+
+}
+
+.bell-dropdown-menu-show {
+    transform: scaleY(1);
 }
 
 .info-icon {
      font-size:30px
 }
 
-.bell-dropdown-menu-show {
-    transform: scaleY(1);
-}
 /*    animation: growDown 0.5s ease-in-out forwards;
     transform-origin: top center;
 }*/
