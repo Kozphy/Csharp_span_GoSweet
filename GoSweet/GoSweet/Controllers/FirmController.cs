@@ -48,6 +48,7 @@ namespace GoSweet.Controllers
             DateTime MonthBegin = global.Now.AddDays(1 - global.Now.Day);
             DateTime LastMonthEnd = global.Now.AddDays(1 - global.Now.Day).AddDays(-1);
             DateTime LastMonthBegin = global.Now.AddDays(1 - global.Now.Day).AddMonths(-1);
+            DateTime ThreeMonthLater = global.Now.AddMonths(-3);
             #endregion
 
             #region 廠商圖片
@@ -135,7 +136,7 @@ namespace GoSweet.Controllers
             #region 熱門商品
             var Hotsale = from someone in _context.OrderDatatables
                           join something in _context.ProductDatatables on someone.PNumber equals something.PNumber
-                          where someone.FNumber == id
+                          where someone.FNumber == id && someone.OStart > ThreeMonthLater
                           select new { something, someone } into tempTable
                           group tempTable by tempTable.something.PName into TempTable
                           select new HotSales
@@ -302,12 +303,11 @@ namespace GoSweet.Controllers
             #region 日期設定
             global.StartDateString = HttpContext.Request.Query["StartDate"];
             global.EndDateString = HttpContext.Request.Query["EndDate"];
-            if (global.StartDateString is null && global.EndDateString is null)
+            if (global.StartDateString is null || global.EndDateString is null || global.StartDateString == "" || global.EndDateString == "")
             {
-                global.StartDate = global.Now.AddMonths(-3);
+                global.StartDate = global.Now.AddDays(-90);
                 global.EndDate = global.Now;
-            }
-            else
+            } else
             {
                 global.StartDate = Convert.ToDateTime(global.StartDateString);
                 global.EndDate = Convert.ToDateTime(global.EndDateString);

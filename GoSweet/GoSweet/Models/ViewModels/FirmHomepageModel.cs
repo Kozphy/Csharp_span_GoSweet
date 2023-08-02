@@ -47,7 +47,7 @@
         public string? OrderDate
         {
             get { return _WaitingDateFormat; }
-            set { _WaitingDateFormat = Convert.ToDateTime(value).ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { _WaitingDateFormat = Convert.ToDateTime(value).ToString("yyyy-MM-dd"); }
         }
 
         public int? OrderID { get; set; }
@@ -61,7 +61,7 @@
         public string? CommentDate
         {
             get { return _CommentDateFormat; }
-            set { _CommentDateFormat = Convert.ToDateTime(value).ToString("yyyy-MM-dd HH:mm:ss"); }
+            set { _CommentDateFormat = Convert.ToDateTime(value).ToString("yyyy-MM-dd"); }
         }
 
         public string? Content { get; set; }
