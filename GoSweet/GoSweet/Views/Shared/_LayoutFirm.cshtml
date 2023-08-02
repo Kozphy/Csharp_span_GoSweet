@@ -85,7 +85,18 @@
                                                         <i class="bi bi-info-square info-icon"></i>
                                                     </div>
                                                     <div class="col-10">
-                                                        <p>訂單編號: @item.OrderNumber</p>
+                                                        @{
+                                                            string? orderDate;
+                                                            if (item.OrderEnd.HasValue)
+                                                            {
+                                                                orderDate = item.OrderEnd.GetValueOrDefault().ToString("yyyy-MM-dd");
+                                                            }
+                                                            else
+                                                            {
+                                                                orderDate = item.OrderEnd.GetValueOrDefault().ToString("yyyy-MM-dd");
+                                                            }
+                                                        }
+                                                        <p>訂單日期: @orderDate</p>
                                                         <string>@item.ProductName</string>
                                                         <string>@item.OrderStatus</string>
                                                     </div>
