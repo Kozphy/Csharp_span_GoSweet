@@ -210,7 +210,8 @@ namespace GoSweet.Controllers
                  where (notify.OStatus == "已下單" || notify.OStatus == "已取貨") && firm.FAccount == firmAccount && notify.NRead == false
                  select new FirmBellDropDownVm
                  {
-                     OrderNumber = notify.ONumber,
+                     //OrderNumber = notify.ONumber,
+                     OrderEnd = order.OEnd,
                      ProductName = product.PName,
                      OrderStatus = notify.OStatus,
                      NotifyRead = notify.NRead,
@@ -261,10 +262,6 @@ namespace GoSweet.Controllers
 
             return RedirectToAction(nameof(GetBellDropdownMessage));
         }
-
-
-
-
 
 
         public JsonResult RatingJson()

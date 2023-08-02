@@ -26,7 +26,7 @@ namespace GoSweet.Controllers
         public HomeController(ILogger<HomeController> logger, ShopwebContext context, IConfiguration config, IWebHostEnvironment webHost)
         {
             _logger = logger;
-             _context = context;
+            _context = context;
             _config = config;
             _webHost = webHost;
         }
@@ -51,7 +51,7 @@ namespace GoSweet.Controllers
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
                                                               where product_pic.PPicnumber == 1
-                                                              group new { product, product_pic, order } by
+                                                              group new { product, order } by
                                                               new
                                                               {
                                                                   product.PNumber,
@@ -79,18 +79,21 @@ namespace GoSweet.Controllers
                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                              join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
                                                              join member in _context.MemberMembertables on groupbuy.GNumber equals member.GNumber
-                                                             orderby member.MNowpeople descending
+                                                             where product_pic.PPicnumber == 1
+                                                             let percent = Math.Floor((double)member.MNowpeople / (double)groupbuy.GMaxpeople * 100.0)
+                                                             let remainDays = groupbuy.GEnd.Day - DateTime.Now.Day
                                                              select new ProductGroupBuyData
                                                              {
+                                                                 GroupNumber = groupbuy.GNumber,
                                                                  ProductName = product.PName,
                                                                  ProductPicture = product_pic.PUrl,
                                                                  ProductDescription = product.PDescribe,
                                                                  GroupMaxPeople = groupbuy.GMaxpeople,
                                                                  GroupNowPeople = member.MNowpeople,
                                                                  GroupEndDate = groupbuy.GEnd,
-                                                                 GroupPeoplePercent = Math.Floor((double)member.MNowpeople / groupbuy.GMaxpeople * 100.0),
-                                                                 GroupRemainDate = groupbuy.GEnd.Day - new DateTime().Day,
-                                                             }).Take(4).ToList();
+                                                                 GroupPeoplePercent = percent,
+                                                                 GroupRemainDate = remainDays,
+                                                             }).OrderBy(x => x.GroupRemainDate).ThenByDescending(x => (int)x.GroupPeoplePercent).Take(4).ToList();
 
             #endregion
 
@@ -115,7 +118,7 @@ namespace GoSweet.Controllers
             {
                 return null;
             }
-        
+
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup =
                                            (from notify in _context.NotifyDatatables
                                             join order in _context.OrderDatatables
@@ -130,7 +133,7 @@ namespace GoSweet.Controllers
                                             select new CustomerBellDropDownVm
                                             {
                                                 //OrderNumber = notify.ONumber,
-                                                GroupNumber = groups.PNumber,
+                                                OrderEnd = order.OEnd,
                                                 //Account = customer.CAccount,
                                                 ProductName = product.PName,
                                                 OrderStatus = notify.OStatus,
@@ -149,7 +152,7 @@ namespace GoSweet.Controllers
              where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
              select new CustomerBellDropDownVm
              {
-                 OrderNumber = notify.ONumber,
+                 OrderEnd = order.OEnd,
                  //Account = customer.CAccount,
                  ProductName = product.PName,
                  OrderStatus = notify.OStatus,
@@ -197,7 +200,7 @@ namespace GoSweet.Controllers
                 join product in _context.ProductDatatables
                     on order.PNumber equals product.PNumber
                 where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
-                select notify; 
+                select notify;
             foreach (var item in notifyMessageAlreadySendQuery)
             {
                 item.NRead = true;

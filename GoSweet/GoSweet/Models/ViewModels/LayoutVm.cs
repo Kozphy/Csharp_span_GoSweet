@@ -1,4 +1,6 @@
-﻿namespace GoSweet.Models.ViewModels
+﻿using Org.BouncyCastle.Bcpg.OpenPgp;
+
+namespace GoSweet.Models.ViewModels
 {
 
     public class CustomerBellDropDownVm
@@ -9,12 +11,16 @@
         public int? OrderNumber { get; set; }
         public string? ProductName { get; set; }
         public string? OrderStatus { get; set; }
+        public DateTime? OrderEnd { get; set; }
+
         public bool? Read { get; set; }
     }
 
     public class FirmBellDropDownVm
     {
         public int? OrderNumber { get; set; }
+
+        public DateTime? OrderEnd { get; set; }
         public string? ProductName { get; set; }
         public string? OrderStatus { get; set; }
         public bool? NotifyRead { get; set; }

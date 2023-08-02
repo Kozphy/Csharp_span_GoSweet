@@ -2,7 +2,7 @@
 let productCategoryTitles = document.querySelectorAll(".product-category-title");
 
 
-// #region 商品種類點擊 TODO:refactor
+// #region 商品種類點擊 
 async function sendCategoryInfo(category) {
     let res = await axios.get(`http://localhost:5183/Home/HandleProductCategory?Category=${category}`,
         {

@@ -28,6 +28,7 @@ namespace GoSweet.Models.ViewModels
 
     public class ProductGroupBuyData
     {
+        public int? GroupNumber { get; set; }
         public string? ProductName { get; set; }
         public string? ProductPicture { get; set; }
         public string? ProductDescription { get; set; }
