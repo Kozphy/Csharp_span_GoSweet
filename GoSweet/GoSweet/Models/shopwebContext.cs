@@ -3,11 +3,12 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace GoSweet.Models
 {
-    public partial class ShopwebContext : DbContext
+    public partial class ShopwebContext : IdentityDbContext
     {
         public ShopwebContext()
         {
@@ -585,4 +586,5 @@ namespace GoSweet.Models
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
+
 }
