@@ -301,37 +301,6 @@ namespace GoSweet.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //取得廠商訂單資料  訂單網頁使用者為廠商
         public IActionResult order_f()
         {
