@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace GoSweet.Models
 {
-    public partial class ShopwebContext : IdentityDbContext
+    public partial class ShopwebContext : DbContext 
     {
         public ShopwebContext()
         {
