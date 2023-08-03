@@ -2,10 +2,10 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-<link rel="stylesheet" href="~/css/Search/style_product.css">
-<link rel="stylesheet" href="~/css/Search/style_star.css">
-@*>>>>>>> 195119f07330c94481b2679caaf34884c95b95d6:GoSweet/GoSweet/Views/Product/Product.cshtml
-*@
+@section Head{
+    <link rel="stylesheet" href="~/css/Search/style_product.css">
+    <link rel="stylesheet" href="~/css/Search/style_star.css">
+}
 <div class="productData container pb-5">
 	<div class="row d-flex">
 		@*<div class="col-1"></div>*@
@@ -101,55 +101,54 @@
 		@*<div class="col-1"></div>*@
 	</div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
-<script>
-	//var aa = @ViewBag.ProductData[0].ProductOat
-	//if(aa == undefined){
-	//	aa=0
-	//}
-	//alert(aa)
-	var aa = @((ViewBag.ProductData[0].ProductOat ?? 0).ToString());
-	if (isNaN(aa)) {
-		aa = 0;
-	}
 
-	$(".full_star").css("width", `${(aa / 5) * 100}%`)
-	$(".evaluate span").text(parseFloat(aa).toFixed(1))
-	$("#buyCart").click(() => {
-		// alert('已加入購物車')
-		Swal.fire('已加入購物車')
-		
-	})
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+    <script>
+        //var aa = @ViewBag.ProductData[0].ProductOat
+        //if(aa == undefined){
+        //	aa=0
+        //}
+        //alert(aa)
+        var aa = @((ViewBag.ProductData[0].ProductOat ?? 0).ToString());
+        if (isNaN(aa)) {
+            aa = 0;
+        }
 
-	$(".imgBox").click(function () {
-		$(this).addClass("openImg")
-		$(this).siblings().removeClass("openImg")
-		var aa = $(this).attr("src")
-		$("#imgMain").prop("src", aa)
-	})
-	$("#buyNum").change(function () {
-		var buyNum = $("#buyNum").val()
-		$("#buy").prop("href", "../BuyList/BuyList?pid=@ViewBag.ProductData[0].ProductData.PNumber" + "&num=" + buyNum)
-		$("#group_buy").prop("href", "../BuyList/BuyListGroup?pid=@ViewBag.ProductData[0].ProductData.PNumber" + "&num=" + buyNum)
-	})
+        $(".full_star").css("width", `${(aa / 5) * 100}%`)
+        $(".evaluate span").text(parseFloat(aa).toFixed(1))
+        $("#buyCart").click(() => {
+            // alert('已加入購物車')
+            Swal.fire('已加入購物車')
+            
+        })
 
-	$("#group_buy").click(function (event) {
-		if (@ViewBag.GroupTF == 0){
-			event.preventDefault()
-			Swal.fire('此商品無法團購')
-			}
-	})
+        $(".imgBox").click(function () {
+            $(this).addClass("openImg")
+            $(this).siblings().removeClass("openImg")
+            var aa = $(this).attr("src")
+            $("#imgMain").prop("src", aa)
+        })
+        $("#buyNum").change(function () {
+            var buyNum = $("#buyNum").val()
+            $("#buy").prop("href", "../BuyList/BuyList?pid=@ViewBag.ProductData[0].ProductData.PNumber" + "&num=" + buyNum)
+            $("#group_buy").prop("href", "../BuyList/BuyListGroup?pid=@ViewBag.ProductData[0].ProductData.PNumber" + "&num=" + buyNum)
+        })
 
-	var pp = parseInt(@ViewBag.GPrice)
+        $("#group_buy").click(function (event) {
+            if (@ViewBag.GroupTF == 0){
+                event.preventDefault()
+                Swal.fire('此商品無法團購')
+                }
+        })
 
-	if(pp == 0){
-		$("#GPrice").text("此商品無團購 !!")
-	}
-	//alert(pp)
-	
-</script>
+        var pp = parseInt(@ViewBag.GPrice)
 
-
-
-@*</html>*@
+        if(pp == 0){
+            $("#GPrice").text("此商品無團購 !!")
+        }
+        //alert(pp)
+    </script>
+}
