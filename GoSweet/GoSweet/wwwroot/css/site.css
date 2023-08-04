@@ -55,15 +55,15 @@ body {
 }
 
 /* customer 內容顯示在 navbar 高度下*/
-.customer-body-section {
+/*.customer-body-section {
 	padding-top:185px;
 }
-
+*/
 /* firm 內容顯示在 navbar 高度下*/
-.firm-body-section {
+/*.firm-body-section {
 	padding-top:146px;
 }
-
+*/
 .active {
     background-color: rgba(0,0,0,0.2);
 }
