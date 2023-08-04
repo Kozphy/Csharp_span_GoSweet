@@ -24,6 +24,7 @@ namespace GoSweet.Models.ViewModels
         public string? CAccount { get; set; }
 
         [DisplayName("密碼")]
+        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
         [Required(ErrorMessage = "密碼必填")]
         public string? CPassword { get; set; }
     }
@@ -43,10 +44,12 @@ namespace GoSweet.Models.ViewModels
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "密碼必填")]
+        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
         public string? CPassword { get; set; }
 
         [DisplayName("確認密碼")]
         [Required(ErrorMessage = "確認密碼必填")]
+        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
         public string? CPasswordCheck { get; set; }
         public bool CMailpass { get; set; }
     }
@@ -59,6 +62,7 @@ namespace GoSweet.Models.ViewModels
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "密碼必填")]
+        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
         public string? FPassword { get; set; }
     }
 
@@ -77,11 +81,13 @@ namespace GoSweet.Models.ViewModels
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "密碼必填")]
+        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
         public string? FPassword { get; set; }
 
 
         [DisplayName("確認密碼")]
         [Required(ErrorMessage = "確認密碼必填")]
+        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
         public string? FPasswordCheck { get; set; }
         public bool FMailpass { get; set; }
     }
@@ -92,10 +98,12 @@ namespace GoSweet.Models.ViewModels
 
         [DisplayName("新密碼")]
         [Required(ErrorMessage = "newPassword required")]
+        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
         public string? NewPassword { get; set; }
 
         [DisplayName("確認新密碼")]
         [Required(ErrorMessage = "check newPassword required")]
+        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
         public string? CheckNewPassword { get; set; }
     }
 
