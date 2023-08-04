@@ -4,6 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GoSweet.Models.ViewModels
 {
+    public class BaseUser
+    {
+        public const int PasswordMinLength = 8;
+        public const string RegEmail = @"[a-z0-9]+@[a-z]+\.[a-z]{2,3}";
+        public const string RegEmailErrorMessage = "Please enter a valid email address";
+    }
+
     public class AccountVm
     {
        public CustomerAccountVm? customerAccountVm { get; set; }
@@ -16,20 +23,21 @@ namespace GoSweet.Models.ViewModels
         }
     }
 
-    public class CustomerLoginVm
+    public class CustomerLoginVm : BaseUser
     {
         [DisplayName("Email")]
+        [RegularExpression(RegEmail, ErrorMessage = RegEmailErrorMessage)]
         [EmailAddress(ErrorMessage ="Invalid Email format")]
         [Required(ErrorMessage ="帳號必填")]
         public string? CAccount { get; set; }
 
         [DisplayName("密碼")]
-        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
+        [MinLength(PasswordMinLength, ErrorMessage="密碼必須大於 8 碼")]
         [Required(ErrorMessage = "密碼必填")]
         public string? CPassword { get; set; }
     }
 
-    public class CustomerAccountVm
+    public class CustomerAccountVm : BaseUser
     {
         [DisplayName("帳號名稱")]
         [Required(ErrorMessage ="帳號名稱必填")]
@@ -38,22 +46,23 @@ namespace GoSweet.Models.ViewModels
 
 
         [DisplayName("Email")]
+        [RegularExpression(RegEmail, ErrorMessage = RegEmailErrorMessage)]
         [EmailAddress(ErrorMessage ="Invalid Email format")]
         [Required(ErrorMessage ="帳號必填")]
         public string? CAccount { get; set; }
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "密碼必填")]
-        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
+        [MinLength(PasswordMinLength, ErrorMessage="密碼必須大於 8 碼")]
         public string? CPassword { get; set; }
 
         [DisplayName("確認密碼")]
         [Required(ErrorMessage = "確認密碼必填")]
-        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
+        [MinLength(PasswordMinLength, ErrorMessage="密碼必須大於 8 碼")]
         public string? CPasswordCheck { get; set; }
         public bool CMailpass { get; set; }
     }
-    public class FirmAccountLoginVm
+    public class FirmAccountLoginVm : BaseUser
     {
         [DisplayName("Email")]
         [EmailAddress(ErrorMessage ="Invalid Email format")]
@@ -62,11 +71,11 @@ namespace GoSweet.Models.ViewModels
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "密碼必填")]
-        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
+        [MinLength(PasswordMinLength, ErrorMessage="密碼必須大於 8 碼")]
         public string? FPassword { get; set; }
     }
 
-    public class FirmAccountVm
+    public class FirmAccountVm: BaseUser
     {
         public int FNumber { get; set; }
 
@@ -81,29 +90,29 @@ namespace GoSweet.Models.ViewModels
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "密碼必填")]
-        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
+        [MinLength(PasswordMinLength, ErrorMessage="密碼必須大於 8 碼")]
         public string? FPassword { get; set; }
 
 
         [DisplayName("確認密碼")]
         [Required(ErrorMessage = "確認密碼必填")]
-        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
+        [MinLength(PasswordMinLength, ErrorMessage="密碼必須大於 8 碼")]
         public string? FPasswordCheck { get; set; }
         public bool FMailpass { get; set; }
     }
 
-    public class ResetPasswordVm
+    public class ResetPasswordVm : BaseUser
     {
         public string? EmailAddress { get; set; }
 
         [DisplayName("新密碼")]
         [Required(ErrorMessage = "newPassword required")]
-        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
+        [MinLength(PasswordMinLength, ErrorMessage="密碼必須大於 8 碼")]
         public string? NewPassword { get; set; }
 
         [DisplayName("確認新密碼")]
         [Required(ErrorMessage = "check newPassword required")]
-        [MinLength(8, ErrorMessage="密碼必須大於 8 碼")]
+        [MinLength(PasswordMinLength, ErrorMessage="密碼必須大於 8 碼")]
         public string? CheckNewPassword { get; set; }
     }
 
