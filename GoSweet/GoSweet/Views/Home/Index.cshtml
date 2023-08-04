@@ -7,27 +7,31 @@
 }
 
 @section Head{
-    <link rel="stylesheet" href="~/css/Home/productPopularRank.css" />
-    <link rel="stylesheet" href="~/css/Home/processArticle.css" />
-    <link rel="stylesheet" href="~/css/Home/popularGroupBuy.css" />
-    <link rel="stylesheet" href="~/css/Home/news.css" />
-    <link rel="stylesheet" href="~/css/Home/decoratorIcon.css" />
-    <link rel="stylesheet" href="~/css/Home/feature.css" />
+    <link rel="stylesheet" href="css/Home/landpage.css"/>
+    <link rel="stylesheet" href="~/css/Home/productPopularRank.css"/>
+    <link rel="stylesheet" href="~/css/Home/processArticle.css"/>
+    <link rel="stylesheet" href="~/css/Home/popularGroupBuy.css"/>
+    <link rel="stylesheet" href="~/css/Home/news.css"/>
+    <link rel="stylesheet" href="~/css/Home/decoratorIcon.css"/>
+    <link rel="stylesheet" href="~/css/Home/feature.css"/>
 
     @*third party*@
-    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css"/>
+    <link rel="stylesheet" href="lib/animate.css/animate.min.css"/>
 }
-
 
 <div class="wrapper bg-white">
     @*landing page*@
-    <section class="landpage container-fluid px-0">
+    <section class="landpage container-fluid px-0 position-relative">
         <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
+        <div class="StartBtn-section">
+            <a class="text-decoration-none start-btn d-block h-100 w-100" href="#product-hot-rank" type="button" > Start >></a>
+        </div>
     </section>
 
 
     @*商品熱銷排行 *@
-    <section class="container product-hot-rank pb-3">
+    <section class="container pb-3" id="product-hot-rank">
         <div class="product-category row mx-0">
             <div class="col-md-12">
                 <div class=" text-center py-3">

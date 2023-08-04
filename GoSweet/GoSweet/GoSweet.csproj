@@ -2581,6 +2581,8 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -2920,6 +2922,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Authentication\" />
     <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
     <Folder Include="wwwroot\img\ProductUrl\" />
     <Folder Include="wwwroot\js\Firm\" />

@@ -1,10 +1,13 @@
 using GoSweet.Hubs;
 using GoSweet.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Toolbelt.Extensions.DependencyInjection;
 namespace GoSweet
 {
@@ -19,6 +22,16 @@ namespace GoSweet
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopwebConnstring")));
             builder.Services.AddHttpContextAccessor();
 
+            // Add Identity Service
+            //builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            //{
+            //    options.Password.RequireDigit = true;
+            //    options.Password.RequireLowercase = true;
+            //    options.Password.RequiredLength = 5;
+            //}).AddEntityFrameworkStores<ShopwebContext>()
+            //    .AddDefaultTokenProviders();
+
+            
             //Add  Http Session
             builder.Services.AddSession(options =>
             {

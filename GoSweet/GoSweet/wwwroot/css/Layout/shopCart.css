@@ -1,11 +1,13 @@
 ﻿/*customize*/
 .shopCart-dropdown-menu {
-    position:absolute;
-    top:20px;
-    right:10px;
-    transform:scaleY(0);
-    transition-duration:0.5s;
-    transform-origin:top center;
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    transform: scaleY(0);
+    transition-duration: 0.5s;
+    transform-origin: top center;
+    z-index: 20;
+    background-color: #212529
 }
 
 .shopCart-dropdown-menu-show {
