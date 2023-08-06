@@ -7,6 +7,7 @@
 }
 
 @section Head{
+    <link rel="stylesheet" href="~/css/Home/landing.css" />
     <link rel="stylesheet" href="~/css/Home/productPopularRank.css" />
     <link rel="stylesheet" href="~/css/Home/processArticle.css" />
     <link rel="stylesheet" href="~/css/Home/popularGroupBuy.css" />
@@ -22,7 +23,36 @@
 <div class="wrapper bg-white">
     @*landing page*@
     <section class="landpage container-fluid px-0">
+        @*        <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+        <img src="~/img/Home/landpage.jpg" class="d-block w-100" alt="landpage">
+        </div>
+        <div class="carousel-item">
+        <img src="~/img/Home/landpage2.jpg" class="d-block w-100" alt="landpage2">
+        </div>
+        <div class="carousel-item">
+        <img src="..." class="d-block w-100" alt="...">
+        </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+        </button>
+        </div>*@
         <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
+        <div class="landpage-desc d-flex flex-column justify-content-between">
+            <div class="text-center  text-white mt-5">
+                <span class="display-4 text-center">
+                GoSweet, You deserve to have.
+                </span>
+            </div>
+            <button class="btn-lg buy-now-btn mb-5" type="button"> Buy Now!</button>
+        </div>
     </section>
 
 
@@ -117,7 +147,7 @@
                                 @*TODO: fix submit btn*@
                                 <form method="get" asp-controller="Search" asp-action="SearchResultGroup">
                                     <input type="hidden" name="keyWord" value="@item.ProductName">
-                                    <img src="@item.ProductPicture" class="card-img-top" alt="咕咕霍夫">
+                                    <img src="@item.ProductPicture" class="card-img-top" alt="@item.ProductPicture">
                                     <div class="groupbuy-segment-hover-content">
                                         <button type="submit" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
                                     </div>
