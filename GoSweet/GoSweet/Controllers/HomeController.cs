@@ -155,7 +155,7 @@ namespace GoSweet.Controllers
              where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
              select new CustomerBellDropDownVm
              {
-                 OrderNumber = notify.ONumber,
+                 OrderEnd = order.OEnd,
                  //Account = customer.CAccount,
                  ProductName = product.PName,
                  OrderStatus = notify.OStatus,

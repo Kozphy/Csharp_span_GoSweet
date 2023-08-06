@@ -31,13 +31,13 @@
                     <div class="py-2">
                         <label asp-for="CAccount" class="form-label">Email</label>
                         <input asp-for="CAccount" type="email" class="form-control" />
-                        <span asp-validation-for="CAccount" class="text-danger"></span>
+                        <span asp-validation-for="CAccount" class="text-danger d-block mt-2"></span>
                     </div>
                     <div class="py-2">
                         <label asp-for="CPassword" class="form-label">Password</label>
                         <span role="button" class="ms-2 text-mute-3 fw-bolder text-decoration-underline " data-bs-toggle="modal" data-bs-target="#ForgetPasswordModal">Forget?</span>
                         <input asp-for="CPassword" type="password" class="form-control" />
-                        <span asp-validation-for="CPassword" class="text-danger"></span>
+                        <span asp-validation-for="CPassword" class="text-danger d-block mt-2"></span>
                     </div>
                     <div class="mb-2" id="html_recaptcha" onclick="onClick" required></div>
                     @*<div class="mb-2">驗證</div>*@
