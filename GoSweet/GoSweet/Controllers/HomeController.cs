@@ -26,7 +26,7 @@ namespace GoSweet.Controllers
         public HomeController(ILogger<HomeController> logger, ShopwebContext context, IConfiguration config, IWebHostEnvironment webHost)
         {
             _logger = logger;
-            _context = context;
+             _context = context;
             _config = config;
             _webHost = webHost;
         }
@@ -91,9 +91,9 @@ namespace GoSweet.Controllers
                                                                  GroupMaxPeople = groupbuy.GMaxpeople,
                                                                  GroupNowPeople = member.MNowpeople,
                                                                  GroupEndDate = groupbuy.GEnd,
-                                                                 GroupPeoplePercent = percent,
+                                                                 GroupPeoplePercent = percent, 
                                                                  GroupRemainDate = remainDays,
-                                                             }).OrderBy(x => x.GroupRemainDate).ThenByDescending(x => (int)x.GroupPeoplePercent).Take(4).ToList();
+                                                             }).OrderBy(x  => x.GroupRemainDate).ThenByDescending(x => (int)x.GroupPeoplePercent).Take(4).ToList();
 
             #endregion
 
@@ -118,7 +118,7 @@ namespace GoSweet.Controllers
             {
                 return null;
             }
-
+        
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup =
                                            (from notify in _context.NotifyDatatables
                                             join order in _context.OrderDatatables
@@ -133,7 +133,7 @@ namespace GoSweet.Controllers
                                             select new CustomerBellDropDownVm
                                             {
                                                 //OrderNumber = notify.ONumber,
-                                                OrderEnd = order.OEnd,
+                                                GroupNumber = groups.PNumber,
                                                 //Account = customer.CAccount,
                                                 ProductName = product.PName,
                                                 OrderStatus = notify.OStatus,
@@ -152,7 +152,7 @@ namespace GoSweet.Controllers
              where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
              select new CustomerBellDropDownVm
              {
-                 OrderEnd = order.OEnd,
+                 OrderNumber = notify.ONumber,
                  //Account = customer.CAccount,
                  ProductName = product.PName,
                  OrderStatus = notify.OStatus,
@@ -200,7 +200,7 @@ namespace GoSweet.Controllers
                 join product in _context.ProductDatatables
                     on order.PNumber equals product.PNumber
                 where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
-                select notify;
+                select notify; 
             foreach (var item in notifyMessageAlreadySendQuery)
             {
                 item.NRead = true;
