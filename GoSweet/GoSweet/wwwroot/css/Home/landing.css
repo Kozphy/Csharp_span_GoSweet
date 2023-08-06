@@ -3,6 +3,9 @@
 }
 
     .landpage img {
+/*        z-index: -1;*/
+        /*TODO: fix z-index*/
+        /*padding-top: -5%;*/
         margin-top: -5%;
     }
 
