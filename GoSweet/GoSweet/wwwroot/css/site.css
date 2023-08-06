@@ -10,6 +10,13 @@
     font-family: 'Noto Sans TC', sans-serif;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: "Noto Sans TC", sans-serif;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,

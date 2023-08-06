@@ -22,10 +22,15 @@
 
 <div class="wrapper bg-white">
     @*landing page*@
-    <section class="landpage container-fluid px-0 position-relative">
+    <section class="landpage container-fluid px-0">
         <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
-        <div class="StartBtn-section">
-            <a class="text-decoration-none start-btn d-block h-100 w-100" href="#product-hot-rank" type="button" > Start >></a>
+        <div class="landpage-desc d-flex flex-column justify-content-between">
+            <div class="text-center  text-white mt-5">
+                <span class="display-4 text-center">
+                GoSweet, You deserve to have.
+                </span>
+            </div>
+            <a asp-controller="Search" asp-action="SearchResult" class="buy-now-btn mb-5"> Buy Now!</a>
         </div>
     </section>
 
@@ -121,7 +126,7 @@
                                 @*TODO: fix submit btn*@
                                 <form method="get" asp-controller="Search" asp-action="SearchResultGroup">
                                     <input type="hidden" name="keyWord" value="@item.ProductName">
-                                    <img src="@item.ProductPicture" class="card-img-top" alt="咕咕霍夫">
+                                    <img src="@item.ProductPicture" class="card-img-top" alt="@item.ProductPicture">
                                     <div class="groupbuy-segment-hover-content">
                                         <button type="submit" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
                                     </div>
