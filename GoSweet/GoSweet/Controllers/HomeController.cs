@@ -45,7 +45,7 @@ namespace GoSweet.Controllers
             #endregion
 
 
-            // TODO: fix group issue
+            // TODO: fix group
             #region getProductRankData
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
@@ -141,6 +141,7 @@ namespace GoSweet.Controllers
 
             //IEnumerable<BellContentVm> notifyMessage
 
+            #region NotfiyMessageAlreadySend
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadySend =
             (from notify in _context.NotifyDatatables
              join order in _context.OrderDatatables
@@ -157,6 +158,7 @@ namespace GoSweet.Controllers
                  ProductName = product.PName,
                  OrderStatus = notify.OStatus,
              }).ToList();
+            #endregion
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
@@ -212,7 +214,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
             return RedirectToAction(nameof(GetBellDropdownMessage));
@@ -307,10 +309,9 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult SignUp(CustomerAccountVm customerAccountData)
         {
-            // encoding
             if (ModelState.IsValid == false) return View();
 
-            // create hashPassword with salt
+            // encoding create hashPassword with salt
             string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerAccountData.CPassword!);
             customerAccountData.CPassword = hashPassword;
 
@@ -335,7 +336,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                return StatusCode(500, $"add account error: {e.Message}");
             }
             //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
@@ -385,8 +386,8 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 TempData["sendEmailFailMessage"] = $"Send Email to {EmailAddress} fail";
+                return BadRequest($"Bad Request: {ex.Message}");
             }
 
             return RedirectToAction("Login");
@@ -428,7 +429,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return StatusCode(500, $"update password error: {ex.Message}");
             }
             return RedirectToAction("Index");
         }
