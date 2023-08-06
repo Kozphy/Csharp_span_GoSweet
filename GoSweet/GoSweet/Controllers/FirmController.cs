@@ -255,7 +255,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
             return RedirectToAction(nameof(GetBellDropdownMessage));
@@ -435,7 +435,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                return StatusCode(500, e.Message);
             }
 
             return RedirectToAction("Login");
@@ -485,8 +485,8 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 TempData["sendEmailFailMessage"] = $"Send Email to {EmailAddress} fail";
+                return StatusCode(500, ex.Message);
             }
 
 
@@ -504,11 +504,8 @@ namespace GoSweet.Controllers
         public IActionResult ResetPassword(ResetPasswordVm resetPasswordData)
         {
             ViewBag.EmailAddress = resetPasswordData.EmailAddress;
+            if (!ModelState.IsValid) return View(resetPasswordData);
 
-            if (ModelState.IsValid == false)
-            {
-                return View(resetPasswordData);
-            }
 
             if (resetPasswordData.NewPassword != resetPasswordData.CheckNewPassword)
             {
@@ -531,7 +528,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
             return RedirectToAction("Login", "Firm");

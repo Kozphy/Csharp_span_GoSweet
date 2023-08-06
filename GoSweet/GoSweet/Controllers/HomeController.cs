@@ -26,7 +26,7 @@ namespace GoSweet.Controllers
         public HomeController(ILogger<HomeController> logger, ShopwebContext context, IConfiguration config, IWebHostEnvironment webHost)
         {
             _logger = logger;
-             _context = context;
+            _context = context;
             _config = config;
             _webHost = webHost;
         }
@@ -45,7 +45,7 @@ namespace GoSweet.Controllers
             #endregion
 
 
-            // TODO: fix group issue
+            // TODO: fix group
             #region getProductRankData
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
@@ -91,9 +91,9 @@ namespace GoSweet.Controllers
                                                                  GroupMaxPeople = groupbuy.GMaxpeople,
                                                                  GroupNowPeople = member.MNowpeople,
                                                                  GroupEndDate = groupbuy.GEnd,
-                                                                 GroupPeoplePercent = percent, 
+                                                                 GroupPeoplePercent = percent,
                                                                  GroupRemainDate = remainDays,
-                                                             }).OrderBy(x  => x.GroupRemainDate).ThenByDescending(x => (int)x.GroupPeoplePercent).Take(4).ToList();
+                                                             }).OrderBy(x => x.GroupRemainDate).ThenByDescending(x => (int)x.GroupPeoplePercent).Take(4).ToList();
 
             #endregion
 
@@ -118,29 +118,32 @@ namespace GoSweet.Controllers
             {
                 return null;
             }
-        
+
+            #region notifyMessageAlreadyGroup
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup =
-                                           (from notify in _context.NotifyDatatables
-                                            join order in _context.OrderDatatables
-                                                on notify.ONumber equals order.ONumber
-                                            join customer in _context.CustomerAccounttables
-                                                on notify.CNumber equals customer.CNumber
-                                            join product in _context.ProductDatatables
-                                                on order.PNumber equals product.PNumber
-                                            join groups in _context.GroupDatatables
-                                                on product.PNumber equals groups.PNumber
-                                            where (notify.OStatus == "已成團") && customer.CAccount == customerAccount && notify.NRead == false
-                                            select new CustomerBellDropDownVm
-                                            {
-                                                //OrderNumber = notify.ONumber,
-                                                GroupNumber = groups.PNumber,
-                                                //Account = customer.CAccount,
-                                                ProductName = product.PName,
-                                                OrderStatus = notify.OStatus,
-                                            }).ToList();
+                                                     (from notify in _context.NotifyDatatables
+                                                      join order in _context.OrderDatatables
+                                                          on notify.ONumber equals order.ONumber
+                                                      join customer in _context.CustomerAccounttables
+                                                          on notify.CNumber equals customer.CNumber
+                                                      join product in _context.ProductDatatables
+                                                          on order.PNumber equals product.PNumber
+                                                      join groups in _context.GroupDatatables
+                                                          on product.PNumber equals groups.PNumber
+                                                      where (notify.OStatus == "已成團") && customer.CAccount == customerAccount && notify.NRead == false
+                                                      select new CustomerBellDropDownVm
+                                                      {
+                                                          //OrderNumber = notify.ONumber,
+                                                          GroupNumber = groups.PNumber,
+                                                          //Account = customer.CAccount,
+                                                          ProductName = product.PName,
+                                                          OrderStatus = notify.OStatus,
+                                                      }).ToList();
+            #endregion
 
             //IEnumerable<BellContentVm> notifyMessage
 
+            #region NotfiyMessageAlreadySend
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadySend =
             (from notify in _context.NotifyDatatables
              join order in _context.OrderDatatables
@@ -157,6 +160,7 @@ namespace GoSweet.Controllers
                  ProductName = product.PName,
                  OrderStatus = notify.OStatus,
              }).ToList();
+            #endregion
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
@@ -200,7 +204,8 @@ namespace GoSweet.Controllers
                 join product in _context.ProductDatatables
                     on order.PNumber equals product.PNumber
                 where (notify.OStatus == "已寄出") && customer.CAccount == customerAccount && notify.NRead == false
-                select notify; 
+                select notify;
+
             foreach (var item in notifyMessageAlreadySendQuery)
             {
                 item.NRead = true;
@@ -212,7 +217,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
             return RedirectToAction(nameof(GetBellDropdownMessage));
@@ -307,10 +312,9 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult SignUp(CustomerAccountVm customerAccountData)
         {
-            // encoding
             if (ModelState.IsValid == false) return View();
 
-            // create hashPassword with salt
+            // encoding create hashPassword with salt
             string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerAccountData.CPassword!);
             customerAccountData.CPassword = hashPassword;
 
@@ -335,7 +339,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                return StatusCode(500, $"add account error: {e.Message}");
             }
             //HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             //HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
@@ -385,8 +389,8 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 TempData["sendEmailFailMessage"] = $"Send Email to {EmailAddress} fail";
+                return BadRequest($"Bad Request: {ex.Message}");
             }
 
             return RedirectToAction("Login");
@@ -428,7 +432,7 @@ namespace GoSweet.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return StatusCode(500, $"update password error: {ex.Message}");
             }
             return RedirectToAction("Index");
         }
