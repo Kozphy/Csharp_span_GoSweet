@@ -59,24 +59,24 @@ canvas {
 }
 
 /*列表表格流水編*/
-.RevenuepageTableNumber {
+/*.RevenuepageTableNumber {
     width: 20%;
     word-break: keep-all;
     white-space: nowrap;
-}
+}*/
 
 .RevenuepageTableTitle {
     font-size:1.3rem;
     width:100%;
 }
 /*列表表格資料*/
-.RevenuepageTableData {
+/*.RevenuepageTableData {
     width: 100%;
     word-break: keep-all;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+}*/
 
 /* 表格用樣式 */
 .SearchList{
@@ -96,7 +96,7 @@ table {
 
 td,
 th {
-    border: 1px solid #cdcdcd;
+    border: 1px solid #cdcdcd !important;
     padding: 8px;
 }
 
