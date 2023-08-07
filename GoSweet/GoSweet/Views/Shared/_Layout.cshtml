@@ -189,39 +189,40 @@
                     </div>
                 </div>
             </form>
+            @*navbar section*@
+            <nav class="navbar-section navbar navbar-expand-md bg-mute-1">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                        <ul class="navbar-nav mb-2 mt-2 mt-md-0 mb-lg-0 flex-grow-1 justify-content-between">
+                            <li class="nav-item">
+                                <a class="nav-link text-black px-5 w-100 h-100" asp-controller="Home" asp-action="Index">首頁</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Search" asp-action="SearchResult">商品</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Search" asp-action="SearchResultGroup">團購</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="CooperateFirm">合作廠商</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="Privacy">關於我們</a>
+                            </li>
+                            @*                        <li class="nav-item">
+                            <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="Privacy">F&Q</a>
+                            </li>
+                            *@
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
         </div>
 
-        @*navbar section*@
-        <nav class="navbar-section navbar navbar-expand-md bg-mute-1">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                    <ul class="navbar-nav mb-2 mt-2 mt-md-0 mb-lg-0 flex-grow-1 justify-content-between">
-                        <li class="nav-item">
-                            <a class="nav-link text-black px-5 w-100 h-100" asp-controller="Home" asp-action="Index">首頁</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Search" asp-action="SearchResult">商品</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Search" asp-action="SearchResultGroup">團購</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="CooperateFirm">合作廠商</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="Privacy">關於我們</a>
-                        </li>
-                        @*                        <li class="nav-item">
-                        <a class="nav-link text-dark px-5 w-100 h-100" asp-controller="Home" asp-action="Privacy">F&Q</a>
-                        </li>
-                        *@
-                    </ul>
-                </div>
-            </div>
-        </nav>
         @*        <nav class="navbar-section navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-mute-1 border-bottom box-shadow mt-alert-mute-2 pb-2 mt-2 ">
         <div class="container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -252,87 +253,88 @@
         </div>
         </div>
         </nav>*@
+        @*sidebar*@
+        <div class="d-flex flex-column flex-shrink-0  text-bg-dark sideBar-section">
+            <div class="d-flex">
+                <i class="bi bi-x-lg ms-auto me-2 sidebarClose"></i>
+            </div>
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none mt-3">
+                <span class="fs-4 ms-2">
+                    @{
+                        string? accountName = Accessor.HttpContext?.Session.GetString("customerAccountName");
+                        if (accountName == null)
+                        {
+                            <span class="fs-4">Go 菓</span>
+                        }
+                        else
+                        {
+                            <span class="fs-4">Go 菓 (@accountName) </span>
+                        }
+                    }
+                </span>
+            </a>
+            <hr>
+            @if (Accessor.HttpContext?.Session.GetString("customerAccountName") == null)
+            {
+                <div class="text-center fw-bolder">
+                    <a class="text-decoration-none py-3 w-100 userLoginBtn d-inline-block" asp-controller="Home" asp-action="Login">
+                        使用者登入
+                    </a>
+                </div>
+                <div class="text-center fw-bolder ">
+                    <a class="text-decoration-none py-3 w-100 userSignUpBtn d-inline-block" asp-controller="Home" asp-action="SignUp">
+                        註冊
+                    </a>
+                </div>
+            }
+            else
+            {
+                @*
+            <div class="text-center fw-bolder ">
+            <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Customer_datatable" asp-action="data">
+            個人資料
+            </a>
+            </div>
+            *@
+                <div class="text-center fw-bolder ">
+                    <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Order_datatable" asp-action="order_c">
+                        訂單紀錄
+                    </a>
+                </div>
+                <div class="text-center fw-bolder ">
+                    <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Home" asp-action="LogOut">
+                        登出
+                    </a>
+                </div>
+            }
+
+
+            <hr>
+            <div class="mt-3">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none " data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="GoSweetLogo" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="goSweetLogo" />
+                </a>
+                @*
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                <li><a class="dropdown-item" href="#">New project...</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+                *@
+            </div>
+        </div>
+
+
     </header>
 
 
-    @*sidebar*@
-    <div class="d-flex flex-column flex-shrink-0  text-bg-dark sideBar-section">
-        <div class="d-flex">
-            <i class="bi bi-x-lg ms-auto me-2 sidebarClose"></i>
-        </div>
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none mt-3">
-            <span class="fs-4 ms-2">
-                @{
-                    string? accountName = Accessor.HttpContext?.Session.GetString("customerAccountName");
-                    if (accountName == null)
-                    {
-                        <span class="fs-4">Go 菓</span>
-                    }
-                    else
-                    {
-                        <span class="fs-4">Go 菓 (@accountName) </span>
-                    }
-                }
-            </span>
-        </a>
-        <hr>
-        @if (Accessor.HttpContext?.Session.GetString("customerAccountName") == null)
-        {
-            <div class="text-center fw-bolder">
-                <a class="text-decoration-none py-3 w-100 userLoginBtn d-inline-block" asp-controller="Home" asp-action="Login">
-                    使用者登入
-                </a>
-            </div>
-            <div class="text-center fw-bolder ">
-                <a class="text-decoration-none py-3 w-100 userSignUpBtn d-inline-block" asp-controller="Home" asp-action="SignUp">
-                    註冊
-                </a>
-            </div>
-        }
-        else
-        {
-            @*
-        <div class="text-center fw-bolder ">
-        <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Customer_datatable" asp-action="data">
-        個人資料
-        </a>
-        </div>
-        *@
-            <div class="text-center fw-bolder ">
-                <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Order_datatable" asp-action="order_c">
-                    訂單紀錄
-                </a>
-            </div>
-            <div class="text-center fw-bolder ">
-                <a class="text-decoration-none py-3 w-100 userInfoBtn d-inline-block" asp-controller="Home" asp-action="LogOut">
-                    登出
-                </a>
-            </div>
-        }
-
-
-        <hr>
-        <div class="mt-3">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none " data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="GoSweetLogo" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="goSweetLogo" />
-            </a>
-            @*
-            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li><a class="dropdown-item" href="#">New project...</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
-            </ul>
-            *@
-        </div>
-    </div>
 
 
 
-
-<div class="customer-body-section">
-    <main role="main">
+    <div class="customer-body-section">
+        <main role="main">
             @RenderBody()
         </main>
     </div>

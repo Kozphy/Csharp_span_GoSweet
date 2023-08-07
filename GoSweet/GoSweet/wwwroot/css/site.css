@@ -4,6 +4,13 @@
    License: none (public domain)
 */
 
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: "Noto Sans TC", sans-serif;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -55,12 +62,12 @@ body {
 }
 
 /* customer 內容顯示在 navbar 高度下*/
-/*.customer-body-section {
-	padding-top:185px;
+.customer-body-section {
+	padding-top:179px;
 }
-*/
-/* firm 內容顯示在 navbar 高度下*/
-/*.firm-body-section {
+
+/*firm 內容顯示在 navbar 高度下*/
+.firm-body-section {
 	padding-top:146px;
 }
 */
