@@ -3,10 +3,6 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-	//List<ProductDatatable> products = ViewBag.ProductDatatables;
-	//var products = ViewBag.ProductDatatables as IEnumerable<dynamic>;
-	//Type parameterType = typeof(ViewBag.ProductDatatablesJoin);
-
 	void test3(dynamic vv) {
 		double vvv = 0;
 		foreach (var item in vv) {
@@ -36,9 +32,11 @@
 	}
 }
 
-<link rel="stylesheet" href="~/css/Search/style_searchResult.css">
-<link rel="stylesheet" href="~/css/Search/style_star.css">
-<script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+@section Head{
+    <link rel="stylesheet" href="~/css/Search/style_searchResult.css">
+    <link rel="stylesheet" href="~/css/Search/style_star.css">
+}
+
 <div class="container pb-5 pt-3">
 	<div class="row pt-4">
 		<div class="col-12 result_top d-flex position-relative">
@@ -52,26 +50,28 @@
 		}
 	</div>
 </div>
-<script>
-	$("#low_high").click(() => {
-		$(".proCard").remove()
-		$(".row.pt-4").append(`@{test3(@ViewBag.ProductDatatablesLow);}`);
-	});
-	$("#high_low").click(() => {
-		$(".proCard").remove()
-		$(".row.pt-4").append(`@{test3(@ViewBag.ProductDatatablesHigh);}`);		
-	})
 
-	$("#evaluate").click(() => {
-		$(".proCard").remove()
-		$(".row.pt-4").append(`@{
-		test3(@ViewBag.ProductDatatablesPT);
-	}`);
-	})
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+    <script>
+        $("#low_high").click(() => {
+            $(".proCard").remove()
+            $(".row.pt-4").append(`@{test3(@ViewBag.ProductDatatablesLow);}`);
+        });
+        $("#high_low").click(() => {
+            $(".proCard").remove()
+            $(".row.pt-4").append(`@{test3(@ViewBag.ProductDatatablesHigh);}`);		
+        })
+
+        $("#evaluate").click(() => {
+            $(".proCard").remove()
+            $(".row.pt-4").append(`@{
+            test3(@ViewBag.ProductDatatablesPT);
+        }`);
+        })
 
 
-	//$(".full_star").css("width", `${(aa / 5) * 100}%`)
-	//$(".evaluate span").text(parseFloat(aa).toFixed(1))
-
-
-</script>
+        //$(".full_star").css("width", `${(aa / 5) * 100}%`)
+        //$(".evaluate span").text(parseFloat(aa).toFixed(1))
+    </script>
+}

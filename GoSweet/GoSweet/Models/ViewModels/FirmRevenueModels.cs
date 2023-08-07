@@ -1,9 +1,6 @@
 ﻿namespace GoSweet.Models.ViewModels
 {
-    public class FirmRevenueModels
-    {
-    }
-
+   
     //Json用類別
     public class RevenueSearch
     {

@@ -1,0 +1,20 @@
+﻿.StartBtn-section {
+    position: absolute;
+    /*border: white 10px solid;*/
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.StartBtn-section .start-btn {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 30px;
+    padding: 30px 40px;
+}
+
+.StartBtn-section:hover {
+    
+    animation-duration: 0.5s;
+}

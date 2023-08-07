@@ -1,0 +1,67 @@
+﻿.landpage {
+    position: relative;
+}
+
+    .landpage img {
+/*        z-index: -1;*/
+        /*TODO: fix z-index*/
+        /*padding-top: -5%;*/
+        margin-top: -5%;
+    }
+
+    .landpage .landpage-desc {
+        background-color: rgba(0, 0, 0, 0.3);
+        width: 1000px;
+        height: 300px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+
+.landpage-desc .buy-now-btn {
+    align-self:center;
+    /*self set*/
+    position: relative;
+    padding: 1.5em 2.5em;
+    background: none;
+    border: 2px solid #fff;
+    font-size: 15px;
+    color: #131313;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+    border-radius: 12px;
+    background-color: #ecd448;
+    font-weight: bolder;
+    box-shadow: 0 2px 0 2px #000;
+}
+
+    .landpage-desc .buy-now-btn:before {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 120%;
+        background-color: #ff6700;
+        top: 50%;
+        transform: skewX(30deg) translate(-150%, -50%);
+        transition: all 0.5s;
+    }
+
+    .landpage-desc .buy-now-btn:hover {
+        background-color: #4cc9f0;
+        color: #fff;
+        box-shadow: 0 2px 0 2px #0d3b66;
+    }
+
+        .landpage-desc .buy-now-btn:hover::before {
+            transform: skewX(30deg) translate(150%, -50%);
+            transition-delay: 0.1s;
+        }
+
+
+    .landpage-desc .buy-now-btn:active {
+        transform: scale(0.9);
+    }

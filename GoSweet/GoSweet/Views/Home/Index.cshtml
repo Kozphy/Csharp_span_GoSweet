@@ -7,6 +7,7 @@
 }
 
 @section Head{
+    <link rel="stylesheet" href="~/css/Home/landing.css" />
     <link rel="stylesheet" href="~/css/Home/productPopularRank.css" />
     <link rel="stylesheet" href="~/css/Home/processArticle.css" />
     <link rel="stylesheet" href="~/css/Home/popularGroupBuy.css" />
@@ -15,19 +16,27 @@
     <link rel="stylesheet" href="~/css/Home/feature.css" />
 
     @*third party*@
-    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css"/>
+    <link rel="stylesheet" href="lib/animate.css/animate.min.css"/>
 }
-
 
 <div class="wrapper bg-white">
     @*landing page*@
-    <section class="landpage container-fluid px-0">
+    <section class="landpage container-fluid px-0 position-relative">
         <img class="img-fluid w-100" src="~/img/Home/landpage.jpg" alt="landpage.jpg" />
+        <div class="landpage-desc d-flex flex-column justify-content-between">
+            <div class="text-center  text-white mt-5">
+                <span class="display-4 text-center">
+                    GoSweet, You deserve to have.
+                </span>
+            </div>
+            <a asp-controller="Search" asp-action="SearchResult" class="buy-now-btn mb-5"> Buy Now!</a>
+        </div>
     </section>
 
 
     @*商品熱銷排行 *@
-    <section class="container product-hot-rank pb-3">
+    <section class="container pb-3" id="product-hot-rank">
         <div class="product-category row mx-0">
             <div class="col-md-12">
                 <div class=" text-center py-3">
@@ -117,7 +126,7 @@
                                 @*TODO: fix submit btn*@
                                 <form method="get" asp-controller="Search" asp-action="SearchResultGroup">
                                     <input type="hidden" name="keyWord" value="@item.ProductName">
-                                    <img src="@item.ProductPicture" class="card-img-top" alt="咕咕霍夫">
+                                    <img src="@item.ProductPicture" class="card-img-top" alt="@item.ProductPicture">
                                     <div class="groupbuy-segment-hover-content">
                                         <button type="submit" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
                                     </div>
