@@ -10,6 +10,7 @@ using GoSweet.Controllers.feature;
 using GoSweet.Models.ViewModels;
 using System.Linq;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace GoSweet.Controllers
@@ -80,7 +81,7 @@ namespace GoSweet.Controllers
                                                              join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
                                                              join member in _context.MemberMembertables on groupbuy.GNumber equals member.GNumber
                                                              let percent = Math.Floor((double)member.MNowpeople / (double)groupbuy.GMaxpeople * 100.0)
-                                                             let remainDays = groupbuy.GEnd.Day - DateTime.Now.Day
+                                                             let remainDays = EF.Functions.DateDiffDay(DateTime.Now, groupbuy.GEnd)
                                                              where product_pic.PPicnumber == 1 && remainDays > 0
                                                              select new ProductGroupBuyData
                                                              {
