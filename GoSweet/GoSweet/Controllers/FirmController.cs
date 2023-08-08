@@ -198,7 +198,7 @@ namespace GoSweet.Controllers
                 return null;
             }
 
-            // 取得廠商通知
+            #region get firm bellMessage info
             IEnumerable<FirmBellDropDownVm> firmNotifyMessageQuery =
                 (from notify in _context.NotifyDatatables
                  join order in _context.OrderDatatables
@@ -216,6 +216,7 @@ namespace GoSweet.Controllers
                      OrderStatus = notify.OStatus,
                      NotifyRead = notify.NRead,
                  });
+            #endregion
 
             IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();
             HttpContext.Session.SetString("NotifyMessages", JsonConvert.SerializeObject(firmNotifyMessages));
