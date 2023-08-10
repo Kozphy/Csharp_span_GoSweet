@@ -7,7 +7,6 @@
 console.log(document.URL);
 console.log(localStorage['scrollTop']);
 $(document).ready(function (e) {
-    console.log(1);
     position = {
         top: localStorage['scrollTop'],
         left: 0,

@@ -418,7 +418,8 @@ namespace GoSweet.Controllers
             }
 
 
-            var accountQuery = _context.CustomerAccounttables.Where((c) => c.CAccount.Equals(resetPasswordData.EmailAddress));
+            var accountQuery = _context.CustomerAccounttables.Where((c) => 
+                c.CAccount.Equals(resetPasswordData.EmailAddress));
             var account = accountQuery.First();
 
             // create hashPassword with salt
