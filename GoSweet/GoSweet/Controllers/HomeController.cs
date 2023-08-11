@@ -47,7 +47,7 @@ namespace GoSweet.Controllers
 
 
             // TODO: fix group
-            #region getProductRankData
+            #region 取得熱銷排行資料 
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
@@ -75,7 +75,7 @@ namespace GoSweet.Controllers
 
             #endregion
 
-            #region getProductGroupBuyData
+            #region 取得團購商品 
             List<ProductGroupBuyData> productGroupBuyData = (from product in _context.ProductDatatables
                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                              join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
@@ -120,7 +120,7 @@ namespace GoSweet.Controllers
                 return null;
             }
 
-            #region notifyMessageAlreadyGroup
+            #region 團購已成團通知
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup =
                                                      (from notify in _context.NotifyDatatables
                                                       join order in _context.OrderDatatables
@@ -134,8 +134,9 @@ namespace GoSweet.Controllers
                                                       where (notify.OStatus == "已成團") && customer.CAccount == customerAccount && notify.NRead == false
                                                       select new CustomerBellDropDownVm
                                                       {
+                                                          OrderEnd = order.OEnd,
                                                           //OrderNumber = notify.ONumber,
-                                                          GroupNumber = groups.PNumber,
+                                                          //GroupNumber = groups.PNumber,
                                                           //Account = customer.CAccount,
                                                           ProductName = product.PName,
                                                           OrderStatus = notify.OStatus,
@@ -144,7 +145,7 @@ namespace GoSweet.Controllers
 
             //IEnumerable<BellContentVm> notifyMessage
 
-            #region NotfiyMessageAlreadySend
+            #region 商品已寄出通知
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadySend =
             (from notify in _context.NotifyDatatables
              join order in _context.OrderDatatables
@@ -165,7 +166,7 @@ namespace GoSweet.Controllers
 
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
-            ViewData["bellDropDownMessage"] = bellDropDownsDatas;
+            //ViewData["bellDropDownMessage"] = bellDropDownsDatas;
             HttpContext.Session.SetString("NotfiyMessages", JsonConvert.SerializeObject(bellDropDownsDatas));
             HttpContext.Session.SetInt32("NotfiyMessagesCount", bellDropDownsDatas.Count());
 
@@ -228,7 +229,6 @@ namespace GoSweet.Controllers
         [HttpGet]
         public JsonResult HandleProductCategory([FromQuery] string Category)
         {
-            // TODO: fix group issue
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
@@ -418,7 +418,7 @@ namespace GoSweet.Controllers
             }
 
 
-            var accountQuery = _context.CustomerAccounttables.Where((c) => 
+            var accountQuery = _context.CustomerAccounttables.Where((c) =>
                 c.CAccount.Equals(resetPasswordData.EmailAddress));
             var account = accountQuery.First();
 
