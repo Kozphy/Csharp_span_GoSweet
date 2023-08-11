@@ -3,7 +3,7 @@ let sendResetEmailBtn = document.querySelector(".sendResetEmailBtn");
 
 
 sendResetEmailBtn.addEventListener("click", function (e) {
-    if (resetEmailInputBox.value == "") {
+    if (resetEmailInputBox.value === "") {
         e.preventDefault();
         alert("Please input email");
     } else {
