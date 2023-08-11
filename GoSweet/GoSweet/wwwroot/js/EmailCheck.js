@@ -13,8 +13,6 @@ sendResetEmailBtn.addEventListener("click", function (e) {
         spinner.classList.remove("d-none");
     }
 
-
-
 });
 
 
