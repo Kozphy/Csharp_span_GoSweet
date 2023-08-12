@@ -36,7 +36,7 @@ namespace GoSweet.Controllers
         {
             _logger.LogInformation("HomeIndexStart");
 
-            #region getCategoriesDatas 
+            #region 取得商品種類資料
             List<CategoryViewModel> categoriesDatas = (from product in _context.ProductDatatables
                                                        select new CategoryViewModel
                                                        {
@@ -45,8 +45,6 @@ namespace GoSweet.Controllers
 
             #endregion
 
-
-            // TODO: fix group
             #region 取得熱銷排行資料 
             List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
@@ -75,7 +73,7 @@ namespace GoSweet.Controllers
 
             #endregion
 
-            #region 取得團購商品 
+            #region 取得團購商品資料
             List<ProductGroupBuyData> productGroupBuyData = (from product in _context.ProductDatatables
                                                              join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                              join groupbuy in _context.GroupDatatables on product.PNumber equals groupbuy.PNumber
@@ -179,6 +177,8 @@ namespace GoSweet.Controllers
 
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;
 
+            #region 已成團訊息設定為 true
+
             var notifyMessageAlreadyGroupQuery =
                 from notify in _context.NotifyDatatables
                 join order in _context.OrderDatatables
@@ -197,6 +197,10 @@ namespace GoSweet.Controllers
                 item.NRead = true;
             }
 
+
+            #endregion
+
+            #region 已寄出訊息設定為 true
             var notifyMessageAlreadySendQuery =
                 from notify in _context.NotifyDatatables
                 join order in _context.OrderDatatables
@@ -212,6 +216,8 @@ namespace GoSweet.Controllers
             {
                 item.NRead = true;
             }
+
+            #endregion
 
             try
             {
@@ -229,7 +235,8 @@ namespace GoSweet.Controllers
         [HttpGet]
         public JsonResult HandleProductCategory([FromQuery] string Category)
         {
-            List<ProductRankDataViewModel> productRankData = (from product in _context.ProductDatatables
+            #region 取得產品種類排行資料 
+            List<ProductRankDataViewModel> specificCategoryProductRankData = (from product in _context.ProductDatatables
                                                               join product_pic in _context.ProductPicturetables on product.PNumber equals product_pic.PNumber
                                                               join order in _context.OrderDatatables on product.PNumber equals order.PNumber
                                                               where product_pic.PPicnumber == 1 && product.PCategory == Category
@@ -242,7 +249,7 @@ namespace GoSweet.Controllers
                                                                   product_pic.PUrl,
                                                                   product.PDescribe,
                                                               }
-                                  into groupedData
+                                              into groupedData
                                                               select new ProductRankDataViewModel
                                                               {
                                                                   ProductId = groupedData.Key.PNumber,
@@ -253,9 +260,9 @@ namespace GoSweet.Controllers
                                                                   ProductDescription = groupedData.Key.PDescribe,
                                                                   ProductTotalBuyNumber = groupedData.Sum(x => x.order.OBuynumber)
                                                               }).OrderByDescending(x => x.ProductTotalBuyNumber).ToList();
+            #endregion
 
-
-            return new JsonResult(JsonConvert.SerializeObject(productRankData));
+            return new JsonResult(JsonConvert.SerializeObject(specificCategoryProductRankData));
         }
 
         public IActionResult Login()
@@ -269,24 +276,26 @@ namespace GoSweet.Controllers
         {
             if (ModelState.IsValid == false) return View();
 
-            // create hashPassword with salt
-            string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerLoginData.CPassword!);
-            customerLoginData.CPassword = hashPassword;
+            #region createHashPassword 
+                // create hashPassword with salt
+                string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerLoginData.CPassword!);
+                customerLoginData.CPassword = hashPassword;
+            #endregion
 
-            var userAccountQuery = _context.CustomerAccounttables.Where((c) =>
-                c.CAccount.Equals(customerLoginData.CAccount) &&
-                c.CPassword.Equals(customerLoginData.CPassword)
-            ).Select((c) =>
-            new
-            {
-                AccountName = c.CNickname,
-                CustomerAccount = c.CAccount,
-                c_number = c.CNumber,
-            });
+            #region UserAccountQuery 
+                var userAccountQuery = _context.CustomerAccounttables.Where((c) =>
+                    c.CAccount.Equals(customerLoginData.CAccount) &&
+                    c.CPassword.Equals(customerLoginData.CPassword)
+                ).Select((c) =>
+                new
+                {
+                    AccountName = c.CNickname,
+                    CustomerAccount = c.CAccount,
+                    c_number = c.CNumber,
+                });
+            #endregion
 
-            // TODO: check account permission
-            //var userAccountPermission = userAccount.
-
+            #region check UserAccount whether exist
             bool accountNotExist = userAccountQuery.IsNullOrEmpty();
 
             if (accountNotExist.Equals(true))
@@ -294,7 +303,12 @@ namespace GoSweet.Controllers
                 TempData["customerAccountNotExistMessage"] = "帳號不存在或密碼錯誤";
                 return RedirectToAction("Login");
             }
+            #endregion
+
+            #region get userAccount 
             var userAccount = userAccountQuery.First();
+            #endregion
+
             HttpContext.Session.SetString("customerAccountName", userAccount.AccountName);
             HttpContext.Session.SetString("customerAccount", userAccount.CustomerAccount);
             HttpContext.Session.SetInt32("cnumber", userAccount.c_number);
@@ -315,22 +329,24 @@ namespace GoSweet.Controllers
         {
             if (ModelState.IsValid == false) return View();
 
-            // encoding create hashPassword with salt
-            string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerAccountData.CPassword!);
-            customerAccountData.CPassword = hashPassword;
+            #region encoding password
+                // encoding create hashPassword with salt
+                string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerAccountData.CPassword!);
+                customerAccountData.CPassword = hashPassword;
+            #endregion
 
-            // check account whether exist
-            bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
-                c.CAccount.Equals(customerAccountData.CAccount)
-            ).IsNullOrEmpty();
+            #region check account whether exists
+                // check account whether exist
+                bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
+                    c.CAccount.Equals(customerAccountData.CAccount)
+                ).IsNullOrEmpty();
 
-
-
-            if (accountNotExist.Equals(false))
-            {
-                TempData["customerAccountExistMessage"] = "此帳號已被註冊";
-                return RedirectToAction("SignUp");
-            }
+                if (accountNotExist.Equals(false))
+                {
+                    TempData["customerAccountExistMessage"] = "此帳號已被註冊";
+                    return RedirectToAction("SignUp");
+                }
+            #endregion
 
             try
             {
@@ -347,6 +363,7 @@ namespace GoSweet.Controllers
             return RedirectToAction("Login");
         }
 
+        //TODO: move to dto
         private void CreateCustomerAccount(CustomerAccountVm customerAccountData)
         {
             CustomerAccounttable data = new CustomerAccounttable()
@@ -370,7 +387,7 @@ namespace GoSweet.Controllers
                 return RedirectToAction("Login");
             }
 
-            // 寄送 email 之前先檢查 email 是否存在
+            #region 寄送 email 之前先檢查 email 是否存在
             bool customerAccountNotExist = _context.CustomerAccounttables.Where(c => c.CAccount.Equals(EmailAddress)).IsNullOrEmpty();
 
             if (customerAccountNotExist.Equals(true))
@@ -378,11 +395,15 @@ namespace GoSweet.Controllers
                 TempData["customerAccountNotExistMessage"] = "帳號不存在";
                 return RedirectToAction("Login");
             }
+            #endregion
 
             _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
 
             // send email
-            Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
+            #region 寄送 Email
+                Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
+            #endregion
+
             try
             {
                 mailHandler.SendMail();
@@ -411,20 +432,27 @@ namespace GoSweet.Controllers
 
             if (ModelState.IsValid == false) { return View(resetPasswordData); }
 
+            #region 表單密碼不相符
             if (resetPasswordData.NewPassword != resetPasswordData.CheckNewPassword)
             {
                 TempData["CheckPasswordNotEqualMessage"] = "輸入的密碼不相符";
                 return View(resetPasswordData);
             }
+            #endregion
 
-
-            var accountQuery = _context.CustomerAccounttables.Where((c) =>
+            #region 帳戶取得
+            var accountQuery = _context.CustomerAccounttables.Where((
+                    c) =>
                 c.CAccount.Equals(resetPasswordData.EmailAddress));
             var account = accountQuery.First();
 
-            // create hashPassword with salt
-            string hashPassword = _hashPasswordBuilder.CreateSha256Password(resetPasswordData.NewPassword);
-            account.CPassword = hashPassword;
+            #endregion
+
+            #region 密碼雜湊
+                // create hashPassword with salt
+                string hashPassword = _hashPasswordBuilder.CreateSha256Password(resetPasswordData.NewPassword);
+                account.CPassword = hashPassword;
+            #endregion
 
 
             try
@@ -464,11 +492,6 @@ namespace GoSweet.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
     }
 }

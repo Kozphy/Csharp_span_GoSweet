@@ -25,6 +25,7 @@ async function sendClearInfo( controllerName) {
     return res;
 }
 
+// 
 function clearNotifyMessage(btn, controllerName) {
     let spinnerBtn = btn.nextElementSibling;
     btn.addEventListener("click", async function (e) {

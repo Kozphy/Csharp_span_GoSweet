@@ -197,7 +197,7 @@ namespace GoSweet.Controllers
                 return null;
             }
 
-            #region get firm bellMessage info
+            #region 取得已下單和已取貨的通知資料
             IEnumerable<FirmBellDropDownVm> firmNotifyMessageQuery =
                 (from notify in _context.NotifyDatatables
                  join order in _context.OrderDatatables
@@ -230,7 +230,7 @@ namespace GoSweet.Controllers
 
             string firmAccount = HttpContext.Session.GetString("firmAccount")!;
 
-            // 取得廠商通知
+            #region 通知訊息改成已讀
             var firmNotifyMessageQuery =
                 from notify in _context.NotifyDatatables
                 join order in _context.OrderDatatables
@@ -242,13 +242,12 @@ namespace GoSweet.Controllers
                 where (notify.OStatus == "已下單" || notify.OStatus == "已取貨") 
                       && firm.FAccount == firmAccount
                 select notify;
-
-
             
             foreach (var item in firmNotifyMessageQuery)
             {
                 item.NRead = true;
             }
+            #endregion
 
            
             try
@@ -365,12 +364,13 @@ namespace GoSweet.Controllers
         {
             if (ModelState.IsValid == false) return View();
 
-            // create hashPassword with salt
-            string hashPassword = _hashPasswordBuilder.CreateSha256Password(firmLoginData.FPassword!);
-            firmLoginData.FPassword = hashPassword;
+            #region 創建雜湊密碼
+                // create hashPassword with salt
+                string hashPassword = _hashPasswordBuilder.CreateSha256Password(firmLoginData.FPassword!);
+                firmLoginData.FPassword = hashPassword;
+            #endregion
 
-
-            // get database firm account data
+            #region  帳號 Query
             var firmAccountQuery = _context.FirmAccounttables.Where((f) =>
                 f.FAccount.Equals(firmLoginData.FAccount) &&
                 f.FPassword.Equals(firmLoginData.FPassword)
@@ -381,7 +381,9 @@ namespace GoSweet.Controllers
                 AccountName = f.FNickname,
                 f_number = f.FNumber,
             });
+            #endregion
 
+            #region 帳號不存在
             bool accountNotExist = firmAccountQuery.IsNullOrEmpty();
 
             if (accountNotExist.Equals(true))
@@ -389,8 +391,11 @@ namespace GoSweet.Controllers
                 TempData["firmAccountNotExistMessage"] = "帳號不存在或密碼錯誤";
                 return RedirectToAction("Login");
             }
+            #endregion
 
+            #region 取得帳號
             var firmAccount = firmAccountQuery.First();
+            #endregion
 
             HttpContext.Session.SetString("firmAccount", firmAccount.Account);
             HttpContext.Session.SetString("firmAccountName", firmAccount.AccountName);
@@ -414,21 +419,29 @@ namespace GoSweet.Controllers
         {
             if (ModelState.IsValid == false) return View(firmAccountData);
 
+            #region 創建雜湊密碼
             // create hashPassword with salt
             string hashPassword = _hashPasswordBuilder.CreateSha256Password(firmAccountData.FPassword!);
             firmAccountData.FPassword = hashPassword;
+            #endregion
 
-
-            bool accountNotExist = _context.FirmAccounttables.Where((f) =>
+            #region 帳號 Query
+            var accountQuery = _context.FirmAccounttables.Where((f) =>
                 f.FAccount.Equals(firmAccountData.FAccount)
-            ).IsNullOrEmpty();
+            );
 
+            #endregion
+
+            #region 帳號不存在
+            bool accountNotExist = accountQuery.IsNullOrEmpty();
             if (accountNotExist.Equals(false))
             {
                 TempData["firmAccountExistMessage"] = "此帳號已被註冊";
                 RedirectToAction("SignUp");
                 return View();
             }
+            #endregion
+
 
             try
             {
@@ -465,7 +478,7 @@ namespace GoSweet.Controllers
                 return RedirectToAction("Login");
             }
 
-            // 寄送 email 之前先檢查 email 是否存在
+            #region 寄送 email 之前先檢查 email 是否存在
             var firmAccountQuery = _context.FirmAccounttables.Where(
                 c => c.FAccount.Equals(EmailAddress));
 
@@ -476,7 +489,7 @@ namespace GoSweet.Controllers
                 TempData["firmAccountNotExistMessage"] = "帳號不存在";
                 return RedirectToAction("Login");
             }
-
+            #endregion
 
             _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
             Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
@@ -508,20 +521,25 @@ namespace GoSweet.Controllers
             ViewBag.EmailAddress = resetPasswordData.EmailAddress;
             if (!ModelState.IsValid) return View(resetPasswordData);
 
-
+            #region  輸入的密碼不相符
             if (resetPasswordData.NewPassword != resetPasswordData.CheckNewPassword)
             {
                 TempData["CheckPasswordNotEqualMessage"] = "輸入的密碼不相符";
                 return View(resetPasswordData);
             }
+            #endregion
 
+            #region 取得帳戶資料
             var accountQuery = _context.FirmAccounttables.Where((f) =>
                 f.FAccount.Equals(resetPasswordData.EmailAddress));
             var account = accountQuery.First();
+            #endregion
 
-            // create hashPassword with salt
-            string hashPassword = _hashPasswordBuilder.CreateSha256Password(resetPasswordData.NewPassword!);
-            account.FPassword = hashPassword;
+            #region 創建雜湊密碼 
+                // create hashPassword with salt
+                string hashPassword = _hashPasswordBuilder.CreateSha256Password(resetPasswordData.NewPassword!);
+                account.FPassword = hashPassword;
+            #endregion
 
             try
             {
