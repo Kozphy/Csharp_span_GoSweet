@@ -1,31 +1,27 @@
-﻿// #region Layout 通知欄顯示與隱藏
+﻿// #region 取得 html 標籤 
 let bellIconBtn = document.querySelector(".bellIcon");
 let bellDropDownContent = document.querySelector(".bell-dropdown-menu");
+let messageHaveReadBtn = document.querySelector(".messageHaveReadBtn");
+let firmMessageHaveReadBtn = document.querySelector(".firmMessageHaveReadBtn");
+// #endregion
+
+// #region 通知欄顯示與隱藏
 bellIconBtn.addEventListener("click", function (e) {
     bellIconBtn.classList.toggle("active");
     bellDropDownContent.classList.toggle("bell-dropdown-menu-show");
 });
-// #endregion Layout 通知欄顯示與隱藏
+// #endregion 
 
-// #region Layout 通知欄清除資訊
-let messageHaveReadBtn = document.querySelector(".messageHaveReadBtn");
-let firmMessageHaveReadBtn = document.querySelector(".firmMessageHaveReadBtn");
+// #region 通知訊息按鈕檢測是 Home or Firm
 
 if (messageHaveReadBtn) {
     clearNotifyMessage(messageHaveReadBtn, "Home");
 } else {
     clearNotifyMessage(firmMessageHaveReadBtn, "Firm");
 }
+// #endregion
 
-async function sendClearInfo( controllerName) {
-    let res = await axios.post(`http://localhost:5183/${controllerName}/BellMessageHaveRead`);
-    if (res.status !== 200) {
-        console.log(res.status);
-    }
-    return res;
-}
-
-// 
+// #region 清除通知訊息
 function clearNotifyMessage(btn, controllerName) {
     let spinnerBtn = btn.nextElementSibling;
     btn.addEventListener("click", async function (e) {
@@ -38,6 +34,9 @@ function clearNotifyMessage(btn, controllerName) {
 
         if (notifyMessageArray.length === 0) {
             // 通知欄訊息清除 
+            //while (bellDropDownContent.firstChild) {
+            //    bellDropDownContent.removeChild(bellDropDownContent.lastChild);
+            //}
             for (let i = bellDropDownContent.childElementCount - 1; i >= 0; i--) {
                 bellDropDownContent.children[i].remove();
             }
@@ -45,7 +44,20 @@ function clearNotifyMessage(btn, controllerName) {
         }
     });
 }
+// #endregion
 
+// #region 送資訊到 controller
+async function sendClearInfo(controllerName) {
+    let res = await axios.post(`http://localhost:5183/${controllerName}/BellMessageHaveRead`);
+    if (res.status !== 200) {
+        console.log(res.status);
+    }
+    return res;
+}
+
+// #endregion
+
+// #region 清除通知訊息
 function renderDropDownBellMessageToNull(btn, spinnerBtn) {
 
     btn.classList.remove("d-none");
@@ -72,4 +84,4 @@ function renderDropDownBellMessageToNull(btn, spinnerBtn) {
     bellDropDownContent.insertAdjacentHTML("beforeend", htmlStr);
     document.querySelector(".notify-message-counter").textContent = 0;
 }
-// #endregion  Layout 通知欄清除資訊
+// #endregion

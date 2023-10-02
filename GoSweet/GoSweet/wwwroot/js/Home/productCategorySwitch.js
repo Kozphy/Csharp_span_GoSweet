@@ -13,7 +13,7 @@ productCategoryBtns.forEach((element, index) => {
             // #region 改變小標題 
             let category = productCategoryTitles[index].textContent;
             changeCategorySmallTitle(category);
-            // #endregion send category to controller
+            // #endregion 
 
             // #region 送出點擊商品種類資訊後取得該種類的商品訊息
             let res = await sendCategoryInfoToController(category);
@@ -28,14 +28,14 @@ productCategoryBtns.forEach((element, index) => {
 });
 // #endregion 商品種類點擊結束
 
-// #region  商品種類 title 切換 changeCategorySmallTitle
+// #region  改變小標題 changeCategorySmallTitle
 function changeCategorySmallTitle(category) {
     let productRankSmallTitle = document.querySelector(".product-rank-small-title");
     productRankSmallTitle.textContent = `${category}熱銷排行(下方滑鼠可左右拖曳)`;
 }
 // #endregion
 
-// #region 點擊的商品種類送出種類資訊到 sendCategoryInfoToController
+// #region 送出點擊商品種類資訊後取得該種類的商品訊息 sendCategoryInfoToController
 async function sendCategoryInfoToController(category) {
     let res = await axios.get(`http://localhost:5183/Home/HandleProductCategory?Category=${category}`,
         {

@@ -99,13 +99,18 @@ namespace GoSweet.Controllers
 
             #endregion
 
+            #region 資料到ViewModel
             _indexViewModelData.CategoryDatas = categoriesDatas;
             _indexViewModelData.ProductRankDatas = productRankData;
             _indexViewModelData.ProductGroupBuyDatas = productGroupBuyData;
             GetBellDropdownMessage();
+            #endregion
+
+            #region 儲存資料到 Session 
             //_indexViewModelData.bellContentDatas = bellContentsDatas;
             HttpContext.Session.SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
             HttpContext.Session.SetString("productGroupBuyDatas", JsonConvert.SerializeObject(productGroupBuyData));
+            #endregion
 
 
             return View(_indexViewModelData);
@@ -144,8 +149,6 @@ namespace GoSweet.Controllers
                                                       }).ToList();
             #endregion
 
-            //IEnumerable<BellContentVm> notifyMessage
-
             #region 商品已寄出通知
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadySend =
             (from notify in _context.NotifyDatatables
@@ -165,11 +168,13 @@ namespace GoSweet.Controllers
              }).ToList();
             #endregion
 
+            #region 儲存資料到 Session
             //BellDropDownVm bellDropDownVm = new BellDropDownVm();
             IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup.Concat(notifyMessageAlreadySend).ToList();
             //ViewData["bellDropDownMessage"] = bellDropDownsDatas;
             HttpContext.Session.SetString("NotfiyMessages", JsonConvert.SerializeObject(bellDropDownsDatas));
             HttpContext.Session.SetInt32("NotfiyMessagesCount", bellDropDownsDatas.Count());
+            #endregion
 
             return bellDropDownsDatas;
         }
@@ -223,6 +228,7 @@ namespace GoSweet.Controllers
 
             #endregion
 
+            #region 資料庫 update 
             try
             {
                 _context.SaveChanges();
@@ -231,6 +237,7 @@ namespace GoSweet.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+            #endregion
 
             return RedirectToAction(nameof(GetBellDropdownMessage));
         }
@@ -441,7 +448,8 @@ namespace GoSweet.Controllers
 
         public IActionResult ResetPassword(string EmailAddress)
         {
-            ResetPasswordVm resetPasswordVm = new ResetPasswordVm() 
+            ResetPasswordVm resetPasswordVm = 
+                new ResetPasswordVm() 
                 { EmailAddress = EmailAddress };
             //ViewBag.EmailAddress = EmailAddress;
             return View(nameof(ResetPassword), resetPasswordVm);
@@ -462,7 +470,7 @@ namespace GoSweet.Controllers
             }
             #endregion
 
-            #region 帳戶取得
+            #region 判斷帳戶是否存在
             var accountQuery = _context.CustomerAccounttables.Where((
                     c) =>
                 c.CAccount.Equals(resetPasswordData.EmailAddress));
@@ -476,7 +484,7 @@ namespace GoSweet.Controllers
             account.CPassword = hashPassword;
             #endregion
 
-
+            #region 儲存密碼
             try
             {
                 _context.SaveChanges();
@@ -486,6 +494,8 @@ namespace GoSweet.Controllers
             {
                 return StatusCode(500, $"update password error: {ex.Message}");
             }
+            #endregion
+
             return RedirectToAction("Index");
         }
 
@@ -496,12 +506,20 @@ namespace GoSweet.Controllers
 
         public IActionResult LogOut()
         {
+            #region 清除 Session
             HttpContext.Session.Remove("customerAccountName");
             HttpContext.Session.Remove("customerAccount");
             HttpContext.Session.Remove("cnumber");
             HttpContext.Session.Remove("mycnumber");
+            #endregion
+
+            #region 設定通知鈴鐺 = 0
             HttpContext.Session.SetInt32("NotfiyMessagesCount", 0);
+            #endregion
+
+            #region Sweet alert 顯示登出成功
             TempData["logOutMessage"] = "登出成功";
+            #endregion
 
 
 

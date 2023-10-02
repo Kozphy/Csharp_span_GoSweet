@@ -34,8 +34,6 @@ namespace GoSweet.Controllers
             public static DateTime EndDate { get; set; }
         }
 
-
-
         public IActionResult Homepage()
         {
             int? id = HttpContext.Session.GetInt32("fnumber")!;
@@ -182,14 +180,16 @@ namespace GoSweet.Controllers
             };
             #endregion
 
-            // 廠商通知到 _LayoutFirm
+            #region 廠商通知到 _LayoutFirm
             GetBellDropdownMessage();
+            #endregion
+
 
             RatingJson();
             return View(HomepageModels);
         }
 
-        public  IEnumerable<FirmBellDropDownVm>? GetBellDropdownMessage()
+        public IEnumerable<FirmBellDropDownVm>? GetBellDropdownMessage()
         {
             string firmAccount = HttpContext.Session.GetString("firmAccount")!;
             if (firmAccount == null)
@@ -215,11 +215,14 @@ namespace GoSweet.Controllers
                      OrderStatus = notify.OStatus,
                      NotifyRead = notify.NRead,
                  });
+            IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();
             #endregion
 
-            IEnumerable<FirmBellDropDownVm> firmNotifyMessages = firmNotifyMessageQuery.ToList();
+
+            #region 設定 Session 資料
             HttpContext.Session.SetString("NotifyMessages", JsonConvert.SerializeObject(firmNotifyMessages));
             HttpContext.Session.SetInt32("NotifyMessagesCount", firmNotifyMessages.Count());
+            #endregion
 
             return firmNotifyMessages;
         }
@@ -239,17 +242,18 @@ namespace GoSweet.Controllers
                     on notify.FNumber equals firm.FNumber
                 join product in _context.ProductDatatables
                     on order.PNumber equals product.PNumber
-                where (notify.OStatus == "已下單" || notify.OStatus == "已取貨") 
+                where (notify.OStatus == "已下單" || notify.OStatus == "已取貨")
                       && firm.FAccount == firmAccount
                 select notify;
-            
+
             foreach (var item in firmNotifyMessageQuery)
             {
                 item.NRead = true;
             }
             #endregion
 
-           
+
+            #region 儲存資料到資料庫
             try
             {
                 _context.SaveChanges();
@@ -258,6 +262,7 @@ namespace GoSweet.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+            #endregion
 
             return RedirectToAction(nameof(GetBellDropdownMessage));
         }
@@ -365,9 +370,9 @@ namespace GoSweet.Controllers
             if (ModelState.IsValid == false) return View();
 
             #region 創建雜湊密碼
-                // create hashPassword with salt
-                string hashPassword = _hashPasswordBuilder.CreateSha256Password(firmLoginData.FPassword!);
-                firmLoginData.FPassword = hashPassword;
+            // create hashPassword with salt
+            string hashPassword = _hashPasswordBuilder.CreateSha256Password(firmLoginData.FPassword!);
+            firmLoginData.FPassword = hashPassword;
             #endregion
 
             #region  帳號 Query
@@ -431,7 +436,7 @@ namespace GoSweet.Controllers
             #endregion
 
             #region 帳號 Query
-            var accountQuery = 
+            var accountQuery =
                 _context.FirmAccounttables.Where((f) =>
                 f.FAccount.Equals(firmAccountData.FAccount)
             );
@@ -448,7 +453,7 @@ namespace GoSweet.Controllers
             }
             #endregion
 
-
+            #region 創建公司帳號
             try
             {
                 CreateFirmAccount(firmAccountData);
@@ -458,9 +463,11 @@ namespace GoSweet.Controllers
             {
                 return StatusCode(500, e.Message);
             }
+            #endregion
 
             return RedirectToAction("Login");
         }
+
         private IActionResult CreateFirmAccount(FirmAccountVm firmAccountData)
         {
 
@@ -488,6 +495,7 @@ namespace GoSweet.Controllers
             }
             #endregion
 
+            return RedirectToAction("SignUp");
         }
 
         [HttpPost]
@@ -495,10 +503,12 @@ namespace GoSweet.Controllers
         {
             if (ModelState.IsValid == false) return View();
 
+            #region 如果 EmailAddress 是 null 跳回到 Login 頁面
             if (EmailAddress.IsNullOrEmpty())
             {
                 return RedirectToAction("Login");
             }
+            #endregion
 
             #region 寄送 email 之前先檢查 email 是否存在
             var firmAccountQuery = _context.FirmAccounttables.Where(
@@ -512,7 +522,6 @@ namespace GoSweet.Controllers
                 return RedirectToAction("Login");
             }
             #endregion
-
 
             #region 寄送 Email 
             _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
@@ -561,11 +570,12 @@ namespace GoSweet.Controllers
             #endregion
 
             #region 創建雜湊密碼 
-                // create hashPassword with salt
-                string hashPassword = _hashPasswordBuilder.CreateSha256Password(resetPasswordData.NewPassword!);
-                account.FPassword = hashPassword;
+            // create hashPassword with salt
+            string hashPassword = _hashPasswordBuilder.CreateSha256Password(resetPasswordData.NewPassword!);
+            account.FPassword = hashPassword;
             #endregion
 
+            #region 儲存密碼
             try
             {
                 _context.SaveChanges();
@@ -575,19 +585,28 @@ namespace GoSweet.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+            #endregion
 
             return RedirectToAction("Login", "Firm");
         }
 
         public IActionResult LogOut()
         {
+            #region 清除 Session
             HttpContext.Session.Remove("firmAccountName");
             HttpContext.Session.Remove("firmAccount");
             HttpContext.Session.Remove("fnumber");
             HttpContext.Session.Remove("firmNumber");
             HttpContext.Session.Remove("fnickname");
+            #endregion
+
+            #region 設定 navbar 小鈴鐺數字 = 0
             HttpContext.Session.SetInt32("NotifyMessagesCount", 0);
+            #endregion
+
+            #region 顯示 sweet alert 登出成功
             TempData["logOutMessage"] = "登出成功";
+            #endregion
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
         }
