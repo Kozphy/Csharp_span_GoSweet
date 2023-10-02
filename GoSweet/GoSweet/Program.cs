@@ -16,6 +16,7 @@ namespace GoSweet
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ShopwebContext>(
@@ -32,7 +33,7 @@ namespace GoSweet
             //    .AddDefaultTokenProviders();
 
             
-            //Add  Http Session
+            //Add Http Session
             builder.Services.AddSession(options =>
             {
                 options.Cookie.Name = ".GoSweet.Session";
