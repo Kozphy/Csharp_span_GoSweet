@@ -397,13 +397,18 @@ namespace GoSweet.Controllers
             var firmAccount = firmAccountQuery.First();
             #endregion
 
+            #region 設定 session 
             HttpContext.Session.SetString("firmAccount", firmAccount.Account);
             HttpContext.Session.SetString("firmAccountName", firmAccount.AccountName);
             HttpContext.Session.SetInt32("firmNumber", firmAccount.f_number);
             HttpContext.Session.SetInt32("fnumber", firmAccount.f_number);
             HttpContext.Session.SetInt32("myfnumber", firmAccount.f_number);
             HttpContext.Session.SetString("fnickname", firmAccount.AccountName);
+            #endregion
+
+            #region 登入成功後提示
             TempData["firmAccountLoginSuccessMessage"] = "帳號登入成功";
+            #endregion
 
             return RedirectToAction("Homepage", "Firm");
         }
@@ -426,7 +431,8 @@ namespace GoSweet.Controllers
             #endregion
 
             #region 帳號 Query
-            var accountQuery = _context.FirmAccounttables.Where((f) =>
+            var accountQuery = 
+                _context.FirmAccounttables.Where((f) =>
                 f.FAccount.Equals(firmAccountData.FAccount)
             );
 
@@ -455,8 +461,12 @@ namespace GoSweet.Controllers
 
             return RedirectToAction("Login");
         }
-        private void CreateFirmAccount(FirmAccountVm firmAccountData)
+        private IActionResult CreateFirmAccount(FirmAccountVm firmAccountData)
         {
+
+            if (!ModelState.IsValid) return View(firmAccountData);
+
+            #region convert vm to fit FirmAccounttable type
             FirmAccounttable firmAccount = new FirmAccounttable()
             {
                 FNickname = firmAccountData.FNickname,
@@ -464,8 +474,20 @@ namespace GoSweet.Controllers
                 FPassword = firmAccountData.FPassword,
                 FMailpass = firmAccountData.FMailpass,
             };
-            _context.FirmAccounttables.Add(firmAccount);
-            _context.SaveChanges();
+            #endregion
+
+            #region set data to database
+            try
+            {
+                _context.FirmAccounttables.Add(firmAccount);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            #endregion
+
         }
 
         [HttpPost]
@@ -491,6 +513,8 @@ namespace GoSweet.Controllers
             }
             #endregion
 
+
+            #region 寄送 Email 
             _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
             Mail mailHandler = new Mail(EmailAddress, ControllerContext.ActionDescriptor.ControllerName);
             try
@@ -503,6 +527,7 @@ namespace GoSweet.Controllers
                 TempData["sendEmailFailMessage"] = $"Send Email to {EmailAddress} fail";
                 return StatusCode(500, ex.Message);
             }
+            #endregion
 
 
             return RedirectToAction("Login");

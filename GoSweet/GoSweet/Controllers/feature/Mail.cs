@@ -9,12 +9,15 @@ namespace GoSweet.Controllers.feature
         private readonly string? _mailAddress = null;
         private readonly string? _controllerName = null;
 
+        #region Mail 設定 
         public Mail(string address, string controllerName)
         {
             _mailAddress = address;
             _controllerName = controllerName;
         }
+        #endregion
 
+        #region 寄出 Eamil 方法
         public void SendMail()
         {
             var message = new MimeMessage();
@@ -35,6 +38,8 @@ namespace GoSweet.Controllers.feature
                     }
                 </style>
             </head>";
+
+            // email content
             string htmlBody =
                 $@"<h2>尊敬的客戶</h2>
             <p>我們收到重設您的密碼的請求。如果您並未發出此請求，請忽略此郵件。</p>
@@ -68,5 +73,7 @@ namespace GoSweet.Controllers.feature
             client.Disconnect(true);
 
         }
+
+        #endregion
     }
 }

@@ -1,9 +1,42 @@
-﻿let productCategoryBtns = document.querySelectorAll(".productCategoryBtn");
+﻿// #region 取得標籤
+let productCategoryBtns = document.querySelectorAll(".productCategoryBtn");
 let productCategoryTitles = document.querySelectorAll(".product-category-title");
+// #endregion 
 
 
 // #region 商品種類點擊 
-async function sendCategoryInfo(category) {
+productCategoryBtns.forEach((element, index) => {
+    // #region 商品種類功能綁定
+    element.addEventListener("click",
+        async function (e) {
+            e.preventDefault();
+            // #region 改變小標題 
+            let category = productCategoryTitles[index].textContent;
+            changeCategorySmallTitle(category);
+            // #endregion send category to controller
+
+            // #region 送出點擊商品種類資訊後取得該種類的商品訊息
+            let res = await sendCategoryInfoToController(category);
+            let data = JSON.parse(res.data);
+            // #endregion
+
+            // #region 渲染商品
+            renderCategoryProducts(data);
+            // #endregion
+        });
+    // #endregion
+});
+// #endregion 商品種類點擊結束
+
+// #region  商品種類 title 切換 changeCategorySmallTitle
+function changeCategorySmallTitle(category) {
+    let productRankSmallTitle = document.querySelector(".product-rank-small-title");
+    productRankSmallTitle.textContent = `${category}熱銷排行(下方滑鼠可左右拖曳)`;
+}
+// #endregion
+
+// #region 點擊的商品種類送出種類資訊到 sendCategoryInfoToController
+async function sendCategoryInfoToController(category) {
     let res = await axios.get(`http://localhost:5183/Home/HandleProductCategory?Category=${category}`,
         {
             headers: {
@@ -15,7 +48,9 @@ async function sendCategoryInfo(category) {
     }
     return res;
 }
+// #endregion
 
+// #region 渲染商品 sendCategoryInfoToController
 function renderCategoryProducts(data) {
         let splideProducts = document.querySelector(".splideProducts");
         splideProducts.remove();
@@ -83,31 +118,8 @@ function renderCategoryProducts(data) {
             arrows: false,
         });
         splide.mount(window.splide.Extensions);
-
-
 }
-
-productCategoryBtns.forEach((element, index) => {
-    element.addEventListener("click",
-        async function(e) {
-            e.preventDefault();
-            let category = productCategoryTitles[index].textContent;
-            // change small title
-            changeCategorySmallTitle(category);
-
-            // send category to controller
-            let res = await sendCategoryInfo(category);
-
-            let data = JSON.parse(res.data);
-            renderCategoryProducts(data);
-        });
-});
 // #endregion
 
-// #region 商品種類 title 切換
-function changeCategorySmallTitle(category) {
-    let productRankSmallTitle = document.querySelector(".product-rank-small-title");
-    productRankSmallTitle.textContent = `${category}熱銷排行(下方滑鼠可左右拖曳)`;
-}
 
-// #endregion
+

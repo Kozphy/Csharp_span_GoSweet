@@ -13,8 +13,8 @@ namespace GoSweet.Controllers {
 
         public BuyListController(ShopwebContext shopwebContext) {
             _shopwebContext = shopwebContext;
-
         }
+
         [HttpGet]
         public IActionResult BuyList() {
             string? x = HttpContext.Request.Query["pid"];
