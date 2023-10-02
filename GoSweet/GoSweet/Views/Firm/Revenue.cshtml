@@ -5,6 +5,13 @@
 <!-- Chart.js引用 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!--Bootstrap-table參用區-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+
 <div class="FirmBackground">
 	<section class="container my-3">
 
@@ -90,23 +97,20 @@
 						@*全部*@
 						<!-- ★★★★★需要廠商訂單數★★★★★ -->
 						<div class="tab-pane fade show active table-responsive overflow-y-scroll" id="home" role="tabpanel" aria-labelledby="home-tab">
-							<table class="table table-hover">
+							<table class="table table-hover" data-toggle="table" data-url="/Firm/JsonData">
 								<thead>
 									<tr>
-										<th class="RevenuepageTableNumber" scope="col">#</th>
-										<th class="RevenuepageTableTitle" scope="col">日期</th>
-										<th class="RevenuepageTableTitle" scope="col">產品名稱</th>
-										<th class="RevenuepageTableTitle" scope="col">訂單編號</th>
-										<th class="RevenuepageTableTitle" scope="col">訂單狀態</th>
-										<th class="RevenuepageTableTitle" scope="col">單價(A)</th>
-										<th class="RevenuepageTableTitle" scope="col">數量(B)</th>
-										<th class="RevenuepageTableTitle" scope="col">小計(A*B)</th>
+										<th class="RevenuepageTableTitle" scope="col" data-sortable="true" data-field="orderDate">日期</th>
+										<th class="RevenuepageTableTitle" scope="col" data-sortable="true" data-field="name">產品名稱</th>
+										<th class="RevenuepageTableTitle" scope="col" data-sortable="true" data-field="id">訂單編號</th>
+										<th class="RevenuepageTableTitle" scope="col" data-sortable="true" data-field="shipState">訂單狀態</th>
+										<th class="RevenuepageTableTitle" scope="col" data-sortable="true" data-field="price">單價(A)</th>
+										<th class="RevenuepageTableTitle" scope="col" data-sortable="true" data-field="quentity">數量(B)</th>
+										<th class="RevenuepageTableTitle" scope="col" data-sortable="true" data-field="total">總額(A*B)</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td colspan="8" class="HomepageTableData text-center h3">暫無資料</td>
-									</tr>
+								<tbody class="table-group-divider">
+
 								</tbody>
 							</table>
 						</div>
