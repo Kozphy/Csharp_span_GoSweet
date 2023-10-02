@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Toolbelt.Extensions.DependencyInjection;
+
 namespace GoSweet
 {
     public class Program
@@ -20,7 +21,8 @@ namespace GoSweet
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ShopwebContext>(
-            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopwebConnstring")));
+            options => 
+                options.UseSqlServer(builder.Configuration.GetConnectionString("shopwebConnstring")));
             builder.Services.AddHttpContextAccessor();
 
             // Add Identity Service
@@ -57,7 +59,7 @@ namespace GoSweet
 
             app.UseAuthorization();
 
-            //±Ò¥Îhttp session
+            // ±Ò¥Î http session
             app.UseSession();
 
             app.MapControllerRoute(

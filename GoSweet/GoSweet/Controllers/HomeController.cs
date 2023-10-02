@@ -320,7 +320,7 @@ namespace GoSweet.Controllers
             var userAccount = userAccountQuery.First();
             #endregion
 
-            #region setting session
+            #region set session
             HttpContext.Session.SetString("customerAccountName", userAccount.AccountName);
             HttpContext.Session.SetString("customerAccount", userAccount.CustomerAccount);
             HttpContext.Session.SetInt32("cnumber", userAccount.c_number);
@@ -347,13 +347,13 @@ namespace GoSweet.Controllers
         {
             if (ModelState.IsValid == false) return View();
 
-            #region encoding password
+            #region 密碼編碼
             // encoding create hashPassword with salt
             string hashPassword = _hashPasswordBuilder.CreateSha256Password(customerAccountData.CPassword!);
             customerAccountData.CPassword = hashPassword;
             #endregion
 
-            #region check account whether exists
+            #region 檢測帳號是否存在 
             // check account whether exist
             bool accountNotExist = _context.CustomerAccounttables.Where((c) =>
                 c.CAccount.Equals(customerAccountData.CAccount)
@@ -366,7 +366,7 @@ namespace GoSweet.Controllers
             }
             #endregion
 
-            #region save data to database
+            #region 儲存資料到資料庫 
             try
             {
                 CreateCustomerAccount(customerAccountData);
@@ -406,7 +406,7 @@ namespace GoSweet.Controllers
         public IActionResult SendMail(string EmailAddress)
         {
 
-            #region 沒有輸入 Email Address  跳到 Login action
+            #region 如果沒有輸入 Email Address  跳到 Login action
             if (EmailAddress.IsNullOrEmpty())
             {
                 return RedirectToAction("Login");
@@ -484,7 +484,7 @@ namespace GoSweet.Controllers
             account.CPassword = hashPassword;
             #endregion
 
-            #region 儲存密碼
+            #region 儲存密碼到資料庫
             try
             {
                 _context.SaveChanges();
@@ -500,6 +500,11 @@ namespace GoSweet.Controllers
         }
 
         public IActionResult CooperateFirm()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
         {
             return View();
         }
@@ -520,8 +525,6 @@ namespace GoSweet.Controllers
             #region Sweet alert 顯示登出成功
             TempData["logOutMessage"] = "登出成功";
             #endregion
-
-
 
             //HttpContext.Session.SetString("AccountName", String.Empty);
             return RedirectToAction("Index", "Home");
