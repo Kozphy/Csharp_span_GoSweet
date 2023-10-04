@@ -1,9 +1,10 @@
-﻿let userPassword = document.querySelector("#UserPassword");
+﻿// #region 取得 html tag
+let userPassword = document.querySelector("#UserPassword");
 let userCheckPassword = document.querySelector("#UserPasswordCheck");
-
-
 let signUpBtn = document.querySelector(".SignUpBtn");
+// #endregion
 
+// #region password 檢查，與是否有輸入
 signUpBtn.addEventListener("click", function (e) {
     let checkPasswordResult = document.querySelector(".passwordCheckResult");
     if (userPassword.value.length == 0 || userCheckPassword.value.length == 0) {
@@ -21,3 +22,4 @@ signUpBtn.addEventListener("click", function (e) {
     checkPasswordResult.classList.add("text-success");
     checkPasswordResult.textContent = "Password match";
 });
+// #endregion

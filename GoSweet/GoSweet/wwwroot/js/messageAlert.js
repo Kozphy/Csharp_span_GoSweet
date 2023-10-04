@@ -1,4 +1,5 @@
-﻿function showSwal(icon=false, title, message, ) {
+﻿// #region sweet Alert function
+function showSwal(icon=false, title, message, ) {
     if (icon == false) {
         Swal.fire({
             title: title,
@@ -12,3 +13,4 @@
         });
     }
 }
+// #endregion

@@ -46,7 +46,7 @@ function clearNotifyMessage(btn, controllerName) {
 }
 // #endregion
 
-// #region 送資訊到 controller
+// #region 觸發清除到 Home or Firm controller
 async function sendClearInfo(controllerName) {
     let res = await axios.post(`http://localhost:5183/${controllerName}/BellMessageHaveRead`);
     if (res.status !== 200) {
