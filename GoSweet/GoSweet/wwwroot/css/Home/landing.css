@@ -3,7 +3,7 @@
 }
 
     .landpage img {
-/*        z-index: -1;*/
+        /*        z-index: -1;*/
         /*TODO: fix z-index*/
         /*padding-top: -5%;*/
         margin-top: -5%;
@@ -22,7 +22,7 @@
 
 
 .landpage-desc .buy-now-btn {
-    align-self:center;
+    align-self: center;
     /*self set*/
     position: relative;
     padding: 1.5em 2.5em;
