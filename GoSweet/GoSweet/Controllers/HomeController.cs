@@ -187,7 +187,6 @@ namespace GoSweet.Controllers
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;
 
             #region 已成團訊息設定為 true
-
             var notifyMessageAlreadyGroupQuery =
                 from notify in _context.NotifyDatatables
                 join order in _context.OrderDatatables
@@ -205,8 +204,6 @@ namespace GoSweet.Controllers
             {
                 item.NRead = true;
             }
-
-
             #endregion
 
             #region 已寄出訊息設定為 true
@@ -225,7 +222,6 @@ namespace GoSweet.Controllers
             {
                 item.NRead = true;
             }
-
             #endregion
 
             #region 資料庫 update 
@@ -449,8 +445,10 @@ namespace GoSweet.Controllers
         public IActionResult ResetPassword(string EmailAddress)
         {
             ResetPasswordVm resetPasswordVm = 
-                new ResetPasswordVm() 
-                { EmailAddress = EmailAddress };
+                new ResetPasswordVm()
+                {
+                    EmailAddress = EmailAddress
+                };
             //ViewBag.EmailAddress = EmailAddress;
             return View(nameof(ResetPassword), resetPasswordVm);
         }

@@ -3,6 +3,7 @@
     string? currentController = ViewContext.RouteData.Values["controller"]!.ToString();
     string? currentAction = ViewContext.RouteData.Values["action"]!.ToString();
 
+    // default is _Layout
     Layout = "_Layout";
 
     #region 套用廠商的 Layout, Controller -> controller action
@@ -15,8 +16,9 @@
     };
     #endregion
 
-    // 確認 controller 是不是公司頁面?
+    #region 確認 controller 是不是公司?
     bool isFirmController = BelongFirm.ContainsKey(currentController!);
+    #endregion
     bool isFirmAction = false;
 
 

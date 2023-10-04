@@ -23,7 +23,7 @@ namespace GoSweet.Models.ViewModels
         }
     }
 
-    public class CustomerLoginVm : BaseUser
+    public class CustomerLoginVm: BaseUser
     {
         [DisplayName("Email")]
         [RegularExpression(RegEmail, ErrorMessage = RegEmailErrorMessage)]
