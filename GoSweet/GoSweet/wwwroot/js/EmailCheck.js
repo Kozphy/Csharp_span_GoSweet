@@ -3,7 +3,6 @@ let resetEmailInputBox = document.querySelector(".resetEmailInputBox");
 let sendResetEmailBtn = document.querySelector(".sendResetEmailBtn");
 // #endregion
 
-
 // #region 綁定寄送 Email 事件
 sendResetEmailBtn.addEventListener("click", function (e) {
     // 沒有輸入 Email

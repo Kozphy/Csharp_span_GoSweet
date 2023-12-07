@@ -64,6 +64,7 @@ function renderDropDownBellMessageToNull(btn, spinnerBtn) {
     spinnerBtn.classList.add("d-none");
 
 
+    // html content
     let htmlStr = `<a href="#" class="btn btn-hover-light rounded-0" style="width:300px">
                                             <div class="row align-items-center gy-2 gx-0">
                                                 <div class="col-3 text-center">
