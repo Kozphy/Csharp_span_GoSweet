@@ -8,22 +8,27 @@ namespace backend.Controllers
         {
             return View();
         }
+
         public IActionResult MainPage()
         {
             return View();
         }
+
         public IActionResult ItemPage()
         {
             return View();
         }
+
         public IActionResult Banned()
         {
             return View();
         }
+
         public IActionResult FirmPage()
         {
             return View();
         }
+
         public IActionResult CustomPage()
         {
             return View();

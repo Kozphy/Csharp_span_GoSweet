@@ -1,6 +1,6 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.Security.Cryptography;
+using MailKit.Net.Smtp;
 using MimeKit;
-using System.Security.Cryptography;
 
 namespace GoSweet.Controllers.feature
 {
@@ -26,7 +26,8 @@ namespace GoSweet.Controllers.feature
             message.Subject = "GoSweet 忘記密碼重置";
 
             // email css
-            string cssContent = @"
+            string cssContent =
+                @"
             <head>
                 <style>
                     .fw-bold {
@@ -55,7 +56,6 @@ namespace GoSweet.Controllers.feature
 
             message.Body = builder.ToMessageBody();
 
-
             using var client = new SmtpClient();
 
             string smtpServer = "smtp.gmail.com";
@@ -66,7 +66,6 @@ namespace GoSweet.Controllers.feature
 
             client.Send(message);
             client.Disconnect(true);
-
         }
     }
 }

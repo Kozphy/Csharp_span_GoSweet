@@ -5,8 +5,6 @@ namespace GoSweet.Pages.Shared
 {
     public class ForgetPasswordModalModel : PageModel
     {
-        public void OnGet()
-        {
-        }
+        public void OnGet() { }
     }
 }

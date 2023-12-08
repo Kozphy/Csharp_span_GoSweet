@@ -6,7 +6,7 @@ namespace GoSweet.Controllers.feature
     public class HashPassword
     {
         //private string salt = "abc";
-        public  string CreateSha256Password(string password)
+        public string CreateSha256Password(string password)
         {
             using SHA256 sha256 = SHA256.Create();
             // create salt password
@@ -17,7 +17,8 @@ namespace GoSweet.Controllers.feature
 
             StringBuilder builder = new StringBuilder();
 
-            foreach (byte b in bytes) {
+            foreach (byte b in bytes)
+            {
                 builder.Append(b.ToString("x2"));
             }
             return builder.ToString();

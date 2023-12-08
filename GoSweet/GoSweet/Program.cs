@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Toolbelt.Extensions.DependencyInjection;
+
 namespace GoSweet
 {
     public class Program
@@ -18,8 +19,14 @@ namespace GoSweet
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<ShopwebContext>(
-            options => options.UseSqlServer(builder.Configuration.GetConnectionString("shopwebConnstring")));
+            builder
+                .Services
+                .AddDbContext<ShopwebContext>(
+                    options =>
+                        options.UseSqlServer(
+                            builder.Configuration.GetConnectionString("shopwebConnstring")
+                        )
+                );
             builder.Services.AddHttpContextAccessor();
 
             // Add Identity Service
@@ -31,16 +38,18 @@ namespace GoSweet
             //}).AddEntityFrameworkStores<ShopwebContext>()
             //    .AddDefaultTokenProviders();
 
-            
-            //Add  Http Session
-            builder.Services.AddSession(options =>
-            {
-                options.Cookie.Name = ".GoSweet.Session";
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.IsEssential = true;
-            });
 
-            //Add Singalr 
+            //Add  Http Session
+            builder
+                .Services
+                .AddSession(options =>
+                {
+                    options.Cookie.Name = ".GoSweet.Session";
+                    options.IdleTimeout = TimeSpan.FromMinutes(30);
+                    options.Cookie.IsEssential = true;
+                });
+
+            //Add Singalr
             builder.Services.AddSignalR();
 
             var app = builder.Build();
@@ -56,12 +65,13 @@ namespace GoSweet
 
             app.UseAuthorization();
 
-            //±Ò¥Îhttp session
+            //ï¿½Ò¥ï¿½http session
             app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"
+            );
 
             //Singalr Path
             app.MapHub<ChatHub>("/chatHub");

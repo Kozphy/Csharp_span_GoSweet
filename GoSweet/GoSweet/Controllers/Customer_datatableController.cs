@@ -8,6 +8,7 @@ namespace test0704_1.Controllers
         {
             return View();
         }
+
         public IActionResult data()
         {
             return View();

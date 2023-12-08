@@ -7,7 +7,6 @@ namespace GoSweet.Models.ViewModels
         public IEnumerable<CategoryViewModel>? CategoryDatas { get; set; }
         public IEnumerable<ProductRankDataViewModel>? ProductRankDatas { get; set; }
         public IEnumerable<ProductGroupBuyData>? ProductGroupBuyDatas { get; set; }
-
     }
 
     public class CategoryViewModel
@@ -38,5 +37,4 @@ namespace GoSweet.Models.ViewModels
         public DateTime GroupEndDate { get; set; }
         public int GroupRemainDate { get; set; }
     }
-
 }

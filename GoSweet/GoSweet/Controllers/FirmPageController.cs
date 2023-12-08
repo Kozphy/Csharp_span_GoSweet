@@ -1,17 +1,16 @@
-﻿using GoSweet.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Collections;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Linq;
+using GoSweet.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoSweet.Controllers
 {
     public class FirmPageController : Controller
     {
-
         private readonly ShopwebContext _context;
         private readonly IConfiguration _config;
 
@@ -19,24 +18,40 @@ namespace GoSweet.Controllers
         {
             _context = context;
             _config = config;
-
         }
+
         public IActionResult ProductSale()
         {
             //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
-            var data = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPagename).FirstOrDefault();
-            var data3 = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPicurl).FirstOrDefault();
+            var data = _context
+                .FirmPagetables
+                .Where(x => x.FNumber == FirmNumber)
+                .Select(x => x.FPagename)
+                .FirstOrDefault();
+            var data3 = _context
+                .FirmPagetables
+                .Where(x => x.FNumber == FirmNumber)
+                .Select(x => x.FPicurl)
+                .FirstOrDefault();
 
             ViewBag.FirmName = data;
             ViewBag.FirmPic = data3;
 
             return View();
         }
+
         //商品上架要用的
         [HttpPost]
-        public async Task<ActionResult> ProductSale(ProductDatatable data, GroupDatatable groupdata, List<IFormFile> files, IFormCollection form, FirmPagetable firm, ProductPicturetable picture)
+        public async Task<ActionResult> ProductSale(
+            ProductDatatable data,
+            GroupDatatable groupdata,
+            List<IFormFile> files,
+            IFormCollection form,
+            FirmPagetable firm,
+            ProductPicturetable picture
+        )
         {
             //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
@@ -87,7 +102,9 @@ namespace GoSweet.Controllers
             using (var dbContext = new ShopwebContext())
             {
                 // 獲取對應的 FirmPagetables 記錄
-                var firmAccount = _context.FirmPagetables.SingleOrDefault(x => x.FNumber == FirmNumber);
+                var firmAccount = _context
+                    .FirmPagetables
+                    .SingleOrDefault(x => x.FNumber == FirmNumber);
                 if (firmAccount == null)
                 {
                     // 處理找不到 Firm_accounttable 記錄的邏輯
@@ -127,7 +144,11 @@ namespace GoSweet.Controllers
 
                     //System.Diagnostics.Debug.WriteLine(generatedPNumber.ToString());
 
-                    var proNum = _context.ProductDatatables.Where(y => y.PName == data.PName).Select(data => data.PNumber).Single();
+                    var proNum = _context
+                        .ProductDatatables
+                        .Where(y => y.PName == data.PName)
+                        .Select(data => data.PNumber)
+                        .Single();
 
                     int i = 1;
                     foreach (var valueitem in values)
@@ -185,9 +206,21 @@ namespace GoSweet.Controllers
             //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
-            var data = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPagename).Single();
-            var data2 = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FMessage).Single();
-            var data3 = _context.FirmPagetables.Where(x => x.FNumber == FirmNumber).Select(x => x.FPicurl).Single();
+            var data = _context
+                .FirmPagetables
+                .Where(x => x.FNumber == FirmNumber)
+                .Select(x => x.FPagename)
+                .Single();
+            var data2 = _context
+                .FirmPagetables
+                .Where(x => x.FNumber == FirmNumber)
+                .Select(x => x.FMessage)
+                .Single();
+            var data3 = _context
+                .FirmPagetables
+                .Where(x => x.FNumber == FirmNumber)
+                .Select(x => x.FPicurl)
+                .Single();
 
             ViewBag.FirmName = data;
             ViewBag.FirmMes = data2;
@@ -196,35 +229,46 @@ namespace GoSweet.Controllers
             return View();
         }
 
-
         public IActionResult ProductSearch()
         {
             return View();
         }
 
         //團購table要用的
-        public IActionResult Index(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
+        public IActionResult Index(
+            string pname,
+            int pmin,
+            int pmax,
+            string pCategory,
+            string groupbuy,
+            int soldmin,
+            int soldmax,
+            int orderby
+        )
         {
             //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
-            var result = (from product in _context.ProductDatatables
-                          join groupData in _context.GroupDatatables on product.PNumber equals groupData.PNumber
-                          join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
-                          where product.FNumber == FirmNumber && pic.PPicnumber == 1
-                          select new
-                          {
-                              pic.PUrl,
-                              product.PName,
-                              product.PInventory,
-                              product.PCategory,
-                              product.PPrice,
-                              pnumber = product.PNumber,
-                              soldnumber = 0,
-                              groupData.GPrice,
-                              groupData.GStart,
-                              groupData.GEnd,
-                          });
+            var result = (
+                from product in _context.ProductDatatables
+                join groupData in _context.GroupDatatables
+                    on product.PNumber equals groupData.PNumber
+                join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
+                where product.FNumber == FirmNumber && pic.PPicnumber == 1
+                select new
+                {
+                    pic.PUrl,
+                    product.PName,
+                    product.PInventory,
+                    product.PCategory,
+                    product.PPrice,
+                    pnumber = product.PNumber,
+                    soldnumber = 0,
+                    groupData.GPrice,
+                    groupData.GStart,
+                    groupData.GEnd,
+                }
+            );
 
             // 根據填寫的欄位內容構造 where 條件
             if (!string.IsNullOrEmpty(pname))
@@ -234,7 +278,9 @@ namespace GoSweet.Controllers
 
             if (pmin >= 0 && pmax > 0)
             {
-                result = result.Where(product => product.PInventory >= pmin && product.PInventory <= pmax);
+                result = result.Where(
+                    product => product.PInventory >= pmin && product.PInventory <= pmax
+                );
             }
 
             if (!string.IsNullOrEmpty(pCategory) && pCategory != "全部")
@@ -248,7 +294,9 @@ namespace GoSweet.Controllers
             }
             else if (orderby == 3)
             {
-                result = result.OrderBy(product => product.soldnumber).ThenBy(product => product.PPrice);
+                result = result
+                    .OrderBy(product => product.soldnumber)
+                    .ThenBy(product => product.PPrice);
             }
             else
             {
@@ -259,24 +307,35 @@ namespace GoSweet.Controllers
         }
 
         //一般全部商品table要用的
-        public IActionResult IndexWithoutJoin(string pname, int pmin, int pmax, string pCategory, string groupbuy, int soldmin, int soldmax, int orderby)
+        public IActionResult IndexWithoutJoin(
+            string pname,
+            int pmin,
+            int pmax,
+            string pCategory,
+            string groupbuy,
+            int soldmin,
+            int soldmax,
+            int orderby
+        )
         {
             //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
-            var result = (from product in _context.ProductDatatables
-                          join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
-                          where product.FNumber == FirmNumber && pic.PPicnumber == 1
-                          select new
-                          {
-                              pic.PUrl,
-                              product.PName,
-                              product.PInventory,
-                              product.PCategory,
-                              product.PPrice,
-                              pnumber = product.PNumber,
-                              soldnumber = 0
-                          });
+            var result = (
+                from product in _context.ProductDatatables
+                join pic in _context.ProductPicturetables on product.PNumber equals pic.PNumber
+                where product.FNumber == FirmNumber && pic.PPicnumber == 1
+                select new
+                {
+                    pic.PUrl,
+                    product.PName,
+                    product.PInventory,
+                    product.PCategory,
+                    product.PPrice,
+                    pnumber = product.PNumber,
+                    soldnumber = 0
+                }
+            );
 
             // 根據填寫的欄位內容構造 where 條件
             if (!string.IsNullOrEmpty(pname))
@@ -286,7 +345,9 @@ namespace GoSweet.Controllers
 
             if (pmin >= 0 && pmax > 0)
             {
-                result = result.Where(product => product.PInventory >= pmin && product.PInventory <= pmax);
+                result = result.Where(
+                    product => product.PInventory >= pmin && product.PInventory <= pmax
+                );
             }
 
             if (!string.IsNullOrEmpty(pCategory) && pCategory != "全部")
@@ -300,7 +361,9 @@ namespace GoSweet.Controllers
             }
             else if (orderby == 3)
             {
-                result = result.OrderBy(product => product.soldnumber).ThenBy(product => product.PPrice);
+                result = result
+                    .OrderBy(product => product.soldnumber)
+                    .ThenBy(product => product.PPrice);
             }
             else
             {
@@ -316,13 +379,15 @@ namespace GoSweet.Controllers
             //HttpContext.Session.SetInt32("firmNumber", 60000);
             var FirmNumber = HttpContext.Session.GetInt32("firmNumber");
 
-            var soldlist = from o in _context.OrderDatatables
-                           where o.FNumber == FirmNumber
-                           group o by o.PNumber into o2
-                           select new { pnumber = o2.Key, soldnumber = o2.Sum(x => x.OBuynumber) };
+            var soldlist =
+                from o in _context.OrderDatatables
+                where o.FNumber == FirmNumber
+                group o by o.PNumber into o2
+                select new { pnumber = o2.Key, soldnumber = o2.Sum(x => x.OBuynumber) };
 
             return Content(JsonSerializer.Serialize(soldlist));
         }
+
         // GET: ProductDatatables/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -336,7 +401,12 @@ namespace GoSweet.Controllers
             {
                 return NotFound();
             }
-            ViewData["FNumber"] = new SelectList(_context.FirmAccounttables, "FNumber", "FNumber", productDatatable.FNumber);
+            ViewData["FNumber"] = new SelectList(
+                _context.FirmAccounttables,
+                "FNumber",
+                "FNumber",
+                productDatatable.FNumber
+            );
             return View(productDatatable);
         }
 
@@ -345,7 +415,13 @@ namespace GoSweet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FNumber,PNumber,PName,PSpec,PCategory,PPrice,PDescribe,PSavedate,PSaveway,PInventory,PShip,PPayment")] ProductDatatable productDatatable)
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind(
+                "FNumber,PNumber,PName,PSpec,PCategory,PPrice,PDescribe,PSavedate,PSaveway,PInventory,PShip,PPayment"
+            )]
+                ProductDatatable productDatatable
+        )
         {
             if (id != productDatatable.PNumber)
             {
@@ -372,7 +448,12 @@ namespace GoSweet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FNumber"] = new SelectList(_context.FirmAccounttables, "FNumber", "FNumber", productDatatable.FNumber);
+            ViewData["FNumber"] = new SelectList(
+                _context.FirmAccounttables,
+                "FNumber",
+                "FNumber",
+                productDatatable.FNumber
+            );
             return View(productDatatable);
         }
 
@@ -384,7 +465,8 @@ namespace GoSweet.Controllers
                 return NotFound();
             }
 
-            var productDatatable = await _context.ProductDatatables
+            var productDatatable = await _context
+                .ProductDatatables
                 .Include(p => p.FNumberNavigation)
                 .FirstOrDefaultAsync(m => m.PNumber == id);
             if (productDatatable == null)
@@ -394,6 +476,7 @@ namespace GoSweet.Controllers
 
             return View(productDatatable);
         }
+
         // POST: ProductDatatables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -412,8 +495,5 @@ namespace GoSweet.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
-
     }
 }

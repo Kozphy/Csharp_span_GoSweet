@@ -2,7 +2,6 @@
 
 namespace GoSweet.Models.ViewModels
 {
-
     public class CustomerBellDropDownVm
     {
         //public IEnumerable<InotifyMessage>? notifyMessage { get; set; }
@@ -26,8 +25,6 @@ namespace GoSweet.Models.ViewModels
         public bool? NotifyRead { get; set; }
     }
 
-
-
     //public class notifyMessageAlreadyGroupVm{
     //    public int GroupNumber { get; set; }
     //    public string? ProductName { get; set; }
@@ -35,12 +32,11 @@ namespace GoSweet.Models.ViewModels
 
     //}
 
-    //public class notifyMessageAlreadySendVm{ 
+    //public class notifyMessageAlreadySendVm{
 
     //    public int OrderNumber { get; set; }
     //    //public string? Account { get; set; }
     //    public string? ProductName { get; set; }
     //    public string? OrderStatus { get; set; }
     //}
-
 }

@@ -1,38 +1,37 @@
-﻿using AngleSharp.Browser.Dom;
-using GoSweet.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text.Json;
+using AngleSharp.Browser.Dom;
+using GoSweet.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoSweet.Controllers
 {
     public class Talk_datatableController : Controller
     {
         public readonly ShopwebContext _context;
+
         public Talk_datatableController(ShopwebContext context)
         {
             _context = context;
         }
+
         public IActionResult Index()
         {
-
-            var read = from t in _context.TalkDatatables
-                       where t.CNumber == 10000 && t.FNumber == 60000 && t.TPost == 1
-                       select t;
-
+            var read =
+                from t in _context.TalkDatatables
+                where t.CNumber == 10000 && t.FNumber == 60000 && t.TPost == 1
+                select t;
 
             return Content(JsonSerializer.Serialize(read));
         }
 
-
         public IActionResult talk()
         {
-
             if (HttpContext.Session.GetInt32("cnumber") != null)
             {
                 return RedirectToAction("talk_c", "Talk_datatable");
@@ -42,17 +41,15 @@ namespace GoSweet.Controllers
                 return RedirectToAction("talk_f", "Talk_datatable");
             }
 
-
             return Content("no http session");
         }
 
-        //聊天室網頁  客戶用  
+        //聊天室網頁  客戶用
         public IActionResult talk_c()
         {
             //HttpContext.Session.SetInt32("cnumber",10000);
             return View();
         }
-
 
         //取得聊天名單
         [HttpGet]
@@ -60,17 +57,17 @@ namespace GoSweet.Controllers
         {
             int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
 
-
-
-
-            var list = from t in _context.TalkMembertables
-                       join f in _context.FirmPagetables
-                       on t.FNumber equals f.FNumber
-                       where t.CNumber == cnumber
-                       select new { fnumber = t.FNumber, fname = f.FPagename, fpic = f.FPicurl , noread =0 };
-
-
-
+            var list =
+                from t in _context.TalkMembertables
+                join f in _context.FirmPagetables on t.FNumber equals f.FNumber
+                where t.CNumber == cnumber
+                select new
+                {
+                    fnumber = t.FNumber,
+                    fname = f.FPagename,
+                    fpic = f.FPicurl,
+                    noread = 0
+                };
 
             return Content(JsonSerializer.Serialize(list));
         }
@@ -81,20 +78,14 @@ namespace GoSweet.Controllers
         {
             int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
 
-
-            var noreadlist = from t in _context.TalkDatatables
-                             where t.CNumber == cnumber && t.TPost == 1
-                             group t by new { fnumber = t.FNumber } into t2
-                             select new { fnumber = t2.Key.fnumber, noread = t2.Sum(x => x.TRead) };
-
-
-
-
-
+            var noreadlist =
+                from t in _context.TalkDatatables
+                where t.CNumber == cnumber && t.TPost == 1
+                group t by new { fnumber = t.FNumber } into t2
+                select new { fnumber = t2.Key.fnumber, noread = t2.Sum(x => x.TRead) };
 
             return Content(JsonSerializer.Serialize(noreadlist));
         }
-
 
         //取得聊天歷史傳到前端
         [HttpPost]
@@ -105,19 +96,22 @@ namespace GoSweet.Controllers
             int fnumber = _context.FirmPagetables.Where(x => x.FPagename == fname).First().FNumber;
             System.Diagnostics.Debug.WriteLine(fname + fnumber);
 
-            var history = from t in _context.TalkDatatables
-                          where t.CNumber == cnumber && t.FNumber == fnumber
-                          select new {  message = t.TMessage, time = t.TTime.ToString("yyyy-MM-dd HH:mm"), post = t.TPost };
-
-            
-
+            var history =
+                from t in _context.TalkDatatables
+                where t.CNumber == cnumber && t.FNumber == fnumber
+                select new
+                {
+                    message = t.TMessage,
+                    time = t.TTime.ToString("yyyy-MM-dd HH:mm"),
+                    post = t.TPost
+                };
 
             return Content(JsonSerializer.Serialize(history));
         }
 
         //取得聊天內容寫入db
         [HttpPost]
-        public IActionResult postmessage_c(int fnumber,string time,string message)
+        public IActionResult postmessage_c(int fnumber, string time, string message)
         {
             if (fnumber == 0)
             {
@@ -126,12 +120,11 @@ namespace GoSweet.Controllers
 
             int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
 
-
             TalkDatatable talk = new TalkDatatable();
 
             talk.CNumber = cnumber;
             talk.FNumber = fnumber;
-            talk.TTime= DateTime.Parse(time);
+            talk.TTime = DateTime.Parse(time);
             talk.TMessage = message;
             talk.TRead = 1;
             talk.TPost = 0;
@@ -141,20 +134,16 @@ namespace GoSweet.Controllers
             return Content("postmessage write to db");
         }
 
-
-
         //將編號及uid寫入資料庫
         [HttpPost]
-        public string chatid_c( string uid)
+        public string chatid_c(string uid)
         {
             TalkPersontable person = new TalkPersontable();
             int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
 
             person.CNumber = cnumber;
             person.TId = uid;
-            var getuid = from t in _context!.TalkPersontables
-                         where t.CNumber == cnumber
-                         select t;
+            var getuid = from t in _context!.TalkPersontables where t.CNumber == cnumber select t;
             if (getuid.FirstOrDefault() == null)
             {
                 _context.Add(person);
@@ -172,64 +161,38 @@ namespace GoSweet.Controllers
             return "uid update";
         }
 
-
-
         //已讀聊天室內容
         [HttpPost]
         public IActionResult read_c(int fnumber)
         {
-            if (fnumber == 0) {
+            if (fnumber == 0)
+            {
                 return Content("read_c fail fnumber is 0");
             }
 
             int cnumber = (int)HttpContext.Session.GetInt32("cnumber")!;
 
-
-             var read = from t in _context.TalkDatatables
-                        where t.CNumber == cnumber && t.FNumber == fnumber && t.TPost==1
-                        select t;
+            var read =
+                from t in _context.TalkDatatables
+                where t.CNumber == cnumber && t.FNumber == fnumber && t.TPost == 1
+                select t;
             foreach (var item in read)
             {
                 item.TRead = 0;
                 _context.Update(item);
             }
-            
-            _context.SaveChanges();
 
+            _context.SaveChanges();
 
             return Content("read  message");
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //聊天室網頁  廠商用 
+        //聊天室網頁  廠商用
         public IActionResult talk_f()
         {
             //HttpContext.Session.SetInt32("fnumber", 60000);
             return View();
         }
-
-
-
-
-
 
         //取得聊天名單
         [HttpGet]
@@ -237,15 +200,16 @@ namespace GoSweet.Controllers
         {
             int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
 
-
-
-
-
-            var list = from t in _context.TalkMembertables
-                       join c in _context.CustomerAccounttables
-                       on t.CNumber equals c.CNumber
-                       where t.FNumber == fnumber
-                       select new { cnumber = t.CNumber, cname = c.CNickname, noread =0 };
+            var list =
+                from t in _context.TalkMembertables
+                join c in _context.CustomerAccounttables on t.CNumber equals c.CNumber
+                where t.FNumber == fnumber
+                select new
+                {
+                    cnumber = t.CNumber,
+                    cname = c.CNickname,
+                    noread = 0
+                };
 
             return Content(JsonSerializer.Serialize(list));
         }
@@ -256,37 +220,35 @@ namespace GoSweet.Controllers
         {
             int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
 
-
-            var noreadlist = from t in _context.TalkDatatables
-                             where t.FNumber == fnumber && t.TPost == 0
-                             group t by new { cnumber = t.CNumber } into t2
-                             select new { cnumber = t2.Key.cnumber, noread = t2.Sum(x => x.TRead) };
-
-
-
-
-
+            var noreadlist =
+                from t in _context.TalkDatatables
+                where t.FNumber == fnumber && t.TPost == 0
+                group t by new { cnumber = t.CNumber } into t2
+                select new { cnumber = t2.Key.cnumber, noread = t2.Sum(x => x.TRead) };
 
             return Content(JsonSerializer.Serialize(noreadlist));
         }
-
 
         //取得聊天歷史傳到前端
         [HttpPost]
         public IActionResult gethistory_f(int cnumber)
         {
-            if (cnumber == 0) {
+            if (cnumber == 0)
+            {
                 return Content("gethistory_f fail cnumber is 0");
             }
 
             int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
 
-            
-
-            var history = from t in _context.TalkDatatables
-                          where t.CNumber == cnumber && t.FNumber == fnumber
-                          select new { message = t.TMessage, time = t.TTime.ToString("yyyy-MM-dd HH:mm"), post = t.TPost };
-
+            var history =
+                from t in _context.TalkDatatables
+                where t.CNumber == cnumber && t.FNumber == fnumber
+                select new
+                {
+                    message = t.TMessage,
+                    time = t.TTime.ToString("yyyy-MM-dd HH:mm"),
+                    post = t.TPost
+                };
 
             return Content(JsonSerializer.Serialize(history));
         }
@@ -295,13 +257,11 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult postmessage_f(int cnumber, string time, string message)
         {
-
             if (cnumber == 0)
             {
                 return Content("postmessage_f fail cnumber is 0");
             }
             int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
-
 
             TalkDatatable talk = new TalkDatatable();
 
@@ -317,11 +277,9 @@ namespace GoSweet.Controllers
             return Content("postmessage write to db");
         }
 
-
-
         //將編號及uid寫入資料庫
         [HttpPost]
-        public string chatid_f( string uid)
+        public string chatid_f(string uid)
         {
             TalkPersontable person = new TalkPersontable();
 
@@ -329,12 +287,9 @@ namespace GoSweet.Controllers
 
             person.FNumber = fnumber;
             person.TId = uid;
-            var getuid = from t in _context!.TalkPersontables
-                         where t.FNumber == fnumber
-                         select t;
+            var getuid = from t in _context!.TalkPersontables where t.FNumber == fnumber select t;
             if (getuid.FirstOrDefault() == null)
             {
-
                 _context.Add(person);
                 _context.SaveChanges();
                 System.Diagnostics.Debug.WriteLine("add FNumber to db");
@@ -347,27 +302,23 @@ namespace GoSweet.Controllers
                 System.Diagnostics.Debug.WriteLine("Update FNumberto db");
             }
 
-
             return "uid update";
         }
-
-
 
         //已讀聊天室內容
         [HttpPost]
         public IActionResult read_f(int cnumber)
         {
-
             if (cnumber == 0)
             {
                 return Content("read_f fail cnumber is 0");
             }
             int fnumber = (int)HttpContext.Session.GetInt32("fnumber")!;
 
-
-            var read = from t in _context.TalkDatatables
-                       where t.CNumber == cnumber && t.FNumber == fnumber && t.TPost == 0
-                       select t;
+            var read =
+                from t in _context.TalkDatatables
+                where t.CNumber == cnumber && t.FNumber == fnumber && t.TPost == 0
+                select t;
             foreach (var item in read)
             {
                 item.TRead = 0;
@@ -376,17 +327,10 @@ namespace GoSweet.Controllers
 
             _context.SaveChanges();
 
-
             return Content("read  message");
         }
 
-
-
-
-
-
-
-        //聊天室網頁  廠商與客戶共用 
+        //聊天室網頁  廠商與客戶共用
         public IActionResult getsendid(int sendnumber)
         {
             if (sendnumber == 0)
@@ -394,25 +338,12 @@ namespace GoSweet.Controllers
                 return Content("getsendid fail sendnumber is 0");
             }
 
-            var sendid = from t in _context.TalkPersontables
-                         where sendnumber == t.CNumber || sendnumber == t.FNumber
-                         select new { id = t.TId };
-            
+            var sendid =
+                from t in _context.TalkPersontables
+                where sendnumber == t.CNumber || sendnumber == t.FNumber
+                select new { id = t.TId };
 
             return Content(JsonSerializer.Serialize(sendid));
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
