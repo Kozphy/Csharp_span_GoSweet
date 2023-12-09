@@ -8,10 +8,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noImplicitAny": true,
+    "ignoreDeprecations": "5.0",
     "suppressImplicitAnyIndexErrors": true,
     "allowJs": false,
     "declarationDir": "./dist/types",
-    "declaration"   : true,
+    "declaration": true,
     "declarationMap": true,
     "lib": [
       "dom",

@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+	<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,9 +13,46 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Controllers\BackEndController.cs" />
+    <Compile Include="Controllers\BuyListController.cs" />
+    <Compile Include="Controllers\Customer_datatableController.cs" />
+    <Compile Include="Controllers\feature\HashPassword.cs" />
+    <Compile Include="Controllers\feature\Mail.cs" />
+    <Compile Include="Controllers\FirmController.cs" />
+    <Compile Include="Controllers\FirmPageController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Order_datatableController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\Talk_datatableController.cs" />
+    <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Implement\EmailSender.cs" />
+    <Compile Include="Interfaces\IEmailSender.cs" />
+    <Compile Include="Models\CustomerAccounttable.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\FirmAccounttable.cs" />
+    <Compile Include="Models\FirmPagetable.cs" />
+    <Compile Include="Models\GroupDatatable.cs" />
+    <Compile Include="Models\MemberMembertable.cs" />
+    <Compile Include="Models\NotifyDatatable.cs" />
+    <Compile Include="Models\OrderAssesstable.cs" />
+    <Compile Include="Models\OrderDatatable.cs" />
+    <Compile Include="Models\PaymentDatatable.cs" />
+    <Compile Include="Models\ProductDatatable.cs" />
+    <Compile Include="Models\ProductPicturetable.cs" />
+    <Compile Include="Models\ShipDatatable.cs" />
+    <Compile Include="Models\shopwebContext.cs" />
+    <Compile Include="Models\TalkDatatable.cs" />
+    <Compile Include="Models\TalkMembertable.cs" />
+    <Compile Include="Models\TalkPersontable.cs" />
+    <Compile Include="Models\ViewModels\AccountVm.cs" />
+    <Compile Include="Models\ViewModels\FirmHomepageModel.cs" />
+    <Compile Include="Models\ViewModels\FirmRevenueModels.cs" />
+    <Compile Include="Models\ViewModels\HomeIndexVm.cs" />
+    <Compile Include="Models\ViewModels\LayoutVm.cs" />
     <Compile Include="obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
     <Compile Include="obj\Debug\net6.0\GoSweet.AssemblyInfo.cs" />
     <Compile Include="obj\Debug\net6.0\GoSweet.RazorAssemblyInfo.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -2923,6 +2961,7 @@
 
   <ItemGroup>
     <Folder Include="Models\Authentication\" />
+    <Folder Include="Persistence\" />
     <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
     <Folder Include="wwwroot\img\ProductUrl\" />
     <Folder Include="wwwroot\js\Firm\" />
