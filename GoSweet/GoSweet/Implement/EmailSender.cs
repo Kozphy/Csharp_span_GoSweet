@@ -15,7 +15,7 @@ namespace GoSweet.Implement
             message.Subject = subject;
             //string smtpAddress = ""
             //string mail = "dbdf0147@gmail.com";
-            //string pw = 
+            //string pw =
             throw new NotImplementedException();
         }
     }

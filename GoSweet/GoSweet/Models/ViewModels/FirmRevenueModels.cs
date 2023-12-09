@@ -1,10 +1,8 @@
 ﻿namespace GoSweet.Models.ViewModels
 {
-   
     //Json用類別
     public class RevenueSearch
     {
-
         private string _RevenueSearchDate = "";
         private string _RevenueTotal = "";
         private string _OrderType = "";

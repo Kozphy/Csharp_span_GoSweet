@@ -5,7 +5,6 @@ namespace GoSweet.Hubs
 {
     public class ChatHub : Hub
     {
-
         // 用戶連線 ID 列表
         public static List<string> ConnIDList = new List<string>();
 
@@ -15,7 +14,6 @@ namespace GoSweet.Hubs
         /// <returns></returns>
         public override async Task OnConnectedAsync()
         {
-
             if (ConnIDList.Where(p => p == Context.ConnectionId).FirstOrDefault() == null)
             {
                 ConnIDList.Add(Context.ConnectionId);
@@ -75,17 +73,10 @@ namespace GoSweet.Hubs
                 await Clients.Client(sendToID).SendAsync("UpdContent", message);
 
                 // 發送人
-                await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", "你向 " + sendToID + " 私訊說: " + message);
+                await Clients
+                    .Client(Context.ConnectionId)
+                    .SendAsync("UpdContent", "你向 " + sendToID + " 私訊說: " + message);
             }
         }
-
-
-
-
-
-
-
-
-
     }
 }

@@ -66,8 +66,8 @@
 
         public string? Content { get; set; }
 
-		public double? Rating { get; set; }
-	}
+        public double? Rating { get; set; }
+    }
 
     public class HotSales
     {
@@ -77,8 +77,8 @@
     }
 
     //Json用類型
-    public class ratingvalue {
-
+    public class ratingvalue
+    {
         public double? ratingScore { get; set; }
 
         public int? ratingQuentity { get; set; }
