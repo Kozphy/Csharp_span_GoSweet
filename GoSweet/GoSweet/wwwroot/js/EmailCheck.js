@@ -12,9 +12,6 @@ sendResetEmailBtn.addEventListener("click", function (e) {
         let spinner = sendResetEmailBtn.nextElementSibling;
         spinner.classList.remove("d-none");
     }
-
-
-
 });
 
 

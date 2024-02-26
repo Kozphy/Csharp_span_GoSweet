@@ -17,7 +17,7 @@ if (messageHaveReadBtn) {
     clearNotifyMessage(firmMessageHaveReadBtn, "Firm");
 }
 
-async function sendClearInfo( controllerName) {
+async function sendClearInfo(controllerName) {
     let res = await axios.post(`http://localhost:5183/${controllerName}/BellMessageHaveRead`);
     if (res.status !== 200) {
         console.log(res.status);
