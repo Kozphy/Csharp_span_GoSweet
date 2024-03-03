@@ -1,10 +1,15 @@
 ﻿@using GoSweet.Models.ViewModels;
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
-@inject IHttpContextAccessor Accessor
+@inject IHttpContextAccessor Accessor;
 @*@model GoSweet.Models.ViewModels.HomeIndexVm;*@
 @{
     string? currentPage = @ViewContext.RouteData.Values["controller"]!.ToString();
+    // var routeValues = @ViewContext.RouteData.Values;
+    // foreach (var kvp in routeValues) 
+    // { 
+    //     Console.WriteLine($"{kvp.Key.ToString()}: {kvp.Value.ToString()}");
+    // }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -27,11 +32,10 @@
         @await RenderSectionAsync("Head", required:true)
     }
     @*
-    third party package
+    // third party package
     *@
     <link rel="stylesheet" href="~/lib/splidejs/css/splide.min.css" />
     @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js" />*@
-
 </head>
 
 

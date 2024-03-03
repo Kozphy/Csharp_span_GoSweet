@@ -27,6 +27,8 @@ namespace GoSweet
                             builder.Configuration.GetConnectionString("shopwebConnstring")
                         )
                 );
+
+            // HttpContext encapsulates all information about an individual HTTP request and response.
             builder.Services.AddHttpContextAccessor();
 
             // Add Identity Service
