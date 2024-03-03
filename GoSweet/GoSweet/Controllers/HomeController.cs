@@ -37,24 +37,36 @@ namespace GoSweet.Controllers
             _webHost = webHost;
         }
 
-        public IActionResult Index()
+        /// <summary>
+        /// 取得產品熱銷排行的種類標籤
+        /// </summary>
+        /// <returns>
+        /// List<CategoryViewModel>
+        /// </returns>
+        private void GetCategoriesDatasLabels()
         {
-            _logger.LogInformation("HomeIndexStart");
-
-            #region getCategoriesDatas
-            List<CategoryViewModel> categoriesDatas = (
+            // 取得種類標籤資料
+            List<CategoryViewModel> categoriesDatasLabels = (
                 from product in _context.ProductDatatables
                 select new CategoryViewModel { Category = product.PCategory }
             )
                 .Distinct()
                 .ToList();
 
-            #endregion
+            _indexViewModelData.CategoryDatas = categoriesDatasLabels;
 
+            // setting data 到 session
+            HttpContext
+                .Session
+                .SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatasLabels));
+        }
+
+        private void GetProductSellWellData()
+        {
 
             // TODO: fix group
-            #region getProductRankData
-            List<ProductRankDataViewModel> productRankData = (
+            #region getProductSellWellData
+            List<ProductRankDataViewModel> productSellWellData = (
                 from product in _context.ProductDatatables
                 join product_pic in _context.ProductPicturetables
                     on product.PNumber equals product_pic.PNumber
@@ -82,6 +94,19 @@ namespace GoSweet.Controllers
 
             #endregion
 
+            _indexViewModelData.ProductRankDatas = productSellWellData;
+
+            HttpContext
+                 .Session
+                 .SetString(
+                     "productGroupBuyDatas",
+                     JsonConvert.SerializeObject(productSellWellData)
+                 );
+
+        }
+
+        private void GetProductGroupBuying()
+        {
             #region getProductGroupBuyData
             List<ProductGroupBuyData> productGroupBuyData = (
                 from product in _context.ProductDatatables
@@ -109,33 +134,35 @@ namespace GoSweet.Controllers
             ).OrderBy(x => x.GroupRemainDate).ThenByDescending(x => (int)x.GroupPeoplePercent).Take(4).ToList();
 
             #endregion
-
-            _indexViewModelData.CategoryDatas = categoriesDatas;
-            _indexViewModelData.ProductRankDatas = productRankData;
             _indexViewModelData.ProductGroupBuyDatas = productGroupBuyData;
+
+        }
+
+        /// <summary>
+        /// 取得首頁資料
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Index()
+        {
+            _logger.LogInformation("HomeIndexStart");
+
+            // 取得商品種類標籤
+            GetCategoriesDatasLabels();
+
+            //　取得產品銷售資料
+            GetProductSellWellData();
+
+            // 取得熱銷團購資料
+            GetProductGroupBuying();
+
+            // 通知訊息
             GetBellDropdownMessage();
             //_indexViewModelData.bellContentDatas = bellContentsDatas;
-            HttpContext
-                .Session
-                .SetString("categoriesDatas", JsonConvert.SerializeObject(categoriesDatas));
-            HttpContext
-                .Session
-                .SetString(
-                    "productGroupBuyDatas",
-                    JsonConvert.SerializeObject(productGroupBuyData)
-                );
 
             return View(_indexViewModelData);
         }
 
-        // 取得通知訊息
-        public IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage()
-        {
-            string customerAccount = HttpContext.Session.GetString("customerAccount")!;
-            if (customerAccount == null)
-            {
-                return null;
-            }
+        private IEnumerable<CustomerBellDropDownVm> GetNotifyMessageAlreadyGroup(string customerAccount) { 
 
             #region notifyMessageAlreadyGroup
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup = (
@@ -159,10 +186,14 @@ namespace GoSweet.Controllers
                 }
             ).ToList();
             #endregion
+            return notifyMessageAlreadyGroup;
+        }
 
-
+        private IEnumerable<CustomerBellDropDownVm> GetNotifyMessageAlreadySend(string customerAccount)
+        {
             #region NotfiyMessageAlreadySend
-            IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadySend = (
+            return
+                (
                 from notify in _context.NotifyDatatables
                 join order in _context.OrderDatatables on notify.ONumber equals order.ONumber
                 join customer in _context.CustomerAccounttables
@@ -181,19 +212,43 @@ namespace GoSweet.Controllers
                 }
             ).ToList();
             #endregion
+        }
 
-            IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroup
-                .Concat(notifyMessageAlreadySend)
+        // 取得通知訊息
+        public IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage()
+        {
+            string customerAccount = HttpContext.Session.GetString("customerAccount")!;
+            if (customerAccount == null)
+            {
+                return null;
+            }
+
+            IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroupData = GetNotifyMessageAlreadyGroup(customerAccount);
+
+            IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadySendData = GetNotifyMessageAlreadySend(customerAccount);
+
+            IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = notifyMessageAlreadyGroupData
+                .Concat(notifyMessageAlreadySendData)
                 .ToList();
-            ViewData["bellDropDownMessage"] = bellDropDownsDatas;
+
+            // storage to httpContext
             HttpContext
                 .Session
                 .SetString("NotfiyMessages", JsonConvert.SerializeObject(bellDropDownsDatas));
+
+            ViewData["bellDropDownMessage"] = bellDropDownsDatas;
+
+            // bellDropDownsDatas Count
             HttpContext.Session.SetInt32("NotfiyMessagesCount", bellDropDownsDatas.Count());
 
             return bellDropDownsDatas;
         }
 
+        /// <summary>
+        /// 點擊鈴鐺訊息已讀按鈕
+        /// 將訊息改成已成團，已寄出
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult BellMessageHaveRead()
         {
@@ -246,11 +301,14 @@ namespace GoSweet.Controllers
             return RedirectToAction(nameof(GetBellDropdownMessage));
         }
 
-        // 首頁熱門產品切換種類
+        /// <summary>
+        /// 首頁熱門商品點擊後切換不同的種類
+        /// </summary>
+        /// <param name="Category"></param>
+        /// <returns>json data</returns>
         [HttpGet]
         public JsonResult HandleProductCategory([FromQuery] string Category)
         {
-            // TODO: fix group issue
             List<ProductRankDataViewModel> productRankData = (
                 from product in _context.ProductDatatables
                 join product_pic in _context.ProductPicturetables
@@ -290,6 +348,11 @@ namespace GoSweet.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 登入
+        /// </summary>
+        /// <param name="customerLoginData"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(CustomerLoginVm customerLoginData)
@@ -322,7 +385,6 @@ namespace GoSweet.Controllers
 
             // TODO: check account permission
             //var userAccountPermission = userAccount.
-
             bool accountNotExist = userAccountQuery.IsNullOrEmpty();
 
             if (accountNotExist.Equals(true))
@@ -340,11 +402,20 @@ namespace GoSweet.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// 註冊頁面
+        /// </summary>
+        /// <returns></returns>
         public IActionResult SignUp()
         {
             return View();
         }
 
+        /// <summary>
+        /// 新增帳號密碼到資料庫
+        /// </summary>
+        /// <param name="customerAccountData"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult SignUp(CustomerAccountVm customerAccountData)
         {
@@ -397,6 +468,11 @@ namespace GoSweet.Controllers
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// 寄出 Email
+        /// </summary>
+        /// <param name="EmailAddress"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult SendMail(string EmailAddress)
         {
@@ -438,6 +514,11 @@ namespace GoSweet.Controllers
             return RedirectToAction("Login");
         }
 
+        /// <summary>
+        /// 密碼重置頁面
+        /// </summary>
+        /// <param name="EmailAddress"></param>
+        /// <returns></returns>
         public IActionResult ResetPassword(string EmailAddress)
         {
             ResetPasswordVm resetPasswordVm = new ResetPasswordVm() { EmailAddress = EmailAddress };
@@ -445,6 +526,11 @@ namespace GoSweet.Controllers
             return View(nameof(ResetPassword), resetPasswordVm);
         }
 
+        /// <summary>
+        /// 密碼重置資料到資料庫
+        /// </summary>
+        /// <param name="resetPasswordData"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult ResetPassword(ResetPasswordVm resetPasswordData)
         {
@@ -482,11 +568,19 @@ namespace GoSweet.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// 合作廠商頁面
+        /// </summary>
+        /// <returns></returns>
         public IActionResult CooperateFirm()
         {
             return View();
         }
 
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("customerAccountName");

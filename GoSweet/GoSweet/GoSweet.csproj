@@ -52,10 +52,12 @@
     <Compile Include="obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
     <Compile Include="obj\Debug\net6.0\GoSweet.AssemblyInfo.cs" />
     <Compile Include="obj\Debug\net6.0\GoSweet.RazorAssemblyInfo.cs" />
+    <Compile Include="Pages\Shared\_ForgetPasswordModal.cshtml.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include=".config\dotnet-tools.json" />
     <Content Include="bin\Debug\net6.0\appsettings.Development.json" />
     <Content Include="bin\Debug\net6.0\appsettings.json" />
     <Content Include="bin\Debug\net6.0\efpt.config.json" />
@@ -2593,6 +2595,24 @@
     <None Include="jit_init\node_modules\yargs\README.md" />
     <None Include="jit_init\node_modules\yargs\yargs" />
     <None Include="jit_init\node_modules\yargs\yargs.mjs" />
+    <None Include="obj\Container\AbsoluteOutputAssemblyPath.cache" />
+    <None Include="obj\Container\AdditionalProbingPaths.cache" />
+    <None Include="obj\Container\ContainerCreationResult.cache" />
+    <None Include="obj\Container\ContainerDevelopmentMode.cache" />
+    <None Include="obj\Container\ContainerId.cache" />
+    <None Include="obj\Container\ContainerName.cache" />
+    <None Include="obj\Container\ContainerOperatingSystemFlavor.cache" />
+    <None Include="obj\Container\ContainerRunContext.cache" />
+    <None Include="obj\Container\DebuggeeArguments.cache" />
+    <None Include="obj\Container\DebuggeeKillProcessCommand.cache" />
+    <None Include="obj\Container\DebuggeeProgram.cache" />
+    <None Include="obj\Container\DebuggeeWorkingDirectory.cache" />
+    <None Include="obj\Container\FastModeProjectMountDirectory.cache" />
+    <None Include="obj\Container\ImageBuildContext.cache" />
+    <None Include="obj\Container\ImageId.cache" />
+    <None Include="obj\Container\OperatingSystemName.cache" />
+    <None Include="obj\Container\TargetFramework.cache" />
+    <None Include="obj\Container\VolumeMappings.cache" />
     <None Include="obj\Debug\net6.0\apphost.exe" />
     <None Include="obj\Debug\net6.0\GoSweet.AssemblyInfoInputs.cache" />
     <None Include="obj\Debug\net6.0\GoSweet.assets.cache" />
