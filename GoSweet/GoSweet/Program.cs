@@ -36,10 +36,10 @@ namespace GoSweet
             //    options.Password.RequireLowercase = true;
             //    options.Password.RequiredLength = 5;
             //}).AddEntityFrameworkStores<ShopwebContext>()
-            //    .AddDefaultTokenProviders();
+            ////    .AddDefaultTokenProviders();
 
 
-            //Add  Http Session
+            //Add Http Session
             builder
                 .Services
                 .AddSession(options =>
