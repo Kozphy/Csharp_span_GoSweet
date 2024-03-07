@@ -14,6 +14,7 @@ GO
 -- TRUNCATE all table
 EXEC sp_MSForEachTable "TRUNCATE TABLE ?"
 GO
+
 -- get table seed
 SELECT IDENT_CURRENT('TableName') AS SeedValue;
 EXEC sp_MSforEachtable "IDENT_CURRENT(?) AS SeedValue"
