@@ -48,7 +48,7 @@ export function Layout( Splide: Splide, gridOptions: GridOptions, Dimension: Dim
    * Destroys the component.
    */
   function destroy(): void {
-    forEach( (Slide: { slide: any; }) => {
+    forEach( Slide => {
       const { slide } = Slide;
       toggleTabIndex( slide, false );
 
@@ -69,7 +69,7 @@ export function Layout( Splide: Splide, gridOptions: GridOptions, Dimension: Dim
    * Layouts grid elements.
    */
   function layout(): void {
-    forEach( (Slide: { isClone?: any; slideIndex?: any; index?: any; slide: any; }) => {
+    forEach( Slide => {
       const { slide } = Slide;
       const [ rows, cols ] = Dimension.get( Slide.isClone ? Slide.slideIndex : Slide.index );
 

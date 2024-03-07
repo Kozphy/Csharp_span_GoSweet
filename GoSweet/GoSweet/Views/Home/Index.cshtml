@@ -224,6 +224,27 @@
         <canvas id="myChart"></canvas>
     </div>
 
+    <div class="upload_section">
+        @*upload file*@
+        <div class="px-5">
+            <div class="mb-3">
+                <label for="formFile" class="form-label">uploadFile</label>
+                <input class="form-control" type="file" id="fileUpload" >
+            </div>
+        </div>
+        @*upload multiple files*@
+        <div class="px-5">
+            <div class="mb-3">
+                <label for="formFile" class="form-label">uploadFiles</label>
+                <input class="form-control" type="file" id="filesUpload" multiple>
+            </div>
+        </div>
+    </div>
+
+    @*d3.js render*@
+    <div id="myplot"></div>
+
+
     @*GoSweet Feature*@
     @*    <section class="GoSweetFeature">
     <div class="container">
@@ -357,11 +378,12 @@
 </div>
 
 
-@section Scripts{
+@section scripts{
     @*third party*@
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/messageAlert.js"></script>
     <script src="~/lib/splidejs/splide-extension-grid/dist/js/splide-extension-grid.js"></script>
+
     @*chart js*@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -425,8 +447,6 @@
         });
     </script>
 
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             let splide = new Splide('.splideProducts', {
@@ -454,8 +474,17 @@
             splide.mount(window.splide.Extensions);
         });
     </script>
-
-    <script src="~/lib/d3/d3.js"></script>
-    <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>
+    
+    @*current project*@
+    <script src="~/js/Home/getFilePath.js"></script>
     <script src="~/js/Home/productCategorySwitch.js"></script>
+    @*
+        <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>
+    *@
+    <script type="module" src="~/lib/d3/d3.min.js"></script>
+
+    @*d3.js*@
+    <script src="~/lib/d3/d3.js"></script>
+    <script src="~/lib/d3.chart/d3.chart.min.js"></script>
+    
     }

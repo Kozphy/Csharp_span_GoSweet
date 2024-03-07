@@ -32,10 +32,6 @@
       "destination": "wwwroot/lib/d3.chart/"
     },
     {
-      "library": "d3@7.8.5",
-      "destination": "wwwroot/lib/d3/"
-    },
-    {
       "provider": "unpkg",
       "library": "@microsoft/signalr@latest",
       "destination": "wwwroot/lib/microsoft/signalr/",
@@ -55,6 +51,10 @@
     {
       "library": "animate.css@4.1.1",
       "destination": "wwwroot/lib/animate.css/"
+    },
+    {
+      "library": "d3@7.8.5",
+      "destination": "Models/d3/"
     }
   ]
 }
