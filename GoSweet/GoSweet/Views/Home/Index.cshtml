@@ -6,7 +6,7 @@
     string? currentController = @ViewContext.RouteData.Values["controller"]!.ToString();
 }
 
-@section Head{
+@section Head {
     <link rel="stylesheet" href="~/css/Home/landing.css" />
     <link rel="stylesheet" href="~/css/Home/productPopularRank.css" />
     <link rel="stylesheet" href="~/css/Home/processArticle.css" />
@@ -14,10 +14,11 @@
     <link rel="stylesheet" href="~/css/Home/news.css" />
     <link rel="stylesheet" href="~/css/Home/decoratorIcon.css" />
     <link rel="stylesheet" href="~/css/Home/feature.css" />
+    <link rel="stylesheet" href="~/css//Home/UploadFileSection.css" />
 
     @*third party*@
-    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css"/>
-    <link rel="stylesheet" href="lib/animate.css/animate.min.css"/>
+    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <link rel="stylesheet" href="lib/animate.css/animate.min.css" />
 }
 
 <div class="wrapper bg-white">
@@ -224,22 +225,23 @@
         <canvas id="myChart"></canvas>
     </div>
 
-    <div class="upload_section">
-        @*upload file*@
-        <div class="px-5">
-            <div class="mb-3">
-                <label for="formFile" class="form-label">uploadFile</label>
-                <input class="form-control" type="file" id="fileUpload" >
+    @*upload file section*@
+    <form>
+        <div class="upload_section px-5">
+            <div class="px-5 py-2">
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">uploadFile</label>
+                    <input class="form-control" type="file" id="fileUpload">
+                </div>
+                @*upload multiple files*@
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">uploadFiles</label>
+                    <input class="form-control" type="file" id="filesUpload" multiple>
+                </div>
+                <button type="button" class="btn btn-outline-secondary" id="storageFileToDatabase">儲存上傳檔案</button>
             </div>
         </div>
-        @*upload multiple files*@
-        <div class="px-5">
-            <div class="mb-3">
-                <label for="formFile" class="form-label">uploadFiles</label>
-                <input class="form-control" type="file" id="filesUpload" multiple>
-            </div>
-        </div>
-    </div>
+    </form>
 
     @*d3.js render*@
     <div id="myplot"></div>
@@ -378,7 +380,7 @@
 </div>
 
 
-@section scripts{
+@section scripts {
     @*third party*@
     <script src="~/lib/sweetalert2/sweetalert2.js"></script>
     <script src="~/js/messageAlert.js"></script>
@@ -474,9 +476,9 @@
             splide.mount(window.splide.Extensions);
         });
     </script>
-    
+
     @*current project*@
-    <script src="~/js/Home/getFilePath.js"></script>
+    <script src="~/js/Home/StorageFileToDatabase.js"></script>
     <script src="~/js/Home/productCategorySwitch.js"></script>
     @*
         <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>
@@ -486,5 +488,5 @@
     @*d3.js*@
     <script src="~/lib/d3/d3.js"></script>
     <script src="~/lib/d3.chart/d3.chart.min.js"></script>
-    
-    }
+
+}

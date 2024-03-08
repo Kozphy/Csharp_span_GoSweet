@@ -609,5 +609,14 @@ namespace GoSweet.Controllers
         {
             return View();
         }
+        public IActionResult StorageFileToDatabase() 
+        {
+            if (!ModelState.IsValid)
+            {
+                return Content("Error");
+            }
+            
+            return RedirectToAction("index","Home");
+        }
     }
 }
