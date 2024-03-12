@@ -54,7 +54,7 @@
     },
     {
       "library": "d3@7.8.5",
-      "destination": "Models/d3/"
+      "destination": "wwwroot/lib/d3/"
     }
   ]
 }

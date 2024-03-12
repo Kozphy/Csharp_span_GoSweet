@@ -2638,8 +2638,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.59" />
     <PackageReference Include="MailKit" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.27" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
       <PrivateAssets>all</PrivateAssets>
@@ -2653,6 +2655,8 @@
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="4.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Npm" Version="3.5.2" />
+    <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.19" />
     <PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />
   </ItemGroup>
 
@@ -2985,6 +2989,16 @@
     <Folder Include="wwwroot\img\Home\ProductGroupBuy\" />
     <Folder Include="wwwroot\img\ProductUrl\" />
     <Folder Include="wwwroot\js\Firm\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyReports\MyReports.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MyReports">
+      <HintPath>..\MyReports\bin\Debug\net6.0\MyReports.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

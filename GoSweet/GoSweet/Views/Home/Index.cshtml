@@ -74,8 +74,8 @@
                 <section class="splide splideProducts">
                     <div class="splide__track">
                         <ul class="splide__list">
-                            @foreach (var item in Model.ProductRankDatas!)
-                            {
+                            @for (int i = 0; i < Model.ProductRankDatas.Count(); i++) 
+                            { 
                                 <li class="splide__slide">
                                     <div class="splide__slide__container">
                                         <div class="product-rank-card card">
@@ -83,22 +83,22 @@
                                                 <div class="product-rank-hover-content d-flex">
                                                     @*TODO: fix get or post*@
                                                     <form method="get" class="m-auto" asp-controller="Search" asp-action="Product">
-                                                        <input type="hidden" name="pid" value="@item.ProductId">
+                                                        <input type="hidden" name="pid" value="@Model.ProductRankDatas.ElementAt(i).ProductId">
                                                         <button type="submit" class="btn btn-outline-light rounded-0 btnGo">GO >></button>
                                                     </form>
                                                 </div>
-                                                <img class="card-img-top" src="@item.ProductPicture" />
+                                                <img class="card-img-top" src="@Model.ProductRankDatas.ElementAt(i).ProductPicture" />
                                             </div>
                                             <div class="card-title mb-0 py-2 text-center product-card-title">
-                                                @item.ProductName
+                                                @Model.ProductRankDatas.ElementAt(i).ProductName
                                             </div>
                                             <div class="card-body">
                                                 <div class="text-center card-text multiline-ellipsis-3 lh-base">
-                                                    @item.ProductDescription
+                                                    @Model.ProductRankDatas.ElementAt(i).ProductDescription
                                                 </div>
                                             </div>
                                             <div class="card-footer">
-                                                大約 @item.ProductTotalBuyNumber 人購買
+                                                大約 @Model.ProductRankDatas.ElementAt(i).ProductTotalBuyNumber 人購買
                                             </div>
                                         </div>
                                     </div>
@@ -119,15 +119,15 @@
         </div>
         <div class="popular-buy-content px-3">
             <div class="row">
-                @foreach (var item in Model.ProductGroupBuyDatas!)
+                @for (int i = 0; i < Model.ProductGroupBuyDatas.Count(); i++)
                 {
                     <div class="col-md-6">
                         <div class="card mb-3 groupbuy-segment">
                             <div class="position-relative">
                                 @*TODO: fix submit btn*@
                                 <form method="get" asp-controller="Search" asp-action="SearchResultGroup">
-                                    <input type="hidden" name="keyWord" value="@item.ProductName">
-                                    <img src="@item.ProductPicture" class="card-img-top" alt="@item.ProductPicture">
+                                    <input type="hidden" name="keyWord" value="@Model.ProductGroupBuyDatas.ElementAt(i).ProductName">
+                                    <img src="@Model.ProductGroupBuyDatas.ElementAt(i).ProductPicture" class="card-img-top" alt="@Model.ProductGroupBuyDatas.ElementAt(i).ProductPicture">
                                     <div class="groupbuy-segment-hover-content">
                                         <button type="submit" class="btn btn-outline-light rounded-0 px-5 center groupBuyGoBtn">GO >></button>
                                     </div>
@@ -136,24 +136,24 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="card-title mb-0 groupbuy-title">
-                                        @item.ProductName
+                                        @Model.ProductGroupBuyDatas.ElementAt(i).ProductName
                                         <span class="text-muted fs-6">
-                                            團購編號: @item.GroupNumber
+                                            團購編號: @Model.ProductGroupBuyDatas.ElementAt(i).GroupNumber
                                         </span>
                                     </h5>
-                                    <span class="badge text-bg-primary bg-mute-3">剩餘時間 @item.GroupRemainDate 天</span>
+                                    <span class="badge text-bg-primary bg-mute-3">剩餘時間 @Model.ProductGroupBuyDatas.ElementAt(i).GroupRemainDate 天</span>
                                 </div>
                                 <div class="p-2">
                                     <p class="card-text multiline-ellipsis-3 lh-base indent-2">
-                                        @item.ProductDescription
+                                        @Model.ProductGroupBuyDatas.ElementAt(i).ProductDescription
                                     </p>
                                 </div>
-                                <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="@item.GroupNowPeople" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-mute-3" style="width:@item.GroupPeoplePercent%"></div>
+                                <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="@Model.ProductGroupBuyDatas.ElementAt(i).GroupNowPeople" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-mute-3" style="width:@Model.ProductGroupBuyDatas.ElementAt(i).GroupPeoplePercent%"></div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <p class="card-text"><small class="text-body-secondary">目前參與人數 @item.GroupNowPeople, 最低成團人數:@item.GroupMaxPeople</small></p>
-                                    <p class="groupbuy-progress-percent">@item.GroupPeoplePercent%</p>
+                                    <p class="card-text"><small class="text-body-secondary">目前參與人數 @Model.ProductGroupBuyDatas.ElementAt(i).GroupNowPeople, 最低成團人數:@Model.ProductGroupBuyDatas.ElementAt(i).GroupMaxPeople</small></p>
+                                    <p class="groupbuy-progress-percent">@Model.ProductGroupBuyDatas.ElementAt(i).GroupPeoplePercent%</p>
                                 </div>
                             </div>
                         </div>
@@ -244,7 +244,17 @@
     </form>
 
     @*d3.js render*@
-    <div id="myplot"></div>
+    <div class="d3_section text-center">
+        <h2 class="display-4">myPlot</h2>
+        <div id="myplot"></div>
+    </div>
+
+    @*RDLC report*@
+    <div class="text-center">
+        <h1 class="display-4">RDLC report</h1>
+        <a target="_blank" asp-controller="Home" asp-action="exportPDF">Export PDF</a> 
+        <a target="_blank" asp-controller="Home" asp-action="exportExcel">Export Excel</a> 
+    </div>
 
 
     @*GoSweet Feature*@
@@ -477,16 +487,18 @@
         });
     </script>
 
-    @*current project*@
-    <script src="~/js/Home/StorageFileToDatabase.js"></script>
-    <script src="~/js/Home/productCategorySwitch.js"></script>
-    @*
-        <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>
-    *@
-    <script type="module" src="~/lib/d3/d3.min.js"></script>
 
     @*d3.js*@
     <script src="~/lib/d3/d3.js"></script>
     <script src="~/lib/d3.chart/d3.chart.min.js"></script>
+
+    @*current project*@
+    <script src="~/js/Home/StorageFileToDatabase.js"></script>
+    <script src="~/js/Home/productCategorySwitch.js"></script>
+    <script type="module"  src="~/js/Home/renderStatistics.js"></script>
+    @*
+        <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>
+    *@
+
 
 }

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Microsoft.Reporting.NETCore;
 
 namespace GoSweet.Controllers
 {
@@ -605,10 +606,50 @@ namespace GoSweet.Controllers
             );
         }
 
+        public class EnumModels 
+        {
+            public enum SeasonReportType
+            { 
+                綜合損益表 = 1,
+                資產負債表 = 2
+            }
+        }
+
+        public string GetSeasonReportUrl(EnumModels.SeasonReportType seasonReportType)
+        {
+            string url = "https://mops.twse.com.tw/mops/web/";
+            string ajaxUrl = "";
+            switch (seasonReportType)
+            {
+                case EnumModels.SeasonReportType.綜合損益表:
+                    ajaxUrl = "ajax_t163sb04";
+                    url = url + ajaxUrl;
+                    break;
+                case EnumModels.SeasonReportType.資產負債表:
+                    ajaxUrl = "ajax_t163sb05";
+                    url = url + ajaxUrl;
+                    break;
+                default:
+                    break;
+            }
+            return url;
+        }
+
         public IActionResult Privacy()
         {
             return View();
         }
+
+        /// <summary>
+        /// GetBarChartData
+        /// </summary>
+        /// <returns>JsonResult</returns>
+        public JsonResult GetBarChartData() 
+        {
+            //var query = 
+            return Json("GetBarChartData");
+        }
+
         public IActionResult StorageFileToDatabase() 
         {
             if (!ModelState.IsValid)
@@ -618,5 +659,58 @@ namespace GoSweet.Controllers
             
             return RedirectToAction("index","Home");
         }
+        public IActionResult ExportPDF() 
+        {
+            //Stream reportDefinition = MyReports.;
+            var query = from pd in _context.ProductDatatables
+                        select pd;
+            
+            var report = new LocalReport();
+            //report.LoadReportDefinition(reportDefinition);
+
+
+            return View();
+        }
+
+        public IActionResult ExportExcel() 
+        {
+
+            return View();
+        }
+    //    public IActionResult Export()
+    //    {
+    //        var report = new LocalReport();
+    //        var items = new[] {
+    //    new ClassLibrary2.ReportItem { Description = "Widget 6000", Price = 108, Qty = 1 },
+    //    new ClassLibrary2.ReportItem { Description = "Gizmo MAX", Price = 108, Qty = 25 }
+    //};
+    //        var parameters = new[] { new ReportParameter("Title", "Hello ReportViewCore") };
+
+    //        var assembly = typeof(MyReports.Const).Assembly;
+    //        using var rs = assembly.GetManifestResourceStream("MyReports.RDLCs.Report1.rdlc");
+    //        report.LoadReportDefinition(rs);
+    //        report.DataSources.Add(new ReportDataSource("ReportItem", items));
+    //        report.SetParameters(parameters);
+    //        var result = report.Render("EXCEL");
+    //        return File(result, "application/msexcel", "Export.xls");
+    //    }
+
+    //    public IActionResult Print()
+    //    {
+    //        var report = new LocalReport();
+    //        var items = new[] {
+    //    new ClassLibrary2.ReportItem { Description = "Widget 6000", Price = 108, Qty = 1 },
+    //    new ClassLibrary2.ReportItem { Description = "Gizmo MAX", Price = 108, Qty = 25 }
+    //};
+    //        var parameters = new[] { new ReportParameter("Title", "Hello ReportViewCore") };
+
+    //        var assembly = typeof(MyReports.Const).Assembly;
+    //        using var rs = assembly.GetManifestResourceStream("MyReports.RDLCs.Report1.rdlc");
+    //        report.LoadReportDefinition(rs);
+    //        report.DataSources.Add(new ReportDataSource("ReportItem", items));
+    //        report.SetParameters(parameters);
+    //        var result = report.Render("PDF");
+    //        return File(result, "application/pdf");
+    //    }
     }
 }
