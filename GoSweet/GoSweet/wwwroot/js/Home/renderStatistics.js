@@ -1,5 +1,24 @@
 ﻿
-let getBarChartDataFromDb = axios.get("")
+let axiosBarCharData = null;
+
+async function getBarChartDataFromDb() {
+    try {
+        axiosBarCharData = await axios.get("http://localhost:5183/Home/GetBarChartData",
+            {
+                Headers: {
+                    "content-type": "application/json;"
+                },
+            }
+        );
+        if (axiosBarCharData.status == 200) {
+            console.log(axiosBarCharData.data);
+        };
+    } catch (err) {
+        console.error(`Error fetching data: ${err.message}`);
+    }
+}
+
+getBarChartDataFromDb();
 
 let myplot = document.querySelector("#myplot");
 

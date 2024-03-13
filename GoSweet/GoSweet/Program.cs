@@ -54,7 +54,15 @@ namespace GoSweet
             //Add Singalr
             builder.Services.AddSignalR();
 
+            // add swagger 
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
             var app = builder.Build();
+
+            // swagger
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -68,6 +76,7 @@ namespace GoSweet
                 app.UseMigrationsEndPoint();
             }
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
