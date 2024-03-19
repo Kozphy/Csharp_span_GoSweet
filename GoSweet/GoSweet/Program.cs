@@ -12,13 +12,24 @@ using Toolbelt.Extensions.DependencyInjection;
 
 namespace GoSweet
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // add Logging
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+
+
             // Add services to the container.
+            // Configuration
+            ConfigurationManager configuration = builder.Configuration;
+
             builder.Services.AddControllersWithViews();
+
+            // mssql
             builder
                 .Services
                 .AddDbContext<ShopwebContext>(
@@ -58,6 +69,7 @@ namespace GoSweet
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // add power bi
             var app = builder.Build();
 
             // swagger

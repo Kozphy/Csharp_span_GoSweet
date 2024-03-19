@@ -2,37 +2,86 @@
 let filesUploadFrame = document.querySelector("#filesUpload");
 let StorageFileToDatabaseBtn = document.querySelector("#storageFileToDatabase");
 
-function StorageFileToDatabase() {
+filesUpload();
+
+
+function filesUpload() {
     StorageFileToDatabaseBtn.addEventListener("click", function (e) {
-        console.log("fileUpload");
-        console.log(`fileUploadFrame.nodeValue: ${fileUploadFrame.nodeValue}`);
-        console.log(`filesUploadFrame.nodeValue: ${filesUploadFrame.nodeValue}`);
-        if (fileUploadFrame.nodeValue || filesUploadFrame.nodeValue) {
-            console.log("fileupload have value");
-            fileUpload();
-            filesUpload();
-            console.log(fileUploadFrame.nodeValue);
-            console.log(filesUploadFrame.nodeValue);
+        let formData = new FormData()
+        if (fileUploadFrame.value) {
+            formData.append("fileUpload", fileUploadFrame.files[0]);
+        }
+
+        if (filesUploadFrame.value) {
+            for (let file of filesUploadFrame.files) {
+                formData.append("filesUpload", file)
+            }
+        }
+
+        let totalUploadFiles = fileUploadFrame.attributes.length + filesUploadFrame.attributes.length;
+
+        if (totalUploadFiles > 0) {
+            Upload(formData);
         }
     });
 }
 
-StorageFileToDatabase();
 
 
-function fileUpload() {
-    fileUploadFrame.addEventListener("change", function (e) {
-      let file = e.target.files[0];
-      console.log("file");
-      console.log(file);
-    });
+async function Upload(formData) {
+    //console.log(`formDataContent:,
+    //${formData.get('fileUpload')}
+    //${formData.get('filesUpload')}`)
+    try {
+        let baseURL = 'http://localhost:5183/Home/UploadFiles';
+        // axios post
+        //const axiosInstance = axios.create({
+        //    baseURL: baseURL,
+        //    timeout:1000,
+        //    headers:
+        //    {
+        //        "Content-Type": "multipart/form-data" // Removed the trailing semicolon
+        //    }
+        //});
+        //let res = await axiosInstance.post(formData);
+        //if (res.status === 200) {
+        //    console.log(`res: ${res}`);
+        //    alert("upload file success")
+        //} else {
+        //    alert("upload file fail")
+        //}
+
+
+        // alova post
+        //const alovaInstance = createAlova({
+        //    requestAdapter: GlobalFetch()
+        //});
+
+        //let res = await alovaInstance.Post('http://localhost:5183/Home/StorageFileToDatabase',
+        //    {
+        //        files: formData
+        //    }
+        //)
+
+        // jquery post
+        $.ajax({
+            url: baseURL,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                alert('Upload successful!')
+                console.log(response);
+            },
+            error: function (error) {
+                alert('Error occurred during upload.')
+            }
+        });
+    } catch (err) {
+        console.log(`err: ${err}`);
+    }
+
 }
 
-function filesUpload() {
-    filesUploadFrame.addEventListener("change", function (e) {
-      let files = e.target.files;
-      console.log("files")
-      console.log(files);
-    });
-}
 

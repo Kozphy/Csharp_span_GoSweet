@@ -13,11 +13,21 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Microsoft.Reporting.NETCore;
+using Microsoft.Extensions.Primitives;
+using Paillave.Etl.Core;
+using IronPython.Compiler.Ast;
+using Microsoft.Extensions.Hosting;
+using System.Net;
+using Microsoft.VisualStudio.Web.CodeGeneration;
 
 namespace GoSweet.Controllers
 {
     public class HomeController : Controller
     {
+
+        // power bi
+        private string m_errorMessage;
+
         private readonly ILogger<HomeController> _logger;
         private readonly ShopwebContext _context;
         private readonly IConfiguration _config;
@@ -163,7 +173,8 @@ namespace GoSweet.Controllers
             return View(_indexViewModelData);
         }
 
-        private IEnumerable<CustomerBellDropDownVm> GetNotifyMessageAlreadyGroup(string customerAccount) { 
+        private IEnumerable<CustomerBellDropDownVm> GetNotifyMessageAlreadyGroup(string customerAccount)
+        {
 
             #region notifyMessageAlreadyGroup
             IEnumerable<CustomerBellDropDownVm> notifyMessageAlreadyGroup = (
@@ -606,10 +617,10 @@ namespace GoSweet.Controllers
             );
         }
 
-        public class EnumModels 
+        public class EnumModels
         {
             public enum SeasonReportType
-            { 
+            {
                 綜合損益表 = 1,
                 資產負債表 = 2
             }
@@ -640,31 +651,102 @@ namespace GoSweet.Controllers
             return View();
         }
 
+
         /// <summary>
         /// GetBarChartData
         /// </summary>
         /// <returns>JsonResult</returns>
-        public JsonResult GetBarChartData() 
+        public JsonResult GetBarChartData()
         {
             //var query = 
             return Json("GetBarChartData");
         }
 
-        public IActionResult StorageFileToDatabase() 
+
+        /// <summary>
+        /// store files to database
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadFiles(
+            IFormFile fileUpload,
+            List<IFormFile> filesUpload)
         {
-            if (!ModelState.IsValid)
+            _logger.LogWarning(
+                $"file: {fileUpload.FileName}\r\n" +
+                $"files.Count: {filesUpload.Count()}"
+              );
+
+            // model validation
+            if (!ModelState.IsValid) return Content("Model is not valid");
+
+            // BadRequest
+            if (filesUpload.Count() == 0
+                && fileUpload.Length == 0) return BadRequest("No file uploaded");
+
+            long size = filesUpload.Sum(f => f.Length);
+
+            try
             {
-                return Content("Error");
+                await UploadFile(fileUpload);
+                await UploadMultipleFiles(filesUpload);
             }
-            
-            return RedirectToAction("index","Home");
+            catch (Exception err)
+            {
+                _logger.LogError(err.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, err.Message);
+            }
+
+            return Ok(new { count = filesUpload.Count, size });
+            //return RedirectToAction("index","Home");
         }
-        public IActionResult ExportPDF() 
+
+        async private Task UploadFile(IFormFile file)
+        {
+            if (file.Length == 0 || file == null) return;
+
+
+            var fileName = Path.GetFileName(file.FileName);
+            string wwwRootPath = _webHost.WebRootPath;
+            string filePath = Path.Combine(wwwRootPath, "uploadFileStorage", fileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+        }
+
+        async private Task UploadMultipleFiles(List<IFormFile> files)
+        {
+            if (files.Count == 0 || files == null) return;
+
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    string wwwRootPath = _webHost.WebRootPath;
+                    await Console.Out.WriteLineAsync($"wwwRootPath: {_webHost.WebRootPath}");
+                    string filePath = Path.Combine(wwwRootPath, "uploadFileStorage", fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+            }
+
+        }
+        private void StorageFileToDb()
+        {
+        }
+        public IActionResult ExportPDF()
         {
             //Stream reportDefinition = MyReports.;
             var query = from pd in _context.ProductDatatables
                         select pd;
-            
+
             var report = new LocalReport();
             //report.LoadReportDefinition(reportDefinition);
 
@@ -672,45 +754,45 @@ namespace GoSweet.Controllers
             return View();
         }
 
-        public IActionResult ExportExcel() 
+        public IActionResult ExportExcel()
         {
 
             return View();
         }
-    //    public IActionResult Export()
-    //    {
-    //        var report = new LocalReport();
-    //        var items = new[] {
-    //    new ClassLibrary2.ReportItem { Description = "Widget 6000", Price = 108, Qty = 1 },
-    //    new ClassLibrary2.ReportItem { Description = "Gizmo MAX", Price = 108, Qty = 25 }
-    //};
-    //        var parameters = new[] { new ReportParameter("Title", "Hello ReportViewCore") };
+        //    public IActionResult Export()
+        //    {
+        //        var report = new LocalReport();
+        //        var items = new[] {
+        //    new ClassLibrary2.ReportItem { Description = "Widget 6000", Price = 108, Qty = 1 },
+        //    new ClassLibrary2.ReportItem { Description = "Gizmo MAX", Price = 108, Qty = 25 }
+        //};
+        //        var parameters = new[] { new ReportParameter("Title", "Hello ReportViewCore") };
 
-    //        var assembly = typeof(MyReports.Const).Assembly;
-    //        using var rs = assembly.GetManifestResourceStream("MyReports.RDLCs.Report1.rdlc");
-    //        report.LoadReportDefinition(rs);
-    //        report.DataSources.Add(new ReportDataSource("ReportItem", items));
-    //        report.SetParameters(parameters);
-    //        var result = report.Render("EXCEL");
-    //        return File(result, "application/msexcel", "Export.xls");
-    //    }
+        //        var assembly = typeof(MyReports.Const).Assembly;
+        //        using var rs = assembly.GetManifestResourceStream("MyReports.RDLCs.Report1.rdlc");
+        //        report.LoadReportDefinition(rs);
+        //        report.DataSources.Add(new ReportDataSource("ReportItem", items));
+        //        report.SetParameters(parameters);
+        //        var result = report.Render("EXCEL");
+        //        return File(result, "application/msexcel", "Export.xls");
+        //    }
 
-    //    public IActionResult Print()
-    //    {
-    //        var report = new LocalReport();
-    //        var items = new[] {
-    //    new ClassLibrary2.ReportItem { Description = "Widget 6000", Price = 108, Qty = 1 },
-    //    new ClassLibrary2.ReportItem { Description = "Gizmo MAX", Price = 108, Qty = 25 }
-    //};
-    //        var parameters = new[] { new ReportParameter("Title", "Hello ReportViewCore") };
+        //    public IActionResult Print()
+        //    {
+        //        var report = new LocalReport();
+        //        var items = new[] {
+        //    new ClassLibrary2.ReportItem { Description = "Widget 6000", Price = 108, Qty = 1 },
+        //    new ClassLibrary2.ReportItem { Description = "Gizmo MAX", Price = 108, Qty = 25 }
+        //};
+        //        var parameters = new[] { new ReportParameter("Title", "Hello ReportViewCore") };
 
-    //        var assembly = typeof(MyReports.Const).Assembly;
-    //        using var rs = assembly.GetManifestResourceStream("MyReports.RDLCs.Report1.rdlc");
-    //        report.LoadReportDefinition(rs);
-    //        report.DataSources.Add(new ReportDataSource("ReportItem", items));
-    //        report.SetParameters(parameters);
-    //        var result = report.Render("PDF");
-    //        return File(result, "application/pdf");
-    //    }
+        //        var assembly = typeof(MyReports.Const).Assembly;
+        //        using var rs = assembly.GetManifestResourceStream("MyReports.RDLCs.Report1.rdlc");
+        //        report.LoadReportDefinition(rs);
+        //        report.DataSources.Add(new ReportDataSource("ReportItem", items));
+        //        report.SetParameters(parameters);
+        //        var result = report.Render("PDF");
+        //        return File(result, "application/pdf");
+        //    }
     }
 }

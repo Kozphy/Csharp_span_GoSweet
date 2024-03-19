@@ -55,6 +55,10 @@
     {
       "library": "d3@7.8.5",
       "destination": "wwwroot/lib/d3/"
+    },
+    {
+      "library": "powerbi-client@2.23.0",
+      "destination": "wwwroot/lib/powerbi-client/"
     }
   ]
 }

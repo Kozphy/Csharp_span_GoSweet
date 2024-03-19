@@ -74,8 +74,8 @@
                 <section class="splide splideProducts">
                     <div class="splide__track">
                         <ul class="splide__list">
-                            @for (int i = 0; i < Model.ProductRankDatas.Count(); i++) 
-                            { 
+                            @for (int i = 0; i < Model.ProductRankDatas.Count(); i++)
+                            {
                                 <li class="splide__slide">
                                     <div class="splide__slide__container">
                                         <div class="product-rank-card card">
@@ -226,22 +226,21 @@
     </div>
 
     @*upload file section*@
-    <form>
-        <div class="upload_section px-5">
-            <div class="px-5 py-2">
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">uploadFile</label>
-                    <input class="form-control" type="file" id="fileUpload">
-                </div>
-                @*upload multiple files*@
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">uploadFiles</label>
-                    <input class="form-control" type="file" id="filesUpload" multiple>
-                </div>
-                <button type="button" class="btn btn-outline-secondary" id="storageFileToDatabase">儲存上傳檔案</button>
+    <div class="upload_section px-5">
+        <div class="px-5 py-2">
+            @*upload file*@
+            <div class="mb-3">
+                <label asp-for="FormFileVm.FileForUpload"  class="form-label">uploadFile</label>
+                <input asp-for="FormFileVm.FileForUpload" class="form-control" type="file" id="fileUpload">
             </div>
+            @*upload multiple files*@
+            <div class="mb-3">
+                <label asp-for="FormFileVm.FilesForUpload" class="form-label">uploadFiles</label>
+                <input asp-for="FormFileVm.FilesForUpload" class="form-control" type="file" id="filesUpload" multiple>
+            </div>
+            <button type="button" class="btn btn-outline-secondary" id="storageFileToDatabase">儲存上傳檔案</button>
         </div>
-    </form>
+    </div>
 
     @*d3.js render*@
     <div class="d3_section text-center">
@@ -252,8 +251,60 @@
     @*RDLC report*@
     <div class="text-center">
         <h1 class="display-4">RDLC report</h1>
-        <a target="_blank" asp-controller="Home" asp-action="exportPDF">Export PDF</a> 
-        <a target="_blank" asp-controller="Home" asp-action="exportExcel">Export Excel</a> 
+        <a target="_blank" asp-controller="Home" asp-action="exportPDF">Export PDF</a>
+        <a target="_blank" asp-controller="Home" asp-action="exportExcel">Export Excel</a>
+    </div>
+
+    @*power bi embedded container*@
+    <div class="text-center py-3">
+        <h1 class="display-4 pt-2">power bi report</h1>
+        <div id="embedContainer"></div>
+        <iframe title="US Sales Analysis" 
+            width="100%" 
+            height="541.25" 
+            src="https://app.powerbi.com/reportEmbed?reportId=a5210e03-4762-4201-a71c-4759d738e061&autoAuth=true&ctid=71e84943-eae8-4ad8-a0cd-d8d298624d2d" 
+            frameborder="0" 
+            allowFullScreen="true"></iframe>
+    </div>
+
+    @*invoice test*@
+    <div class="test-center">
+        <h1 class="display-4 pt-2">invoice</h1>
+        <div class="container">
+            <label for="companyCode">Company Code:</label>
+            <input type="text" id="companyCode" name="companyCode">
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate">
+            <button id="searchButton">Search</button>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document Number</th>
+                        <th>Material Name</th>
+                        <th>Material Code</th>
+                        <!-- Add other table headers here -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Populate table rows dynamically using JavaScript or server-side logic -->
+                    <!-- Example row:
+                    <tr>
+                        <td>01</td>
+                        <td>1282</td>
+                        <td>代扣事業</td>
+                        <!-- Add other table data cells here -->
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+
+            <button id="closeButton">Close</button>
+        </div>
+
     </div>
 
 
@@ -492,10 +543,16 @@
     <script src="~/lib/d3/d3.js"></script>
     <script src="~/lib/d3.chart/d3.chart.min.js"></script>
 
+    @*power bi*@
+    <script src="~/lib/powerbi-client/powerbi.min.js"></script>
+
+    @*power bi not third party*@
+    <script src="~/js/Home/PowerBiEmbedded.js"></script>
+
     @*current project*@
     <script src="~/js/Home/StorageFileToDatabase.js"></script>
     <script src="~/js/Home/productCategorySwitch.js"></script>
-    <script type="module"  src="~/js/Home/renderStatistics.js"></script>
+    <script type="module" src="~/js/Home/renderStatistics.js"></script>
     @*
         <script src="~/js/Home/lineChartCustomerFirmProduct.js"></script>
     *@
