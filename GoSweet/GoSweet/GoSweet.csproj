@@ -3470,6 +3470,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Dapper.StrongName" Version="2.1.35" />
     <PackageReference Include="ETLBox" Version="3.3.0" />
     <PackageReference Include="ETLBox.SqlServer" Version="3.3.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.59" />

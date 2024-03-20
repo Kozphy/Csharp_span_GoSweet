@@ -172,7 +172,11 @@ namespace GoSweet.Controllers
 
             return View(_indexViewModelData);
         }
-
+        /// <summary>
+        /// 取得商品已團購的資料
+        /// </summary>
+        /// <param name="customerAccount"></param>
+        /// <returns></returns>
         private IEnumerable<CustomerBellDropDownVm> GetNotifyMessageAlreadyGroup(string customerAccount)
         {
 
@@ -201,6 +205,11 @@ namespace GoSweet.Controllers
             return notifyMessageAlreadyGroup;
         }
 
+        /// <summary>
+        /// 取得商品已寄出的資料
+        /// </summary>
+        /// <param name="customerAccount"></param>
+        /// <returns></returns>
         private IEnumerable<CustomerBellDropDownVm> GetNotifyMessageAlreadySend(string customerAccount)
         {
             #region NotfiyMessageAlreadySend
@@ -226,7 +235,10 @@ namespace GoSweet.Controllers
             #endregion
         }
 
-        // 取得通知訊息
+        /// <summary>
+        /// 取得通知訊息
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<CustomerBellDropDownVm>? GetBellDropdownMessage()
         {
             string customerAccount = HttpContext.Session.GetString("customerAccount")!;

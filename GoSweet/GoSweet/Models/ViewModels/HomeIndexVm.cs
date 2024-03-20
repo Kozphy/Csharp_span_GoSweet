@@ -1,4 +1,5 @@
 ﻿using GoSweet.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace GoSweet.Models.ViewModels
 {
@@ -41,7 +42,10 @@ namespace GoSweet.Models.ViewModels
 
     public class FormFileVm
     {
+        [Required(ErrorMessage = "帳號必填")]
         public FormFile? FileForUpload { get; set; }
+
+        [Required(ErrorMessage = "帳號必填")]
         public FormFileCollection? FilesForUpload { get; set; }
     }
 }

@@ -4,7 +4,7 @@ let StorageFileToDatabaseBtn = document.querySelector("#storageFileToDatabase");
 
 filesUpload();
 
-
+// #region js get dataFrom DOM
 function filesUpload() {
     StorageFileToDatabaseBtn.addEventListener("click", function (e) {
         let formData = new FormData()
@@ -25,15 +25,33 @@ function filesUpload() {
         }
     });
 }
+// #endregion
 
 
 
+// #region Post to backend
 async function Upload(formData) {
     //console.log(`formDataContent:,
     //${formData.get('fileUpload')}
     //${formData.get('filesUpload')}`)
     try {
         let baseURL = 'http://localhost:5183/Home/UploadFiles';
+        // jquery post
+        $.ajax({
+            url: baseURL,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                alert('Upload successful!')
+                console.log(response);
+            },
+            error: function (error) {
+                alert('Error occurred during upload.')
+            }
+        });
+
         // axios post
         //const axiosInstance = axios.create({
         //    baseURL: baseURL,
@@ -63,25 +81,11 @@ async function Upload(formData) {
         //    }
         //)
 
-        // jquery post
-        $.ajax({
-            url: baseURL,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                alert('Upload successful!')
-                console.log(response);
-            },
-            error: function (error) {
-                alert('Error occurred during upload.')
-            }
-        });
     } catch (err) {
         console.log(`err: ${err}`);
     }
 
 }
+// #endregion
 
 

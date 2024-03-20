@@ -59,6 +59,10 @@
     {
       "library": "powerbi-client@2.23.0",
       "destination": "wwwroot/lib/powerbi-client/"
+    },
+    {
+      "library": "bootstrap@5.3.3",
+      "destination": "wwwroot/lib/bootstrap/"
     }
   ]
 }
