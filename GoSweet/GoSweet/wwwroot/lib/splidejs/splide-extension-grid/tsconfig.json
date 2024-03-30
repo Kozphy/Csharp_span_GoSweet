@@ -9,6 +9,8 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
+    "ignoreDeprecations": "5.0",
+    "verbatimModuleSyntax": true,
     "allowJs": false,
     "declarationDir": "./dist/types",
     "declaration"   : true,
@@ -16,7 +18,7 @@
     "lib": [
       "dom",
       "es6"
-    ]
+    ],
   },
   "include": [
     "src/js/**/*.ts"

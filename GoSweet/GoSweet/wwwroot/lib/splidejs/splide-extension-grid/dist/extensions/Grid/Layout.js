@@ -1,6 +1,8 @@
-import { CLASS_CONTAINER, EVENT_HIDDEN, EVENT_VISIBLE, EventInterface } from '@splidejs/splide';
+import { CLASS_CONTAINER, EVENT_HIDDEN, EVENT_VISIBLE, EventInterface, SlideComponent, Splide } from '@splidejs/splide';
 import { child, pad, queryAll, removeAttribute, setAttribute, style, unit } from '@splidejs/splide/src/js/utils';
 import { CLASS_SLIDE_COL, CLASS_SLIDE_ROW } from '../../constants/classes';
+import { GridOptions } from '../../types/options';
+import { DimensionComponent } from './Dimension';
 /**
  * The subcomponent to layout grids.
  *

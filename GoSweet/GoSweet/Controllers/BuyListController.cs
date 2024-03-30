@@ -3,8 +3,6 @@ using System.Numerics;
 using System.Security.Cryptography.Xml;
 using GoSweet.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace GoSweet.Controllers
 {
