@@ -1,8 +1,7 @@
-import { BaseComponent, CLASS_ROOT, CLASS_SLIDE, Components, EVENT_REFRESH, EVENT_UPDATED, EventInterface, Options, Splide, } from '@splidejs/splide';
+import { CLASS_ROOT, CLASS_SLIDE, EVENT_REFRESH, EVENT_UPDATED, EventInterface, } from '@splidejs/splide';
 import { addClass, append, assign, create, empty, hasClass, isArray, omit, push, remove, removeClass, } from '@splidejs/splide/src/js/utils';
 import { CLASS_SLIDE_COL, CLASS_SLIDE_ROW } from '../../constants/classes';
 import { DEFAULTS } from '../../constants/defaults';
-import { GridOptions } from '../../types/options';
 import { Dimension as DimensionConstructor } from './Dimension';
 import { Layout as LayoutConstructor } from './Layout';
 /**

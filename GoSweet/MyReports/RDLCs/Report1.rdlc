@@ -515,7 +515,7 @@
             </TablixRowHierarchy>
             <DataSetName>ProductDataSet</DataSetName>
             <Top>0.26042in</Top>
-            <Left>0.64458in</Left>
+            <Left>0.78in</Left>
             <Height>0.5in</Height>
             <Width>6in</Width>
             <Style>
@@ -535,19 +535,80 @@
             <ChartSeriesHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Label />
+                  <Label>f number</Label>
+                </ChartMember>
+                <ChartMember>
+                  <Label>p name</Label>
                 </ChartMember>
               </ChartMembers>
             </ChartSeriesHierarchy>
             <ChartData>
               <ChartSeriesCollection>
-                <ChartSeries Name="EmptySeriesName">
+                <ChartSeries Name="f_number">
                   <ChartDataPoints>
                     <ChartDataPoint>
-                      <ChartDataPointValues />
+                      <ChartDataPointValues>
+                        <Y>=Sum(Fields!f_number.Value)</Y>
+                      </ChartDataPointValues>
+                      <ChartDataLabel>
+                        <Style />
+                      </ChartDataLabel>
+                      <Style />
+                      <ChartMarker>
+                        <Style />
+                      </ChartMarker>
+                      <DataElementOutput>Output</DataElementOutput>
                     </ChartDataPoint>
                   </ChartDataPoints>
                   <Style />
+                  <ChartEmptyPoints>
+                    <Style />
+                    <ChartMarker>
+                      <Style />
+                    </ChartMarker>
+                    <ChartDataLabel>
+                      <Style />
+                    </ChartDataLabel>
+                  </ChartEmptyPoints>
+                  <ValueAxisName>Primary</ValueAxisName>
+                  <CategoryAxisName>Primary</CategoryAxisName>
+                  <ChartSmartLabel>
+                    <CalloutLineColor>Black</CalloutLineColor>
+                    <MinMovingDistance>0pt</MinMovingDistance>
+                  </ChartSmartLabel>
+                </ChartSeries>
+                <ChartSeries Name="p_name">
+                  <ChartDataPoints>
+                    <ChartDataPoint>
+                      <ChartDataPointValues>
+                        <Y>=Count(Fields!p_name.Value)</Y>
+                      </ChartDataPointValues>
+                      <ChartDataLabel>
+                        <Style />
+                      </ChartDataLabel>
+                      <Style />
+                      <ChartMarker>
+                        <Style />
+                      </ChartMarker>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </ChartDataPoint>
+                  </ChartDataPoints>
+                  <Style />
+                  <ChartEmptyPoints>
+                    <Style />
+                    <ChartMarker>
+                      <Style />
+                    </ChartMarker>
+                    <ChartDataLabel>
+                      <Style />
+                    </ChartDataLabel>
+                  </ChartEmptyPoints>
+                  <ValueAxisName>Primary</ValueAxisName>
+                  <CategoryAxisName>Primary</CategoryAxisName>
+                  <ChartSmartLabel>
+                    <CalloutLineColor>Black</CalloutLineColor>
+                    <MinMovingDistance>0pt</MinMovingDistance>
+                  </ChartSmartLabel>
                 </ChartSeries>
               </ChartSeriesCollection>
             </ChartData>
@@ -835,6 +896,7 @@
             </ChartNoDataMessage>
             <DataSetName>ProductDataSet</DataSetName>
             <Top>1.23958in</Top>
+            <Left>0.15625in</Left>
             <Height>2in</Height>
             <Width>3in</Width>
             <ZIndex>1</ZIndex>
@@ -1215,6 +1277,8 @@
                   <BackgroundGradientType>None</BackgroundGradientType>
                   <FontSize>8pt</FontSize>
                 </Style>
+                <Position>TopCenter</Position>
+                <DockOutsideChartArea>true</DockOutsideChartArea>
                 <ChartLegendTitle>
                   <Caption />
                   <Style>
@@ -1260,7 +1324,7 @@
             </ChartNoDataMessage>
             <DataSetName>ProductDataSet</DataSetName>
             <Top>1.23958in</Top>
-            <Left>3.64458in</Left>
+            <Left>3.78in</Left>
             <Height>2in</Height>
             <Width>3in</Width>
             <ZIndex>2</ZIndex>
@@ -1277,7 +1341,7 @@
         <Height>3.45833in</Height>
         <Style />
       </Body>
-      <Width>7.0925in</Width>
+      <Width>7.22792in</Width>
       <Page>
         <PageHeader>
           <Height>1.01958in</Height>
@@ -1302,7 +1366,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
               <Top>0.30083in</Top>
-              <Left>2.81125in</Left>
+              <Left>2.94667in</Left>
               <Height>0.25in</Height>
               <Width>1in</Width>
               <Style>
@@ -1348,7 +1412,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox16</rd:DefaultName>
               <Top>0.25in</Top>
-              <Left>1.48833in</Left>
+              <Left>1.62375in</Left>
               <Height>0.5625in</Height>
               <Width>4.15625in</Width>
               <Style>

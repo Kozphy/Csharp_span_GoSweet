@@ -19,6 +19,7 @@ using IronPython.Compiler.Ast;
 using Microsoft.Extensions.Hosting;
 using System.Net;
 using Microsoft.VisualStudio.Web.CodeGeneration;
+using MyReports;
 
 namespace GoSweet.Controllers
 {
@@ -752,6 +753,11 @@ namespace GoSweet.Controllers
         }
         private void StorageFileToDb()
         {
+        }
+        public IActionResult GetRDLCReportFromDLL()
+        {
+            System.Reflection.Assembly assembly = typeof(MyReports).Assembly;
+            return View();
         }
         public IActionResult ExportPDF()
         {

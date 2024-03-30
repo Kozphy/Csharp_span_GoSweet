@@ -1,4 +1,3 @@
-import { GridOptions } from '../types/options';
 /**
  * Default options.
  *

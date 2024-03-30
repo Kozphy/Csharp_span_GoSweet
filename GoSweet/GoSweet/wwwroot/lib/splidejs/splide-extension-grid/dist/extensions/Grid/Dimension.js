@@ -1,5 +1,4 @@
 import { isArray, min, assert } from '@splidejs/splide/src/js/utils';
-import { GridOptions } from '../../types/options';
 /**
  * The subcomponent to calculate dimension at the specific index.
  *
