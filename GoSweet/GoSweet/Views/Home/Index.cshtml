@@ -251,12 +251,29 @@
         <div id="myplot"></div>
     </div>
 
+    @* d3.js line chart content*@
+    <div class="d3_section2 text-center">
+        <h2 class="display-4 line_chart_title">LineChart</h2>
+        <div id="line-chart-container" class="line_chart_content"></div>
+    </div>
+
+    @*treeMap d3.js*@
+    <div class="d3_section3 text-center">
+        <h2 class="display-4 treeMap_chart_title">TreeMapChart</h2>
+        <div id="treeMap-chart-container" class="treeMap_chart_content"></div>
+    </div>
+
+
     @*RDLC report*@
-    <div class="text-center">
+    <div class="text-center  ">
         <h1 class="display-4">RDLC report</h1>
-        <a target="_blank" asp-controller="Home" asp-action="exportPDF">Export PDF</a>
-        <a target="_blank" asp-controller="Home" asp-action="exportExcel">Export Excel</a>
-        <button type="button" class="btn btn-primary" asp-controller="Home" asp-action="GetRDLCReportFromDLL">GetRDLC Report</button>
+        <div class="d-flex flex-column">
+            <div class="text-center">
+            @*     $1$ <a class="btn mr-2" target="_blank" asp-controller="Home" asp-action="exportPDF">Export PDF</a> #1# *@
+            @*     $1$ <a class="btn ml-2" target="_blank" asp-controller="Home" asp-action="exportExcel">Export Excel</a> #1# *@
+            </div>
+            @*  <button type="button" class="btn btn-primary" asp-controller="Home" asp-action="GetRDLCReportFromDLL">GetRDLC Report</button> *@
+        </div>
     </div>
 
     @*power bi embedded container*@
@@ -526,9 +543,9 @@
                     </tr>
                 </tbody>
             </table>
-            </section>
             @*end Pricing*@
         </div>
+    </div>
     </div>
 
 
@@ -537,6 +554,10 @@
         <script src="~/lib/sweetalert2/sweetalert2.js"></script>
         <script src="~/js/messageAlert.js"></script>
         <script src="~/lib/splidejs/splide-extension-grid/dist/js/splide-extension-grid.js"></script>
+        @*
+        <script src="~/js/Home/LineChart.js"></script>
+        *@
+        <script src="~/js/Home/TreeMap.js"></script>
 
         @*chart js*@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

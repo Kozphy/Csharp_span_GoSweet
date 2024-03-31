@@ -1,6 +1,6 @@
-﻿
-let axiosBarCharData = null;
+﻿let axiosBarCharData = null;
 
+// get data from backend
 async function getBarChartDataFromDb() {
     try {
         axiosBarCharData = await axios.get("http://localhost:5183/Home/GetBarChartData",
@@ -23,12 +23,14 @@ getBarChartDataFromDb();
 let myplot = document.querySelector("#myplot");
 
 // Declare the chart dimensions and margins.
-const width = 640;
-const height = 400;
+const width = 900;
+const height = 500;
 const marginTop = 20;
 const marginRight = 20;
 const marginBottom = 30;
 const marginLeft = 40;
+
+
 
 // Declare the x (horizontal position) scale.
 const x = d3.scaleUtc()

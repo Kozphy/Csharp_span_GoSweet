@@ -1,24 +1,13 @@
-﻿using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks.Dataflow;
 using GoSweet.Controllers.feature;
 using GoSweet.Models;
 using GoSweet.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Microsoft.Reporting.NETCore;
-using Microsoft.Extensions.Primitives;
-using Paillave.Etl.Core;
-using IronPython.Compiler.Ast;
-using Microsoft.Extensions.Hosting;
-using System.Net;
-using Microsoft.VisualStudio.Web.CodeGeneration;
 using MyReports;
 
 namespace GoSweet.Controllers
@@ -679,7 +668,8 @@ namespace GoSweet.Controllers
         /// <summary>
         /// store files to database
         /// </summary>
-        /// <param name="files"></param>
+        /// <param name="fileUpload"></param>
+        /// <param name="filesUpload"></param>
         /// <returns></returns>
         [HttpPost]
         [DisableRequestSizeLimit]
@@ -718,7 +708,7 @@ namespace GoSweet.Controllers
 
         async private Task UploadFile(IFormFile file)
         {
-            if (file.Length == 0 || file == null) return;
+            if (file.Length == 0) return;
 
 
             var fileName = Path.GetFileName(file.FileName);
@@ -733,7 +723,7 @@ namespace GoSweet.Controllers
 
         async private Task UploadMultipleFiles(List<IFormFile> files)
         {
-            if (files.Count == 0 || files == null) return;
+            if (files.Count == 0) return;
 
             foreach (var file in files)
             {
@@ -749,34 +739,33 @@ namespace GoSweet.Controllers
                     }
                 }
             }
-
         }
-        private void StorageFileToDb()
-        {
-        }
-        public IActionResult GetRDLCReportFromDLL()
-        {
-            System.Reflection.Assembly assembly = typeof(MyReports).Assembly;
-            return View();
-        }
-        public IActionResult ExportPDF()
-        {
-            //Stream reportDefinition = MyReports.;
-            var query = from pd in _context.ProductDatatables
-                        select pd;
+        // private void StorageFileToDb()
+        // {
+        // }
+        // public IActionResult GetRDLCReportFromDLL()
+        // {
+        // System.Reflection.Assembly assembly = typeof(MyReports).Assembly;
+        // return View();
+        // }
+        //public IActionResult ExportPDF()
+        //{
+        //Stream reportDefinition = MyReports.;
+        //var query = from pd in _context.ProductDatatables
+        //            select pd;
 
-            var report = new LocalReport();
-            //report.LoadReportDefinition(reportDefinition);
+        //var report = new LocalReport();
+        //report.LoadReportDefinition(reportDefinition);
 
 
-            return View();
-        }
+        // return View();
+        //}
 
-        public IActionResult ExportExcel()
-        {
-
-            return View();
-        }
+        // public IActionResult ExportExcel()
+        // {
+        //     return View();
+        // }
+        
         //    public IActionResult Export()
         //    {
         //        var report = new LocalReport();
