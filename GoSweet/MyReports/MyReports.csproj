@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="SemanticKernel.Assistants" Version="1.6.3" />
   </ItemGroup>
 
   <ItemGroup>

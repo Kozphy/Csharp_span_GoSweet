@@ -18,7 +18,6 @@ namespace GoSweet
             // Add services to the container.
             // Configuration
             ConfigurationManager configuration = builder.Configuration;
-
             builder.Services.AddControllersWithViews();
 
             // mssql

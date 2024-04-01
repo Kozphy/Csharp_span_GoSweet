@@ -544,12 +544,13 @@ namespace GoSweet.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendMail(string EmailAddress)
+        public IActionResult SendMail(string emailAddress)
         {
+            if (emailAddress == null) throw new ArgumentNullException(nameof(emailAddress));
             if (ModelState.IsValid == false)
                 return View();
 
-            if (EmailAddress.IsNullOrEmpty())
+            if (emailAddress.IsNullOrEmpty())
             {
                 return RedirectToAction("Login");
             }
@@ -557,7 +558,7 @@ namespace GoSweet.Controllers
             // 寄送 email 之前先檢查 email 是否存在
             var firmAccountQuery = _context
                 .FirmAccounttables
-                .Where(c => c.FAccount.Equals(EmailAddress));
+                .Where(c => c.FAccount.Equals(emailAddress));
 
             bool firmAccountNotExist = firmAccountQuery.IsNullOrEmpty();
 
@@ -569,17 +570,17 @@ namespace GoSweet.Controllers
 
             _logger.LogDebug(ControllerContext.ActionDescriptor.ControllerName);
             Mail mailHandler = new Mail(
-                EmailAddress,
+                emailAddress,
                 ControllerContext.ActionDescriptor.ControllerName
             );
             try
             {
                 mailHandler.SendMail();
-                TempData["sendEmailSuccessMessage"] = $"Send Email to {EmailAddress} Success";
+                TempData["sendEmailSuccessMessage"] = $"Send Email to {emailAddress} Success";
             }
             catch (Exception ex)
             {
-                TempData["sendEmailFailMessage"] = $"Send Email to {EmailAddress} fail";
+                TempData["sendEmailFailMessage"] = $"Send Email to {emailAddress} fail";
                 return StatusCode(500, ex.Message);
             }
 

@@ -4,7 +4,7 @@
 @inject IHttpContextAccessor Accessor;
 @*@model GoSweet.Models.ViewModels.HomeIndexVm;*@
 @{
-    string? currentPage = @ViewContext.RouteData.Values["controller"]!.ToString();
+    var currentPage = @ViewContext.RouteData.Values["controller"]!.ToString();
     // var routeValues = @ViewContext.RouteData.Values;
     // foreach (var kvp in routeValues) 
     // { 
@@ -14,132 +14,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - GoSweet</title>
-    <link rel="stylesheet" href="~/lib//bootstrap/custom.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GoSweet.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Layout/Layout.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Layout/SideBar.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Layout/bellDropDown.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Layout/shopCart.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Layout/ChatPanel.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib//bootstrap/custom.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/GoSweet.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/Layout/Layout.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/Layout/SideBar.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/Layout/bellDropDown.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/Layout/shopCart.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/Layout/ChatPanel.css" asp-append-version="true"/>
     @*<link rel="stylesheet" href="~/Content/app.css" />*@
     @if (IsSectionDefined("Head"))
     {
-        @await RenderSectionAsync("Head", required:true)
+        @await RenderSectionAsync("Head", true)
     }
     @*
     // third party package
     *@
-    <link rel="stylesheet" href="~/lib/splidejs/css/splide.min.css" />
+    <link rel="stylesheet" href="~/lib/splidejs/css/splide.min.css"/>
     @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js" />*@
 </head>
 
 
-
 <body>
-    <header class="bg-mute-1 w-100 fixed-top">
-        <div class="pt-3">
-            <div class="row gx-0">
-                <div class="col-4"></div>
-                <div class="col-4 d-flex justify-content-center">
-                    <div class="brand-section">
-                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                            <img class="GoSweetLogo " src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version=true>
-                        </a>
-                    </div>
+<header class="bg-mute-1 w-100 fixed-top">
+    <div class="pt-3">
+        <div class="row gx-0">
+            <div class="col-4"></div>
+            <div class="col-4 d-flex justify-content-center">
+                <div class="brand-section">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <img class="GoSweetLogo " src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version="true">
+                    </a>
                 </div>
-                <div class="col-4 d-flex justify-content-end align-items-center">
-                    <div class="my-auto d-flex align-items-center">
+            </div>
+            <div class="col-4 d-flex justify-content-end align-items-center">
+                <div class="my-auto d-flex align-items-center">
 
-                        @*bell dropdown icon*@
-                        <div class="me-3 count-red-circle-parent">
-                            <i class="bi bi-bell-fill nav-icon bellIcon p-2"></i>
-                            @*bell dropdown message counter*@
+                    @*bell dropdown icon*@
+                    <div class="me-3 count-red-circle-parent">
+                        <i class="bi bi-bell-fill nav-icon bellIcon p-2"></i>
+                        @*bell dropdown message counter*@
+                        @{
+                            var customerBellDropDownCount = Convert.ToInt32(Accessor.HttpContext!.Session.GetInt32("NotfiyMessagesCount"));
+                            <span class="count-red-circle notify-message-counter">@customerBellDropDownCount</span>
+                        }
+                        @*bell dropdown message end*@
+
+                        @*bell dropdown*@
+                        <div class="bell-dropdown-menu p-3 z-3 rounded-3" data-bs-theme="dark">
                             @{
-                                int customerBellDropDownCount = Convert.ToInt32(Accessor.HttpContext!.Session.GetInt32("NotfiyMessagesCount"));
-                                <span class="count-red-circle notify-message-counter">@customerBellDropDownCount</span>
-                            }
-                            @*bell dropdown message end*@
-
-                            @*bell dropdown*@
-                            <div class="bell-dropdown-menu p-3 z-3 rounded-3" data-bs-theme="dark">
-                                @{
-                                    //<h1>@Model.CustomerBellDropDownDatas</h1>
-                                    if (Accessor.HttpContext?.Session.GetString("customerAccount") == null || customerBellDropDownCount == 0)
+                                //<h1>@Model.CustomerBellDropDownDatas</h1>
+                                if (Accessor.HttpContext?.Session.GetString("customerAccount") == null || customerBellDropDownCount == 0)
+                                {
+                                    <a href="#" class="btn btn-hover-light rounded-0" style="width:300px">
+                                        <div class="row align-items-center gy-2 gx-0">
+                                            <div class="col-3 text-center">
+                                                <i class="bi bi-info-square info-icon"></i>
+                                            </div>
+                                            <div class="col-9 ">
+                                                <string>無信息</string>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                                else
+                                {
+                                    var bellDropDownDatasJson = Accessor.HttpContext.Session.GetString("NotfiyMessages")!;
+                                    var bellDropDownsDatas = JsonConvert.DeserializeObject<IEnumerable<CustomerBellDropDownVm>>(bellDropDownDatasJson)!;
+                                    foreach (var item in bellDropDownsDatas)
                                     {
-                                        <a href="#" class="btn btn-hover-light rounded-0" style="width:300px">
+                                        <a href="#" class="btn btn-hover-light rounded-0" style="width: 350px">
                                             <div class="row align-items-center gy-2 gx-0">
-                                                <div class="col-3 text-center">
+                                                <div class="col-2">
                                                     <i class="bi bi-info-square info-icon"></i>
                                                 </div>
-                                                <div class="col-9 ">
-                                                    <string>無信息</string>
+                                                <div class="col-10">
+                                                    @{
+                                                        string orderDate;
+                                                        if (item.OrderEnd.HasValue)
+                                                        {
+                                                            orderDate = item.OrderEnd.GetValueOrDefault().ToString("yyyy-MM-dd");
+                                                        }
+                                                        else
+                                                        {
+                                                            orderDate = item.OrderEnd.GetValueOrDefault().ToString("yyyy-MM-dd")!;
+                                                        }
+                                                    }
+                                                    <p>訂單日期: @orderDate</p>
+                                                    <string>@item.ProductName</string>
+                                                    <string>@item.OrderStatus</string>
                                                 </div>
                                             </div>
                                         </a>
                                     }
+                                }
+                            }
+                            <div class="col-12 d-flex mt-2">
+                                @{
+                                    if (customerBellDropDownCount == 0)
+                                    {
+                                        <button type="submit" class="btn btn-light ms-auto  messageHaveReadBtn" disabled>全部已讀</button>
+                                    }
                                     else
                                     {
-                                        string bellDropDownDatasJson = Accessor.HttpContext.Session.GetString("NotfiyMessages")!;
-                                        IEnumerable<CustomerBellDropDownVm> bellDropDownsDatas = JsonConvert.DeserializeObject<IEnumerable<CustomerBellDropDownVm>>(bellDropDownDatasJson)!;
-                                        foreach (var item in bellDropDownsDatas)
-                                        {
-                                            <a href="#" class="btn btn-hover-light rounded-0" style="width: 350px">
-                                                <div class="row align-items-center gy-2 gx-0">
-                                                    <div class="col-2">
-                                                        <i class="bi bi-info-square info-icon"></i>
-                                                    </div>
-                                                    <div class="col-10">
-                                                        @{
-                                                            string orderDate;
-                                                            if (item.OrderEnd.HasValue)
-                                                            {
-                                                                orderDate = item.OrderEnd.GetValueOrDefault().ToString("yyyy-MM-dd");
-                                                            }
-                                                            else
-                                                            {
-                                                                orderDate = item.OrderEnd.GetValueOrDefault().ToString("yyyy-MM-dd")!;
-                                                            }
-                                                        }
-                                                        <p>訂單日期: @orderDate</p>
-                                                        <string>@item.ProductName</string>
-                                                        <string>@item.OrderStatus</string>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        }
+                                        <button type="submit" class="btn btn-light ms-auto  messageHaveReadBtn">全部已讀</button>
                                     }
                                 }
-                                <div class="col-12 d-flex mt-2">
-                                    @{
-                                        if (customerBellDropDownCount == 0)
-                                        {
-                                            <button type="submit" class="btn btn-light ms-auto  messageHaveReadBtn" disabled>全部已讀</button>
-                                        }
-                                        else
-                                        {
-                                            <button type="submit" class="btn btn-light ms-auto  messageHaveReadBtn">全部已讀</button>
-                                        }
-                                    }
-                                    <button class="btn btn-light ms-auto d-none" type="button" disabled>
-                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                        <span role="status">Loading...</span>
-                                    </button>
-                                </div>
+                                <button class="btn btn-light ms-auto d-none" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                    <span role="status">Loading...</span>
+                                </button>
                             </div>
-                            @*bell dropdown end*@
                         </div>
+                        @*bell dropdown end*@
+                    </div>
 
-                        @*shopCart Icon Start*@
-                       @* <div class="me-3 count-red-circle-parent ">
+                    @*shopCart Icon Start*@
+                    @* <div class="me-3 count-red-circle-parent ">
                             <i class="bi bi-cart-fill nav-icon shopCartIcon  p-2"></i>
                             <span class="count-red-circle">0</span>*@
-                            @*shopCart dropdown*@
-                            @*<div class="shopCart-dropdown-menu p-3 rounded-3">
+                    @*shopCart dropdown*@
+                    @*<div class="shopCart-dropdown-menu p-3 rounded-3">
                                 <a href="#" class="d-inline-block" style="width: 340px">
                                     <div class="row w-100 text-center align-items-center gx-0" >
                                         <div class="col-2">
@@ -265,7 +264,7 @@
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none mt-3">
                 <span class="fs-4 ms-2">
                     @{
-                        string? accountName = Accessor.HttpContext?.Session.GetString("customerAccountName");
+                        var accountName = Accessor.HttpContext?.Session.GetString("customerAccountName");
                         if (accountName == null)
                         {
                             <span class="fs-4">Go 菓</span>
@@ -316,7 +315,7 @@
             <hr>
             <div class="mt-3">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none " data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="GoSweetLogo" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="goSweetLogo" />
+                    <img class="GoSweetLogo" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="goSweetLogo"/>
                 </a>
                 @*
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -329,29 +328,25 @@
                 *@
             </div>
         </div>
-
-
-    </header>
-
-
-
-
-
-    <div class="customer-body-section">
-        <main role="main">
-            @RenderBody()
-        </main>
     </div>
+</header>
 
-    <section class="side-btn-section">
-        <div>
-            <a class="text-black" href="#">
-                <i class="bi bi-arrow-up-circle-fill"></i>
-            </a>
-        </div>
-        <div class="mt-3 count-red-circle-parent">
-            @*chat panel*@
-            @*            <div class="chat-section p-3 rounded-5 bg-white">
+
+<div class="customer-body-section">
+    <main role="main">
+        @RenderBody()
+    </main>
+</div>
+
+<section class="side-btn-section">
+    <div>
+        <a class="text-black" href="#">
+            <i class="bi bi-arrow-up-circle-fill"></i>
+        </a>
+    </div>
+    <div class="mt-3 count-red-circle-parent">
+        @*chat panel*@
+        @*            <div class="chat-section p-3 rounded-5 bg-white">
             <div class="chat-title  mb-1">
             <div class="row">
             <div class="col-md-6 text-left">
@@ -433,99 +428,99 @@
             </div>
             </div>
             </div>*@
-            @*chat end*@
-            @*chat icon*@
-            <a class="d-inline-block text-dark" asp-controller="Talk_datatable" asp-action="talk_c">
-                <i class="bi bi-chat-dots chatBtn"></i>
-            </a>
-            @*<span class="count-red-circle" style="width:15px; height:15px">0</span>*@
-        </div>
-    </section>
+        @*chat end*@
+        @*chat icon*@
+        <a class="d-inline-block text-dark" asp-controller="Talk_datatable" asp-action="talk_c">
+            <i class="bi bi-chat-dots chatBtn"></i>
+        </a>
+        @*<span class="count-red-circle" style="width:15px; height:15px">0</span>*@
+    </div>
+</section>
 
-    <footer class="border-top footer text-muted pt-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 my-md-auto  my-2">
-                    <div class="row  gx-0">
-                        <div class="col-6 d-flex">
-                            <img class="GoSweetLogo ms-auto" style="width:150px; height:70px; object-fit:cover" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version=true>
-                        </div>
-                        <div class="col-6 text-md-center  my-auto">
-                            <span class="fw-bold ms-3 logoText">GO 菓</span>
-                        </div>
+<footer class="border-top footer text-muted pt-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 my-md-auto  my-2">
+                <div class="row  gx-0">
+                    <div class="col-6 d-flex">
+                        <img class="GoSweetLogo ms-auto" style="width:150px; height:70px; object-fit:cover" src="~/img/GoSweetLogo/GoSweetLogov2.jpg" alt="GoSweetLogo" asp-append-version="true">
                     </div>
-                </div>
-                <div class="col-md-3  d-flex flex-column  mb-2 mb-md-0">
-                    <h2 class="py-2 text-center fw-bolder text-muted fs-4">Follow Us</h2>
-                    <div class="row my-md-auto  my-2 ">
-                        <div class="col-3 text-center">
-                            <i class="bi bi-facebook footer-icon"></i>
-                        </div>
-                        <div class="col-3 text-center">
-                            <i class="bi bi-twitter footer-icon"></i>
-                        </div>
-                        <div class="col-3 text-center">
-                            <i class="bi bi-instagram footer-icon"></i>
-                        </div>
-                        <div class="col-3 text-center">
-                            <i class="bi bi-linkedin footer-icon"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 d-flex flex-column  mb-2 mb-md-0">
-                    <h2 class="text-muted fw-bolder text-center py-2 fs-4">聯繫我們</h2>
-                    <div class="p-2 my-auto text-center">
-                        <p class="mb-2">電話:09-89564628</p>
-                        <p>信箱:GoSweet@gmail.com</p>
-                    </div>
-                </div>
-                <div class="col-md-3 d-flex flex-column">
-                    <h2 class="text-muted fw-bolder text-center py-2 fs-4">營業資訊</h2>
-                    <div class="p-2 my-auto">
-                        <p class="mb-2">地址: 台中市南屯區公益路二段51號18樓</p>
-                        <p class="lh-base">
-                            營業時間:週一 ~ 週五 08:30 ~ 18:00
-                            週六 08:30 ~ 12:00
-                        </p>
+                    <div class="col-6 text-md-center  my-auto">
+                        <span class="fw-bold ms-3 logoText">GO 菓</span>
                     </div>
                 </div>
             </div>
-            @*<a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
+            <div class="col-md-3  d-flex flex-column  mb-2 mb-md-0">
+                <h2 class="py-2 text-center fw-bolder text-muted fs-4">Follow Us</h2>
+                <div class="row my-md-auto  my-2 ">
+                    <div class="col-3 text-center">
+                        <i class="bi bi-facebook footer-icon"></i>
+                    </div>
+                    <div class="col-3 text-center">
+                        <i class="bi bi-twitter footer-icon"></i>
+                    </div>
+                    <div class="col-3 text-center">
+                        <i class="bi bi-instagram footer-icon"></i>
+                    </div>
+                    <div class="col-3 text-center">
+                        <i class="bi bi-linkedin footer-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex flex-column  mb-2 mb-md-0">
+                <h2 class="text-muted fw-bolder text-center py-2 fs-4">聯繫我們</h2>
+                <div class="p-2 my-auto text-center">
+                    <p class="mb-2">電話:09-89564628</p>
+                    <p>信箱:GoSweet@gmail.com</p>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex flex-column">
+                <h2 class="text-muted fw-bolder text-center py-2 fs-4">營業資訊</h2>
+                <div class="p-2 my-auto">
+                    <p class="mb-2">地址: 台中市南屯區公益路二段51號18樓</p>
+                    <p class="lh-base">
+                        營業時間:週一 ~ 週五 08:30 ~ 18:00
+                        週六 08:30 ~ 12:00
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="copyRight text-center bg-mute-3  py-3  text-white">
-            &copy; 2023 - GoSweet - All Rights Reserved.
-        </div>
-    </footer>
+        @*<a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
+    </div>
+    <div class="copyRight text-center bg-mute-3  py-3  text-white">
+        &copy; 2023 - GoSweet - All Rights Reserved.
+    </div>
+</footer>
 
 
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    @*
+<script src="https://cdn.jsdelivr.net/npm/@@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+@*
     third party package
     *@
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/axios/axios.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/splidejs/js/splide.js"></script>
-    <script src="~/lib/plotly.js/plotly.min.js" charset="utf-8"></script>
-    @*
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/axios/axios.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/splidejs/js/splide.js"></script>
+<script src="~/lib/plotly.js/plotly.min.js" charset="utf-8"></script>
+@*
      <script src="../jit_init/node_modules/alova/dist/alova.umd.min.js"></script>
      <script type="module" src="../jit_init/node_modules/alova/dist/alova.esm.js"></script>
     *@
 
 
-    @if (IsSectionDefined("Scripts"))
-    {
-        @await RenderSectionAsync("Scripts", required: false)
-    }
+@if (IsSectionDefined("Scripts"))
+{
+    @await RenderSectionAsync("Scripts", false)
+}
 
-    <script src="~/js/Layout/SideBar.js"></script>
-    <script src="~/js/Layout/bellDropDown.js"></script>
-     @*
+<script src="~/js/Layout/SideBar.js"></script>
+<script src="~/js/Layout/bellDropDown.js"></script>
+@*
          <script src="~/js/Layout/ShopCart.js"></script>
      *@
-    <script src="~/js/Layout/ChatPanel.js"></script>
+<script src="~/js/Layout/ChatPanel.js"></script>
 </body>
 </html>

@@ -3504,6 +3504,7 @@
     <PackageReference Include="Npm" Version="3.5.2" />
     <PackageReference Include="Paillave.EtlNet.Core" Version="2.0.47" />
     <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.19" />
+    <PackageReference Include="SemanticKernel.Assistants" Version="1.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
     <PackageReference Include="Syncfusion.Blazor.Core" Version="24.2.9" />
