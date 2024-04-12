@@ -380,6 +380,7 @@ namespace GoSweet.Controllers
             );
             customerLoginData.CPassword = hashPassword;
 
+            // 到資料庫撈帳號的資料
             var userAccountQuery = _context
                 .CustomerAccounttables
                 .Where(
@@ -397,10 +398,13 @@ namespace GoSweet.Controllers
                         }
                 );
 
+            
             // TODO: check account permission
             //var userAccountPermission = userAccount.
+            // 回傳帳號存在或不存在
             bool accountNotExist = userAccountQuery.IsNullOrEmpty();
 
+            // 如果帳號存在的話
             if (accountNotExist.Equals(true))
             {
                 TempData["customerAccountNotExistMessage"] = "帳號不存在或密碼錯誤";
@@ -442,18 +446,21 @@ namespace GoSweet.Controllers
             );
             customerAccountData.CPassword = hashPassword;
 
+            var userAccountQuery = _context.CustomerAccounttables
+                .Where((c => c.CAccount.Equals((customerAccountData.CAccount))));
+            
             // check account whether exist
-            bool accountNotExist = _context
-                .CustomerAccounttables
-                .Where((c) => c.CAccount.Equals(customerAccountData.CAccount))
+            bool accountNotExist = userAccountQuery
                 .IsNullOrEmpty();
 
+            // if account exist 顯示此帳號已被註冊
             if (accountNotExist.Equals(false))
             {
                 TempData["customerAccountExistMessage"] = "此帳號已被註冊";
                 return RedirectToAction("SignUp");
             }
-
+            
+            // if account not exist in table signUp
             try
             {
                 CreateCustomerAccount(customerAccountData);
@@ -548,10 +555,7 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult ResetPassword(ResetPasswordVm resetPasswordData)
         {
-            if (ModelState.IsValid == false)
-            {
-                return View(resetPasswordData);
-            }
+            if(ModelState.IsValid == false) return View(resetPasswordData);
 
             if (resetPasswordData.NewPassword != resetPasswordData.CheckNewPassword)
             {
