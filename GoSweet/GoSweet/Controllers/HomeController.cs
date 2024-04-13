@@ -404,7 +404,7 @@ namespace GoSweet.Controllers
             // 回傳帳號存在或不存在
             bool accountNotExist = userAccountQuery.IsNullOrEmpty();
 
-            // 如果帳號存在的話
+            // 如果帳號不存在的話，提示帳號不存在或密碼錯誤
             if (accountNotExist.Equals(true))
             {
                 TempData["customerAccountNotExistMessage"] = "帳號不存在或密碼錯誤";
@@ -460,7 +460,7 @@ namespace GoSweet.Controllers
                 return RedirectToAction("SignUp");
             }
             
-            // if account not exist in table signUp
+            // if account not exist in table signUp，
             try
             {
                 CreateCustomerAccount(customerAccountData);
