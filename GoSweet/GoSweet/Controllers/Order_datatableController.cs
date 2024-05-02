@@ -164,7 +164,10 @@ namespace GoSweet.Controllers
         [HttpPost]
         public IActionResult orderdone(int onumber, string end)
         {
-            var getorder = from o in _context.OrderDatatables where o.ONumber == onumber select o;
+            var getorder = 
+                from o in _context.OrderDatatables 
+                where o.ONumber == onumber 
+                select o;
             if (getorder.FirstOrDefault() == null)
             {
                 return Content("order is null");
