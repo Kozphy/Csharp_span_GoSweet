@@ -26,7 +26,8 @@ namespace GoSweet
                 .AddDbContext<ShopwebContext>(
                     options =>
                         options.UseSqlServer(
-                            builder.Configuration.GetConnectionString("shopwebConnstring")
+                            builder.Configuration.GetConnectionString(
+                                "shopwebConnstring")
                         )
                 );
 
